@@ -1,0 +1,1349 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>هلا شات — أونلاين</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B141A; --panel:#111B21; --panel-2:#202C33; --panel-3:#2A3942;
+  --in:#202C33; --out:#005C4B; --accent:#00A884; --accent-hi:#06CF9C;
+  --text:#E9EDEF; --dim:#8696A0; --dim-2:#667781; --edge:#222D34;
+  --seen:#53BDEB; --warn:#F0B232; --bad:#F15C6D;
+  --font:'Noto Sans Arabic',-apple-system,'Segoe UI',Roboto,sans-serif;
+  --shade-1:0 1px 2px rgba(11,20,26,.28);
+  --shade-2:0 4px 16px rgba(11,20,26,.5);
+  --shade-3:0 10px 34px rgba(11,20,26,.68);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body,#root{height:100%;margin:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button,input,textarea{font:inherit;color:inherit;border:none;background:none}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-radius:4px}
+svg{display:block;flex:none}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-thumb{background:#374045;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#455055}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ═══ الدخول ═══ */
+.auth{min-height:100%;display:flex;flex-direction:column;background:var(--bg)}
+.auth-top{height:210px;background:var(--panel-2);flex:none}
+.auth-wrap{flex:1;margin-top:-150px;padding:0 16px 48px;display:flex;justify-content:center}
+.auth-card{width:min(432px,100%);background:var(--panel);border-radius:4px;box-shadow:var(--shade-2);padding:36px 42px 40px}
+.brand{display:flex;align-items:center;gap:11px;justify-content:center;margin-bottom:30px}
+.brand svg{color:var(--accent)}
+.brand b{font-size:21px;font-weight:600;letter-spacing:-.2px}
+.auth-card h1{font-size:18px;font-weight:500;margin:0 0 5px;text-align:center;letter-spacing:-.1px}
+.auth-card .sub{margin:0 0 26px;color:var(--dim);font-size:13.5px;text-align:center}
+.fld{margin-bottom:22px}
+.pick-row{display:flex;justify-content:center;margin-bottom:22px}
+.pick-avatar{border-radius:50%;position:relative;transition:transform .12s}
+.pick-avatar:hover{transform:scale(1.03)}
+.pick-avatar .avatar{color:var(--dim);border:2px dashed var(--edge)}
+.pick-avatar .cam-badge{position:absolute;bottom:-2px;left:-2px;width:24px;height:24px;border-radius:50%;
+  background:var(--accent);color:#0B141A;display:grid;place-items:center;border:3px solid var(--panel)}
+.who-fid{font-size:11px;color:var(--dim);white-space:nowrap;display:flex;align-items:center;gap:3px}
+.who-fid button{color:var(--accent);display:inline-flex}
+.fld label{display:block;font-size:12px;color:var(--accent);margin-bottom:5px;font-weight:500;letter-spacing:.2px}
+.fld input{width:100%;padding:7px 2px;border-bottom:2px solid var(--edge);transition:border-color .18s}
+.fld input:focus{outline:none;border-bottom-color:var(--accent)}
+.fld .note{font-size:11.5px;color:var(--dim-2);margin-top:5px}
+.btn{width:100%;padding:11px;border-radius:24px;background:var(--accent);color:#0B141A;font-weight:600;font-size:15px;transition:background .16s}
+.btn:hover{background:var(--accent-hi)}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.btn[disabled]:hover{background:var(--accent)}
+.alt{margin-top:24px;padding-top:20px;border-top:1px solid var(--edge);text-align:center;color:var(--dim);font-size:13.5px}
+.alt button{color:var(--accent);font-weight:500}
+.alt button:hover{text-decoration:underline}
+.err{background:rgba(241,92,109,.1);border-inline-start:3px solid var(--bad);border-radius:3px;padding:10px 12px;margin-bottom:20px;font-size:13px;color:#FFC9CF;line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--panel-2);border-radius:4px;padding:12px 13px;margin-bottom:26px;font-size:12px;color:var(--dim);line-height:1.6}
+.tip svg{color:var(--dim-2);margin-top:2px}
+
+/* ═══ الهيكل ═══ */
+.app{height:100%;display:flex}
+.side{width:410px;max-width:38%;flex:none;background:var(--panel);display:flex;flex-direction:column;border-inline-end:1px solid var(--edge)}
+.bar{height:56px;flex:none;background:var(--panel-2);display:flex;align-items:center;gap:4px;padding:0 12px 0 14px}
+.ico{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--dim);transition:background .13s,color .13s;position:relative}
+.ico:hover{background:rgba(134,150,160,.13);color:#D3DBE0}
+.ico.act{color:var(--accent)}
+.who-am-i{display:flex;align-items:center;gap:10px;min-width:0;flex:1;text-align:start}
+.who-am-i .n{font-size:14.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.1px}
+.who-am-i .col{min-width:0;display:flex;flex-direction:column;gap:1px}
+.who-am-i button.pick-avatar{flex:none}
+
+.avatar{border-radius:50%;flex:none;display:grid;place-items:center;color:#fff;font-weight:600;user-select:none;letter-spacing:-.3px}
+.avatar.s{width:36px;height:36px;font-size:14px}
+.avatar.m{width:40px;height:40px;font-size:15px}
+.avatar.l{width:48px;height:48px;font-size:17px}
+.avatar svg{opacity:.92}
+
+.seek{padding:8px 12px 7px;flex:none}
+.seek-in{display:flex;align-items:center;gap:11px;background:var(--panel-2);border-radius:8px;padding:0 12px;height:35px;transition:box-shadow .15s}
+.seek-in:focus-within{box-shadow:inset 0 0 0 1px var(--accent)}
+.seek-in svg{color:var(--dim)}
+.seek-in input{flex:1;font-size:14px;min-width:0}
+.seek-in input:focus{outline:none}
+.seek-in input::placeholder{color:var(--dim-2)}
+
+.list{flex:1;overflow-y:auto;overflow-x:hidden}
+.item{width:100%;display:flex;align-items:center;gap:13px;padding:0 14px;height:72px;text-align:start;transition:background .1s}
+.item:hover{background:#202C33}
+.item[aria-current=true]{background:#2A3942}
+.item .body{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid var(--edge);gap:2px}
+.item:last-child .body{border-bottom:none}
+.r1{display:flex;align-items:baseline;gap:8px}
+.r1 .t{flex:1;min-width:0;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.1px}
+.r1 .w{font-size:11.5px;color:var(--dim);flex:none;letter-spacing:.1px}
+.r1 .w.hot{color:var(--accent)}
+.r2{display:flex;align-items:center;gap:7px}
+.r2 .p{flex:1;min-width:0;font-size:13.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:4px}
+.r2 .p svg{flex:none}
+.tag{background:var(--accent);color:#0B141A;font-size:11.5px;font-weight:700;min-width:20px;height:20px;border-radius:10px;display:grid;place-items:center;padding:0 6px;flex:none}
+.nothing{color:var(--dim);text-align:center;padding:46px 30px;font-size:13.5px;line-height:1.85;white-space:pre-line}
+
+/* ═══ المحادثة ═══ */
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.void{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;text-align:center;padding:40px;border-bottom:6px solid var(--accent);background:var(--panel)}
+.void svg{color:#242F35}
+.void h2{font-size:31px;font-weight:300;margin:0;letter-spacing:-.4px}
+.void p{margin:0;color:var(--dim);font-size:13.5px;max-width:420px;line-height:1.8}
+
+.head{height:60px;flex:none;background:var(--panel-2);display:flex;align-items:center;gap:13px;padding:0 12px 0 16px;z-index:3;position:relative}
+.head .meta{flex:1;min-width:0}
+.head .meta b{display:block;font-size:16px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.1px}
+.head .meta span{display:block;font-size:12.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.back{display:none}
+
+.menu{position:absolute;top:50px;inset-inline-start:12px;background:var(--panel-3);border-radius:4px;box-shadow:var(--shade-3);padding:6px 0;min-width:190px;z-index:30}
+.menu button{display:block;width:100%;text-align:start;padding:11px 22px;font-size:14px;transition:background .1s}
+.menu button:hover{background:#37444C}
+.menu button.bad{color:#F4919C}
+
+.feed{flex:1;overflow-y:auto;padding:12px 6% 10px;display:flex;flex-direction:column;position:relative;background:var(--bg)}
+.feed::before{content:'';position:absolute;inset:0;background-image:var(--weave);background-size:132px;opacity:.055;pointer-events:none}
+.feed>*{position:relative;z-index:1}
+
+.sep{align-self:center;background:var(--panel-2);color:var(--dim);font-size:11.5px;font-weight:500;padding:5px 13px;border-radius:8px;margin:12px 0 10px;box-shadow:var(--shade-1);letter-spacing:.2px}
+
+.line{display:flex;margin-top:2px}
+.line.me{justify-content:flex-end}
+.line.fresh{margin-top:11px}
+.line.rxd{margin-bottom:14px}
+
+.bub{position:relative;max-width:min(64%,510px);background:var(--in);border-radius:8px;padding:6px 9px 7px;box-shadow:var(--shade-1);animation:rise .17s cubic-bezier(.2,.7,.3,1)}
+.line.me .bub{background:var(--out)}
+@keyframes rise{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.bub{animation:none}}
+.bub.tip-l{border-start-start-radius:0}
+.bub.tip-l::before{content:'';position:absolute;top:0;inset-inline-start:-8px;width:8px;height:13px;background:var(--in);clip-path:polygon(100% 0,0 0,100% 100%)}
+.line.me .bub.tip-l::before{background:var(--out);clip-path:polygon(0 0,100% 0,0 100%)}
+.by{font-size:12.8px;font-weight:600;margin-bottom:2px;letter-spacing:-.1px}
+.txt{font-size:14.6px;line-height:1.42;white-space:pre-wrap;word-break:break-word}
+.gap{display:inline-block;width:58px;height:16px}
+.line.me .gap{width:72px}
+.stamp{position:absolute;bottom:6px;left:9px;display:flex;align-items:center;gap:3px;font-size:11px;color:rgba(233,237,239,.48);white-space:nowrap;letter-spacing:.2px}
+.stamp svg{width:15px;height:15px}
+.stamp .ok2{color:var(--seen)}
+.stamp .soon{color:var(--warn)}
+
+.rx{position:absolute;bottom:-12px;inset-inline-start:9px;display:flex;gap:3px;z-index:2}
+.rx button{background:var(--panel-2);border:1.5px solid var(--bg);border-radius:11px;height:22px;padding:0 6px;font-size:12px;display:flex;align-items:center;gap:3px;box-shadow:var(--shade-1);transition:transform .12s}
+.rx button:hover{transform:translateY(-1px)}
+.rx button.on{background:#0C3B33;border-color:#0C3B33}
+.rx .c{font-size:10.5px;color:var(--dim)}
+
+.pull{position:absolute;top:0;inset-inline-end:0;width:30px;height:24px;display:grid;place-items:center;color:rgba(233,237,239,.6);opacity:0;transition:opacity .13s;border-start-end-radius:8px;
+  background:linear-gradient(to left,var(--in) 58%,transparent)}
+.line.me .pull{background:linear-gradient(to left,var(--out) 58%,transparent)}
+.bub:hover .pull,.pull:focus-visible{opacity:1}
+.emos{position:absolute;top:-44px;inset-inline-end:-4px;background:var(--panel-3);border-radius:24px;padding:5px 8px;display:flex;gap:3px;box-shadow:var(--shade-3);z-index:9}
+.emos button{width:32px;height:32px;border-radius:50%;font-size:19px;display:grid;place-items:center;transition:transform .13s}
+.emos button:hover{transform:scale(1.25)}
+.emos button.on{background:rgba(0,168,132,.22)}
+
+.play{background:rgba(11,20,26,.3);border-radius:6px;padding:10px;margin-bottom:5px}
+.play-h{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--accent-hi);margin-bottom:9px;letter-spacing:.1px}
+.net{display:grid;grid-template-columns:repeat(3,46px);gap:4px;justify-content:center}
+.sq{height:46px;background:rgba(11,20,26,.5);border-radius:5px;font-size:22px;font-weight:600;transition:background .12s}
+.sq:hover:not([disabled]){background:rgba(0,168,132,.2)}
+.sq[disabled]{cursor:default}
+.sq.x{color:#54C7EC}
+.sq.o{color:var(--accent-hi)}
+.play-s{margin-top:9px;font-size:11.5px;color:var(--dim);text-align:center}
+
+.tap{height:24px;padding:0 6% 3px;font-size:12.5px;color:var(--accent);display:flex;align-items:center;gap:7px;flex:none}
+.blips{display:inline-flex;gap:3px}
+.blips i{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:beat 1.25s infinite}
+.blips i:nth-child(2){animation-delay:.18s}
+.blips i:nth-child(3){animation-delay:.36s}
+@keyframes beat{0%,58%,100%{opacity:.25}28%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.blips i{animation:none;opacity:.65}}
+
+.write{flex:none;background:var(--panel-2);padding:5px 16px 7px}
+.write-row{display:flex;align-items:flex-end;gap:7px}
+.box{flex:1;background:var(--panel-3);border-radius:8px;padding:9px 12px;min-width:0;transition:box-shadow .15s}
+.box:focus-within{box-shadow:inset 0 0 0 1px rgba(0,168,132,.55)}
+.box textarea{width:100%;resize:none;max-height:112px;font-size:14.6px;line-height:1.42;display:block}
+.box textarea:focus{outline:none}
+.box textarea::placeholder{color:var(--dim-2)}
+.go{width:42px;height:42px;border-radius:50%;background:var(--accent);color:#0B141A;display:grid;place-items:center;flex:none;transition:background .15s,transform .1s}
+.go:hover{background:var(--accent-hi)}
+.go:active{transform:scale(.94)}
+.clock-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;background:var(--panel-3);border-radius:8px;padding:9px 12px;margin-bottom:6px;font-size:12.5px;color:var(--dim)}
+.clock-row svg{color:var(--warn)}
+.clock-row input{background:var(--panel-2);border-radius:6px;padding:5px 9px;font-size:12.5px}
+.clock-row input:focus{outline:1px solid var(--accent)}
+.pad-row{background:var(--panel-3);border-radius:8px;padding:8px 10px;margin-bottom:6px;display:flex;flex-wrap:wrap;gap:2px}
+.pad-row button{width:36px;height:36px;border-radius:6px;font-size:20px;display:grid;place-items:center;transition:background .1s}
+.pad-row button:hover{background:rgba(134,150,160,.15)}
+
+/* ═══ نافذة ═══ */
+.veil{position:fixed;inset:0;background:rgba(11,20,26,.78);display:grid;place-items:center;padding:20px;z-index:40;animation:in .14s}
+@keyframes in{from{opacity:0}to{opacity:1}}
+.sheet{width:min(428px,100%);background:var(--panel);border-radius:4px;box-shadow:var(--shade-3);overflow:hidden;display:flex;flex-direction:column;max-height:min(570px,86vh)}
+.sheet-h{background:var(--panel-2);padding:0 16px;height:56px;display:flex;align-items:center;gap:15px;flex:none}
+.sheet-h b{font-size:16px;font-weight:500}
+.seg{display:flex;padding:8px 10px 0;gap:2px;flex:none;border-bottom:1px solid var(--edge)}
+.seg button{flex:1;padding:9px 2px;font-size:12.5px;color:var(--dim);border-bottom:2px solid transparent;transition:color .13s;white-space:nowrap}
+.seg button:hover{color:var(--text)}
+.seg button.on{color:var(--accent);border-bottom-color:var(--accent)}
+.sheet-b{overflow-y:auto;flex:1}
+.txt-fld{padding:10px 16px}
+.txt-fld input{width:100%;background:var(--panel-2);border-radius:6px;padding:10px 12px;font-size:14px}
+.txt-fld input:focus{outline:none;box-shadow:inset 0 0 0 1px var(--accent)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px}
+.tags .one{background:var(--panel-2);border-radius:14px;padding:4px 6px 4px 11px;display:flex;align-items:center;gap:7px;font-size:13px}
+.tags .one button{color:var(--dim);display:grid;place-items:center}
+.tags .one button:hover{color:var(--text)}
+.sheet-f{padding:12px 16px 14px;flex:none;border-top:1px solid var(--edge)}
+.mark{width:22px;height:22px;border-radius:50%;border:2px solid var(--dim-2);display:grid;place-items:center;flex:none;color:transparent;transition:all .13s}
+.mark.on{background:var(--accent);border-color:var(--accent);color:#0B141A}
+
+@media (max-width:820px){
+  .side{width:100%;max-width:100%;border:none}
+  .app.deep .side{display:none}
+  .app:not(.deep) .main{display:none}
+  .back{display:grid}
+  .bub{max-width:83%}
+  .feed{padding-inline:11px}
+  .tap{padding-inline:12px}
+  .write{padding-inline:9px}
+  .auth-card{padding:30px 22px 34px}
+  .auth-top{height:170px}
+  .auth-wrap{margin-top:-120px}
+}
+
+/* ═══ إضافات النسخة الأونلاين ═══ */
+.pulse{width:8px;height:8px;border-radius:50%;flex:none}
+.pulse.up{background:var(--accent)}
+.pulse.mid{background:var(--warn);animation:blink 1s infinite}
+.pulse.down{background:var(--bad)}
+@keyframes blink{50%{opacity:.3}}
+.net-row{display:flex;align-items:center;gap:8px;padding:8px 14px;font-size:12px;color:var(--dim);background:var(--panel-2);border-bottom:1px solid var(--edge)}
+.net-row button{color:var(--accent);font-weight:600}
+.net-row button:hover{text-decoration:underline}
+.code-box{display:flex;align-items:center;gap:8px;background:var(--panel-3);border-radius:8px;padding:10px 13px}
+.code-box b{flex:1;font-family:monospace;font-size:15px;font-weight:600;letter-spacing:.6px;direction:ltr;text-align:center;color:var(--accent-hi);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.code-box button{color:var(--accent);flex:none}
+.code-box button:hover{color:var(--accent-hi)}
+.fld-lab{display:block;font-size:12px;color:var(--dim);margin-bottom:6px}
+.fld-lab.row{display:flex;align-items:center}
+.hint-line{margin:2px 16px 6px;font-size:11.5px;color:var(--dim-2);line-height:1.6}
+.gen{color:var(--accent);font-size:12.5px;font-weight:500;margin-inline-start:auto}
+.gen:hover{text-decoration:underline}
+</style>
+
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.15.2/mqtt.min.js"></script>
+<script>
+/* ══════════════════════════════════════════════════════════
+   هلا شات — النسخة الأونلاين
+   يتصل بسيرفر MQTT خاص فينا (Render، فئة مجانية) بدل بروكر عام
+   مشترك. بدون حساب، بدون تسجيل من طرف المستخدم.
+
+   القيود اللي لازم تعرفها:
+   - رمز الغرفة هو الحماية الوحيدة — أي أحد يعرفه يقدر يدخلها.
+     اختر رمز طويل وغريب، وما تحطون فيها معلومات حسّاسة.
+   - الفئة المجانية من Render تنيّم السيرفر بعد ١٥ دقيقة سكون.
+     أول رسالة بعد فترة سكون تاخذ نص دقيقة لين يصحى.
+   ══════════════════════════════════════════════════════════ */
+
+var BROKER = 'wss://hala-chat-jh6w.onrender.com';   // سيرفرنا الخاص، بدل البروكر العام
+var NS = 'halachat9x';   // بادئة تميّز رسائلنا عن غيرنا على نفس البروكر العام
+
+/* هاش بسيط (FNV-1a) يحوّل رمز الغرفة إلى مقطع صالح لموضوع MQTT
+   — ليس تشفيراً، مجرد تعمية شكلية */
+function fnv(s) {
+  var h = 0x811c9dc5;
+  for (var i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = (h * 0x01000193) >>> 0;
+  }
+  return h.toString(16);
+}
+function roomTopic(code) { return NS + '/' + fnv(String(code).trim().toLowerCase()); }
+var ROOM_HUES = ['#5B87A8','#6B7FA8','#4E8F80','#A08558','#7E6BA8','#A06B8C','#5F9163','#A8706B'];
+function roomHue(code) { var h = fnv(String(code).trim().toLowerCase()); return ROOM_HUES[parseInt(h.slice(0, 4), 16) % ROOM_HUES.length]; }
+
+/* ---------- هوية الجهاز ---------- */
+var cache = {};
+var box = {
+  get: function (k) { try { return localStorage.getItem(k); } catch (e) { return cache[k] || null; } },
+  set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { cache[k] = v; } }
+};
+
+function uid() { return Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
+var ME = (function () {
+  try { var r = JSON.parse(box.get('hala.me') || 'null'); if (r && r.id && r.name && r.fid) return r; } catch (e) {}
+  return null;
+})();
+var HUES = ['#6B7FA8', '#A8706B', '#4E8F80', '#A08558', '#7E6BA8', '#5B87A8', '#A06B8C', '#5F9163'];
+function randomFid() { return String(Math.floor(100000 + Math.random() * 900000)); }
+
+/* دليل الأصدقاء: كل ملف شخصي يُنشر برسالة محفوظة (retained) على
+   NS/dir/<fid> — أي أحد يشترك بنفس الموضوع يشوفه فوراً. هذا يغنينا
+   عن قاعدة بيانات منفصلة؛ نفس البروكر اللي عندنا يكفي كدليل خفيف. */
+var PENDING_LOOKUPS = {};   // fid -> [callback,...]
+function lookupFid(fid, timeoutMs, cb) {
+  if (!CLIENT) { cb(null); return; }
+  var topic = NS + '/dir/' + fid;
+  var settled = false;
+  function settle(data) {
+    if (settled) return;
+    settled = true;
+    if (CLIENT) CLIENT.unsubscribe(topic);
+    cb(data);
+  }
+  (PENDING_LOOKUPS[fid] = PENDING_LOOKUPS[fid] || []).push(settle);
+  CLIENT.subscribe(topic);
+  setTimeout(function () { settle(null); }, timeoutMs);
+}
+function resolveLookup(fid, data) {
+  var list = PENDING_LOOKUPS[fid];
+  if (!list) return;
+  delete PENDING_LOOKUPS[fid];
+  list.forEach(function (fn) { fn(data); });
+}
+
+// نحجز رقماً فريداً: نجرّب رقم عشوائي، ولو محجوز نجرّب غيره. لو ما
+// قدرنا نتأكد من الشبكة (اتصال بطيء)، نكمل بعد عدة محاولات بأقل خطر تصادم.
+function claimFid(draft, onDone) {
+  var tries = 0;
+  function attempt() {
+    tries++;
+    if (!CLIENT || LINK !== 'up') {
+      if (tries > 6) { finalize(randomFid()); return; }
+      setTimeout(attempt, 400);
+      return;
+    }
+    var candidate = randomFid();
+    lookupFid(candidate, 500, function (data) {
+      if (data && tries < 8) attempt();
+      else finalize(candidate);
+    });
+  }
+  function finalize(fid) {
+    var profile = { id: draft.id, name: draft.name, hue: draft.hue, avatar: draft.avatar || null };
+    safePublish(NS + '/dir/' + fid, JSON.stringify(profile), { qos: 1, retain: true });
+    ME = { id: draft.id, fid: fid, name: draft.name, hue: draft.hue, avatar: draft.avatar || null };
+    box.set('hala.me', JSON.stringify(ME));
+    onDone();
+  }
+  attempt();
+}
+function saveMe(name, avatar) {
+  REGISTERING = true;
+  ensureLink();
+  var draft = { id: uid(), name: name, hue: HUES[Math.floor(Math.random() * HUES.length)], avatar: avatar || null };
+  claimFid(draft, function () { paint(); });
+}
+function updateProfile(name, avatar) {
+  ME.name = name;
+  if (avatar !== undefined) ME.avatar = avatar;
+  box.set('hala.me', JSON.stringify(ME));
+  safePublish(NS + '/dir/' + ME.fid, JSON.stringify({ id: ME.id, name: ME.name, hue: ME.hue, avatar: ME.avatar || null }), { qos: 1, retain: true });
+}
+var REGISTERING = false;
+
+// نصغّر أي صورة يختارها المستخدم لمربّع صغير قبل الإرسال —
+// بدون هذا، صورة عادية من الكاميرا تكون ميجابايتات وتكسر حد حجم الرسالة
+function shrinkImage(file, size, cb) {
+  var reader = new FileReader();
+  reader.onload = function () {
+    var img = new Image();
+    img.onload = function () {
+      try {
+        var canvas = document.createElement('canvas');
+        canvas.width = size; canvas.height = size;
+        var ctx = canvas.getContext('2d');
+        var s = Math.min(img.width, img.height);
+        var sx = (img.width - s) / 2, sy = (img.height - s) / 2;
+        ctx.drawImage(img, sx, sy, s, s, 0, 0, size, size);
+        cb(canvas.toDataURL('image/jpeg', 0.72));
+      } catch (e) { cb(null); }
+    };
+    img.onerror = function () { cb(null); };
+    img.src = reader.result;
+  };
+  reader.onerror = function () { cb(null); };
+  reader.readAsDataURL(file);
+}
+
+function loadRooms() { try { return JSON.parse(box.get('hala.rooms') || '[]'); } catch (e) { return []; } }
+function saveRooms(list) { box.set('hala.rooms', JSON.stringify(list)); }
+
+/* حفظ محلي للرسائل والألعاب — نسخة احتياطية على جهازك.
+   حتى لو تقطّع الاتصال بالشبكة أو تأخرت، تفتح المحادثة وتشوف
+   آخر شي وصلك فوراً بدون ما تنتظر البروكر. سقف ٤٠٠ رسالة لكل غرفة
+   عشان التخزين المحلي ما يكبر بلا حدود. */
+function saveMsgs(hash) {
+  var list = MSGS[hash] || [];
+  var trimmed = list.length > 400 ? list.slice(list.length - 400) : list;
+  box.set('hala.msgs.' + hash, JSON.stringify(trimmed));
+}
+function loadMsgs(hash) {
+  try { return JSON.parse(box.get('hala.msgs.' + hash) || '[]'); } catch (e) { return []; }
+}
+function saveGames(hash) {
+  var mine = {};
+  for (var id in GAMES) if (GAMES[id].r === hash) mine[id] = GAMES[id];
+  box.set('hala.games.' + hash, JSON.stringify(mine));
+}
+function loadGames(hash) {
+  try {
+    var saved = JSON.parse(box.get('hala.games.' + hash) || '{}');
+    for (var id in saved) GAMES[id] = saved[id];
+  } catch (e) {}
+}
+
+/* ---------- حالة التطبيق (كل شي هنا مؤقت بالذاكرة، يتغذى من البروكر) ---------- */
+var ROOMS = loadRooms();                 // [{code, title}]
+var MSGS = {};                            // topic-hash -> [msg,...]
+var GAMES = {};                           // gameId -> game
+var TAPS = {};                            // topic-hash -> {clientId:{name,at}}
+var SEEN_UPTO = {};                       // topic-hash -> ts آخر شي شفناه (محلي، لعدّاد غير المقروء)
+var PEER_SEEN = {};                       // topic-hash -> {clientId: ts} (مبثوثة عبر الشبكة، لعلامة الصح المزدوج)
+var PRESENCE = {};                        // topic-hash -> {clientId: ts آخر نبضة} — عشان نعرف صاحبك متصل الآن ولا لا
+
+var LINK = 'down';                        // down | mid | nolib | up
+var CLIENT = null;
+var SUBBED = {};                          // topic-hash already subscribed?
+
+// نشر آمن: أي فشل غير متوقع بمكتبة الاتصال (مو مشكلة الشبكة العادية،
+// اللي أصلاً المكتبة تتعامل معها) يُسجَّل بس، وما يوقف باقي الكود.
+function safePublish(topic, payload, opts) {
+  if (!CLIENT) return;
+  try { CLIENT.publish(topic, payload, opts); }
+  catch (e) { console.error('فشل الإرسال:', e && e.message); }
+}
+
+function ensureLink() {
+  if (CLIENT) return;
+  if (!ME && !REGISTERING) return;
+  // لو مكتبة الاتصال ما حمّلت (نت بطيء، أو الشبكة تحجب الروابط الخارجية)،
+  // ما نخلي الصفحة كلها تنهار — نعرض حالة واضحة بدالها.
+  if (typeof mqtt === 'undefined' || !mqtt || typeof mqtt.connect !== 'function') {
+    LINK = 'nolib';
+    return;
+  }
+  LINK = 'mid';
+  var cid = ME ? ME.id : ('anon-' + uid());
+  try {
+    CLIENT = mqtt.connect(BROKER, { clientId: NS + '-' + cid, clean: true, connectTimeout: 8000, reconnectPeriod: 2500 });
+  } catch (e) {
+    LINK = 'nolib';
+    CLIENT = null;
+    return;
+  }
+
+  // البروكر يرجّع لنا رسائلنا نفسها لأننا مشتركين بنفس الموضوع اللي ننشر عليه.
+  // clean:true يعني الاشتراكات تنمسح من عند البروكر عند أي قطع اتصال،
+  // فلازم نعيد الاشتراك من الصفر كل مرة يتصل فيها الجهاز (أول مرة أو بعد انقطاع).
+  CLIENT.on('connect', function () { LINK = 'up'; SUBBED = {}; ROOMS.forEach(subRoom); heartbeat(); paint(); });
+  CLIENT.on('reconnect', function () { LINK = 'mid'; paint(); });
+  CLIENT.on('close', function () { LINK = 'down'; paint(); });
+  CLIENT.on('offline', function () { LINK = 'down'; paint(); });
+  CLIENT.on('error', function () { LINK = 'down'; paint(); });
+
+  /* لما تفتح غرفة فيها تاريخ طويل، البروكر يرجّع كل الرسائل المحفوظة
+     دفعة وحدة خلال أجزاء من الثانية. لو رسمنا الشاشة كاملة مع كل
+     رسالة توصل لحالها، الشاشة تتجمّد لحظة — وهذا بالضبط سبب التعليق
+     اللي تشوفه. الحل: نجمع كل التحديثات اللي توصل بسرعة ونرسم مرة
+     وحدة بعدها، بدل ما نرسم عشرات المرات خلال نفس الثانية. */
+  var paintTimer = null;
+  var dirtyMsgs = {}, dirtyGames = {};
+  function paintSoon(msgHash, gameHash) {
+    if (msgHash) dirtyMsgs[msgHash] = true;
+    if (gameHash) dirtyGames[gameHash] = true;
+    clearTimeout(paintTimer);
+    paintTimer = setTimeout(function () {
+      paintTimer = null;
+      for (var h in dirtyMsgs) saveMsgs(h);
+      for (var h2 in dirtyGames) saveGames(h2);
+      dirtyMsgs = {}; dirtyGames = {};
+      paint();
+    }, 40);
+  }
+
+  CLIENT.on('message', function (topic, buf) {
+    var parts = topic.split('/');           // NS / hash-أو-dir / kind / ...
+    var raw = buf.toString();
+    var data = null;
+    try { data = raw ? JSON.parse(raw) : null; } catch (e) { return; }
+
+    // موضوع دليل الأصدقاء له شكل مختلف: NS/dir/<fid> — نعالجه هنا
+    // ونطلع قبل أي شي يحتاج ME (ممكن نكون لسا بمنتصف التسجيل).
+    if (parts[1] === 'dir') { resolveLookup(parts[2], data); return; }
+
+    var hash = parts[1], kind = parts[2];
+    if (!ME) return;   // رسالة غرفة وصلت قبل ما يخلص التسجيل — نتجاهلها بأمان
+
+    if (kind === 'm') {
+      if (!data || data.who === ME.id) return;   // صدى رسالتي أنا — مطبّقة محلياً أصلاً
+      var list = MSGS[hash] = MSGS[hash] || [];
+      if (!list.some(function (m) { return m.id === data.id; })) {
+        list.push(data);
+        list.sort(function (a, b) { return a.t - b.t; });
+        paintSoon(hash, null);
+      }
+    } else if (kind === 'r') {
+      if (data && data.by === ME.id) return;
+      var mid = parts[3];
+      var list2 = MSGS[hash] || [];
+      for (var i = 0; i < list2.length; i++) if (list2[i].id === mid) { list2[i].felt = (data && data.felt) || {}; break; }
+      paintSoon(hash, null);
+    } else if (kind === 'g') {
+      if (data && data.by === ME.id) return;
+      if (data) { GAMES[data.id] = data; paintSoon(null, hash); }
+    } else if (kind === 't') {
+      if (!data || data.who === ME.id) return;   // صدى كتابتي أنا
+      TAPS[hash] = TAPS[hash] || {};
+      if (data.on) TAPS[hash][data.who] = { n: data.name, t: Date.now() };
+      else delete TAPS[hash][data.who];
+      paintSoon();
+    } else if (kind === 's') {
+      var reader = parts[3];
+      if (!data || reader === ME.id) return;
+      PEER_SEEN[hash] = PEER_SEEN[hash] || {};
+      PEER_SEEN[hash][reader] = data.at;
+      paintSoon();
+    } else if (kind === 'p') {
+      var who2 = parts[3];
+      if (!data || who2 === ME.id) return;
+      PRESENCE[hash] = PRESENCE[hash] || {};
+      PRESENCE[hash][who2] = data.at;
+      paintSoon();
+    } else if (kind === 'meta') {
+      if (!data || !data.title) return;
+      var room = ROOMS.filter(function (rr) { return fnv(rr.code.trim().toLowerCase()) === hash; })[0];
+      if (room && room.title !== data.title) { room.title = data.title; saveRooms(ROOMS); paintSoon(); }
+    }
+  });
+}
+
+/* نبضة حضور: نعلن كل فترة إننا موجودين بكل غرفة منضمّين لها،
+   عشان الطرف الثاني يشوف "متصل الآن" بدل نص عام ما يفرق شي. */
+function heartbeat() {
+  if (!CLIENT || LINK !== 'up') return;
+  ROOMS.forEach(function (r) { pingPresence(r.code); });
+}
+function pingPresence(code) {
+  if (!CLIENT || LINK !== 'up') return;
+  var hash = fnv(code.trim().toLowerCase());
+  safePublish(NS + '/' + hash + '/p/' + ME.id, JSON.stringify({ name: ME.name, at: Date.now() }), { qos: 0, retain: true });
+}
+setInterval(heartbeat, 15000);
+
+function peerOnline(code) {
+  var hash = fnv(code.trim().toLowerCase());
+  var p = PRESENCE[hash] || {}, now = Date.now();
+  for (var id in p) if (id !== ME.id && now - p[id] <= 25000) return true;
+  return false;
+}
+function everSeenPeer(code) {
+  var hash = fnv(code.trim().toLowerCase());
+  var p = PRESENCE[hash] || {};
+  for (var id in p) if (id !== ME.id) return true;
+  return false;
+}
+
+function subRoom(r) {
+  var hash = fnv(r.code.trim().toLowerCase());
+  if (!MSGS[hash]) MSGS[hash] = loadMsgs(hash);   // نعرض المحفوظ محلياً فوراً، قبل ما توصل الشبكة
+  loadGames(hash);
+  if (SUBBED[hash] || !CLIENT) return;
+  SUBBED[hash] = true;
+  CLIENT.subscribe(NS + '/' + hash + '/#', { qos: 0 });
+}
+
+/* ---------- عمليات الغرف ---------- */
+function joinRoom(code, title, kind, publishTitle) {
+  code = String(code || '').trim();
+  if (!code) return null;
+  var exists = ROOMS.filter(function (r) { return r.code === code; })[0];
+  if (!exists) {
+    exists = { code: code, title: title || code, kind: kind || 'group' };
+    ROOMS.unshift(exists);
+    saveRooms(ROOMS);
+  } else if (title && title.trim() && title.trim() !== exists.title) {
+    exists.title = title.trim();
+    saveRooms(ROOMS);
+  }
+  subRoom(exists);
+  pingPresence(exists.code);   // نعلن حضورنا فوراً بدل ما ننتظر أول نبضة دورية
+  // اسم المجموعة يتزامن تلقائياً بين كل الأعضاء: بس اللي ينشئها فعلياً
+  // ينشر اسمها كرسالة محفوظة (مو أي أحد ينضم لها، حتى لو أول مرة يشوفها
+  // من جهازه هو) — غير كذا كل عضو جديد يمسح اسم اللي قبله بالغلط.
+  if (publishTitle && title && title.trim()) {
+    var hash = fnv(code.trim().toLowerCase());
+    safePublish(NS + '/' + hash + '/meta', JSON.stringify({ title: title.trim() }), { qos: 1, retain: true });
+  }
+  return exists;
+}
+
+// إضافة صديق بالرقم: نلقى ملفه بالدليل، ونشتق رمز غرفة ثابت من الرقمين
+// (الأصغر ثم الأكبر) — كذا الطرفين يوصلون لنفس الرمز بالضبط، بدون
+// ما أحد يحتاج ينسخ ويشارك رمز يدوياً، زي واتساب بالضبط.
+function directCode(fidA, fidB) {
+  var a = Math.min(Number(fidA), Number(fidB)), b = Math.max(Number(fidA), Number(fidB));
+  return 'dm-' + a + '-' + b;
+}
+function addFriendByFid(fid, onResult) {
+  fid = String(fid || '').trim();
+  if (!/^[0-9]{4,8}$/.test(fid)) { onResult({ error: 'اكتب رقم صحيح' }); return; }
+  if (!ME) { onResult({ error: 'صار خطأ، حدّث الصفحة' }); return; }
+  if (fid === ME.fid) { onResult({ error: 'هذا رقمك أنت' }); return; }
+  lookupFid(fid, 1800, function (data) {
+    if (!data) { onResult({ error: 'ما لقينا حد بهذا الرقم — تأكد إنه صحيح وإن صاحبه فتح التطبيق قبل' }); return; }
+    var code = directCode(ME.fid, fid);
+    var room = joinRoom(code, data.name, 'direct');
+    room.avatar = data.avatar || null;
+    room.friendFid = fid;
+    saveRooms(ROOMS);
+    onResult({ room: room });
+  });
+}
+function leaveRoom(code) {
+  ROOMS = ROOMS.filter(function (r) { return r.code !== code; });
+  saveRooms(ROOMS);
+  var hash = fnv(code.trim().toLowerCase());
+  if (CLIENT) CLIENT.unsubscribe(NS + '/' + hash + '/#');
+  delete SUBBED[hash]; delete MSGS[hash]; delete TAPS[hash]; delete PEER_SEEN[hash]; delete PRESENCE[hash];
+  for (var id in GAMES) if (GAMES[id].r === hash) delete GAMES[id];   // الألعاب مفهرسة بمعرّفها لا برمز الغرفة
+  box.set('hala.msgs.' + hash, '[]'); box.set('hala.games.' + hash, '{}');
+}
+function randomCode() {
+  var words = ['بدر','نجم','فجر','ياسمين','قمر','سديم','لؤلؤ','ريم','هدهد','عنبر'];
+  var w = words[Math.floor(Math.random() * words.length)];
+  return w + '-' + Math.floor(1000 + Math.random() * 9000);
+}
+
+/* ---------- رسائل / تفاعلات / ألعاب ---------- */
+function post(code, body, open, kind, extra) {
+  var hash = roomTopic(code).split('/')[1];
+  var m = { id: uid(), who: ME.id, name: ME.name, hue: ME.hue, body: body, kind: kind || 'text', gid: extra || null, open: open || null, t: Date.now(), felt: {} };
+  var list = MSGS[hash] = MSGS[hash] || [];
+  list.push(m);
+  saveMsgs(hash);
+  safePublish(NS + '/' + hash + '/m/' + m.id, JSON.stringify(m), { qos: 1, retain: true });
+  paint();
+  return m;
+}
+function feel(code, mid, e) {
+  var hash = roomTopic(code).split('/')[1];
+  var list = MSGS[hash] || [];
+  var m = null;
+  for (var i = 0; i < list.length; i++) if (list[i].id === mid) m = list[i];
+  if (!m) return;
+  m.felt = m.felt || {};
+  var l = m.felt[e] || [], k = l.indexOf(ME.id);
+  if (k >= 0) l.splice(k, 1); else l.push(ME.id);
+  if (l.length) m.felt[e] = l; else delete m.felt[e];
+  saveMsgs(hash);
+  safePublish(NS + '/' + hash + '/r/' + mid, JSON.stringify({ by: ME.id, felt: m.felt }), { qos: 1, retain: true });
+  paint();
+}
+function startGame(code) {
+  var hash = roomTopic(code).split('/')[1];
+  var g = { id: uid(), r: hash, b: '.........', turn: 'X', x: ME.id, xn: ME.name, o: null, on_: null, over: false, won: null, by: ME.id };
+  GAMES[g.id] = g;
+  saveGames(hash);
+  post(code, '', null, 'play', g.id);
+  safePublish(NS + '/' + hash + '/g/' + g.id, JSON.stringify(g), { qos: 1, retain: true });
+  paint();
+}
+var ROWS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+function judge(b) {
+  for (var i = 0; i < ROWS.length; i++) { var w = ROWS[i];
+    if (b[w[0]] !== '.' && b[w[0]] === b[w[1]] && b[w[1]] === b[w[2]]) return b[w[0]]; }
+  return b.indexOf('.') >= 0 ? null : 'tie';
+}
+function drop(code, gid, i) {
+  var g = GAMES[gid];
+  if (!g || g.over) return;
+  if (!g.o && ME.id !== g.x) { g.o = ME.id; g.on_ = ME.name; }
+  var s = ME.id === g.x ? 'X' : (ME.id === g.o ? 'O' : null);
+  if (!s || s !== g.turn) return;
+  var b = g.b.split('');
+  if (b[i] !== '.') return;
+  b[i] = s; g.b = b.join('');
+  var v = judge(g.b);
+  g.turn = s === 'X' ? 'O' : 'X';
+  if (v) { g.over = true; g.won = v; }
+  g.by = ME.id;
+  var hash = roomTopic(code).split('/')[1];
+  saveGames(hash);
+  safePublish(NS + '/' + hash + '/g/' + gid, JSON.stringify(g), { qos: 1, retain: true });
+  paint();
+}
+function typingPing(code, on) {
+  var hash = roomTopic(code).split('/')[1];
+  safePublish(NS + '/' + hash + '/t', JSON.stringify({ who: ME.id, name: ME.name, on: on }), { qos: 0 });
+}
+
+function feedOf(code) {
+  var hash = fnv(code.trim().toLowerCase());
+  var now = Date.now();
+  return (MSGS[hash] || []).filter(function (m) { return !m.open || m.open <= now || m.who === ME.id; });
+}
+function unread(code) {
+  var hash = fnv(code.trim().toLowerCase());
+  var since = SEEN_UPTO[hash] || 0, n = 0, f = feedOf(code);
+  for (var i = 0; i < f.length; i++) if (f[i].who !== ME.id && f[i].t > since) n++;
+  return n;
+}
+function markSeen(code) {
+  var hash = fnv(code.trim().toLowerCase());
+  SEEN_UPTO[hash] = Date.now();
+  safePublish(NS + '/' + hash + '/s/' + ME.id, JSON.stringify({ at: Date.now() }), { qos: 0, retain: true });
+}
+function read(code, m) {
+  var hash = fnv(code.trim().toLowerCase());
+  var peers = PEER_SEEN[hash] || {};
+  for (var id in peers) if (id !== ME.id && peers[id] >= m.t) return true;
+  return false;
+}
+
+/* ---------- أدوات عرض ---------- */
+function N(tag, attr, kids) {
+  var n = document.createElement(tag);
+  attr = attr || {};
+  for (var k in attr) {
+    var v = attr[k];
+    if (v === null || v === undefined || v === false) continue;
+    if (k === 'k') n.className = v;
+    else if (k === 'txt') n.textContent = v;
+    else if (k === 'sty') n.setAttribute('style', v);
+    else if (k.slice(0, 2) === 'on') n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v);
+  }
+  (kids || []).forEach(function (c) { if (c) n.appendChild(c); });
+  return n;
+}
+var ART = {
+  mark:'<path d="M12 2.4a9.3 9.3 0 0 0-8.1 13.9L2.6 21.4l5.3-1.3A9.3 9.3 0 1 0 12 2.4Z" fill="currentColor" stroke="none"/><path d="M8.6 9.7h6.8M8.6 13.1h4.4" stroke="#0B141A" stroke-width="1.6" stroke-linecap="round"/>',
+  pen:'<path d="M4 20h16"/><path d="M14.6 4.4a2.05 2.05 0 0 1 2.9 2.9L9 15.9l-4 1.1 1.1-4 8.5-8.6Z"/>',
+  more:'<circle cx="12" cy="5.2" r="1.55" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.55" fill="currentColor" stroke="none"/><circle cx="12" cy="18.8" r="1.55" fill="currentColor" stroke="none"/>',
+  prev:'<path d="m9 5 7 7-7 7"/>',
+  plane:'<path d="M3.4 11.9 20.6 4l-4.3 7.9 4.3 7.9L3.4 11.9Z" fill="currentColor" stroke="none"/>',
+  face:'<circle cx="12" cy="12" r="8.8"/><path d="M8.6 14.4a4.4 4.4 0 0 0 6.8 0"/><circle cx="9.1" cy="9.6" r="1.05" fill="currentColor" stroke="none"/><circle cx="14.9" cy="9.6" r="1.05" fill="currentColor" stroke="none"/>',
+  time:'<circle cx="12" cy="12" r="8.4"/><path d="M12 7.4V12l3 2"/>',
+  grid:'<rect x="3.6" y="3.6" width="16.8" height="16.8" rx="2.2"/><path d="M9.2 3.9v16.2M14.8 3.9v16.2M3.9 9.2h16.2M3.9 14.8h16.2"/>',
+  out:'<path d="M14.6 5.4V4.2A1.7 1.7 0 0 0 12.9 2.5H5.7A1.7 1.7 0 0 0 4 4.2v15.6a1.7 1.7 0 0 0 1.7 1.7h7.2a1.7 1.7 0 0 0 1.7-1.7v-1.2"/><path d="M9.6 12h11.4m0 0-3.3-3.3M21 12l-3.3 3.3"/>',
+  down:'<path d="m6 9.2 6 6 6-6"/>',
+  shut:'<path d="M6.2 6.2 17.8 17.8M17.8 6.2 6.2 17.8"/>',
+  many:'<circle cx="9.2" cy="8.6" r="3.4"/><path d="M2.8 19.4a6.4 6.4 0 0 1 12.8 0"/><path d="M16.1 5.5a3.4 3.4 0 0 1 0 6.1M17.6 19.4a6.3 6.3 0 0 0-1.6-4.2"/>',
+  bubl:'<path d="M18.2 5.4H5.8a3.2 3.2 0 0 0-3.2 3.2v6.1a3.2 3.2 0 0 0 3.2 3.2h1.4l2.3 3.1 2.3-3.1h6.4a3.2 3.2 0 0 0 3.2-3.2V8.6a3.2 3.2 0 0 0-3.2-3.2Z"/><path d="M8.4 11.7h.02M12 11.7h.02M15.6 11.7h.02" stroke-width="2.3"/>',
+  copy:'<rect x="8.5" y="8.5" width="11" height="11" rx="1.6"/><path d="M4.5 15.5V6A1.5 1.5 0 0 1 6 4.5h9.5"/>',
+  warn:'<path d="M12 3.6 21 19.4H3L12 3.6Z"/><path d="M12 9.6v4.2"/><circle cx="12" cy="16.9" r=".85" fill="currentColor" stroke="none"/>',
+  note:'<circle cx="12" cy="12" r="8.8"/><path d="M12 11v5.4"/><circle cx="12" cy="7.9" r=".9" fill="currentColor" stroke="none"/>',
+  share:'<circle cx="18" cy="5.5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="18.5" r="2.6"/><path d="m8.3 10.7 7.4-3.9M8.3 13.3l7.4 3.9"/>',
+  link:'<path d="M9.5 14.5 14.5 9.5"/><path d="M11 7.2 12.6 5.6a3.4 3.4 0 0 1 4.8 4.8L15.8 12"/><path d="M13 16.8 11.4 18.4a3.4 3.4 0 0 1-4.8-4.8L8.2 12"/>',
+  ok:'<path d="m3.6 12.4 4 4L14.1 8"/>',
+  ok2:'<path d="m1.6 12.4 4 4L12.1 8"/><path d="m9.6 12.4 4 4L20.1 8"/>',
+  cam:'<path d="M4 8.4A1.6 1.6 0 0 1 5.6 6.8h1.9l1-1.7h6l1 1.7h1.9A1.6 1.6 0 0 1 19 8.4v9A1.6 1.6 0 0 1 17.4 19H5.6A1.6 1.6 0 0 1 4 17.4Z"/><circle cx="12" cy="12.7" r="3.4"/>',
+  one:'<circle cx="12" cy="8.4" r="3.6"/><path d="M4.6 19.6a7.4 7.4 0 0 1 14.8 0"/>',
+  hash:'<path d="M9.5 3.6 7 20.4M17 3.6l-2.5 16.8M4 8.8h16M3 15.2h16"/>',
+  dice:'<path d="M12 2.5 4 3v10L12 21.5 20 13V3z"/>'
+};
+function ic(n, s, k) {
+  var e = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  e.setAttribute('viewBox', '0 0 24 24'); e.setAttribute('width', s || 22); e.setAttribute('height', s || 22);
+  e.setAttribute('fill', 'none'); e.setAttribute('stroke', 'currentColor'); e.setAttribute('stroke-width', '1.7');
+  e.setAttribute('stroke-linecap', 'round'); e.setAttribute('stroke-linejoin', 'round');
+  if (k) e.setAttribute('class', k);
+  e.innerHTML = ART[n];
+  return e;
+}
+function z(n) { return n < 10 ? '0' + n : '' + n; }
+function hhmm(t) { var d = new Date(t), h = d.getHours(), s = h < 12 ? 'ص' : 'م'; h = h % 12 || 12; return h + ':' + z(d.getMinutes()) + ' ' + s; }
+function sameDay(a, b) { return a.toDateString() === b.toDateString(); }
+function dayName(t) {
+  var d = new Date(t), n = new Date();
+  if (sameDay(d, n)) return 'اليوم';
+  if (sameDay(d, new Date(n.getTime() - 864e5))) return 'أمس';
+  return d.toLocaleDateString('ar-KW', { weekday: 'long', day: 'numeric', month: 'long' });
+}
+function avatar(letter, color, size, groupy, img) {
+  if (img) return N('div', { k: 'avatar ' + size, sty: 'background:' + color + ';padding:0;overflow:hidden' },
+    [N('img', { src: img, alt: '', sty: 'width:100%;height:100%;object-fit:cover;border-radius:50%' })]);
+  return groupy ? N('div', { k: 'avatar ' + size, sty: 'background:' + color }, [ic('many', size === 'l' ? 24 : 21)])
+                : N('div', { k: 'avatar ' + size, sty: 'background:' + color, txt: letter });
+}
+
+/* نقشة الخلفية (نفس النسخة السابقة) */
+(function () {
+  function star(cx, cy, h) {
+    var d = h * 1.414;
+    return "<path d='M" + (cx - h) + " " + (cy - h) + "h" + (2*h) + "v" + (2*h) + "h" + (-2*h) + "z'/>" +
+           "<path d='M" + cx + " " + (cy - d) + "L" + (cx+d) + " " + cy + "L" + cx + " " + (cy+d) + "L" + (cx-d) + " " + cy + "z'/>";
+  }
+  var t = 132, m = t/2, g = "";
+  g += star(m, m, 17) + star(0,0,17)+star(t,0,17)+star(0,t,17)+star(t,t,17);
+  g += "<path d='M"+m+" 0v"+t+"M0 "+m+"h"+t+"' opacity='.4'/>";
+  var svgstr = "<svg xmlns='http://www.w3.org/2000/svg' width='"+t+"' height='"+t+"' viewBox='0 0 "+t+" "+t+"'><g fill='none' stroke='#E9EDEF' stroke-width='1.1'>"+g+"</g></svg>";
+  document.documentElement.style.setProperty('--weave', "url(\"data:image/svg+xml;utf8," + encodeURIComponent(svgstr) + "\")");
+})();
+
+/* ---------- حالة الواجهة ---------- */
+var V = { open: null, sheet: false, profileSheet: false, dtab: 'friend', code: '', title: '', note: '', timed: false, pad: false, emos: null, menu: false, whenVal: '', busy: false, fidErr: '' };
+var HOST = document.getElementById('root');
+
+function paint() {
+  var a = document.activeElement;
+  var slot = a && a.getAttribute ? a.getAttribute('data-slot') : null;
+  var s0 = null, s1 = null;
+  if (slot) { try { s0 = a.selectionStart; s1 = a.selectionEnd; } catch (e) {} }
+  var fd = document.querySelector('.feed');
+  var glue = !fd || fd.scrollHeight - fd.scrollTop - fd.clientHeight < 110;
+  var top = fd ? fd.scrollTop : 0;
+
+  HOST.innerHTML = '';
+  try {
+    HOST.appendChild(ME ? frame() : welcome());
+  } catch (e) {
+    // أي خطأ غير متوقع بالرسم ما لازم يسيب المستخدم بشاشة فاضية —
+    // نعرض حالة واضحة فيها طريقة يرجع منها، بدل ما "يعلّق" التطبيق بصمت.
+    HOST.innerHTML = '';
+    HOST.appendChild(N('div', { k: 'auth' }, [
+      N('div', { k: 'auth-top' }),
+      N('div', { k: 'auth-wrap' }, [
+        N('div', { k: 'auth-card' }, [
+          N('div', { k: 'brand' }, [ic('mark', 29), N('b', { txt: 'هلا شات' })]),
+          N('div', { k: 'err', txt: 'صار خطأ غير متوقع. جرّب ترجع للقائمة أو تحدّث الصفحة.' }),
+          N('button', { k: 'btn', txt: 'ارجع للقائمة', onclick: function () { V.open = null; V.sheet = false; paint(); } })
+        ])
+      ])
+    ]));
+  }
+
+  var fd2 = document.querySelector('.feed');
+  if (fd2) fd2.scrollTop = glue ? fd2.scrollHeight : top;
+  if (slot) {
+    var back = document.querySelector('[data-slot="' + slot + '"]');
+    if (back) { back.focus(); try { if (s0 !== null) back.setSelectionRange(s0, s1); } catch (e) {} }
+  }
+  var ta = document.querySelector('.box textarea');
+  if (ta) { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 112) + 'px'; }
+}
+
+/* ---------- شاشة الترحيب ---------- */
+function welcome() {
+  if (REGISTERING) {
+    return N('div', { k: 'auth' }, [
+      N('div', { k: 'auth-top' }),
+      N('div', { k: 'auth-wrap' }, [
+        N('div', { k: 'auth-card' }, [
+          N('div', { k: 'brand' }, [ic('mark', 29), N('b', { txt: 'هلا شات' })]),
+          N('p', { k: 'sub', txt: 'جاري إنشاء حسابك…', sty: 'text-align:center;margin-top:8px' })
+        ])
+      ])
+    ]);
+  }
+
+  var name = '';
+  var draftAvatar = null;
+  var NAME_MAX = 30;
+  function go() {
+    var v = name.trim().slice(0, NAME_MAX);
+    if (v.length < 2) return;
+    saveMe(v, draftAvatar);
+    paint();
+  }
+
+  var fileInput = N('input', { type: 'file', accept: 'image/*', sty: 'display:none',
+    onchange: function (e) {
+      var f = e.target.files && e.target.files[0];
+      if (!f) return;
+      shrinkImage(f, 96, function (dataUrl) { draftAvatar = dataUrl; paint(); });
+    } });
+
+  var pic = N('button', { k: 'pick-avatar', title: 'صورة البروفايل', 'aria-label': 'اختر صورة',
+    onclick: function () { fileInput.click(); } }, [
+      draftAvatar ? avatar('', '#5B87A8', 'l', false, draftAvatar) : N('div', { k: 'avatar l', sty: 'background:#2A3942' }, [ic('cam', 22)]),
+      N('span', { k: 'cam-badge' }, [ic('cam', 12)])
+    ]);
+
+  return N('div', { k: 'auth' }, [
+    N('div', { k: 'auth-top' }),
+    N('div', { k: 'auth-wrap' }, [
+      N('div', { k: 'auth-card' }, [
+        N('div', { k: 'brand' }, [ic('mark', 29), N('b', { txt: 'هلا شات' })]),
+        N('h1', { txt: 'محادثة مباشرة' }),
+        N('p', { k: 'sub', txt: 'راسل صاحبك من أي جهاز، بدون حساب ولا تسجيل.' }),
+        N('div', { k: 'tip' }, [ic('note', 17), N('span', {
+          txt: 'يتصل بسيرفرنا الخاص مباشرة. بيصير عندك رقم فريد تشاركه مع أصحابك عشان يضيفونك.' })]),
+        N('div', { k: 'pick-row' }, [pic, fileInput]),
+        N('div', { k: 'fld' }, [
+          N('label', { txt: 'وش اسمك اللي يشوفه صاحبك؟' }),
+          N('input', { value: name, 'data-slot': 'nm', placeholder: 'مثلاً: عوض', maxlength: String(NAME_MAX),
+            oninput: function (e) { name = e.target.value; },
+            onkeydown: function (e) { if (e.key === 'Enter') go(); } })
+        ]),
+        N('button', { k: 'btn', txt: 'متابعة', onclick: go })
+      ])
+    ])
+  ]);
+}
+
+/* ---------- الإطار الرئيسي ---------- */
+function frame() {
+  ensureLink();
+  var cur = V.open;
+
+  var side = N('aside', { k: 'side' }, [
+    N('div', { k: 'bar' }, [
+      N('button', { k: 'who-am-i', onclick: function () { V.profileSheet = true; paint(); }, title: 'بروفايلك' }, [
+        avatar(ME.name.slice(0,1), ME.hue, 's', false, ME.avatar),
+        N('div', { k: 'col' }, [
+          N('span', { k: 'n', txt: ME.name }),
+          N('span', { k: 'who-fid', txt: '#' + ME.fid })
+        ])
+      ]),
+      N('button', { k: 'ico', title: 'دردشة جديدة', 'aria-label': 'دردشة جديدة',
+        onclick: function () { V.sheet = true; V.dtab = 'friend'; V.code = ''; V.title = ''; V.fidErr = ''; V.busy = false; paint(); } }, [ic('pen', 21)])
+    ]),
+    linkRow(),
+    N('div', { k: 'list' }, ROOMS.length ? ROOMS.map(roomCard) : [
+      N('div', { k: 'nothing', txt: 'ما فيك دردشات بعد.\nاضغط أيقونة القلم فوق: أضف صديق برقمه، أو سوّي مجموعة.' })
+    ])
+  ]);
+
+  var main = N('main', { k: 'main' }, cur ? roomView(cur) : [hollow()]);
+  var app = N('div', { k: 'app' + (V.open ? ' deep' : '') }, [side, main]);
+  if (V.sheet) app.appendChild(dialog());
+  if (V.profileSheet) app.appendChild(profileDialog());
+  return app;
+}
+
+function linkRow() {
+  if (LINK === 'up') return null;
+  var word = LINK === 'mid' ? 'يتصل بالشبكة…'
+    : LINK === 'nolib' ? 'ما قدرنا نحمّل مكتبة الاتصال — تأكد من الإنترنت وحدّث الصفحة'
+    : 'ما فيه اتصال حالياً';
+  var kids = [N('span', { k: 'pulse ' + (LINK === 'nolib' ? 'down' : LINK) }), N('span', { txt: word })];
+  if (LINK === 'down') kids.push(N('button', { txt: 'أعد المحاولة', onclick: function () { CLIENT = null; ensureLink(); paint(); } }));
+  if (LINK === 'nolib') kids.push(N('button', { txt: 'حدّث الصفحة', onclick: function () { location.reload(); } }));
+  return N('div', { k: 'net-row' }, kids);
+}
+
+function hollow() {
+  return N('div', { k: 'void' }, [
+    ic('bubl', 88),
+    N('h2', { txt: 'هلا شات' }),
+    N('p', { txt: 'اختر غرفة من القائمة، أو سوّي وحدة جديدة وشارك رمزها مع صاحبك عشان تراسلونه.' })
+  ]);
+}
+
+function roomAvatar(r, size) {
+  var isGroup = r.kind === 'group' || !r.kind;   // الغرف القديمة قبل هذا التحديث تُعامل كمجموعة افتراضياً
+  if (!isGroup && r.avatar) return avatar('', roomHue(r.code), size, false, r.avatar);
+  return avatar(r.title.slice(0, 1), roomHue(r.code), size, isGroup);
+}
+
+function roomCard(r) {
+  var f = feedOf(r.code), last = f.length ? f[f.length - 1] : null;
+  var n = unread(r.code), bits = [];
+  if (last) {
+    if (last.who === ME.id) {
+      var c = ic(read(r.code, last) ? 'ok2' : 'ok', 15);
+      c.style.color = read(r.code, last) ? 'var(--seen)' : 'var(--dim)';
+      bits.push(c);
+    } else {
+      bits.push(N('span', { txt: last.name + ': ' }));
+    }
+    bits.push(N('span', { txt: last.kind === 'play' ? 'لعبة إكس-أو' : last.body }));
+  } else {
+    bits.push(N('span', { txt: 'ابدأ الطاري', sty: 'color:var(--dim-2)' }));
+  }
+  return N('button', { k: 'item', 'aria-current': r.code === V.open ? 'true' : 'false',
+    onclick: function () { V.open = r.code; V.emos = null; V.menu = false; V.note = ''; markSeen(r.code); paint(); } }, [
+    roomAvatar(r, 'l'),
+    N('div', { k: 'body' }, [
+      N('div', { k: 'r1' }, [N('span', { k: 't', txt: r.title }), N('span', { k: 'w' + (n ? ' hot' : ''), txt: last ? hhmm(last.t) : '' })]),
+      N('div', { k: 'r2' }, [N('span', { k: 'p' }, bits), n ? N('span', { k: 'tag', txt: String(n) }) : null])
+    ])
+  ]);
+}
+
+/* ---------- لوحة الغرفة ---------- */
+function roomView(code) {
+  var room = ROOMS.filter(function (r) { return r.code === code; })[0];
+  if (!room) { V.open = null; return [hollow()]; }
+  var isGroup = room.kind === 'group' || !room.kind;
+  var status;
+  if (LINK !== 'up') status = LINK === 'mid' ? 'يتصل بالشبكة…' : 'ما فيه اتصال بالشبكة';
+  else if (!everSeenPeer(room.code)) status = isGroup ? 'بانتظار ما ينضم أحد' : 'بانتظار ما ينضم صاحبك';
+  else status = peerOnline(room.code) ? (isGroup ? 'فيه أعضاء متصلين الآن' : 'صاحبك متصل الآن') : (isGroup ? 'محادثة جماعية' : 'صاحبك غير متصل حالياً');
+
+  var head = N('div', { k: 'head' }, [
+    N('button', { k: 'ico back', title: 'رجوع', 'aria-label': 'رجوع', onclick: function () { V.open = null; paint(); } }, [ic('prev', 22)]),
+    roomAvatar(room, 'm'),
+    N('div', { k: 'meta' }, [N('b', { txt: room.title }), N('span', { txt: status })]),
+    N('button', { k: 'ico', title: 'خيارات', 'aria-label': 'خيارات',
+      onclick: function (e) { e.stopPropagation(); V.menu = !V.menu; paint(); } }, [ic('more', 20)]),
+    V.menu ? N('div', { k: 'menu', onclick: function (e) { e.stopPropagation(); } }, roomMenu(room, code)) : null
+  ]);
+
+  return [head, stream(code), tapRow(code), pen(code)];
+}
+
+function roomMenu(room, code) {
+  var isGroup = room.kind === 'group' || !room.kind;
+  var items = [];
+  if (isGroup) {
+    items.push(N('button', { txt: 'نسخ رمز الدعوة', onclick: function () { copyText(room.code); V.menu = false; paint(); } }));
+    if (typeof navigator.share === 'function') {
+      items.push(N('button', { txt: 'شارك رمز الدعوة', onclick: function () {
+        navigator.share({ title: 'هلا شات', text: 'انضم لمجموعتنا في هلا شات — رمز الدعوة: ' + room.code }).catch(function () {});
+        V.menu = false; paint();
+      } }));
+    }
+  }
+  items.push(N('button', { k: 'bad', txt: isGroup ? 'مغادرة المجموعة' : 'حذف المحادثة',
+    onclick: function () { leaveRoom(code); V.open = null; V.menu = false; paint(); } }));
+  return items;
+}
+
+function copyText(t) {
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).catch(function () {});
+}
+
+function stream(code) {
+  var f = feedOf(code);
+  var wrap = N('div', { k: 'feed' });
+  if (!f.length) {
+    wrap.appendChild(N('div', { k: 'nothing', txt: LINK === 'up' ? 'ما فيه رسائل بعد.\nاكتب أول وحدة تحت.' : 'نتصل بشبكة الرسائل…' }));
+    return wrap;
+  }
+  var day = '', who = null, when = 0;
+  f.forEach(function (m) {
+    var d = dayName(m.t), fresh = d !== day;
+    if (fresh) { day = d; wrap.appendChild(N('div', { k: 'sep', txt: d })); who = null; }
+    var head = fresh || m.who !== who || (m.t - when) > 18e4;
+    wrap.appendChild(note(m, code, head));
+    who = m.who; when = m.t;
+  });
+  return wrap;
+}
+
+function note(m, code, head) {
+  var me = m.who === ME.id, kids = [];
+  if (head && !me) kids.push(N('div', { k: 'by', txt: m.name, sty: 'color:' + (m.hue || '#8696A0') }));
+
+  if (m.kind === 'play') kids.push(gameCard(m.gid, code));
+
+  var body = N('div', { k: 'txt' });
+  body.appendChild(document.createTextNode(m.kind === 'play' ? 'إكس-أو' : m.body));
+  body.appendChild(N('span', { k: 'gap' }));
+  kids.push(body);
+
+  var st = [];
+  if (m.open && m.open > Date.now()) {
+    st.push(ic('time', 14, 'soon'));
+    st.push(N('span', { txt: hhmm(m.open), sty: 'color:var(--warn)' }));
+  } else {
+    st.push(N('span', { txt: hhmm(m.t) }));
+    if (me) st.push(ic(read(code, m) ? 'ok2' : 'ok', 15, read(code, m) ? 'ok2' : null));
+  }
+  kids.push(N('span', { k: 'stamp' }, st));
+
+  var es = Object.keys(m.felt || {});
+  if (es.length) {
+    kids.push(N('div', { k: 'rx' }, es.map(function (e) {
+      var who = m.felt[e];
+      return N('button', { k: who.indexOf(ME.id) >= 0 ? 'on' : '',
+        onclick: function (ev) { ev.stopPropagation(); feel(code, m.id, e); paint(); } },
+        [N('span', { txt: e }), who.length > 1 ? N('span', { k: 'c', txt: String(who.length) }) : null]);
+    })));
+  }
+
+  if (m.kind !== 'play') {
+    kids.push(N('button', { k: 'pull', title: 'تفاعل', 'aria-label': 'تفاعل',
+      onclick: function (ev) { ev.stopPropagation(); V.emos = V.emos === m.id ? null : m.id; paint(); } }, [ic('down', 18)]));
+    if (V.emos === m.id) {
+      kids.push(N('div', { k: 'emos', onclick: function (e) { e.stopPropagation(); } },
+        ['👍','❤️','😂','😮','😢','🙏'].map(function (e) {
+          var on = (m.felt && m.felt[e] || []).indexOf(ME.id) >= 0;
+          return N('button', { k: on ? 'on' : '', txt: e, onclick: function () { feel(code, m.id, e); V.emos = null; paint(); } });
+        })));
+    }
+  }
+
+  var b = N('div', { k: 'bub' + (head ? ' tip-l' : '') }, kids);
+  return N('div', { k: 'line' + (me ? ' me' : '') + (head ? ' fresh' : '') + (es.length ? ' rxd' : '') }, [b]);
+}
+
+function gameCard(gid, code) {
+  var g = GAMES[gid];
+  if (!g) return N('div', { k: 'play', txt: 'جاري تحميل اللوحة…' });
+  var s = ME.id === g.x ? 'X' : (ME.id === g.o ? 'O' : null);
+  var turn = !g.over && (s === g.turn || (!g.o && ME.id !== g.x));
+  var word = g.over ? (g.won === 'tie' ? 'تعادل' : 'فاز ' + g.won)
+    : (!g.o ? 'اضغط أي مربع وتدخل اللعبة' : (turn ? 'دورك' : 'ننتظر الطرف الثاني'));
+  return N('div', { k: 'play' }, [
+    N('div', { k: 'play-h' }, [ic('grid', 15), N('span', { txt: 'إكس-أو' })]),
+    N('div', { k: 'net' }, g.b.split('').map(function (c, i) {
+      return N('button', { k: 'sq' + (c === 'X' ? ' x' : c === 'O' ? ' o' : ''), txt: c === '.' ? '' : c,
+        'aria-label': 'مربع ' + (i+1), disabled: (c !== '.' || g.over || !turn) ? 'disabled' : null,
+        onclick: function () { drop(code, g.id, i); } });
+    })),
+    N('div', { k: 'play-s', txt: word })
+  ]);
+}
+
+function tapRow(code) {
+  var hash = fnv(code.trim().toLowerCase());
+  var t = TAPS[hash] || {}, names = [];
+  for (var id in t) {
+    if (Date.now() - t[id].t > 3500) { delete t[id]; continue; }
+    if (id !== ME.id) names.push(t[id].n);
+  }
+  if (!names.length) return N('div', { k: 'tap' });
+  return N('div', { k: 'tap' }, [N('span', { k: 'blips' }, [N('i'),N('i'),N('i')]), N('span', { txt: names.join('، ') + ' يكتب' })]);
+}
+
+var beat = null;
+var typingActive = false;
+function pen(code) {
+  var at = N('input', { type: 'datetime-local', 'data-slot': 'when', value: V.whenVal,
+    oninput: function (e) { V.whenVal = e.target.value; } });
+  var MSG_MAX = 4000;   // حد معقول جداً لأي رسالة نصية، يمنع لصق نص ضخم بالغلط
+  var area = N('textarea', { rows: 1, placeholder: 'اكتب رسالة', 'data-slot': 'pen', maxlength: String(MSG_MAX),
+    oninput: function (e) {
+      V.note = e.target.value.slice(0, MSG_MAX);
+      e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 112) + 'px';
+      // نبلّغ "أكتب" مرة وحدة بس عند البداية، مو مع كل حرف —
+      // إرسال حدث شبكة مع كل ضغطة كان يسبب تجمّد ملحوظ وقت الكتابة السريعة.
+      if (!typingActive) { typingActive = true; typingPing(code, true); }
+      clearTimeout(beat);
+      beat = setTimeout(function () { typingActive = false; typingPing(code, false); }, 1700);
+    },
+    onkeydown: function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); fire(); } }
+  });
+  area.value = V.note;
+
+  function fire() {
+    var body = V.note.trim().slice(0, MSG_MAX);
+    if (!body) return;
+    var open = (V.timed && V.whenVal) ? new Date(V.whenVal).getTime() : null;
+    post(code, body, open);
+    V.note = ''; V.timed = false; V.pad = false; V.whenVal = '';
+    typingActive = false;
+    clearTimeout(beat);
+    typingPing(code, false);
+    paint();
+  }
+
+  var rows = [];
+  if (V.pad) {
+    rows.push(N('div', { k: 'pad-row' }, ['😀','😂','🥲','😍','😎','🤔','👍','🙏','🔥','❤️','🎉','💯','😴','🤝','👏','🌙','☕','⚽'].map(function (e) {
+      return N('button', { txt: e, onclick: function () { V.note += e; paint(); } });
+    })));
+  }
+  if (V.timed) {
+    rows.push(N('div', { k: 'clock-row' }, [ic('time', 17), N('span', { txt: 'تنفتح الرسالة:' }), at,
+      N('span', { txt: 'تنبيه: أي أحد بالشبكة يقدر يشوف بيانات الرسالة وقت إرسالها، بس الشاشة تخفيها عنه لين وقتها.' })]));
+  }
+  rows.push(N('div', { k: 'write-row' }, [
+    N('button', { k: 'ico' + (V.pad ? ' act' : ''), title: 'إيموجي', 'aria-label': 'إيموجي', onclick: function () { V.pad = !V.pad; paint(); } }, [ic('face', 23)]),
+    N('button', { k: 'ico' + (V.timed ? ' act' : ''), title: 'رسالة موقوتة', 'aria-label': 'رسالة موقوتة', onclick: function () { V.timed = !V.timed; paint(); } }, [ic('time', 22)]),
+    N('button', { k: 'ico', title: 'ابدأ لعبة إكس-أو', 'aria-label': 'لعبة إكس-أو', onclick: function () { startGame(code); } }, [ic('grid', 22)]),
+    N('div', { k: 'box' }, [area]),
+    N('button', { k: 'go', title: 'إرسال', 'aria-label': 'إرسال', onclick: fire }, [ic('plane', 21)])
+  ]));
+  return N('div', { k: 'write' }, rows);
+}
+
+/* ---------- نافذة إنشاء/انضمام لغرفة ---------- */
+function dialog() {
+  var TITLE_MAX = 60, CODE_MAX = 80;
+  function shut() { V.sheet = false; paint(); }
+
+  function goGroup() {
+    var code = V.code.trim().slice(0, CODE_MAX);
+    if (!code) return;
+    var r = joinRoom(code, V.title.trim().slice(0, TITLE_MAX) || code, 'group', V.dtab === 'newgroup');
+    V.open = r.code; V.sheet = false; markSeen(r.code); paint();
+  }
+  function goFriend() {
+    var fid = V.code.trim();
+    if (!fid || V.busy) return;
+    V.busy = true; V.fidErr = ''; paint();
+    addFriendByFid(fid, function (res) {
+      V.busy = false;
+      if (res.error) { V.fidErr = res.error; paint(); return; }
+      V.open = res.room.code; V.sheet = false; markSeen(res.room.code); paint();
+    });
+  }
+
+  var body = [];
+  if (V.dtab === 'friend') {
+    body.push(N('div', { k: 'txt-fld' }, [
+      N('label', { k: 'fld-lab', txt: 'رقم صاحبك (يلقاه فوق قائمته)' }),
+      N('input', { value: V.code, 'data-slot': 'gc', dir: 'ltr', inputmode: 'numeric', placeholder: 'مثلاً: 482917', maxlength: '8',
+        oninput: function (e) { V.code = e.target.value.replace(/[^0-9]/g, ''); },
+        onkeydown: function (e) { if (e.key === 'Enter') goFriend(); } })
+    ]));
+    if (V.fidErr) body.push(N('div', { k: 'err', sty: 'margin:0 16px 14px', txt: V.fidErr }));
+    body.push(N('p', { k: 'hint-line', txt: 'اطلب من صاحبك رقمه من فوق قائمة دردشاته، واكتبه هنا. ما يحتاج رمز يدوي.' }));
+  } else if (V.dtab === 'newgroup') {
+    body.push(N('div', { k: 'txt-fld' }, [
+      N('label', { k: 'fld-lab', txt: 'اسم المجموعة' }),
+      N('input', { value: V.title, 'data-slot': 'gt', placeholder: 'مثلاً: شلة المدرسة', maxlength: String(TITLE_MAX),
+        oninput: function (e) { V.title = e.target.value; } })
+    ]));
+    body.push(N('div', { k: 'txt-fld' }, [
+      N('div', { k: 'fld-lab row' }, [
+        N('span', { txt: 'رمز الدعوة' }),
+        N('button', { k: 'gen', txt: 'رمز جديد', onclick: function () { V.code = randomCode(); paint(); } })
+      ]),
+      N('div', { k: 'code-box' }, [
+        N('b', { txt: V.code }),
+        N('button', { title: 'نسخ', 'aria-label': 'نسخ الرمز', onclick: function () { copyText(V.code); } }, [ic('copy', 17)])
+      ])
+    ]));
+    body.push(N('p', { k: 'hint-line', txt: 'أرسل هذا الرمز لأعضاء المجموعة، وخلّهم يضغطون "انضم لمجموعة" ويكتبونه.' }));
+  } else {
+    body.push(N('div', { k: 'txt-fld' }, [
+      N('label', { k: 'fld-lab', txt: 'رمز الدعوة اللي أرسلوه لك' }),
+      N('input', { value: V.code, 'data-slot': 'gc', dir: 'ltr', placeholder: 'الصق الرمز هنا', maxlength: String(CODE_MAX),
+        oninput: function (e) { V.code = e.target.value; },
+        onkeydown: function (e) { if (e.key === 'Enter') goGroup(); } })
+    ]));
+    body.push(N('div', { k: 'txt-fld' }, [
+      N('label', { k: 'fld-lab', txt: 'اسم المجموعة (اختياري)' }),
+      N('input', { value: V.title, 'data-slot': 'gt', placeholder: 'مثلاً: شلة المدرسة', maxlength: String(TITLE_MAX),
+        oninput: function (e) { V.title = e.target.value; } })
+    ]));
+  }
+
+  var goFn = V.dtab === 'friend' ? goFriend : (V.dtab === 'newgroup' ? goGroup : goGroup);
+  var btnLabel = V.dtab === 'friend' ? (V.busy ? 'جاري البحث…' : 'أضف الصديق') : (V.dtab === 'newgroup' ? 'إنشاء ودخول' : 'انضم للمجموعة');
+
+  var kids = [
+    N('div', { k: 'sheet-h' }, [
+      N('button', { k: 'ico', title: 'إغلاق', 'aria-label': 'إغلاق', onclick: shut }, [ic('shut', 21)]),
+      N('b', { txt: 'دردشة جديدة' })
+    ]),
+    N('div', { k: 'seg' }, [
+      N('button', { k: V.dtab === 'friend' ? 'on' : '', txt: 'صديق جديد',
+        onclick: function () { V.dtab = 'friend'; V.code = ''; V.fidErr = ''; paint(); } }),
+      N('button', { k: V.dtab === 'newgroup' ? 'on' : '', txt: 'إنشاء مجموعة',
+        onclick: function () { V.dtab = 'newgroup'; V.code = randomCode(); V.title = ''; paint(); } }),
+      N('button', { k: V.dtab === 'joingroup' ? 'on' : '', txt: 'انضم لمجموعة',
+        onclick: function () { V.dtab = 'joingroup'; V.code = ''; V.title = ''; paint(); } })
+    ]),
+    N('div', { k: 'sheet-b' }, body),
+    N('div', { k: 'sheet-f' }, [N('button', { k: 'btn', txt: btnLabel, disabled: V.busy ? 'disabled' : null, onclick: goFn })])
+  ];
+  return N('div', { k: 'veil', onclick: shut }, [N('div', { k: 'sheet', onclick: function (e) { e.stopPropagation(); } }, kids)]);
+}
+
+/* ---------- نافذة تعديل البروفايل ---------- */
+function profileDialog() {
+  var name = ME.name, avatarDraft = ME.avatar || null;
+  var NAME_MAX = 30;
+  function shut() { V.profileSheet = false; paint(); }
+  function save() {
+    var v = name.trim().slice(0, NAME_MAX);
+    if (v.length < 2) return;
+    updateProfile(v, avatarDraft);
+    V.profileSheet = false; paint();
+  }
+  var fileInput = N('input', { type: 'file', accept: 'image/*', sty: 'display:none',
+    onchange: function (e) {
+      var f = e.target.files && e.target.files[0];
+      if (!f) return;
+      shrinkImage(f, 96, function (dataUrl) { avatarDraft = dataUrl; paint(); });
+    } });
+  var pic = N('button', { k: 'pick-avatar', title: 'غيّر الصورة', 'aria-label': 'غيّر الصورة',
+    onclick: function () { fileInput.click(); } },
+    [avatar(name.slice(0, 1), ME.hue, 'l', false, avatarDraft), N('span', { k: 'cam-badge' }, [ic('cam', 12)])]);
+
+  var kids = [
+    N('div', { k: 'sheet-h' }, [
+      N('button', { k: 'ico', title: 'إغلاق', 'aria-label': 'إغلاق', onclick: shut }, [ic('shut', 21)]),
+      N('b', { txt: 'بروفايلك' })
+    ]),
+    N('div', { k: 'sheet-b' }, [
+      N('div', { k: 'pick-row' }, [pic, fileInput]),
+      N('div', { k: 'txt-fld' }, [
+        N('label', { k: 'fld-lab', txt: 'اسمك' }),
+        N('input', { value: name, 'data-slot': 'pn', maxlength: String(NAME_MAX),
+          oninput: function (e) { name = e.target.value; } })
+      ]),
+      N('div', { k: 'txt-fld' }, [
+        N('label', { k: 'fld-lab', txt: 'رقمك (يضيفك فيه أصحابك)' }),
+        N('div', { k: 'code-box' }, [
+          N('b', { txt: ME.fid }),
+          N('button', { title: 'نسخ', 'aria-label': 'نسخ الرقم', onclick: function () { copyText(ME.fid); } }, [ic('copy', 17)])
+        ])
+      ])
+    ]),
+    N('div', { k: 'sheet-f' }, [N('button', { k: 'btn', txt: 'حفظ', onclick: save })])
+  ];
+  return N('div', { k: 'veil', onclick: shut }, [N('div', { k: 'sheet', onclick: function (e) { e.stopPropagation(); } }, kids)]);
+}
+
+/* ---------- إغلاق القوائم ---------- */
+document.addEventListener('click', function () { if (V.emos !== null || V.menu) { V.emos = null; V.menu = false; paint(); } });
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'Escape') return;
+  if (V.emos !== null || V.menu) { V.emos = null; V.menu = false; paint(); }
+  else if (V.sheet) { V.sheet = false; paint(); }
+  else if (V.open) { V.open = null; paint(); }
+});
+
+/* ---------- نبضات محلية: موقوتة + تنظيف مؤشرات الكتابة القديمة ---------- */
+var lastTapSig = '';
+setInterval(function () {
+  if (!ME) return;
+  var t = Date.now(), due = false;
+  for (var h in MSGS) for (var i = 0; i < MSGS[h].length; i++) {
+    var m = MSGS[h][i];
+    if (m.open && m.open <= t && m.open > t - 1100) { due = true; break; }
+  }
+  var live = [];
+  if (V.open) { var hh = fnv(V.open.trim().toLowerCase()); var tp = TAPS[hh] || {};
+    for (var id in tp) if (t - tp[id].t <= 3500) live.push(id); }
+  var sig = live.sort().join(',');
+  if (due || sig !== lastTapSig) { lastTapSig = sig; paint(); }
+}, 900);
+
+setInterval(function () {
+  if (ME && V.open && document.hasFocus()) markSeen(V.open);
+}, 1500);
+
+paint();
+</script>
+
+</body>
+</html>
