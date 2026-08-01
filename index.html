@@ -1374,7 +1374,10 @@ function aquaView() {
   } else {
     AQUA_MSGS.forEach(function (m) {
       var me = m.who === 'me';
-      var bub = N('div', { k: 'bub' }, [N('div', { k: 'txt', txt: m.text }), N('span', { k: 'stamp' }, [N('span', { txt: hhmm(m.t) })])]);
+      var txt = N('div', { k: 'txt' });
+      txt.appendChild(document.createTextNode(m.text));
+      txt.appendChild(N('span', { k: 'gap' }));
+      var bub = N('div', { k: 'bub' }, [txt, N('span', { k: 'stamp' }, [N('span', { txt: hhmm(m.t) })])]);
       feed.appendChild(N('div', { k: 'line' + (me ? ' me' : '') }, [bub]));
     });
   }
