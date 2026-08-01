@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>هلا شات — أونلاين</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#3B82F6">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="هلا شات">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -579,7 +587,16 @@ function ensureLink() {
   // البروكر يرجّع لنا رسائلنا نفسها لأننا مشتركين بنفس الموضوع اللي ننشر عليه.
   // clean:true يعني الاشتراكات تنمسح من عند البروكر عند أي قطع اتصال،
   // فلازم نعيد الاشتراك من الصفر كل مرة يتصل فيها الجهاز (أول مرة أو بعد انقطاع).
-  CLIENT.on('connect', function () { LINK = 'up'; SUBBED = {}; ROOMS.forEach(subRoom); heartbeat(); paint(); });
+  CLIENT.on('connect', function () {
+    LINK = 'up'; SUBBED = {}; ROOMS.forEach(subRoom); heartbeat(); paint();
+    // أول ما نتصل (خصوصاً بعد ريفريش)، البروكر يرجّع كل الرسائل القديمة
+    // المحفوظة — حتى اللي أنا نفسي أرسلتها أو حذفتها أو عدّلتها من قبل.
+    // خلال هذي الفترة بس، ما نطلق أي تنبيه — بعدها نرجع نتنبّه عادي
+    // بس على الشي اللي يوصل فعلاً جديد وأنت متصل.
+    JUST_SYNCED = true;
+    clearTimeout(syncTimer);
+    syncTimer = setTimeout(function () { JUST_SYNCED = false; }, 3000);
+  });
   CLIENT.on('reconnect', function () { LINK = 'mid'; paint(); });
   CLIENT.on('close', function () { LINK = 'down'; paint(); });
   CLIENT.on('offline', function () { LINK = 'down'; paint(); });
@@ -1028,10 +1045,12 @@ function toggleNotif() {
   });
 }
 function notifyNewMessage(roomTitle, senderName, text) {
+  if (JUST_SYNCED) return;   // فيضان رسائل قديمة وقت الاتصال — مو رسالة جديدة فعلاً
   if (!V.notifOn || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
   if (typeof document !== 'undefined' && document.visibilityState === 'visible' && V.open) return;   // مفتوح التطبيق قدامك أصلاً
   try { new Notification(senderName + ' — ' + roomTitle, { body: text || 'رسالة جديدة', tag: 'hala-msg' }); } catch (e) {}
 }
+var JUST_SYNCED = false, syncTimer = null;
 var HOST = document.getElementById('root');
 
 function paint() {
@@ -1753,6 +1772,15 @@ setInterval(function () {
 setInterval(function () {
   if (ME && V.open && document.hasFocus()) markSeen(V.open);
 }, 1500);
+
+// نسجّل عامل الخدمة (شرط تقني عشان المتصفح ومولّدات APK يعتبرون
+// الصفحة تطبيق ويب تقدمي قابل للتثبيت). لو فشل لأي سبب، نتجاهله
+// بهدوء — التطبيق يشتغل عادي بدونه، بس ما يصير "قابل للتثبيت".
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  });
+}
 
 paint();
 </script>
