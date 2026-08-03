@@ -1,0 +1,2801 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>هلا شات — أونلاين</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#3B82F6">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="هلا شات">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EFF6FC; --panel:#FFFFFF; --panel-2:#F4F7FB; --panel-3:#EAF0F9;
+  --in:#FFFFFF; --out:#DCEBFF; --accent:#3B82F6; --accent-hi:#5B9BFA;
+  --text:#1A1F36; --dim:#8A93A6; --dim-2:#B0B8C7; --edge:#EAEFF6;
+  --seen:#3B82F6; --warn:#E7A93B; --bad:#EF4444; --online:#34C759;
+  --grad:linear-gradient(135deg,var(--accent) 0%,var(--accent-hi) 100%);
+  --grad-out:linear-gradient(165deg,#DCEBFF 0%,#CFE3FF 100%);
+  --font:'Noto Sans Arabic',-apple-system,'Segoe UI',Roboto,sans-serif;
+  --display:'Noto Sans Arabic',-apple-system,sans-serif;
+  --ease:cubic-bezier(.22,.7,.32,1);
+  --shade-1:0 1px 3px rgba(30,50,90,.06);
+  --shade-2:0 10px 26px rgba(30,50,90,.1),0 2px 8px rgba(30,50,90,.06);
+  --shade-3:0 18px 44px rgba(30,50,90,.16),0 4px 14px rgba(30,50,90,.08);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body,#root{height:100%;margin:0}
+body{background:linear-gradient(180deg,#E4F0FC 0%,#F7FAFD 320px,var(--bg) 320px);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button,input,textarea{font:inherit;color:inherit;border:none;background:none}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+svg{display:block;flex:none}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-thumb{background:#D3DCEA;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#B9C6DA}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ═══ الدخول ═══ */
+.auth{min-height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,#E4F0FC 0%,var(--bg) 100%)}
+.auth-top{height:180px;flex:none;background:transparent}
+.auth-wrap{flex:1;margin-top:-116px;padding:0 16px 48px;display:flex;justify-content:center}
+.auth-card{width:min(432px,100%);background:var(--panel);border-radius:20px;box-shadow:var(--shade-2);padding:36px 38px 38px;
+  border:1px solid rgba(59,130,246,.08)}
+.brand{display:flex;align-items:center;gap:11px;justify-content:center;margin-bottom:26px}
+.brand svg{color:var(--accent)}
+.brand b{font-family:var(--display);font-size:24px;font-weight:800;letter-spacing:-.3px;color:var(--text)}
+.auth-card h1{font-size:19px;font-weight:700;margin:0 0 5px;text-align:center;letter-spacing:-.1px;color:var(--text)}
+.auth-card .sub{margin:0 0 24px;color:var(--dim);font-size:13.5px;text-align:center}
+.fld{margin-bottom:18px}
+.pick-row{display:flex;justify-content:center;margin-bottom:22px}
+.pick-avatar{border-radius:50%;position:relative;transition:transform .18s var(--ease)}
+.pick-avatar:hover{transform:scale(1.04)}
+.pick-avatar:active{transform:scale(.98)}
+.pick-avatar .avatar{color:var(--dim);border:2px dashed var(--dim-2);background:var(--panel-2) !important}
+.pick-group-avatar{border-radius:50%;position:relative;transition:transform .18s var(--ease)}
+.pick-group-avatar:hover{transform:scale(1.04)}
+.pick-group-avatar:active{transform:scale(.98)}
+.pick-avatar .cam-badge{position:absolute;bottom:-2px;left:-2px;width:24px;height:24px;border-radius:50%;
+  background:var(--grad);color:#fff;display:grid;place-items:center;border:3px solid var(--panel);box-shadow:var(--shade-1)}
+.pick-group-avatar .cam-badge{position:absolute;bottom:0;left:0;width:30px;height:30px;border-radius:50%;
+  background:var(--grad);color:#fff;display:grid;place-items:center;border:3px solid var(--panel);box-shadow:var(--shade-1)}
+.who-fid{font-size:11px;color:var(--dim);white-space:nowrap;display:flex;align-items:center;gap:3px;font-family:monospace;direction:ltr}
+.who-fid button{color:var(--accent);display:inline-flex}
+.fld label{display:block;font-size:12px;color:var(--accent);margin-bottom:6px;font-weight:700;letter-spacing:.1px}
+.fld input{width:100%;padding:9px 3px;border-bottom:2px solid var(--edge);transition:border-color .2s var(--ease);color:var(--text)}
+.fld input:focus{outline:none;border-bottom-color:var(--accent)}
+.fld .note{font-size:11.5px;color:var(--dim-2);margin-top:5px}
+.btn{width:100%;padding:13px;border-radius:14px;background:var(--grad);color:#fff;font-weight:700;font-size:15px;
+  transition:filter .16s var(--ease),transform .1s var(--ease);box-shadow:0 8px 20px rgba(59,130,246,.28)}
+.btn:hover{filter:brightness(1.05)}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;box-shadow:none}
+.btn[disabled]:hover{filter:none}
+.alt{margin-top:20px;padding-top:18px;border-top:1px solid var(--edge);text-align:center;color:var(--dim);font-size:13.5px}
+.alt button{color:var(--accent);font-weight:700}
+.alt button:hover{text-decoration:underline}
+.err{background:#FEF0F0;border-inline-start:3px solid var(--bad);border-radius:8px;padding:11px 13px;margin-bottom:18px;font-size:13px;color:#C0392B;line-height:1.55}
+.tip{display:flex;gap:10px;background:var(--panel-2);border-radius:12px;padding:12px 13px;margin-bottom:22px;font-size:12px;color:var(--dim);line-height:1.6;border:1px solid var(--edge)}
+.tip svg{color:var(--accent);margin-top:2px}
+
+/* ═══ الهيكل ═══ */
+.app{height:100%;display:flex}
+.side{width:410px;max-width:38%;flex:none;background:var(--panel);display:flex;flex-direction:column;border-inline-end:1px solid var(--edge)}
+.bar{height:58px;flex:none;background:var(--panel);display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid var(--edge)}
+.ico{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--dim);transition:background .15s var(--ease),color .15s var(--ease),transform .1s var(--ease);position:relative}
+.ico:hover{background:var(--panel-2);color:var(--accent)}
+.ico:active{transform:scale(.92)}
+.ico.act{color:var(--accent);background:var(--panel-2)}
+.who-am-i{display:flex;align-items:center;gap:10px;min-width:0;flex:1;text-align:start;border-radius:12px;padding:4px 6px;margin:-4px -6px;transition:background .15s var(--ease)}
+.who-am-i:hover{background:var(--panel-2)}
+.who-am-i .n{font-size:16px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.2px}
+.who-am-i .col{min-width:0;display:flex;flex-direction:column;gap:1px;align-items:center}
+.who-am-i button.pick-avatar{flex:none}
+.wordmark{display:block;font-size:19px;font-weight:800;letter-spacing:-.2px;color:var(--text)}
+.wordmark-en{display:block;font-size:9.5px;font-weight:700;letter-spacing:2.5px;color:var(--dim);direction:ltr}
+
+.avatar{border-radius:50%;flex:none;display:grid;place-items:center;color:#fff;font-weight:700;user-select:none;letter-spacing:0;box-shadow:0 2px 6px rgba(30,50,90,.12)}
+.avatar.s{width:34px;height:34px;font-size:13px}
+.avatar.m{width:44px;height:44px;font-size:16px}
+.avatar.l{width:52px;height:52px;font-size:19px}
+.avatar.xl{width:112px;height:112px;font-size:38px}
+.avatar.xl{width:104px;height:104px;font-size:36px;border-radius:24px}
+.avatar svg{opacity:.95}
+.avatar-wrap{position:relative;flex:none;display:inline-flex}
+.avatar-wrap .ring{position:absolute;bottom:0;left:0;width:11px;height:11px;border-radius:50%;background:var(--online);border:2.5px solid var(--panel);opacity:0;transition:opacity .2s var(--ease)}
+.avatar-wrap.online .ring{opacity:1}
+
+.seek{padding:6px 14px 10px;flex:none}
+.seek-in{display:flex;align-items:center;gap:10px;background:var(--panel-2);border-radius:14px;padding:0 14px;height:40px;transition:box-shadow .18s var(--ease);border:1px solid var(--edge)}
+.seek-in:focus-within{box-shadow:0 0 0 2px rgba(59,130,246,.18);border-color:var(--accent)}
+.seek-in svg{color:var(--dim-2)}
+.seek-in input{flex:1;font-size:14px;min-width:0;color:var(--text)}
+.seek-in input:focus{outline:none}
+.seek-in input::placeholder{color:var(--dim-2)}
+
+/* شريط التصنيفات — يظهر بس بقائمة الدردشات */
+.pillbar{display:flex;gap:8px;padding:0 14px 12px;overflow-x:auto;flex:none}
+.pillbar::-webkit-scrollbar{display:none}
+.pillbtn{flex:none;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:700;background:var(--panel);color:var(--dim);
+  border:1px solid var(--edge);transition:all .15s var(--ease);white-space:nowrap}
+.pillbtn.on{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(59,130,246,.28)}
+.pillbtn:not(.on):hover{background:var(--panel-2)}
+
+.list{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 8px}
+.item{width:100%;display:flex;align-items:center;gap:13px;padding:10px 8px;height:76px;text-align:start;transition:background .12s var(--ease);border-radius:16px}
+.item:hover{background:var(--panel-2)}
+.item[aria-current=true]{background:var(--panel-2)}
+.item .body{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.r1{display:flex;align-items:baseline;gap:8px}
+.r1 .t{flex:1;min-width:0;font-size:15.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.1px;color:var(--text)}
+.r1 .w{font-size:11.5px;color:var(--dim);flex:none;letter-spacing:.1px}
+.r1 .w.hot{color:var(--accent);font-weight:700}
+.r2{display:flex;align-items:center;gap:7px}
+.r2 .p{flex:1;min-width:0;font-size:13.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:4px}
+.r2 .p svg{flex:none}
+.tag{background:var(--grad);color:#fff;font-size:11px;font-weight:800;min-width:20px;height:20px;border-radius:10px;display:grid;place-items:center;padding:0 6px;flex:none;box-shadow:0 2px 7px rgba(59,130,246,.32)}
+.nothing{color:var(--dim);text-align:center;padding:46px 30px;font-size:13.5px;line-height:1.9;white-space:pre-line}
+
+/* ═══ المحادثة ═══ */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--bg)}
+.void{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;text-align:center;padding:40px;background:var(--bg)}
+.void svg{color:var(--accent);opacity:.5}
+.void h2{font-family:var(--display);font-size:28px;font-weight:800;margin:0;letter-spacing:-.3px;color:var(--text)}
+.void p{margin:0;color:var(--dim);font-size:13.5px;max-width:400px;line-height:1.85}
+
+.head{height:62px;flex:none;background:var(--panel);display:flex;align-items:center;gap:13px;padding:0 12px 0 16px;z-index:3;position:relative;border-bottom:1px solid var(--edge)}
+.head .meta{flex:1;min-width:0}
+.head .meta b{display:block;font-size:16.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.1px;color:var(--text)}
+.head .meta span{display:block;font-size:12.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.back{display:none}
+
+.menu{position:absolute;top:52px;inset-inline-start:12px;background:var(--panel);border-radius:14px;box-shadow:var(--shade-3);padding:6px 0;min-width:190px;z-index:30;
+  border:1px solid var(--edge);animation:pop-in .14s var(--ease)}
+@keyframes pop-in{from{opacity:0;transform:translateY(-4px) scale(.98)}to{opacity:1;transform:none}}
+.menu button{display:block;width:100%;text-align:start;padding:11px 22px;font-size:14px;color:var(--text);transition:background .12s var(--ease)}
+.menu button:hover{background:var(--panel-2)}
+.menu button.bad{color:var(--bad)}
+
+.feed{flex:1;overflow-y:auto;padding:14px 6% 10px;display:flex;flex-direction:column;position:relative;background:var(--bg)}
+.feed::before{content:'';position:absolute;inset:0;background-image:var(--weave);background-size:150px;opacity:.035;pointer-events:none}
+.feed>*{position:relative;z-index:1}
+
+.sep{align-self:center;background:var(--panel);color:var(--dim);font-size:11.5px;font-weight:700;padding:5px 14px;border-radius:20px;margin:16px 0 10px;box-shadow:var(--shade-1);letter-spacing:.2px;border:1px solid var(--edge)}
+
+.line{display:flex;margin-top:2px}
+.line.me{justify-content:flex-end}
+.line.fresh{margin-top:12px}
+.line.rxd{margin-bottom:14px}
+
+.bub{position:relative;max-width:min(64%,510px);background:var(--in);border-radius:16px;padding:7px 12px 8px;box-shadow:var(--shade-1);border:1px solid var(--edge)}
+.bub.bub-in{animation:rise .18s var(--ease)}
+.bub.sticker{background:none;box-shadow:none;border:none;padding:0;max-width:none}
+.bub.sticker .stamp{position:static;display:block;margin-top:2px;color:var(--dim);justify-content:center}
+.line.me .bub.sticker .stamp{justify-content:flex-end}
+.line.me .bub{background:var(--grad-out);border-color:rgba(59,130,246,.12)}
+@keyframes rise{from{opacity:0;transform:translateY(6px) scale(.99)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.bub{animation:none}}
+.bub.tip-l{border-start-start-radius:4px}
+.bub.tip-l::before{content:'';position:absolute;top:0;inset-inline-start:-7px;width:8px;height:14px;background:var(--in);clip-path:polygon(100% 0,0 0,100% 100%)}
+.line.me .bub.tip-l::before{background:#CFE3FF;clip-path:polygon(0 0,100% 0,0 100%)}
+.by{font-size:12.5px;font-weight:800;margin-bottom:2px;letter-spacing:0;color:var(--accent)}
+.quote{background:rgba(0,0,0,.05);border-inline-start:3px solid var(--accent);border-radius:6px;padding:4px 8px;margin-bottom:5px;font-size:12.5px;overflow:hidden}
+.quote b{display:block;color:var(--accent);font-weight:700;font-size:12px}
+.quote span{display:block;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.line.me .quote{background:rgba(255,255,255,.12)}
+.line.me .quote b,.line.me .quote span{color:rgba(255,255,255,.85)}
+.media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:3px;max-height:70vh;overflow-y:auto}
+.media-grid img{width:100%;aspect-ratio:1;object-fit:cover;cursor:pointer;background:var(--panel-2)}
+
+/* ═══ شاشة معلومات المحادثة/المجموعة ═══ */
+.info-screen{position:fixed;inset:0;z-index:55;background:var(--panel);display:flex;flex-direction:column;overflow-y:auto}
+.info-head{height:52px;flex:none;display:flex;align-items:center;padding:0 8px;background:var(--panel-2)}
+.info-top{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 24px 22px;text-align:center;background:var(--panel-2)}
+.info-top b{font-size:19px;font-weight:800}
+.info-top span{color:var(--dim);font-size:13px}
+.info-top .info-sub{color:var(--dim);font-size:13px}
+.info-actions{display:flex;justify-content:center;gap:14px;padding:16px 20px 4px}
+.info-actions button{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--text);font-size:11.5px;flex:1;max-width:90px}
+.info-actions button svg{width:42px;height:42px;padding:11px;border-radius:50%;background:var(--panel-3);box-sizing:border-box;color:var(--accent)}
+.info-sec{margin-top:10px;background:var(--panel);border-top:8px solid var(--bg)}
+.info-sec-h{display:flex;justify-content:space-between;padding:12px 16px 8px;font-size:13px;color:var(--dim);font-weight:600}
+.info-sec-h b{color:var(--text);font-weight:700}
+.txt{font-size:14.6px;line-height:1.45;white-space:pre-wrap;word-break:break-word;color:var(--text)}
+.gap{display:inline-block;width:58px;height:16px}
+.line.me .gap{width:72px}
+.stamp{position:absolute;bottom:7px;left:11px;display:flex;align-items:center;gap:3px;font-size:11px;color:var(--dim-2);white-space:nowrap;letter-spacing:.2px}
+.stamp svg{width:15px;height:15px}
+.stamp .ok2{color:var(--seen)}
+.stamp .soon{color:var(--warn)}
+
+.rx{position:absolute;bottom:-12px;inset-inline-start:9px;display:flex;gap:3px;z-index:2}
+.rx button{background:var(--panel);border:1.5px solid var(--bg);border-radius:11px;height:22px;padding:0 6px;font-size:12px;display:flex;align-items:center;gap:3px;box-shadow:var(--shade-1);transition:transform .12s var(--ease)}
+.rx button:hover{transform:translateY(-1px)}
+.rx button.on{background:#E3EFFF;border-color:#E3EFFF}
+.rx .c{font-size:10.5px;color:var(--dim)}
+
+.pull{position:absolute;top:0;inset-inline-end:0;width:30px;height:26px;display:grid;place-items:center;color:var(--dim);opacity:0;transition:opacity .13s var(--ease);border-start-end-radius:15px;
+  background:linear-gradient(to left,var(--in) 58%,transparent)}
+.line.me .pull{background:linear-gradient(to left,#DCEBFF 58%,transparent)}
+.bub:hover .pull,.pull:focus-visible{opacity:1}
+.emos{position:absolute;top:-46px;inset-inline-end:-4px;background:var(--panel);border-radius:26px;padding:5px 8px;display:flex;gap:3px;box-shadow:var(--shade-3);z-index:9;border:1px solid var(--edge)}
+.emos button{width:32px;height:32px;border-radius:50%;font-size:19px;display:grid;place-items:center;transition:transform .13s var(--ease)}
+.emos button:hover{transform:scale(1.25)}
+.emos button.on{background:#E3EFFF}
+
+.play{background:var(--panel-2);border-radius:14px;padding:11px;margin-bottom:5px;border:1px solid var(--edge)}
+.play-h{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--accent);margin-bottom:9px;letter-spacing:.1px}
+.net{display:grid;grid-template-columns:repeat(3,46px);gap:5px;justify-content:center}
+.sq{height:46px;background:var(--panel);border-radius:10px;font-size:22px;font-weight:800;transition:background .12s var(--ease);border:1px solid var(--edge)}
+.sq:hover:not([disabled]){background:#E3EFFF}
+.sq[disabled]{cursor:default}
+.sq.x{color:#EF4444}
+.sq.o{color:var(--accent)}
+.play-s{margin-top:9px;font-size:11.5px;color:var(--dim);text-align:center}
+
+.tap{height:24px;padding:0 6% 3px;font-size:12.5px;color:var(--accent);display:flex;align-items:center;gap:7px;flex:none}
+.blips{display:inline-flex;gap:3px}
+.blips i{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:beat 1.25s infinite}
+.blips i:nth-child(2){animation-delay:.18s}
+.blips i:nth-child(3){animation-delay:.36s}
+@keyframes beat{0%,58%,100%{opacity:.25}28%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.blips i{animation:none;opacity:.65}}
+
+.write{flex:none;background:var(--panel);padding:8px 16px 10px;border-top:1px solid var(--edge)}
+.write-row{display:flex;align-items:flex-end;gap:8px}
+.box{flex:1;background:var(--panel-2);border-radius:22px;padding:9px 16px;min-width:0;transition:box-shadow .18s var(--ease);border:1px solid var(--edge)}
+.box:focus-within{box-shadow:0 0 0 2px rgba(59,130,246,.18);border-color:var(--accent)}
+.box textarea{width:100%;resize:none;max-height:112px;font-size:14.6px;line-height:1.42;display:block;color:var(--text)}
+.box textarea:focus{outline:none}
+.box textarea::placeholder{color:var(--dim-2)}
+.go{width:44px;height:44px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;flex:none;
+  transition:filter .15s var(--ease),transform .12s var(--ease);box-shadow:0 6px 16px rgba(59,130,246,.35)}
+.go:hover{filter:brightness(1.06)}
+.go:active{transform:scale(.9)}
+.clock-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;background:var(--panel-2);border-radius:12px;padding:9px 13px;margin-bottom:6px;font-size:12.5px;color:var(--dim);border:1px solid var(--edge)}
+.clock-row svg{color:var(--warn)}
+.clock-row input{background:var(--panel);border-radius:7px;padding:5px 9px;font-size:12.5px;border:1px solid var(--edge);color:var(--text)}
+.clock-row input:focus{outline:1px solid var(--accent)}
+.pad-row{background:var(--panel-2);border-radius:12px;padding:8px 10px;margin-bottom:6px;display:flex;flex-wrap:wrap;gap:2px;border:1px solid var(--edge)}
+.pad-row button{width:36px;height:36px;border-radius:9px;font-size:20px;display:grid;place-items:center;transition:background .12s var(--ease),transform .1s var(--ease)}
+.pad-row button:hover{background:var(--panel);transform:scale(1.1)}
+.sticker-row button{width:54px;height:54px;border-radius:10px}
+.sticker-row img{width:44px;height:44px}
+
+/* ═══ نافذة ═══ */
+.veil{position:fixed;inset:0;background:rgba(20,30,50,.4);display:grid;place-items:center;padding:20px;z-index:40;animation:in .16s var(--ease);backdrop-filter:blur(3px)}
+@keyframes in{from{opacity:0}to{opacity:1}}
+.sheet{width:min(428px,100%);background:var(--panel);border-radius:22px;box-shadow:var(--shade-3);overflow:hidden;display:flex;flex-direction:column;max-height:min(570px,86vh);
+  border:1px solid var(--edge);animation:sheet-in .2s var(--ease)}
+@keyframes sheet-in{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+.sheet-h{background:var(--panel);padding:0 16px;height:58px;display:flex;align-items:center;gap:15px;flex:none;border-bottom:1px solid var(--edge)}
+.sheet-h b{font-family:var(--display);font-size:17px;font-weight:800;color:var(--text)}
+.seg{display:flex;padding:8px 10px 0;gap:2px;flex:none;border-bottom:1px solid var(--edge)}
+.seg button{flex:1;padding:9px 2px;font-size:12.5px;color:var(--dim);border-bottom:2px solid transparent;transition:color .15s var(--ease),border-color .15s var(--ease);white-space:nowrap;font-weight:600}
+.seg button:hover{color:var(--text)}
+.seg button.on{color:var(--accent);border-bottom-color:var(--accent)}
+.sheet-b{overflow-y:auto;flex:1}
+.txt-fld{padding:10px 16px}
+.txt-fld input{width:100%;background:var(--panel-2);border-radius:11px;padding:11px 13px;font-size:14px;border:1px solid var(--edge);transition:box-shadow .15s var(--ease);color:var(--text)}
+.txt-fld input:focus{outline:none;box-shadow:0 0 0 2px rgba(59,130,246,.18);border-color:var(--accent)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px}
+.tags .one{background:var(--panel-2);border-radius:14px;padding:4px 6px 4px 11px;display:flex;align-items:center;gap:7px;font-size:13px;border:1px solid var(--edge)}
+.tags .one button{color:var(--dim);display:grid;place-items:center}
+.tags .one button:hover{color:var(--text)}
+.sheet-f{padding:12px 16px 14px;flex:none;border-top:1px solid var(--edge)}
+.mark{width:22px;height:22px;border-radius:50%;border:2px solid var(--dim-2);display:grid;place-items:center;flex:none;color:transparent;transition:all .15s var(--ease)}
+.mark.on{background:var(--grad);border-color:transparent;color:#fff}
+.set-row{display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;font-size:14.5px;color:var(--text);transition:background .12s var(--ease)}
+.set-row:hover{background:var(--panel-2)}
+.set-row svg{color:var(--dim)}
+.set-row.bad{color:var(--bad)}
+.set-row.bad svg{color:var(--bad)}
+.set-note{display:flex;gap:10px;padding:10px 16px 16px;font-size:12px;color:var(--dim);line-height:1.65}
+.set-note svg{color:var(--dim-2);margin-top:2px;flex:none}
+
+/* شريط التنقّل السفلي — يظهر بس على الجوال بشاشة قائمة المحادثات */
+.tabbar{display:none}
+
+@media (max-width:820px){
+  .side{width:100%;max-width:100%;border:none;padding-bottom:64px}
+  .app.deep .side{display:none}
+  .app:not(.deep) .main{display:none}
+  .back{display:grid}
+  .bub{max-width:83%}
+  .feed{padding-inline:11px}
+  .tap{padding-inline:12px}
+  .write{padding-inline:9px}
+  .auth-card{padding:32px 24px 34px;border-radius:18px}
+  .auth-top{height:150px}
+  .auth-wrap{margin-top:-90px}
+  .app:not(.deep) .tabbar{display:flex}
+}
+.tabbar{position:fixed;bottom:0;inset-inline:0;height:64px;background:var(--panel);border-top:1px solid var(--edge);
+  align-items:stretch;z-index:20;box-shadow:0 -4px 16px rgba(30,50,90,.06)}
+.tabbtn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--dim-2);position:relative;transition:color .15s var(--ease)}
+.tabbtn svg{width:22px;height:22px}
+.tabbtn span{font-size:10.5px;font-weight:700}
+.tabbtn.on{color:var(--accent)}
+.tabbtn.on::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:26px;height:3px;background:var(--accent);border-radius:0 0 4px 4px}
+
+/* ═══ إضافات النسخة الأونلاين ═══ */
+.pulse{width:8px;height:8px;border-radius:50%;flex:none;box-shadow:0 0 0 3px rgba(255,255,255,.7)}
+.pulse.up{background:var(--online)}
+.pulse.mid{background:var(--warn);animation:blink 1s infinite}
+.pulse.down{background:var(--bad)}
+@keyframes blink{50%{opacity:.3}}
+.net-row{display:flex;align-items:center;gap:8px;padding:9px 14px;font-size:12px;color:var(--dim);background:var(--panel-2);border-bottom:1px solid var(--edge)}
+.net-row button{color:var(--accent);font-weight:700}
+.net-row button:hover{text-decoration:underline}
+.code-box{display:flex;align-items:center;gap:8px;background:var(--panel-2);border-radius:12px;padding:11px 14px;border:1px solid var(--edge)}
+.code-box b{flex:1;font-family:monospace;font-size:15px;font-weight:800;letter-spacing:.6px;direction:ltr;text-align:center;color:var(--accent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.code-box button{color:var(--accent);flex:none;transition:color .12s var(--ease)}
+.code-box button:hover{color:var(--accent-hi)}
+.fld-lab{display:block;font-size:12px;color:var(--dim);margin-bottom:6px}
+.fld-lab.row{display:flex;align-items:center}
+.hint-line{margin:2px 16px 6px;font-size:11.5px;color:var(--dim);line-height:1.6}
+.gen{color:var(--accent);font-size:12.5px;font-weight:700;margin-inline-start:auto}
+.gen:hover{text-decoration:underline}
+
+/* ═══ المكالمات ═══ */
+.call-screen{position:fixed;inset:0;z-index:60;background:radial-gradient(circle at 50% 15%,#2D2050,#160F26 70%) #160F26;background-size:cover;background-position:center;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:70px 24px 52px;overflow:hidden}
+.call-bg-shade{position:absolute;inset:-20px;backdrop-filter:blur(38px) saturate(1.3);-webkit-backdrop-filter:blur(38px) saturate(1.3);background:linear-gradient(180deg,rgba(15,9,26,.55),rgba(15,9,26,.82) 60%,rgba(15,9,26,.94));z-index:0}
+.call-who{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:auto}
+.call-who b{color:#fff;font-size:25px;font-weight:800;letter-spacing:-.2px;text-shadow:0 2px 12px rgba(0,0,0,.3)}
+.call-who span{color:rgba(255,255,255,.62);font-size:14px;font-weight:500}
+.call-photo-ring{width:128px;height:128px;border-radius:50%;padding:4px;background:linear-gradient(155deg,rgba(255,255,255,.5),rgba(255,255,255,.08));box-shadow:0 22px 50px rgba(0,0,0,.45);animation:call-pulse 2.2s ease-in-out infinite}
+@keyframes call-pulse{0%,100%{box-shadow:0 22px 50px rgba(0,0,0,.45),0 0 0 0 rgba(255,255,255,.14)}50%{box-shadow:0 22px 50px rgba(0,0,0,.45),0 0 0 12px rgba(255,255,255,0)}}
+@media (prefers-reduced-motion:reduce){.call-photo-ring{animation:none}}
+.call-photo-ring .avatar,.call-photo-ring .call-photo{width:100%;height:100%;border-radius:50%}
+.call-photo{object-fit:cover;display:block;background:#241331}
+.call-photo-ring .avatar{font-size:42px}
+.call-actions{position:relative;z-index:1;display:flex;gap:30px;margin-top:auto;padding-top:44px}
+.call-btn-wrap{display:flex;flex-direction:column;align-items:center;gap:9px}
+.call-btn-wrap span{color:rgba(255,255,255,.68);font-size:11.5px;font-weight:600}
+.call-btn{width:66px;height:66px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);color:#fff;transition:transform .14s var(--ease),filter .15s var(--ease);box-shadow:0 8px 20px rgba(0,0,0,.28)}
+.call-btn:hover{transform:translateY(-2px) scale(1.04);filter:brightness(1.08)}
+.call-btn:active{transform:scale(.92)}
+.call-btn.on{background:#fff;color:#241331;border-color:#fff}
+.call-btn.bad{background:linear-gradient(155deg,#FF6B6E,#D6353F);border-color:transparent;box-shadow:0 10px 26px rgba(214,53,63,.45)}
+.call-btn.ok{background:linear-gradient(155deg,#3FE08B,#1FA35A);border-color:transparent;box-shadow:0 10px 26px rgba(31,163,90,.45)}
+.call-swipe{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;width:236px;height:68px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:34px;padding:0 7px;margin:20px auto 0;box-shadow:inset 0 2px 6px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.3)}
+.call-swipe-side{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;color:#fff;opacity:.65;transition:opacity .15s var(--ease)}
+.call-swipe-side.bad{background:rgba(214,53,63,.32)}
+.call-swipe-side.ok{background:rgba(31,163,90,.32)}
+.call-handle{position:absolute;top:7px;left:50%;margin-left:-27px;width:54px;height:54px;border-radius:50%;background:linear-gradient(155deg,#fff,#F1EEFB);color:#241331;display:grid;place-items:center;touch-action:none;cursor:grab;box-shadow:0 6px 18px rgba(0,0,0,.4);transition:background .15s var(--ease)}
+.call-hint{position:relative;z-index:1;color:rgba(255,255,255,.45);font-size:11.5px;text-align:center;margin:12px 0 0;letter-spacing:.1px}
+.call-screen.vid{padding:0;justify-content:flex-end;background-image:none !important}
+.call-screen.vid .call-who{position:absolute;top:40px;left:0;right:0;margin:0;z-index:2}
+.call-screen.vid .call-actions{position:relative;z-index:2;padding-bottom:10px;background:linear-gradient(to top,rgba(0,0,0,.65),transparent);width:100%;padding-top:56px}
+.call-remote{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
+.call-local{position:absolute;top:48px;left:16px;width:100px;height:136px;border-radius:16px;object-fit:cover;background:#000;box-shadow:0 8px 22px rgba(0,0,0,.5);z-index:2;border:2px solid rgba(255,255,255,.3)}
+</style>
+
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.15.2/mqtt.min.js"></script>
+<script>
+/* ══════════════════════════════════════════════════════════
+   هلا شات — النسخة الأونلاين
+   يتصل بسيرفر MQTT خاص فينا (Render، فئة مجانية) بدل بروكر عام
+   مشترك. بدون حساب، بدون تسجيل من طرف المستخدم.
+
+   القيود اللي لازم تعرفها:
+   - رمز الغرفة هو الحماية الوحيدة — أي أحد يعرفه يقدر يدخلها.
+     اختر رمز طويل وغريب، وما تحطون فيها معلومات حسّاسة.
+   - الفئة المجانية من Render تنيّم السيرفر بعد ١٥ دقيقة سكون.
+     أول رسالة بعد فترة سكون تاخذ نص دقيقة لين يصحى.
+   ══════════════════════════════════════════════════════════ */
+
+var BROKER = 'wss://hala-chat-jh6w.onrender.com';   // سيرفرنا الخاص، بدل البروكر العام
+var AQUA_URL = BROKER.replace(/^wss:\/\//, 'https://').replace(/^ws:\/\//, 'http://') + '/aqua';
+var AQUA_CODE = '__aqua__';
+var AQUA_MSGS = (function () { try { return JSON.parse(box.get('hala.aqua') || '[]'); } catch (e) { return []; } })();
+function saveAqua() {
+  var trimmed = AQUA_MSGS.length > 200 ? AQUA_MSGS.slice(AQUA_MSGS.length - 200) : AQUA_MSGS;
+  box.set('hala.aqua', JSON.stringify(trimmed));
+}
+function sendToAqua(text) {
+  AQUA_MSGS.push({ who: 'me', text: text, t: Date.now() });
+  saveAqua();
+  V.aquaBusy = true; V.aquaErr = '';
+  paint();
+  fetch(AQUA_URL, { method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ who: ME.id, text: text }) })
+    .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+    .then(function (res) {
+      V.aquaBusy = false;
+      if (!res.ok) { V.aquaErr = (res.d && res.d.error) || 'صار خطأ، جرّب بعدين'; paint(); return; }
+      AQUA_MSGS.push({ who: 'aqua', text: res.d.reply, t: Date.now() });
+      saveAqua();
+      paint();
+    })
+    .catch(function () {
+      V.aquaBusy = false; V.aquaErr = 'ما قدرنا نوصل لأكوا — تأكد من الإنترنت';
+      paint();
+    });
+}
+var NS = 'halachat9x';   // بادئة تميّز رسائلنا عن غيرنا على نفس البروكر العام
+
+/* هاش بسيط (FNV-1a) يحوّل رمز الغرفة إلى مقطع صالح لموضوع MQTT
+   — ليس تشفيراً، مجرد تعمية شكلية */
+function fnv(s) {
+  var h = 0x811c9dc5;
+  for (var i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = (h * 0x01000193) >>> 0;
+  }
+  return h.toString(16);
+}
+function roomTopic(code) { return NS + '/' + fnv(String(code).trim().toLowerCase()); }
+var ROOM_HUES = ['#C97B4A','#7C5A94','#4A8B7C','#B8763F','#9C5470','#5C7A9C','#8A9C4A','#A85C8C'];
+function roomHue(code) { var h = fnv(String(code).trim().toLowerCase()); return ROOM_HUES[parseInt(h.slice(0, 4), 16) % ROOM_HUES.length]; }
+
+/* ---------- هوية الجهاز ---------- */
+var cache = {};
+var box = {
+  get: function (k) { try { return localStorage.getItem(k); } catch (e) { return cache[k] || null; } },
+  set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { cache[k] = v; } }
+};
+
+function uid() { return Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
+var ME = (function () {
+  try { var r = JSON.parse(box.get('hala.me') || 'null'); if (r && r.id && r.name && r.username) return r; } catch (e) {}
+  return null;
+})();
+var HUES = ['#7C5A94', '#A85C8C', '#4A8B7C', '#B8763F', '#9C5470', '#C97B4A', '#5C7A9C', '#8A9C4A'];
+
+/* تشفير كلمة السر: نستخدم SubtleCrypto (مدمجة بالمتصفح، صفر مكتبات
+   خارجية) — الرمز السري نفسه ما يُنشر أبداً، بس بصمته (هاش). هذا
+   أفضل من نص عادي، بس خلّك صريح مع نفسك: هذا مستوى حماية "مشروع
+   شخصي"، مو مستوى بنك — لأنه بدون سيرفر حقيقي يحد محاولات الدخول. */
+function hashPassword(username, password) {
+  var enc = new TextEncoder();
+  var data = enc.encode('halasalt9x:' + username.toLowerCase() + ':' + password);
+  return crypto.subtle.digest('SHA-256', data).then(function (buf) {
+    return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+  });
+}
+
+/* دليل الحسابات: كل حساب يُنشر برسالة محفوظة (retained) على
+   NS/acct/<username> — أي أحد يشترك بنفس الموضوع يشوفها فوراً. هذا
+   يغنينا عن قاعدة بيانات منفصلة؛ نفس البروكر اللي عندنا يكفي كدليل. */
+var PENDING_LOOKUPS = {};   // username -> [callback,...]
+function lookupAccount(username, timeoutMs, cb) {
+  if (!CLIENT) { cb(null); return; }
+  var topic = NS + '/acct/' + username;
+  var settled = false;
+  function settle(data) {
+    if (settled) return;
+    settled = true;
+    if (CLIENT) CLIENT.unsubscribe(topic);
+    cb(data);
+  }
+  (PENDING_LOOKUPS[username] = PENDING_LOOKUPS[username] || []).push(settle);
+  CLIENT.subscribe(topic);
+  setTimeout(function () { settle(null); }, timeoutMs);
+}
+function resolveLookup(username, data) {
+  var list = PENDING_LOOKUPS[username];
+  if (!list) return;
+  delete PENDING_LOOKUPS[username];
+  list.forEach(function (fn) { fn(data); });
+}
+
+var USERNAME_RE = /^[a-z0-9_]{3,20}$/;
+
+// إنشاء حساب: نتأكد الاسم متاح، نشفّر الرمز السري، وننشر الحساب —
+// كل هذا بعد ما تكتمل خطوات نص متزامنة (اتصال + تشفير + بحث).
+function register(username, password, name, avatar, onError) {
+  username = String(username || '').trim().toLowerCase();
+  if (!USERNAME_RE.test(username)) { onError('اسم المستخدم لازم يكون ٣-٢٠ حرف إنجليزي صغير أو رقم أو _'); return; }
+  if (String(password || '').length < 6) { onError('الرمز السري لازم ٦ خانات على الأقل'); return; }
+  if (!name || name.trim().length < 2) { onError('اكتب اسمك اللي يشوفه صاحبك'); return; }
+  REGISTERING = true;
+  ensureLink();
+  var tries = 0;
+  function waitLink() {
+    tries++;
+    if (!CLIENT || LINK !== 'up') {
+      if (tries > 16) { REGISTERING = false; onError('ما قدرنا نتصل بالشبكة. تأكد من الإنترنت وحاول مرة ثانية.'); paint(); return; }
+      setTimeout(waitLink, 300);
+      return;
+    }
+    lookupAccount(username, 900, function (existing) {
+      if (existing) { REGISTERING = false; onError('اسم المستخدم محجوز، جرّب غيره'); paint(); return; }
+      hashPassword(username, password).then(function (hash) {
+        var cid = uid();
+        var hue = HUES[Math.floor(Math.random() * HUES.length)];
+        var acct = { passHash: hash, id: cid, name: name.trim(), hue: hue, avatar: avatar || null };
+        safePublish(NS + '/acct/' + username, JSON.stringify(acct), { qos: 1, retain: true });
+        ME = { id: cid, username: username, name: name.trim(), hue: hue, avatar: avatar || null };
+        box.set('hala.me', JSON.stringify(ME));
+        if (CLIENT) CLIENT.subscribe(NS + '/inbox/' + ME.username);
+        REGISTERING = false; V.authBusy = false;
+        paint();
+        if (V.notifOn) subscribeToPush();
+      });
+    });
+  }
+  waitLink();
+}
+
+// تسجيل الدخول: نلقى الحساب بالدليل، نشفّر الرمز اللي كتبه، ونقارنه
+// بالمخزّن. لو تطابق، نرجّع نفس الحساب لهذا الجهاز.
+function login(username, password, onError) {
+  username = String(username || '').trim().toLowerCase();
+  if (!username || !password) { onError('اكتب اسم المستخدم والرمز السري'); return; }
+  REGISTERING = true;
+  ensureLink();
+  var tries = 0;
+  function waitLink() {
+    tries++;
+    if (!CLIENT || LINK !== 'up') {
+      if (tries > 16) { REGISTERING = false; onError('ما قدرنا نتصل بالشبكة. تأكد من الإنترنت وحاول مرة ثانية.'); paint(); return; }
+      setTimeout(waitLink, 300);
+      return;
+    }
+    lookupAccount(username, 1800, function (acct) {
+      if (!acct) { REGISTERING = false; onError('ما فيه حساب بهذا الاسم'); paint(); return; }
+      hashPassword(username, password).then(function (hash) {
+        if (hash !== acct.passHash) { REGISTERING = false; onError('الرمز السري غلط'); paint(); return; }
+        ME = { id: acct.id, username: username, name: acct.name, hue: acct.hue, avatar: acct.avatar || null };
+        box.set('hala.me', JSON.stringify(ME));
+        if (CLIENT) CLIENT.subscribe(NS + '/inbox/' + ME.username);
+        REGISTERING = false; V.authBusy = false;
+        paint();
+        if (V.notifOn) subscribeToPush();
+      });
+    });
+  }
+  waitLink();
+}
+
+function updateProfile(name, avatar) {
+  ME.name = name;
+  if (avatar !== undefined) ME.avatar = avatar;
+  box.set('hala.me', JSON.stringify(ME));
+  // نحدّث الاسم والصورة بالدليل بدون ما نلمس بصمة الرمز السري —
+  // نجيبها كما هي من آخر شي نعرفه (ما نملك كشفها، وما نحتاجها هنا أصلاً
+  // إلا وقت التحقق من الدخول)، فننشر نسخة مؤقتة بالأشياء العلنية بس
+  // ونعتمد إن أي جهاز يسجّل دخول لاحقاً يقرأها من آخر نسخة محفوظة.
+  lookupAccount(ME.username, 900, function (acct) {
+    var merged = { passHash: acct ? acct.passHash : undefined, id: ME.id, name: ME.name, hue: ME.hue, avatar: ME.avatar || null };
+    safePublish(NS + '/acct/' + ME.username, JSON.stringify(merged), { qos: 1, retain: true });
+  });
+}
+var REGISTERING = false;
+var BANNED_MSG = '';
+
+// الخروج: ننسى هويتك المحلية كاملة وغرفك، ونرجع لشاشة تسجيل الدخول.
+// حسابك يبقى موجود على الشبكة — ترجع له بالاسم والرمز السري من أي جهاز.
+function logout() {
+  if (CLIENT) { try { CLIENT.end(true); } catch (e) {} }
+  CLIENT = null; LINK = 'down'; SUBBED = {};
+  MSGS = {}; GAMES = {}; TAPS = {}; SEEN_UPTO = {}; PEER_SEEN = {}; PRESENCE = {}; PENDING_LOOKUPS = {}; ANIMATED_MSGS = {};
+  ROOMS = [];
+  box.set('hala.me', 'null');
+  box.set('hala.rooms', '[]');
+  box.set('hala.seen', '{}');
+  ME = null; REGISTERING = false;
+  V.open = null; V.sheet = false; V.profileSheet = false; V.settingsSheet = false; V.menu = false;
+  // علم "مشغول" كان يعلق true بعد أول نجاح تسجيل (ما يترجع إلا بمسار
+  // الخطأ)، ولو ما صفّرناه هنا، أي محاولة دخول بعد الخروج تنرفض بصمت.
+  V.authBusy = false; V.authErr = ''; V.authTab = 'login';
+  V.loginUsername = ''; V.loginPass = ''; V.regUsername = ''; V.regPass = ''; V.regName = ''; V.regAvatar = null;
+}
+
+// نصغّر أي صورة يختارها المستخدم لمربّع صغير قبل الإرسال —
+// بدون هذا، صورة عادية من الكاميرا تكون ميجابايتات وتكسر حد حجم الرسالة
+function shrinkImage(file, size, cb) {
+  var reader = new FileReader();
+  reader.onload = function () {
+    var img = new Image();
+    img.onload = function () {
+      try {
+        var canvas = document.createElement('canvas');
+        canvas.width = size; canvas.height = size;
+        var ctx = canvas.getContext('2d');
+        var s = Math.min(img.width, img.height);
+        var sx = (img.width - s) / 2, sy = (img.height - s) / 2;
+        ctx.drawImage(img, sx, sy, s, s, 0, 0, size, size);
+        cb(canvas.toDataURL('image/jpeg', 0.72));
+      } catch (e) { cb(null); }
+    };
+    img.onerror = function () { cb(null); };
+    img.src = reader.result;
+  };
+  reader.onerror = function () { cb(null); };
+  reader.readAsDataURL(file);
+}
+
+function loadRooms() { try { return JSON.parse(box.get('hala.rooms') || '[]'); } catch (e) { return []; } }
+function saveRooms(list) { box.set('hala.rooms', JSON.stringify(list)); }
+
+/* حفظ محلي للرسائل والألعاب — نسخة احتياطية على جهازك.
+   حتى لو تقطّع الاتصال بالشبكة أو تأخرت، تفتح المحادثة وتشوف
+   آخر شي وصلك فوراً بدون ما تنتظر البروكر. سقف ٤٠٠ رسالة لكل غرفة
+   عشان التخزين المحلي ما يكبر بلا حدود. */
+function saveMsgs(hash) {
+  var list = MSGS[hash] || [];
+  var trimmed = list.length > 400 ? list.slice(list.length - 400) : list;
+  box.set('hala.msgs.' + hash, JSON.stringify(trimmed));
+}
+function loadMsgs(hash) {
+  try { return JSON.parse(box.get('hala.msgs.' + hash) || '[]'); } catch (e) { return []; }
+}
+function saveGames(hash) {
+  var mine = {};
+  for (var id in GAMES) if (GAMES[id].r === hash) mine[id] = GAMES[id];
+  box.set('hala.games.' + hash, JSON.stringify(mine));
+}
+function loadGames(hash) {
+  try {
+    var saved = JSON.parse(box.get('hala.games.' + hash) || '{}');
+    for (var id in saved) GAMES[id] = saved[id];
+  } catch (e) {}
+}
+
+/* ---------- حالة التطبيق (كل شي هنا مؤقت بالذاكرة، يتغذى من البروكر) ---------- */
+var ROOMS = loadRooms();                 // [{code, title}]
+var MSGS = {};                            // topic-hash -> [msg,...]
+var ANIMATED_MSGS = {};                   // id -> true — لمنع تكرار حركة الدخول بكل إعادة رسم
+var GAMES = {};                           // gameId -> game
+var TAPS = {};                            // topic-hash -> {clientId:{name,at}}
+// عدّاد غير المقروء يعتمد عليه — لو ضاع بعد الريفريش، أي غرفة آخر
+// رسالة فيها من شخص ثاني تبين "غير مقروءة" حتى لو قريتها من زمان.
+var SEEN_UPTO = (function () {
+  try { return JSON.parse(box.get('hala.seen') || '{}'); } catch (e) { return {}; }
+})();
+var PEER_SEEN = {};                       // topic-hash -> {clientId: ts} (مبثوثة عبر الشبكة، لعلامة الصح المزدوج)
+var PRESENCE = {};                        // topic-hash -> {clientId: ts آخر نبضة} — عشان نعرف صاحبك متصل الآن ولا لا
+// الحظر: قائمة أسماء مستخدمين محفوظة بجهازك بس (مو بالسيرفر) — لو حظرت
+// حد، رسائله تختفي عندك أنت بس، هو ما يعرف ولا يتأثر عنده شي.
+var BLOCKED = (function () { try { return JSON.parse(box.get('hala.blocked') || '[]'); } catch (e) { return []; } })();
+function saveBlocked() { box.set('hala.blocked', JSON.stringify(BLOCKED)); }
+function isBlocked(username) { return !!username && BLOCKED.indexOf(username) >= 0; }
+function blockUser(username) {
+  if (!username || isBlocked(username)) return;
+  BLOCKED.push(username);
+  saveBlocked();
+}
+function unblockUser(username) {
+  var i = BLOCKED.indexOf(username);
+  if (i >= 0) { BLOCKED.splice(i, 1); saveBlocked(); paint(); }
+}
+var CALL = null;                          // null لما ما فيه مكالمة، وإلا كائن فيه كل حالتها (شرح تفصيلي بالأسفل)
+// STUN بس ما يكفي لبعض الشبكات (خصوصاً شبكات الجوال المقيّدة) — بدونه
+// المتصفح يضل يحاول ويحاول لين يوصل لطريق مباشر، وهذا اللي كان يسبب
+// التأخر الطويل قبل ما تقدروا تسمعون بعض. أضفنا TURN مجاني (Open Relay)
+// كخط احتياط فوري — بيانات وصوله منشورة للعموم، ما يحتاج تسجيل.
+var ICE_SERVERS = [
+  { urls: 'stun:stun.l.google.com:19302' },
+  { urls: 'stun:stun1.l.google.com:19302' },
+  { urls: 'stun:stun.relay.metered.ca:80' },
+  { urls: 'turn:global.relay.metered.ca:80', username: 'openrelayproject', credential: 'openrelayproject' },
+  { urls: 'turn:global.relay.metered.ca:80?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject' },
+  { urls: 'turn:global.relay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' },
+  { urls: 'turns:global.relay.metered.ca:443?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject' }
+];
+var ICE_FETCHED = false;
+function refreshIceServers() {
+  if (typeof fetch === 'undefined') return Promise.resolve();
+  var iceUrl = BROKER.replace(/^wss:\/\//, 'https://').replace(/^ws:\/\//, 'http://') + '/ice';
+  return fetch(iceUrl).then(function (r) { return r.json(); }).then(function (d) {
+    if (d && Array.isArray(d.iceServers) && d.iceServers.length) {
+      // نضيف سيرفر الترحيل فوق الـ STUN الافتراضي (ما نستبدله) — أي
+      // مساعدة إضافية تفيد، وحتى لو صار فيها خلل، الـ STUN يبقى شغّال.
+      ICE_SERVERS = [{ urls: 'stun:stun.l.google.com:19302' }].concat(d.iceServers);
+    }
+    ICE_FETCHED = true;
+  }).catch(function () { ICE_FETCHED = true; });
+}
+
+var LINK = 'down';                        // down | mid | nolib | up
+var CLIENT = null;
+var SUBBED = {};                          // topic-hash already subscribed?
+
+// نشر آمن: أي فشل غير متوقع بمكتبة الاتصال (مو مشكلة الشبكة العادية،
+// اللي أصلاً المكتبة تتعامل معها) يُسجَّل بس، وما يوقف باقي الكود.
+function safePublish(topic, payload, opts) {
+  if (!CLIENT) return;
+  try { CLIENT.publish(topic, payload, opts); }
+  catch (e) { console.error('فشل الإرسال:', e && e.message); }
+}
+
+function ensureLink() {
+  if (CLIENT) return;
+  if (!ME && !REGISTERING) return;
+  // لو مكتبة الاتصال ما حمّلت (نت بطيء، أو الشبكة تحجب الروابط الخارجية)،
+  // ما نخلي الصفحة كلها تنهار — نعرض حالة واضحة بدالها.
+  if (typeof mqtt === 'undefined' || !mqtt || typeof mqtt.connect !== 'function') {
+    LINK = 'nolib';
+    return;
+  }
+  LINK = 'mid';
+  var cid = ME ? ME.id : ('anon-' + uid());
+  try {
+    CLIENT = mqtt.connect(BROKER, { clientId: NS + '-' + cid, clean: true, connectTimeout: 8000, reconnectPeriod: 2500 });
+  } catch (e) {
+    LINK = 'nolib';
+    CLIENT = null;
+    return;
+  }
+
+  // البروكر يرجّع لنا رسائلنا نفسها لأننا مشتركين بنفس الموضوع اللي ننشر عليه.
+  // clean:true يعني الاشتراكات تنمسح من عند البروكر عند أي قطع اتصال،
+  // فلازم نعيد الاشتراك من الصفر كل مرة يتصل فيها الجهاز (أول مرة أو بعد انقطاع).
+  CLIENT.on('connect', function () {
+    LINK = 'up'; SUBBED = {}; ROOMS.forEach(subRoom); heartbeat(); paint();
+    // نشترك بصندوقنا الخاص — هذا اللي يوصلنا فيه إشعار لو حد ضافنا
+    // كصديق، حتى لو إحنا ما ضفناه هو بعد.
+    if (ME && ME.username) CLIENT.subscribe(NS + '/inbox/' + ME.username);
+    // نشترك بقائمة المحظورين العامة — لو اسمي ظهر فيها، معناته الأدمن
+    // حظرني بسبب بلاغ حقيقي، ونطلع من التطبيق فوراً بدل ما نكمل نستخدمه.
+    CLIENT.subscribe(NS + '/banned');
+    // أول ما نتصل (خصوصاً بعد ريفريش)، البروكر يرجّع كل الرسائل القديمة
+    // المحفوظة — حتى اللي أنا نفسي أرسلتها أو حذفتها أو عدّلتها من قبل.
+    // خلال هذي الفترة بس، ما نطلق أي تنبيه — بعدها نرجع نتنبّه عادي
+    // بس على الشي اللي يوصل فعلاً جديد وأنت متصل.
+    JUST_SYNCED = true;
+    clearTimeout(syncTimer);
+    syncTimer = setTimeout(function () { JUST_SYNCED = false; }, 3000);
+  });
+  CLIENT.on('reconnect', function () { LINK = 'mid'; paint(); });
+  CLIENT.on('close', function () { LINK = 'down'; paint(); });
+  CLIENT.on('offline', function () { LINK = 'down'; paint(); });
+  CLIENT.on('error', function () { LINK = 'down'; paint(); });
+
+  /* لما تفتح غرفة فيها تاريخ طويل، البروكر يرجّع كل الرسائل المحفوظة
+     دفعة وحدة خلال أجزاء من الثانية. لو رسمنا الشاشة كاملة مع كل
+     رسالة توصل لحالها، الشاشة تتجمّد لحظة — وهذا بالضبط سبب التعليق
+     اللي تشوفه. الحل: نجمع كل التحديثات اللي توصل بسرعة ونرسم مرة
+     وحدة بعدها، بدل ما نرسم عشرات المرات خلال نفس الثانية. */
+  var paintTimer = null;
+  var dirtyMsgs = {}, dirtyGames = {};
+  function paintSoon(msgHash, gameHash) {
+    if (msgHash) dirtyMsgs[msgHash] = true;
+    if (gameHash) dirtyGames[gameHash] = true;
+    clearTimeout(paintTimer);
+    paintTimer = setTimeout(function () {
+      paintTimer = null;
+      for (var h in dirtyMsgs) saveMsgs(h);
+      for (var h2 in dirtyGames) saveGames(h2);
+      dirtyMsgs = {}; dirtyGames = {};
+      paint();
+    }, 40);
+  }
+
+  CLIENT.on('message', function (topic, buf) {
+    var parts = topic.split('/');           // NS / hash-أو-dir / kind / ...
+    var raw = buf.toString();
+    var data = null;
+    try { data = raw ? JSON.parse(raw) : null; } catch (e) { return; }
+
+    // موضوع دليل الحسابات له شكل مختلف: NS/acct/<username> — نعالجه هنا
+    // ونطلع قبل أي شي يحتاج ME (ممكن نكون لسا بمنتصف التسجيل).
+    if (parts[1] === 'acct') { resolveLookup(parts[2], data); return; }
+
+    // قائمة الحظر: لو اسمي فيها، معناته أدمن التطبيق حظرني بسبب بلاغ
+    // حقيقي — نطلع من التطبيق فوراً بدل ما نكمل نستخدمه بصمت.
+    if (parts[1] === 'banned') {
+      if (ME && Array.isArray(data) && data.indexOf(ME.username) >= 0) {
+        BANNED_MSG = 'حسابك متوقف من استخدام هلا شات بسبب بلاغ. لو تحس إن هذا غلط، تواصل مع اللي بنى التطبيق.';
+        logout(); paint();
+      }
+      return;
+    }
+
+    // "صندوق الوارد": NS/inbox/<اسم_مستخدمي> — لما حد يضيفني كصديق، يوصلني
+    // إشعار هنا حتى لو أنا ما ضفته هو بعد. بدون هذا، لازم الاثنين يضيفون
+    // بعض بنفس الوقت عشان المحادثة تشتغل — وهذا مزعج وغير منطقي.
+    if (parts[1] === 'inbox') {
+      if (!ME || !data || data.from === ME.username) return;
+      if (isBlocked(data.from)) return;   // محظور — حتى لو حاول يضيف نفسه من جديد
+      var already = ROOMS.filter(function (r) { return r.code === data.code; })[0];
+      if (!already) {
+        var newRoom = joinRoom(data.code, data.fromName || data.from, 'direct');
+        newRoom.avatar = data.fromAvatar || null;
+        newRoom.friendUser = data.from;
+        saveRooms(ROOMS);
+        paint();
+      }
+      return;
+    }
+
+    var hash = parts[1], kind = parts[2];
+    if (!ME) return;   // رسالة غرفة وصلت قبل ما يخلص التسجيل — نتجاهلها بأمان
+
+    if (kind === 'm') {
+      if (!data || data.who === ME.id) return;   // صدى رسالتي أنا — مطبّقة محلياً أصلاً
+      var mRoom = ROOMS.filter(function (rr) { return fnv(rr.code.trim().toLowerCase()) === hash; })[0];
+      if (mRoom && mRoom.kind === 'direct' && isBlocked(mRoom.friendUser)) return;   // محظور — نتجاهل رسالته بصمت
+      var list = MSGS[hash] = MSGS[hash] || [];
+      var idx = -1;
+      for (var mi = 0; mi < list.length; mi++) if (list[mi].id === data.id) { idx = mi; break; }
+      if (idx >= 0) {
+        list[idx] = data;   // تحديث رسالة موجودة (تعديل أو حذف وصل متأخر)
+        paintSoon(hash, null);
+      } else {
+        list.push(data);
+        list.sort(function (a, b) { return a.t - b.t; });
+        paintSoon(hash, null);
+        var nRoom = mRoom;
+        notifyNewMessage(nRoom ? nRoom.title : 'هلا شات', data.name, data.kind === 'image' ? '📷 صورة' : data.kind === 'sticker' ? '🎨 ستيكر' : data.body);
+      }
+    } else if (kind === 'r') {
+      if (data && data.by === ME.id) return;
+      var mid = parts[3];
+      var list2 = MSGS[hash] || [];
+      for (var i = 0; i < list2.length; i++) if (list2[i].id === mid) { list2[i].felt = (data && data.felt) || {}; break; }
+      paintSoon(hash, null);
+    } else if (kind === 'g') {
+      if (data && data.by === ME.id) return;
+      if (data) { GAMES[data.id] = data; paintSoon(null, hash); }
+    } else if (kind === 'call') {
+      handleCallSignal(hash, data);
+    } else if (kind === 't') {
+      if (!data || data.who === ME.id) return;   // صدى كتابتي أنا
+      TAPS[hash] = TAPS[hash] || {};
+      if (data.on) TAPS[hash][data.who] = { n: data.name, t: Date.now() };
+      else delete TAPS[hash][data.who];
+      paintSoon();
+    } else if (kind === 's') {
+      var reader = parts[3];
+      if (!data || reader === ME.id) return;
+      PEER_SEEN[hash] = PEER_SEEN[hash] || {};
+      PEER_SEEN[hash][reader] = data.at;
+      paintSoon();
+    } else if (kind === 'p') {
+      var who2 = parts[3];
+      if (!data || who2 === ME.id) return;
+      PRESENCE[hash] = PRESENCE[hash] || {};
+      PRESENCE[hash][who2] = { at: data.at, name: data.name };
+      paintSoon();
+    } else if (kind === 'meta') {
+      if (!data || !data.title) return;
+      var room = ROOMS.filter(function (rr) { return fnv(rr.code.trim().toLowerCase()) === hash; })[0];
+      if (room) {
+        var changed = false;
+        if (room.title !== data.title) { room.title = data.title; changed = true; }
+        if (data.admin && room.admin !== data.admin) { room.admin = data.admin; changed = true; }
+        if (JSON.stringify(room.bot || null) !== JSON.stringify(data.bot || null)) { room.bot = data.bot || null; changed = true; }
+        if ((data.avatar || null) !== (room.avatar || null)) { room.avatar = data.avatar || null; changed = true; }
+        if (changed) { saveRooms(ROOMS); paintSoon(); }
+      }
+    }
+  });
+}
+
+/* نبضة حضور: نعلن كل فترة إننا موجودين بكل غرفة منضمّين لها،
+   عشان الطرف الثاني يشوف "متصل الآن" بدل نص عام ما يفرق شي. */
+function heartbeat() {
+  if (!CLIENT || LINK !== 'up') return;
+  ROOMS.forEach(function (r) { pingPresence(r.code); });
+}
+function pingPresence(code) {
+  if (!CLIENT || LINK !== 'up') return;
+  var hash = fnv(code.trim().toLowerCase());
+  safePublish(NS + '/' + hash + '/p/' + ME.id, JSON.stringify({ name: ME.name, at: Date.now() }), { qos: 0, retain: true });
+}
+setInterval(heartbeat, 15000);
+
+function peerOnline(code) {
+  var hash = fnv(code.trim().toLowerCase());
+  var p = PRESENCE[hash] || {}, now = Date.now();
+  for (var id in p) if (id !== ME.id && now - p[id].at <= 25000) return true;
+  return false;
+}
+function everSeenPeer(code) {
+  var hash = fnv(code.trim().toLowerCase());
+  var p = PRESENCE[hash] || {};
+  for (var id in p) if (id !== ME.id) return true;
+  return false;
+}
+// قائمة الأعضاء: كل شخص نبّه حضوره بهذي الغرفة (يشمل نفسي)، بأحدث اسم عرفناه له
+function roomMembers(code) {
+  var hash = fnv(code.trim().toLowerCase());
+  var p = PRESENCE[hash] || {}, now = Date.now(), list = [{ id: ME.id, name: ME.name, me: true, online: true }];
+  for (var id in p) list.push({ id: id, name: p[id].name || '؟', me: false, online: now - p[id].at <= 25000 });
+  return list;
+}
+
+function subRoom(r) {
+  var hash = fnv(r.code.trim().toLowerCase());
+  if (!MSGS[hash]) MSGS[hash] = loadMsgs(hash);   // نعرض المحفوظ محلياً فوراً، قبل ما توصل الشبكة
+  loadGames(hash);
+  if (SUBBED[hash] || !CLIENT) return;
+  SUBBED[hash] = true;
+  CLIENT.subscribe(NS + '/' + hash + '/#', { qos: 0 });
+}
+
+/* ---------- عمليات الغرف ---------- */
+function joinRoom(code, title, kind, publishTitle) {
+  code = String(code || '').trim();
+  if (!code) return null;
+  var exists = ROOMS.filter(function (r) { return r.code === code; })[0];
+  if (!exists) {
+    exists = { code: code, title: title || code, kind: kind || 'group' };
+    ROOMS.unshift(exists);
+    saveRooms(ROOMS);
+  } else if (title && title.trim() && title.trim() !== exists.title) {
+    exists.title = title.trim();
+    saveRooms(ROOMS);
+  }
+  subRoom(exists);
+  pingPresence(exists.code);   // نعلن حضورنا فوراً بدل ما ننتظر أول نبضة دورية
+  // اسم المجموعة يتزامن تلقائياً بين كل الأعضاء: بس اللي ينشئها فعلياً
+  // ينشر اسمها (وهويته كأدمن) كرسالة محفوظة (مو أي أحد ينضم لها، حتى لو
+  // أول مرة يشوفها من جهازه هو) — غير كذا كل عضو جديد يمسح اسم اللي قبله بالغلط.
+  if (publishTitle && title && title.trim()) {
+    exists.admin = ME.username;
+    var hash = fnv(code.trim().toLowerCase());
+    safePublish(NS + '/' + hash + '/meta', JSON.stringify({ title: title.trim(), admin: ME.username, bot: exists.bot || null, avatar: exists.avatar || null }), { qos: 1, retain: true });
+  }
+  return exists;
+}
+
+// إضافة صديق باسم المستخدم: نلقى حسابه بالدليل، ونشتق رمز غرفة ثابت
+// من الاسمين (أبجدياً) — كذا الطرفين يوصلون لنفس الرمز بالضبط، بدون
+// ما أحد يحتاج ينسخ ويشارك رمز يدوياً، زي واتساب بالضبط.
+function directCode(userA, userB) {
+  var list = [String(userA).toLowerCase(), String(userB).toLowerCase()].sort();
+  return 'dm-' + list[0] + '-' + list[1];
+}
+function addFriendByUsername(username, onResult) {
+  username = String(username || '').trim().toLowerCase();
+  if (!USERNAME_RE.test(username)) { onResult({ error: 'اكتب اسم مستخدم صحيح' }); return; }
+  if (!ME) { onResult({ error: 'صار خطأ، حدّث الصفحة' }); return; }
+  if (username === ME.username) { onResult({ error: 'هذا حسابك أنت' }); return; }
+  lookupAccount(username, 1800, function (data) {
+    if (!data) { onResult({ error: 'ما فيه حساب بهذا الاسم — تأكد إنه صحيح وإن صاحبه سجّل قبل' }); return; }
+    var code = directCode(ME.username, username);
+    var room = joinRoom(code, data.name, 'direct');
+    room.avatar = data.avatar || null;
+    room.friendUser = username;
+    saveRooms(ROOMS);
+    // نبلّغ صاحبنا فوراً — كذا المحادثة تفتح عنده تلقائياً بدون ما يحتاج
+    // يضيفني هو بالمقابل. الرسالة محفوظة (retain) عشان توصله حتى لو
+    // كان مسكّر التطبيق وقت ما ضفته.
+    safePublish(NS + '/inbox/' + username, JSON.stringify({ from: ME.username, fromName: ME.name, fromAvatar: ME.avatar || null, code: code }), { qos: 1, retain: true });
+    onResult({ room: room });
+  });
+}
+function leaveRoom(code) {
+  ROOMS = ROOMS.filter(function (r) { return r.code !== code; });
+  saveRooms(ROOMS);
+  var hash = fnv(code.trim().toLowerCase());
+  if (CLIENT) CLIENT.unsubscribe(NS + '/' + hash + '/#');
+  delete SUBBED[hash]; delete MSGS[hash]; delete TAPS[hash]; delete PEER_SEEN[hash]; delete PRESENCE[hash];
+  for (var id in GAMES) if (GAMES[id].r === hash) delete GAMES[id];   // الألعاب مفهرسة بمعرّفها لا برمز الغرفة
+  box.set('hala.msgs.' + hash, '[]'); box.set('hala.games.' + hash, '{}');
+}
+function randomCode() {
+  var words = ['بدر','نجم','فجر','ياسمين','قمر','سديم','لؤلؤ','ريم','هدهد','عنبر'];
+  var w = words[Math.floor(Math.random() * words.length)];
+  return w + '-' + Math.floor(1000 + Math.random() * 9000);
+}
+
+/* ---------- رسائل / تفاعلات / ألعاب ---------- */
+// نرسل تنبيه دفع لصاحب المحادثة — بس بالمحادثات الخاصة (نعرف اسم
+// مستخدمه المحفوظ)، ما ندعمها بالمجموعات بعد (تحتاج نعرف كل الأعضاء).
+// أنواع البوتات المعتمدة — شخصية كل وحدة وتوجيهها للذكاء الاصطناعي محدّدة
+// مسبقاً من طرفنا (مو نص حر يكتبه الأدمن)، عشان تكون آمنة ومضبوطة دايماً.
+var BOT_TYPES = [
+  { id: 'poetry', name: 'بوت الشعر والأدب', emoji: '📜' },
+  { id: 'math', name: 'بوت الرياضيات', emoji: '🔢' },
+  { id: 'science', name: 'بوت العلوم', emoji: '🔬' },
+  { id: 'english', name: 'بوت اللغة الإنجليزية', emoji: '🔤' },
+  { id: 'history', name: 'بوت التاريخ والجغرافيا', emoji: '🗺️' },
+  { id: 'study', name: 'بوت مساعد المذاكرة العام', emoji: '📚' },
+  { id: 'football', name: 'بوت كرة القدم', emoji: '⚽' },
+  { id: 'anime', name: 'بوت الأنمي', emoji: '🎌' }
+];
+function findBotType(id) { for (var i = 0; i < BOT_TYPES.length; i++) if (BOT_TYPES[i].id === id) return BOT_TYPES[i]; return null; }
+
+// الأدمن بس يقدر يعيّن بوت المجموعة — بوت وحد بس بكل مجموعة، وتعيين
+// وحد جديد يستبدل القديم لو كان موجود.
+// الأدمن بس يقدر يغيّر صورة المجموعة — تتزامن للكل فوراً
+function setGroupPhoto(code, dataUrl) {
+  var room = ROOMS.filter(function (r) { return r.code === code; })[0];
+  if (!room || room.admin !== ME.username) return;
+  room.avatar = dataUrl || null;
+  saveRooms(ROOMS);
+  var hash = fnv(code.trim().toLowerCase());
+  safePublish(NS + '/' + hash + '/meta', JSON.stringify({ title: room.title, admin: room.admin, bot: room.bot || null, avatar: room.avatar }), { qos: 1, retain: true });
+  paint();
+}
+function setGroupBot(code, botId) {
+  var room = ROOMS.filter(function (r) { return r.code === code; })[0];
+  if (!room || room.admin !== ME.username) return;
+  var t = findBotType(botId);
+  room.bot = t ? { id: t.id, name: t.name, emoji: t.emoji } : null;
+  saveRooms(ROOMS);
+  var hash = fnv(code.trim().toLowerCase());
+  safePublish(NS + '/' + hash + '/meta', JSON.stringify({ title: room.title, admin: room.admin, bot: room.bot }), { qos: 1, retain: true });
+  paint();
+}
+// نرسل تنبيه دفع لصاحب المحادثة — بس بالمحادثات الخاصة (نعرف اسم
+// مستخدمه المحفوظ)، ما ندعمها بالمجموعات بعد (تحتاج نعرف كل الأعضاء).
+function pushForRoom(code, body, tag) {
+  var room = ROOMS.filter(function (r) { return r.code === code; })[0];
+  if (room && room.kind === 'direct' && room.friendUser) sendPush(room.friendUser, ME.name, body, tag);
+}
+function post(code, body, open, kind, extra, replyTo) {
+  var hash = roomTopic(code).split('/')[1];
+  var m = { id: uid(), who: ME.id, name: ME.name, hue: ME.hue, body: body, kind: kind || 'text', gid: extra || null, open: open || null, t: Date.now(), felt: {}, reply: replyTo || null };
+  var list = MSGS[hash] = MSGS[hash] || [];
+  list.push(m);
+  saveMsgs(hash);
+  safePublish(NS + '/' + hash + '/m/' + m.id, JSON.stringify(m), { qos: 1, retain: true });
+  if (kind !== 'play') pushForRoom(code, body, 'hala-msg');
+  if (kind === 'text' || !kind) checkBotMention(code, body);
+  paint();
+  return m;
+}
+// لو الرسالة تذكر بوت المجموعة (@بوت، أو اسمه كامل)، نستدعي رده —
+// بس بالمجموعات اللي عندها بوت معيّن أصلاً.
+function checkBotMention(code, body) {
+  var room = ROOMS.filter(function (r) { return r.code === code; })[0];
+  if (!room || !room.bot || !body) return;
+  if (body.indexOf('@بوت') < 0 && body.indexOf('@' + room.bot.name) < 0) return;
+  triggerBotReply(code, room.bot, body);
+}
+function triggerBotReply(code, bot, triggerText) {
+  if (typeof fetch !== 'function') return;
+  var hash = roomTopic(code).split('/')[1];
+  var recent = (MSGS[hash] || []).slice(-10).filter(function (m) { return (m.kind === 'text') && !m.deleted; })
+    .map(function (m) { return { name: m.name, text: m.body }; });
+  var url = BROKER.replace(/^wss:\/\//, 'https://').replace(/^ws:\/\//, 'http://') + '/bot';
+  // تنبيه محلي بس (ما ننشره بالمجموعة) — يوريك أنت بس إن البوت "يفكر"،
+  // عشان ما تحس إنه ساكت بدون تفسير وانت تنتظر
+  V.botThinking = bot.id; paint();
+  fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ botId: bot.id, history: recent, question: triggerText }) })
+    .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+    .then(function (res) {
+      V.botThinking = null;
+      if (!res.ok || !res.d || !res.d.reply) {
+        // فشل الرد (تجاوزت حد الطلبات غالباً، أو خطأ سيرفر) — نوريك
+        // السبب بدل ما نسكت تماماً وتحس إن التطبيق "علّق"
+        V.botErr = (res.d && res.d.error) || 'ما قدرنا نوصل للبوت الحين';
+        paint();
+        return;
+      }
+      var m = { id: uid(), who: '__bot_' + bot.id, name: bot.name, hue: '#7C5A94', body: res.d.reply,
+        kind: 'text', gid: null, open: null, t: Date.now(), felt: {}, reply: null };
+      var list = MSGS[hash] = MSGS[hash] || [];
+      list.push(m);
+      saveMsgs(hash);
+      safePublish(NS + '/' + hash + '/m/' + m.id, JSON.stringify(m), { qos: 1, retain: true });
+      paint();
+    }).catch(function () {
+      V.botThinking = null; V.botErr = 'ما قدرنا نوصل للبوت — تأكد من الإنترنت';
+      paint();
+    });
+}
+function postImage(code, dataUrl, caption) {
+  var hash = roomTopic(code).split('/')[1];
+  var m = { id: uid(), who: ME.id, name: ME.name, hue: ME.hue, body: caption || '', img: dataUrl, kind: 'image', gid: null, open: null, t: Date.now(), felt: {} };
+  var list = MSGS[hash] = MSGS[hash] || [];
+  list.push(m);
+  saveMsgs(hash);
+  safePublish(NS + '/' + hash + '/m/' + m.id, JSON.stringify(m), { qos: 1, retain: true });
+  pushForRoom(code, '📷 صورة', 'hala-msg');
+  paint();
+  return m;
+}
+function postSticker(code, sticker) {
+  var hash = roomTopic(code).split('/')[1];
+  // نرسل اسم الستيكر بس (بضع بايتات)، مو الصورة كاملة — كل الأجهزة عندها
+  // نفس مجموعة الستيكرات محفوظة بالتطبيق أصلاً، فما فيه داعي نكرر إرسال
+  // نفس الصورة بكل مرة. هذا يخلّي الستيكرات عملياً بلا أي استهلاك نت إضافي.
+  var m = { id: uid(), who: ME.id, name: ME.name, hue: ME.hue, body: sticker.name, stk: sticker.name, kind: 'sticker', gid: null, open: null, t: Date.now(), felt: {} };
+  var list = MSGS[hash] = MSGS[hash] || [];
+  list.push(m);
+  saveMsgs(hash);
+  safePublish(NS + '/' + hash + '/m/' + m.id, JSON.stringify(m), { qos: 1, retain: true });
+  pushForRoom(code, '🎨 ستيكر', 'hala-msg');
+  paint();
+  return m;
+}
+function findSticker(name) {
+  for (var i = 0; i < STICKERS.length; i++) if (STICKERS[i].name === name) return STICKERS[i];
+  return null;
+}
+// مجموعة ستيكرات مختارة — إيموجي كبيرة تتصرف كرسالة قائمة بذاتها، بدون فقاعة،
+// زي أي ستيكر بأي تطبيق دردشة، بدون ما نحتاج نصمم رسوم جديدة من الصفر.
+var STICKERS = [
+  { name: 'مبسوط', src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAALLklEQVR4nO3dP5LcxhXA4aZL5RMwFq/hUFUs60IOfAYHvpBcqmLoa5DxnsCJHNAwh8OdHfzpBvq9932RAmqJaTR+84Cd5bYGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwGXeXX0AxPLz+/d/9P6aX15e7ENWsVH4zoggHSVoLGyEwmaM01oiVpOTXkjkQD0jYDU4yYllDtQzApaTk5pM5Ug9Il55OJEJiNR64hWbkxeYUO0nXDE5acGIVH/iFYcTFcQsofr8+y/dv+aHj5+6f809hGt+TtDkrgjViCjtdUXMhGteTsykzgrVTHFa66yICdd8nJDJjA5VxEA9MzpgwjUPJ2ISI0OVMVKPjIyXcF3PCbjYiFBVCtQzIwImXNex8BcRqnMJVw4W/AI9YyVS2/WMl2idy2KfSKjmIlzxWOQTCNXchCsOiztYj1iJ1Hl6xEu0xrGwAx2NlVBd52i4RGsMizqAqSoH09Z8LGZnpqp8TFvzsJAdHYmVUM3vSLhEqw+L2IFQ1SJc1/nT1QcQnVjVc+S8zfLvmkWl9gfs3XxClcfeacuktY8JayexorX959OktY9g7SBW3BKt8xhLN9qzyYSqjj23iG4P17NQK5mqWMtzrXHcEq4gVmzhFnEcRX/CLSBHuEXsy4T1BrHiqD37waT1mGA9IFb0Ilr9CFYnYsVb7I8+BOsVW9/dbEbW2LpPTFk/Eqw7YsVIonWMYN0QK84gWvsJ1v+IFWcSrX0Eq4kV1xCt7coHS6y4kmhtUz5YW4gVI9hX65UO1pZ3K5uKkbbsr8pTVtlgiRWzEa3nSgZLrJiVaL2tZLCAmMoFy3TF7ExZj5UKllgRhWi9rkywxIpoROtHZYIFxFciWKYrojJlfa9EsNYSK2ZkX36TPlhr33VsCma2dn9mn7JSByv7yYPXZN73qYO1lumKCOzTxMFyK0hG1W8N0wYLyCdlsExXZFZ5ykoZLCCndMEyXVFB1SkrXbCAvFIFy3RFJRWnrFTBWkOsyKTafk4TrEzvItBblusjTbDWqPZuRA2V9nWKYGV594CRMlwnKYIF1BA+WL4zCHW+Yxg+WEAdJYJluqKCCvs8dLCij7dwhcjXzburD+CINQuf+V3nw8dPT/9M5tf/SPV1WfP6v7y8hLz2Qx50a3Uftq/ZjI9kW4tb1uWbtWsRMVo/XX0ArHPkgrz/GpkuUOtSS+hnWM9k2YA9LsqRX+8q1uV1Wfb9a0IGK/JDw61GXUTRL07rclzE6yjcPWxrNR62n3nhRFor67JexofvISes7M5+l48yVVgXwgUr4hgLs4p2PYULVnZXvavPPk1YF1oL+Awr8/OrPRfHW6+199e7inXZL9tzLJ/DCmrNBbT8mUpTgnXJLdQtYbT77S22XDxb3+23/PnZLmLrMl6k6ypUsNaIOrqvtff1WZe+/18U2V5fumBFtPbd++jmW/v/zzJNWBfuhXnY1lruB+6tvX1B9Hxdj/6eWdfOuhyT6cF7mIfuke6z97q9MM56N49wMVqX8X5+//6PCNGa/gAX2acrGCnLlOUZFhCGYAFhCBYQRohgVXjgDleLcJ2FCNYaHrjDY1mujzTBAvITLCAMwQLCECwgDMECwhAsIIzpg+VnCKGPNdfJ7J/Fmj5YAAvBAsIQLCAMwQLCECwgDMECwhAsIAzBAsIQLCAMwQLCECwgDMECwhAsIAzBAsIQLCAMwQLCECwgDMECwhAsIIyfrj6A0P71l3+u+nN//fffBh8Js7Anhnp39QGsMc0voli7GZ+xWfMItCc+fPz09M98eXmZuglTH9zi8mD12pT3hCuugHtCsE5yWbBGbcp7whVH4D2RIVgeuj9y1sY8++9iP3viclPXdHHqhHX1RjFtzSfJnjBhZXP1xpzlGPhmhvMxwzFMQrAWM22KmY6lspnOw0zHcqE0wVoz7j4042aY8ZgqmXH9DxzToetjIiGCNft9NWQQ4ToLEayhZnwnXcx8bJnNvO4zH9sJBAsIo3awIrxbRTjGTCKsd4RjHCRVsLI8WISeMl0XYYLV/YFgpHepSMcaWaR17nysER64txYoWACCBYSRLliZ7tfhqGzXQ6hgRbnPhkgiXVehggXUljJY2cZg2CPjdZAyWEBO4YLV7X470j+UF+lYI4u0zp2ONdLzq9YCBguoK22wVt2/R3hHjXCMmURY7xXHmPH5VWtBgxVtjIUZRbyOQgZrrfBT1szHltnM6154umrNr6qnh3/8ef2f/ft/xh0H6YUbCW91/fVfs/2k/gzv8ltC1NMsUQu6JzL8Oq9HQh70Yk2wWgsYrdGxuipEvZ0RtmB7Yu3toGBdpPsvWb16g/aMVZYw7dEzZoH2RObpqrUiwWptx2+GPnuTjpiqBKuvyfdE9umqteTfJTzkzGdIMzyv4jl74nJhS3tr2JS1GPXOesamrDhlRX62tXNPVJiuWhOsbXpt0hNCdbuBP//66+i/bhoffvvt//99+HyvMcmeEKxguj98X2PtZh0QqK0fDqwQrdtYPTMsZhftiewP2xfhX8DitClrAns/yZw5WltidavSfsgQrDQP3TOcjNH2XtSzy/q6espyfaQJ1loZfs7qyFSQ7eI+8noqTVdZpArW2neRaif5XpZoZXkde1W6FVz44eeilos94nOt6qGqLE15b1V5AN9zUowQrp6hqnLuM01XrZmwQvv8+y/dojXzxNV7oooeq8pS1feWKeuYGcI16tavyjnPNl21ZsIKr+eUdes+FmcE7IxnU9FjVV26At+qMmW1ds13Po9E7IoH55XOc8bpqjUTVmvt6ybIsJnP5rt156r+cZzWkn0O617Wd5nXCO7bKq1P5n2fOlit1fowaaWLcosM61L9VnCRPlhbiFY+GdYjw77sJXWNb619AN9ajk3eWu2NXvEcZp+uWjNhpZblot2q6uuuoEywtrz7ZJpMql28mV6v6epHJV7krYq3hotMIb5X+VxViVVrhSasRdVJq7V8F/Ui2+sSq8d8cLSY5eLOEONsoeK5UnW+VfnW8FbEcDkfX1WbrlorHKzWROvezPGy/t+rGKvWigerNdF6ZIZ4We/XVY1Va4K1KVit1bqIFmfGy/o+J1jFidY+R0JmDb8Sq21Kv/hbosXZxGq7cp/DemTrZpjhGQ9xidU+gnVDtDiDWO0nWHdEi5HE6hjBeoVoMYJYHSdYnYgWb7E/+hCsB/a8u9mUvGbPvjBdvU6w3iBaHCVWfVmYFbZ+Rmvhs1p17X3jEqu3mbBW2LuJTFs1idU4FmijPdOWSasOt4BjWagd3CJyz1R1DreEO7hF5JZYnUewdhItWhOrs1m0g/beHrbmFjGyI288YrWfCeugI5vPtBWTWF3H4nVk2spNqK5nETs7Eq3WhGtGRydhserHQg5wNFqtCdcMetyyi1VfFnMg01Zcpqo5WdTBTFuxmKrmZmFP0CNaC/Hqr+d3a8VqLIt7IuGai1DFY5EvIFzXEqq4LPZFekZrIV6PjfiQrlidz4JfTLjGEqpcLPwkRoRrUSlgI3/cSaiu5wRMZmS4WssZr9E/kylU83AiJjU6XIuIATvrh8aFaj5OyOTOCtetmSJ2xb9oIVTzcmKCuCJcrxkRs1n+mR2hmp8TFMws4cpEqOJwogITr/1EKiYnLQHhWk+oYnPykhGvH4lUHk5kYpXjJVI5OamFZA6YQNXgJBcWOWACVZOTzndmjJg4sbAR2GRE0AQJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAONd/ARoZOomjkmduAAAAAElFTkSuQmCC' },
+  { name: 'أموت ضحك', src: 'data:image/png;base64,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' },
+  { name: 'مصدوم', src: 'data:image/png;base64,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' },
+  { name: 'نايم', src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAKsklEQVR4nO3dv64dVxXA4ZXEIB7AkRCFHwCJigIhKiqEBDzAqSIKCjcUuU2Aho7iWnRpaCIhnTdAoqOHhmew6OISgQBFoYiPfH19/8yZs2f2Xmt/X5cosbf37PnNmuPr6wgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgq/d6LwBo73C4/jQivh0RTyLie8fj1dc6LwngYYfD9W8Oh+vf9l5HK096LwDYxuFw/Z2I+FlE/KD3Wlp5v/cCgPYOh+snEfGHiPjF8Xj1v97raUWwoKZPIuLPx+PV33svpCUfukNBh8P1fyPibxFxmq5+fDxe/bvjkgAAAAAAAAAAAAAAAAAAAAAA4D6+HxZnefb06Zetf8yXr145hyzioPCWLYJ0KUHjxEGY2IhxWipzxA6H6xcR8d3X//hBfPXXcH2945LSSHvROV/mQD0ma8AOh+tfRsQ3j8erT3qvJQN/zVdhlQN12+1fa4aAHQ7X34qIn0fE93uvJQvBKmamSD3k5j4MHK/fR8Svjserf/VeSBaCVYBIPWzEeB0O1z+KiA+Ox6s/9V5LJoKVmFCd77RnPcN1OFx/IyJ+FxE/7bWGrAQrGZFqo/PU9euI+OPxePWPnX/e9IYYj3ncKKH67NPPm/+YHz3/sPmPucZe4Tocrv8TEX+NiC9u/OufHI9X/9zj589MsAbXI1RbRGmtHjEb5XMu3uXCDGqvUI0Up6X2iphwjccFGczWocoYqMdsHTDhGocLMYgtQ1UxUvfZMl7C1Z8L0NkWoZopUI/ZImDC1Y+N70So9iVcNdjwDlrGSqTO1zJeorUvm70joRqLcOVjk3cgVGMTrjxs7sZaxEqk9tMiXqK1HRu7oUtjJVT9XBou0dqGTd2AqaoG09Z4bGZjpqp6TFvjsJENXRIroRrfJeESrTZsYgNCNRfh6uf93gvITqzmc8l1G+X7mmWl9hdYe/iEqo6105ZJax0T1kpiRcT662nSWkewVhArbhKt/RhLz7TmkAnVPNa8Ino9XM5GLWSqYimfa23HK+ECYsU5vCJuR9Ef4RWQS3hFbMuE9QCx4lJrzoNJ636CdQ+xohXRakewGhErHuJ8tCFYdzj36eYwssS558SU9S7BukWs2JJoXUawbhAr9iBa6wnWa2LFnkRrHcEKsaIP0Trf9MESK3oSrfNMH6xziBVbcK6WmzpY5zytHCq2dM75mnnKmjZYYsVoROtxUwZLrBiVaD1symABOU0XLNMVozNl3W+qYIkVWYjW3aYJlliRjWi9a5pgAflNESzTFVmZst42RbCWEitG5Fy+UT5YS586DgUjW3o+q09ZpYNV/eLBXSqf+9LBWsp0RQbOaeFgeRWkotlfDcsGC6inZLBMV1Q285RVMlhATeWCZbpiBrNOWeWCBdRVKlimK2Yy45RVKlhLiBWVzHaeywSr0lMEWqtyf5QJ1hKzPY2Yw0znukSwqjw9YEsV7pMSwQLmkD5YfmcQ5vkdw/TBAuYxRbBMV8xghnOeOljZx1voIfN9kzpYS8zw1IGT6uc9bbAyPyWgt6z3T9pgAfMpHazq4zHcpfK5TxmsrOMsjCTjfZQyWEtUfsrAY6qe/7LBAupJF6yMYyyMKtv9lC5YwLxKBqvq+zuco+J9UDJYQE2pgpXtfRsyyHRfpQrWEhXHYFir2v1QLlhAXYIFpJEmWJnesyGbLPdXmmAtUe19HVqodF+UChZQm2ABaQgWkEaKYGX5QBAyy3Cfvdd7AUss2cgqHyx+9PzDbj/3yHtoXy63ZA9fvno1dBNSTFgAEYIFJCJYQBqCBaQhWEAaggWkMXywZvqSBtjSkvtk9K/FetJ7AbxNfO9mX4hIMGEBnAgWkIZgAWkIFpCGYAFpCBaQhmABaQgWkIZgAWkIFpCGYAFpCBaQhmABaQgWkIZgAWkIFpCGYAFpCBaQhm+RfIEfvnzxYsl/95dnH3+89VoYgzOxrfd6L2CJUf4iiqWH8TEOax2ZzsRHzz989L95+erV0E0YenEnvYPV6lDeJlx5ZTwTgrWTXsHa6lDeJlx5ZD4TFYLlQ/d77HUw9/65WM+Z6G/omp7sOWH1PiimrfFUORMmrGJ6H8xR1sAbI1yPEdYwCsF6baRDMdJaZjbSdRhpLT2VCdaScfc+Ix6GEdc0kxH3/5I1XXJ/jCRFsEZ/r4YKMtxnKYK1pRGfpCcjr62ykfd95LXtYfpgAXlMHawMT6sMa6wkw35nWONWSgWrygeL0FKl+yJNsFp/IJjpKZVprZll2ufWa83wgXtEomABCBaQRrlgVXpfh0tVux9SBSvLezZkkum+ShUsYG4lg1VtDIY1Kt4HJYMF1JTm3fWmVt/QL8vX3bT8pn4Vn7otvz12pTNR4Rv23WbCAtIoG6wlT5cM3444wxorybDfraarjFIGK9sYCyPKeB+lDNZS2aeskddW2cj7PvN0FVE8WEAtaYPVcpwd8Yk64ppmMuL+t1xTxtfBiMTBWmrpeDzSAR1pLTMb6TosXUvl18GIpF+HdVPrv2S199fhjHST8JVMZ6Li117dlHbhJ0uCFXH+FxfufUiFanyjn4ml01XmYJV/JVxrz4CIVQ7ORH9pS3vTVlPWyVZPVocyr9HOxAzTVYRgnaXVIRWqOkY5E4KVTOsP35dYelgFah69zkT1D9tP0v8CTvaasmA0s0xXEYU+dK9wMWArVe6PMsFaqvoX1jGX2c5zqWAtfYrMdpGpaaZXwZNSwQJqKxcsUxYzmHG6iigYLKCuksEyZVHZrNNVRNFgATWVDZYpi4pmnq4iCgfrHKJFBs5p8WBVfcrAQyqf+9LBivBqSA2zvwqelA/WOUSLETmXb0wRrHOeOg4HIznnPFafriImCRZQwzTBMmWRjenqXdMEK0K0yEOs7jZVsCJEi/GJ1f2mCxaQ15TBMmUxKtPVw6YMVoRoMR6xety0wYoQLcYhVstMHaxziRZbcK6Wmz5Y5z6tHC5aOvc8zTxdRQhWRIgWfYjV+QTrNdFiT2K1jmDdIFrsQazWE6xbRIstidVlBOsOosUWxOpygtWIaPEQ56MNwbrHmqebQ8ld1pwL09XdBOsBosWlxKotG7PAs6dPv1zz/3326eetl0ISax9cYvUwE9YCaw+RaWtOYrUdG3SmNdOWSWseXgG3ZaNW8IrIbaaqfXglXMErIjeJ1X4EayXRIkKs9mbTLrT29TDCK2Jmlzx4xGo9E9aFLjl8pq2cxKofm9eQaas2oerPJjZ2SbQihGtEl07CYtWOjdzApdGKEK4RtHhlF6u2bOaGTFt5marGZFM3ZtrKxVQ1Nhu7gxbROhGv9lr+bq1Ybcvm7ki4xiJU+djkDoSrL6HKy2Z30jJaJ+J1vy2+SFes9mfDOxOubQlVLTZ+EFuE62SmgG35x52Eqj8XYDBbhiuiZry2/jOZQjUOF2JQW4frJGPA9vpD40I1HhdkcHuF66aRItbjO1oI1bhcmCR6hOsuW8RslG+zI1Tjc4GSGSVclQhVHi5UYuK1nkjl5KIVIFzLCVVuLl4x4vUukarDhSxs5niJVE0u6kQqB0yg5uAiTyxzwARqTi46bxkxYuLEiYPAWbYImiABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+/o/dqOdkBj+678AAAAASUVORK5CYII=' },
+  { name: 'كول', src: 'data:image/png;base64,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' },
+  { name: 'عصبان', src: 'data:image/png;base64,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' },
+  { name: 'أحبك', src: 'data:image/png;base64,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' },
+  { name: 'نار', src: 'data:image/png;base64,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' },
+  { name: 'تمام', src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAE5UlEQVR4nO3dQVLiQBiGYZyaI7DWA3kR9nOO2XsRDoRr7qCLKauAkaQTSdJf9/OsKSp2ktc/EeJuBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwIinrTeAtjzv9x9TXv9+PjsGKeZg4cemRuoe8WKMA4TZHhWqW8LFPb+23gAyLRWrpd+bbH6TMcnaMTFtccmERbEtJh/TFpcEC4ghWBTZctIxZfHF/QFGTQ3G6Xgoet3L69uk7XA/CwcAo0qDVRqqW6XhEiwcAAwqidXcUN0qCZdo9c09LCCGYPEjj5quHv1etEmwuKvGv87VuE2sR7CYbYmJyJTFEMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWs728vkW8J+0QLO56P5+ftt6GWzVuE+sRLH7kkROR6YoxggXEMF4z6nm//yh53el4mPX+pZOVy0EcAA0oDcpaSsM19RJQsHAAhKotUmsQLBwAQXqM1D3i1Sc33UOI1TXr0Se/pSrnxBxn2uqHCatiYlXGOvVDsCrlJJzGevVBsCrk5JvHurXPtX9l5p50cz+0+WhTP1s1tN1zv6rjnla77NiKTI1VLZFagw+ZstsJVlWW/gpMC3yNp2/uYVVCrMqU/vzuZ7VJsCogVtOIVr8EK4RYXbMefRKsAE7O71mX/gjWxly2LMv6tkWwKmeKGGZ9+iJYQAzB2pDLlXVY53b83noDuG/kayt/V9yUNH+23gCWYcICYggWEMMlYajT8eCy54J/wtoHExYQQ7CAGIIFxBAsIIZgATEEC4ghWEAMwQJiCBYQQ7CAGIIFxBAsIIZgATEEC4ghWEAMwQJieIBfKM90H+Thho0yYQExBAuI4ZIwlGe6X/NM9z6YsIAYggXEECwghmABMQQLiCFYQAzBAmIIFhBDsIAYggXEECwghmABMQQLiCFYQAzBAmIIFhDDA/xCeab7IA83bJQJC4ghWECMp603oGfP+/3H2GtOx8MamxKt5Hnu7+ezY70BJqwNOYnWYZ3bIVhADMGqnH9fNcz69EWwNuZyZVnWty2CFcAU8T3r0h/BCuHkvGY9+iRYFSi9bHGS/lO6Di4H2yNYlRCtMmLVNzu1IiUfJL3U04dKp4ZasNpkp1ZmarS+tBivudOkWLXLjq3Q3GghVq1zD6tCTrp5rFv7BKtSTr5prFcfBKtiTsIy1qkfdnQI97X+J1T9MWGFcHJesx59stND9ThxiRQOgAa0HC+RAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAn0CC5UF2LJUxs8AAAAASUVORK5CYII=' },
+  { name: 'نجم', src: 'data:image/png;base64,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' }
+];
+// نصغّر أي صورة دردشة قبل الإرسال — لازم تصغر كفاية عشان تعبر حد
+// حجم الرسالة (١٢٨ك بالسيرفر)، فنقلل الجودة تدريجياً لين تصير مناسبة.
+function prepareImageForChat(file, cb) {
+  var reader = new FileReader();
+  reader.onload = function () {
+    var img = new Image();
+    img.onload = function () {
+      try {
+        var maxDim = 720;
+        var scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+        var w = Math.max(1, Math.round(img.width * scale)), h = Math.max(1, Math.round(img.height * scale));
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        var quality = 0.72;
+        var dataUrl = canvas.toDataURL('image/jpeg', quality);
+        while (dataUrl.length > 130000 && quality > 0.25) {
+          quality -= 0.12;
+          dataUrl = canvas.toDataURL('image/jpeg', quality);
+        }
+        if (dataUrl.length > 150000) { cb(null, 'الصورة كبيرة جداً حتى بعد الضغط، جرّب صورة ثانية'); return; }
+        cb(dataUrl, null);
+      } catch (e) { cb(null, 'ما قدرنا نجهّز الصورة'); }
+    };
+    img.onerror = function () { cb(null, 'ما قدرنا نفتح الصورة'); };
+    img.src = reader.result;
+  };
+  reader.onerror = function () { cb(null, 'ما قدرنا نقرأ الملف'); };
+  reader.readAsDataURL(file);
+}
+function feel(code, mid, e) {
+  var hash = roomTopic(code).split('/')[1];
+  var list = MSGS[hash] || [];
+  var m = null;
+  for (var i = 0; i < list.length; i++) if (list[i].id === mid) m = list[i];
+  if (!m) return;
+  m.felt = m.felt || {};
+  var l = m.felt[e] || [], k = l.indexOf(ME.id);
+  if (k >= 0) l.splice(k, 1); else l.push(ME.id);
+  if (l.length) m.felt[e] = l; else delete m.felt[e];
+  saveMsgs(hash);
+  safePublish(NS + '/' + hash + '/r/' + mid, JSON.stringify({ by: ME.id, felt: m.felt }), { qos: 1, retain: true });
+  paint();
+}
+// الحذف: ننشر نفس معرّف الرسالة بعلامة "محذوفة" بدل النص — كذا كل
+// جهاز (حتى لو ينضم متأخر) يشوف "الرسالة محذوفة" مكانها، مو فراغ
+// غريب بالترتيب. ما نمسحها من عندنا محلياً بالكامل، نعلّمها بس.
+function deleteMsg(code, mid) {
+  var hash = roomTopic(code).split('/')[1];
+  var list = MSGS[hash] || [];
+  var m = null;
+  for (var i = 0; i < list.length; i++) if (list[i].id === mid) m = list[i];
+  if (!m || m.who !== ME.id) return;
+  m.deleted = true; m.body = '';
+  saveMsgs(hash);
+  safePublish(NS + '/' + hash + '/m/' + mid, JSON.stringify(m), { qos: 1, retain: true });
+  paint();
+}
+function editMsg(code, mid, newBody) {
+  var hash = roomTopic(code).split('/')[1];
+  var list = MSGS[hash] || [];
+  var m = null;
+  for (var i = 0; i < list.length; i++) if (list[i].id === mid) m = list[i];
+  if (!m || m.who !== ME.id || m.deleted) return;
+  m.body = newBody; m.edited = true;
+  saveMsgs(hash);
+  safePublish(NS + '/' + hash + '/m/' + mid, JSON.stringify(m), { qos: 1, retain: true });
+  if (m.kind === 'text') checkBotMention(code, newBody);
+  paint();
+}
+function startGame(code) {
+  var hash = roomTopic(code).split('/')[1];
+  var g = { id: uid(), r: hash, b: '.........', turn: 'X', x: ME.id, xn: ME.name, o: null, on_: null, over: false, won: null, by: ME.id };
+  GAMES[g.id] = g;
+  saveGames(hash);
+  post(code, '', null, 'play', g.id);
+  safePublish(NS + '/' + hash + '/g/' + g.id, JSON.stringify(g), { qos: 1, retain: true });
+  paint();
+}
+var ROWS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+function judge(b) {
+  for (var i = 0; i < ROWS.length; i++) { var w = ROWS[i];
+    if (b[w[0]] !== '.' && b[w[0]] === b[w[1]] && b[w[1]] === b[w[2]]) return b[w[0]]; }
+  return b.indexOf('.') >= 0 ? null : 'tie';
+}
+function drop(code, gid, i) {
+  var g = GAMES[gid];
+  if (!g || g.over) return;
+  if (!g.o && ME.id !== g.x) { g.o = ME.id; g.on_ = ME.name; }
+  var s = ME.id === g.x ? 'X' : (ME.id === g.o ? 'O' : null);
+  if (!s || s !== g.turn) return;
+  var b = g.b.split('');
+  if (b[i] !== '.') return;
+  b[i] = s; g.b = b.join('');
+  var v = judge(g.b);
+  g.turn = s === 'X' ? 'O' : 'X';
+  if (v) { g.over = true; g.won = v; }
+  g.by = ME.id;
+  var hash = roomTopic(code).split('/')[1];
+  saveGames(hash);
+  safePublish(NS + '/' + hash + '/g/' + gid, JSON.stringify(g), { qos: 1, retain: true });
+  paint();
+}
+/* ══════════════════════════════════════════════════════════
+   المكالمات (صوت/فيديو) — بدون سيرفر جديد إطلاقاً.
+   نستخدم نفس بروكر الرسائل عندنا لتبادل "بيانات الاتصال" فقط
+   (عرض/رد/عناوين شبكة) — موضوع NS/<hash>/call/<من>. هذي رسائل
+   عابرة (retain:false)، عكس رسائل الدردشة، عشان ما "يرد" اتصال
+   قديم لما تفتح التطبيق من جديد.
+   بعد ما الجهازين يتبادلون هالمعلومات، الصوت/الصورة يمشون مباشرة
+   من جهاز لجهاز (WebRTC) بدون ما يمرّون على أي سيرفر عندنا —
+   هذا اللي يخليها ممكنة بدون تكلفة إضافية. الاستثناء الوحيد: بعض
+   الشبكات المقيّدة جداً ممكن تفشل توصل مباشرة بدون "سيرفر ترحيل"
+   مدفوع، وهذا قيد نعرفه وما نقدر نحله بدون تكلفة شهرية.
+   ══════════════════════════════════════════════════════════ */
+function callTopic(hash) { return NS + '/' + hash + '/call'; }
+function sendCallSignal(hash, msg) {
+  msg.from = ME.id; msg.fromName = ME.name;
+  safePublish(callTopic(hash) + '/' + ME.id, JSON.stringify(msg), { qos: 1, retain: false });
+}
+
+function setupPeerConnection() {
+  var pc = new RTCPeerConnection({ iceServers: ICE_SERVERS });
+  CALL.pc = pc;
+  pc.onicecandidate = function (e) {
+    if (e.candidate && CALL) sendCallSignal(CALL.hash, { type: 'ice', candidate: e.candidate });
+  };
+  pc.ontrack = function (e) {
+    if (!CALL) return;
+    CALL.remoteStream = e.streams[0];
+    paint();
+  };
+  // نراقب حالة الاتصال من مسارين مختلفين (connectionState و
+  // iceConnectionState) — بعض المتصفحات ما تحدّث الأول بثقة، فلو
+  // اعتمدنا عليه بس، الشاشة تضل "تتصل" حتى لو الصوت شغّال فعلياً.
+  function markConnected() {
+    if (!CALL || CALL.state === 'connected') return;
+    CALL.state = 'connected'; CALL.startedAt = Date.now();
+    clearTimeout(CALL.callTimer);
+    paint();
+  }
+  pc.onconnectionstatechange = function () {
+    if (!CALL || !CALL.pc) return;
+    var st = CALL.pc.connectionState;
+    if (st === 'connected') markConnected();
+    else if (st === 'failed' || st === 'disconnected') endCall();
+  };
+  pc.oniceconnectionstatechange = function () {
+    if (!CALL || !CALL.pc) return;
+    var st = CALL.pc.iceConnectionState;
+    if (st === 'connected' || st === 'completed') markConnected();
+    else if (st === 'failed') endCall();
+  };
+  return pc;
+}
+
+// أنا أبدأ مكالمة لصديق (محادثة خاصة بس — المكالمات الجماعية أعقد بكثير
+// تقنياً وممكن نضيفها لاحقاً لو احتجناها).
+function startCall(code, withVideo) {
+  if (CALL || typeof RTCPeerConnection === 'undefined') return;
+  var hash = roomTopic(code).split('/')[1];
+  var room = ROOMS.filter(function (r) { return r.code === code; })[0];
+  if (!room) return;
+
+  CALL = { code: code, hash: hash, peerId: null, peerName: room.title, peerAvatar: room.avatar || null, withVideo: !!withVideo, state: 'calling',
+    pc: null, localStream: null, remoteStream: null, startedAt: null, pendingCandidates: [], callTimer: null, err: '' };
+  paint();
+  pushForRoom(code, (withVideo ? '📹 مكالمة فيديو' : '📞 مكالمة صوتية') + ' واردة', 'hala-call');
+
+  var iceReady = Promise.race([refreshIceServers(), new Promise(function (r) { setTimeout(r, 2500); })]);
+  Promise.all([navigator.mediaDevices.getUserMedia({ audio: true, video: withVideo ? { width: 480 } : false }), iceReady]).then(function (res) {
+    var stream = res[0];
+    if (!CALL) { stream.getTracks().forEach(function (t) { t.stop(); }); return; }   // ألغى قبل ما يخلص الإذن
+    CALL.localStream = stream;
+    var pc = setupPeerConnection();
+    stream.getTracks().forEach(function (t) { pc.addTrack(t, stream); });
+    return pc.createOffer().then(function (offer) {
+      return pc.setLocalDescription(offer).then(function () {
+        sendCallSignal(hash, { type: 'offer', sdp: offer.sdp, video: !!withVideo });
+      });
+    });
+  }).then(function () {
+    if (!CALL) return;
+    CALL.callTimer = setTimeout(function () { if (CALL && CALL.state === 'calling') endCall(); }, 30000);
+  }).catch(function () {
+    if (!CALL) return;
+    CALL.err = 'ما قدرنا نوصل ' + (withVideo ? 'المايك أو الكاميرا' : 'المايك');
+    paint();
+    setTimeout(function () { cleanupCall(); }, 2200);
+  });
+}
+
+function acceptCall() {
+  if (!CALL || CALL.state !== 'ringing') return;
+  clearTimeout(CALL.callTimer);
+  CALL.state = 'connecting'; paint();
+  var iceReady = Promise.race([refreshIceServers(), new Promise(function (r) { setTimeout(r, 2500); })]);
+  Promise.all([navigator.mediaDevices.getUserMedia({ audio: true, video: CALL.withVideo ? { width: 480 } : false }), iceReady]).then(function (res) {
+    var stream = res[0];
+    if (!CALL) { stream.getTracks().forEach(function (t) { t.stop(); }); return; }
+    CALL.localStream = stream;
+    var pc = setupPeerConnection();
+    stream.getTracks().forEach(function (t) { pc.addTrack(t, stream); });
+    return pc.setRemoteDescription({ type: 'offer', sdp: CALL.incomingSdp }).then(function () {
+      CALL.pendingCandidates.forEach(function (c) { pc.addIceCandidate(c).catch(function () {}); });
+      CALL.pendingCandidates = [];
+      return pc.createAnswer();
+    }).then(function (answer) {
+      return pc.setLocalDescription(answer).then(function () {
+        sendCallSignal(CALL.hash, { type: 'answer', sdp: answer.sdp });
+      });
+    });
+  }).catch(function () {
+    if (CALL) sendCallSignal(CALL.hash, { type: 'reject' });
+    cleanupCall();
+  });
+}
+
+function rejectCall() {
+  if (!CALL) return;
+  sendCallSignal(CALL.hash, { type: 'reject' });
+  cleanupCall();
+}
+function endCall() {
+  if (CALL) { try { sendCallSignal(CALL.hash, { type: 'hangup' }); } catch (e) {} }
+  cleanupCall();
+}
+function cleanupCall() {
+  if (!CALL) return;
+  clearTimeout(CALL.callTimer);
+  if (CALL.pc) { try { CALL.pc.close(); } catch (e) {} }
+  if (CALL.localStream) CALL.localStream.getTracks().forEach(function (t) { try { t.stop(); } catch (e) {} });
+  CALL = null;
+  paint();
+}
+function toggleMute() {
+  if (!CALL || !CALL.localStream) return;
+  CALL.muted = !CALL.muted;
+  CALL.localStream.getAudioTracks().forEach(function (t) { t.enabled = !CALL.muted; });
+  paint();
+}
+function toggleCallVideo() {
+  if (!CALL || !CALL.localStream) return;
+  var vids = CALL.localStream.getVideoTracks();
+  if (!vids.length) return;
+  CALL.videoOff = !CALL.videoOff;
+  vids.forEach(function (t) { t.enabled = !CALL.videoOff; });
+  paint();
+}
+
+// وصول إشارة اتصال من الشبكة — يُنادى من معالج الرسائل الرئيسي
+function handleCallSignal(hash, data) {
+  if (!data || data.from === ME.id) return;
+  if (data.type === 'offer') {
+    var room = ROOMS.filter(function (r) { return fnv(r.code.trim().toLowerCase()) === hash; })[0];
+    if (room && room.kind === 'direct' && isBlocked(room.friendUser)) return;   // محظور — نتجاهل مكالمته بصمت
+    if (CALL) { safePublish(callTopic(hash) + '/' + ME.id, JSON.stringify({ type: 'reject', from: ME.id, fromName: ME.name, busy: true }), { qos: 1 }); return; }
+    CALL = { code: room ? room.code : null, hash: hash, peerId: data.from, peerName: data.fromName || (room ? room.title : '؟'), peerAvatar: room ? room.avatar : null,
+      withVideo: !!data.video, state: 'ringing', pc: null, localStream: null, remoteStream: null, startedAt: null,
+      pendingCandidates: [], incomingSdp: data.sdp, callTimer: null, err: '' };
+    CALL.callTimer = setTimeout(function () { if (CALL && CALL.state === 'ringing') cleanupCall(); }, 30000);
+    paint();
+  } else if (data.type === 'answer') {
+    if (!CALL || CALL.state !== 'calling' || !CALL.pc) return;
+    CALL.pc.setRemoteDescription({ type: 'answer', sdp: data.sdp }).then(function () {
+      if (!CALL) return;
+      CALL.pendingCandidates.forEach(function (c) { CALL.pc.addIceCandidate(c).catch(function () {}); });
+      CALL.pendingCandidates = [];
+    });
+  } else if (data.type === 'ice') {
+    if (!CALL || !data.candidate) return;
+    if (CALL.pc && CALL.pc.remoteDescription && CALL.pc.remoteDescription.type) CALL.pc.addIceCandidate(data.candidate).catch(function () {});
+    else CALL.pendingCandidates.push(data.candidate);
+  } else if (data.type === 'hangup' || data.type === 'reject') {
+    if (CALL) cleanupCall();
+  }
+}
+
+function typingPing(code, on) {
+  var hash = roomTopic(code).split('/')[1];
+  safePublish(NS + '/' + hash + '/t', JSON.stringify({ who: ME.id, name: ME.name, on: on }), { qos: 0 });
+}
+
+function feedOf(code) {
+  var hash = fnv(code.trim().toLowerCase());
+  var now = Date.now();
+  return (MSGS[hash] || []).filter(function (m) { return !m.open || m.open <= now || m.who === ME.id; });
+}
+function unread(code) {
+  var hash = fnv(code.trim().toLowerCase());
+  var since = SEEN_UPTO[hash] || 0, n = 0, f = feedOf(code);
+  for (var i = 0; i < f.length; i++) if (f[i].who !== ME.id && f[i].t > since) n++;
+  return n;
+}
+function markSeen(code) {
+  var hash = fnv(code.trim().toLowerCase());
+  SEEN_UPTO[hash] = Date.now();
+  box.set('hala.seen', JSON.stringify(SEEN_UPTO));
+  safePublish(NS + '/' + hash + '/s/' + ME.id, JSON.stringify({ at: Date.now() }), { qos: 0, retain: true });
+}
+function read(code, m) {
+  var hash = fnv(code.trim().toLowerCase());
+  var peers = PEER_SEEN[hash] || {};
+  for (var id in peers) if (id !== ME.id && peers[id] >= m.t) return true;
+  return false;
+}
+
+/* ---------- أدوات عرض ---------- */
+function N(tag, attr, kids) {
+  var n = document.createElement(tag);
+  attr = attr || {};
+  for (var k in attr) {
+    var v = attr[k];
+    if (v === null || v === undefined || v === false) continue;
+    if (k === 'k') n.className = v;
+    else if (k === 'txt') n.textContent = v;
+    else if (k === 'sty') n.setAttribute('style', v);
+    else if (k === 'ref') continue;   // نتعامل معه بعد ما العنصر يخلص كامل (تحت)
+    else if (k.slice(0, 2) === 'on') n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v);
+  }
+  (kids || []).forEach(function (c) { if (c) n.appendChild(c); });
+  // ref: وصول مباشر للعنصر بعد بنائه كامل — نحتاجه بس لأشياء ما تنضبط
+  // بخاصية HTML عادية (زي srcObject لعناصر الفيديو، خاصية جافاسكربت بحتة).
+  if (attr.ref) attr.ref(n);
+  return n;
+}
+var ART = {
+  mark:'<path d="M12 2.4a9.3 9.3 0 0 0-8.1 13.9L2.6 21.4l5.3-1.3A9.3 9.3 0 1 0 12 2.4Z" fill="currentColor" stroke="none"/><path d="M8.6 9.7h6.8M8.6 13.1h4.4" stroke="#241331" stroke-width="1.6" stroke-linecap="round"/>',
+  pen:'<path d="M4 20h16"/><path d="M14.6 4.4a2.05 2.05 0 0 1 2.9 2.9L9 15.9l-4 1.1 1.1-4 8.5-8.6Z"/>',
+  trash:'<path d="M5 7h14M9.5 7V4.8a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1V7M7 7l.8 12.2a1.4 1.4 0 0 0 1.4 1.3h5.6a1.4 1.4 0 0 0 1.4-1.3L17 7"/><path d="M10.3 11v6M13.7 11v6"/>',
+  more:'<circle cx="12" cy="5.2" r="1.55" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.55" fill="currentColor" stroke="none"/><circle cx="12" cy="18.8" r="1.55" fill="currentColor" stroke="none"/>',
+  prev:'<path d="m9 5 7 7-7 7"/>',
+  plane:'<path d="M3.4 11.9 20.6 4l-4.3 7.9 4.3 7.9L3.4 11.9Z" fill="currentColor" stroke="none"/>',
+  face:'<circle cx="12" cy="12" r="8.8"/><path d="M8.6 14.4a4.4 4.4 0 0 0 6.8 0"/><circle cx="9.1" cy="9.6" r="1.05" fill="currentColor" stroke="none"/><circle cx="14.9" cy="9.6" r="1.05" fill="currentColor" stroke="none"/>',
+  sticker:'<path d="M4.6 5.4a1 1 0 0 1 1-1h8.2l6 6v8.2a1 1 0 0 1-1 1H5.6a1 1 0 0 1-1-1V5.4Z"/><path d="M13.8 4.6v4.6a1.4 1.4 0 0 0 1.4 1.4h4.6"/>',
+  time:'<circle cx="12" cy="12" r="8.4"/><path d="M12 7.4V12l3 2"/>',
+  grid:'<rect x="3.6" y="3.6" width="16.8" height="16.8" rx="2.2"/><path d="M9.2 3.9v16.2M14.8 3.9v16.2M3.9 9.2h16.2M3.9 14.8h16.2"/>',
+  out:'<path d="M14.6 5.4V4.2A1.7 1.7 0 0 0 12.9 2.5H5.7A1.7 1.7 0 0 0 4 4.2v15.6a1.7 1.7 0 0 0 1.7 1.7h7.2a1.7 1.7 0 0 0 1.7-1.7v-1.2"/><path d="M9.6 12h11.4m0 0-3.3-3.3M21 12l-3.3 3.3"/>',
+  down:'<path d="m6 9.2 6 6 6-6"/>',
+  shut:'<path d="M6.2 6.2 17.8 17.8M17.8 6.2 6.2 17.8"/>',
+  many:'<circle cx="9.2" cy="8.6" r="3.4"/><path d="M2.8 19.4a6.4 6.4 0 0 1 12.8 0"/><path d="M16.1 5.5a3.4 3.4 0 0 1 0 6.1M17.6 19.4a6.3 6.3 0 0 0-1.6-4.2"/>',
+  bubl:'<path d="M18.2 5.4H5.8a3.2 3.2 0 0 0-3.2 3.2v6.1a3.2 3.2 0 0 0 3.2 3.2h1.4l2.3 3.1 2.3-3.1h6.4a3.2 3.2 0 0 0 3.2-3.2V8.6a3.2 3.2 0 0 0-3.2-3.2Z"/><path d="M8.4 11.7h.02M12 11.7h.02M15.6 11.7h.02" stroke-width="2.3"/>',
+  glass:'<path d="M7.6 11.2a4.4 4.4 0 0 1 8.8 0v6.3a2 2 0 0 1-2 2h-4.8a2 2 0 0 1-2-2Z"/><path d="M16.2 10.6c2.1.3 3.5 1.2 3.5 2.3s-1.4 2-3.5 2.3"/><path d="M8 9.6c-.4-1.7.4-2.9 1.8-3.3"/><circle cx="12" cy="5.6" r="1.5"/><path d="M12 4.1V2.4"/>',
+  copy:'<rect x="8.5" y="8.5" width="11" height="11" rx="1.6"/><path d="M4.5 15.5V6A1.5 1.5 0 0 1 6 4.5h9.5"/>',
+  warn:'<path d="M12 3.6 21 19.4H3L12 3.6Z"/><path d="M12 9.6v4.2"/><circle cx="12" cy="16.9" r=".85" fill="currentColor" stroke="none"/>',
+  note:'<circle cx="12" cy="12" r="8.8"/><path d="M12 11v5.4"/><circle cx="12" cy="7.9" r=".9" fill="currentColor" stroke="none"/>',
+  share:'<circle cx="18" cy="5.5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="18.5" r="2.6"/><path d="m8.3 10.7 7.4-3.9M8.3 13.3l7.4 3.9"/>',
+  link:'<path d="M9.5 14.5 14.5 9.5"/><path d="M11 7.2 12.6 5.6a3.4 3.4 0 0 1 4.8 4.8L15.8 12"/><path d="M13 16.8 11.4 18.4a3.4 3.4 0 0 1-4.8-4.8L8.2 12"/>',
+  ok:'<path d="m3.6 12.4 4 4L14.1 8"/>',
+  ok2:'<path d="m1.6 12.4 4 4L12.1 8"/><path d="m9.6 12.4 4 4L20.1 8"/>',
+  cam:'<path d="M4 8.4A1.6 1.6 0 0 1 5.6 6.8h1.9l1-1.7h6l1 1.7h1.9A1.6 1.6 0 0 1 19 8.4v9A1.6 1.6 0 0 1 17.4 19H5.6A1.6 1.6 0 0 1 4 17.4Z"/><circle cx="12" cy="12.7" r="3.4"/>',
+  one:'<circle cx="12" cy="8.4" r="3.6"/><path d="M4.6 19.6a7.4 7.4 0 0 1 14.8 0"/>',
+  hash:'<path d="M9.5 3.6 7 20.4M17 3.6l-2.5 16.8M4 8.8h16M3 15.2h16"/>',
+  gear:'<circle cx="12" cy="12" r="3.1"/><path d="M12 3.6v2.6M12 17.8v2.6M20.4 12h-2.6M6.2 12H3.6M17.5 6.5l-1.8 1.8M8.3 15.7l-1.8 1.8M17.5 17.5l-1.8-1.8M8.3 8.3 6.5 6.5"/>',
+  phone:'<path d="M5.4 4.6h3.2l1.4 3.6-1.9 1.7a10.6 10.6 0 0 0 5 5l1.7-1.9 3.6 1.4v3.2c0 1-1 1.8-2 1.6C9.7 18.4 5.6 14.3 4.9 6.6c-.1-1 .7-2 1.7-2Z"/>',
+  vid:'<rect x="2.6" y="6.4" width="12.4" height="11.2" rx="2.2"/><path d="m17.6 10 3.8-2.6v9.2L17.6 14"/>',
+  mic:'<rect x="8.6" y="2.8" width="6.8" height="11" rx="3.4"/><path d="M5.6 11.4a6.4 6.4 0 0 0 12.8 0"/><path d="M12 17.8v3.4M9 21.2h6"/>',
+  reply:'<path d="M9.4 6.4 4 11.8l5.4 5.4"/><path d="M4 11.8h9.6a5.6 5.6 0 0 1 5.6 5.6v1.4"/>',
+  fwd:'<path d="M14.6 6.4 20 11.8l-5.4 5.4"/><path d="M20 11.8H10.4a5.6 5.6 0 0 0-5.6 5.6v1.4"/>',
+  bell:'<path d="M6.2 10.4a5.8 5.8 0 0 1 11.6 0v3.4l1.6 2.6H4.6l1.6-2.6Z"/><path d="M9.6 18.6a2.6 2.6 0 0 0 4.8 0"/>',
+  drop:'<path d="M12 2.8c3 4 6.4 8 6.4 12a6.4 6.4 0 1 1-12.8 0c0-4 3.4-8 6.4-12Z"/><path d="M9.4 15.4a2.8 2.8 0 0 0 2.8 2.8" stroke-width="1.4" opacity=".75"/>',
+  find:'<circle cx="10.8" cy="10.8" r="6.3"/><path d="m19.5 19.5-4.3-4.3"/>',
+  dice:'<path d="M12 2.5 4 3v10L12 21.5 20 13V3z"/>'
+};
+function ic(n, s, k) {
+  var e = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  e.setAttribute('viewBox', '0 0 24 24'); e.setAttribute('width', s || 22); e.setAttribute('height', s || 22);
+  e.setAttribute('fill', 'none'); e.setAttribute('stroke', 'currentColor'); e.setAttribute('stroke-width', '1.7');
+  e.setAttribute('stroke-linecap', 'round'); e.setAttribute('stroke-linejoin', 'round');
+  if (k) e.setAttribute('class', k);
+  e.innerHTML = ART[n];
+  return e;
+}
+function z(n) { return n < 10 ? '0' + n : '' + n; }
+function hhmm(t) { var d = new Date(t), h = d.getHours(), s = h < 12 ? 'ص' : 'م'; h = h % 12 || 12; return h + ':' + z(d.getMinutes()) + ' ' + s; }
+function sameDay(a, b) { return a.toDateString() === b.toDateString(); }
+function dayName(t) {
+  var d = new Date(t), n = new Date();
+  if (sameDay(d, n)) return 'اليوم';
+  if (sameDay(d, new Date(n.getTime() - 864e5))) return 'أمس';
+  return d.toLocaleDateString('ar-KW', { weekday: 'long', day: 'numeric', month: 'long' });
+}
+function avatar(letter, color, size, groupy, img) {
+  if (img) return N('div', { k: 'avatar ' + size, sty: 'background:' + color + ';padding:0;overflow:hidden' },
+    [N('img', { src: img, alt: '', sty: 'width:100%;height:100%;object-fit:cover;border-radius:50%' })]);
+  return groupy ? N('div', { k: 'avatar ' + size, sty: 'background:' + color }, [ic('many', size === 'l' ? 24 : 21)])
+                : N('div', { k: 'avatar ' + size, sty: 'background:' + color, txt: letter });
+}
+
+/* نقشة الخلفية (نفس النسخة السابقة) */
+(function () {
+  function star(cx, cy, h) {
+    var d = h * 1.414;
+    return "<path d='M" + (cx - h) + " " + (cy - h) + "h" + (2*h) + "v" + (2*h) + "h" + (-2*h) + "z'/>" +
+           "<path d='M" + cx + " " + (cy - d) + "L" + (cx+d) + " " + cy + "L" + cx + " " + (cy+d) + "L" + (cx-d) + " " + cy + "z'/>";
+  }
+  var t = 132, m = t/2, g = "";
+  g += star(m, m, 17) + star(0,0,17)+star(t,0,17)+star(0,t,17)+star(t,t,17);
+  g += "<path d='M"+m+" 0v"+t+"M0 "+m+"h"+t+"' opacity='.4'/>";
+  var svgstr = "<svg xmlns='http://www.w3.org/2000/svg' width='"+t+"' height='"+t+"' viewBox='0 0 "+t+" "+t+"'><g fill='none' stroke='#F2E9DD' stroke-width='1.1'>"+g+"</g></svg>";
+  document.documentElement.style.setProperty('--weave', "url(\"data:image/svg+xml;utf8," + encodeURIComponent(svgstr) + "\")");
+})();
+
+/* ---------- حالة الواجهة ---------- */
+var V = { open: null, sheet: false, profileSheet: false, settingsSheet: false, soonSheet: false, dtab: 'friend', code: '', title: '', note: '', timed: false, pad: false, padTab: 'emoji', emos: null, menu: false, whenVal: '', busy: false, fidErr: '', regName: '', regAvatar: null, editName: '', editAvatar: null, authTab: 'reg', regUsername: '', regPass: '', loginUsername: '', loginPass: '', authErr: '', authBusy: false, filter: 'all', q: '', membersFor: null, editingMsg: null, notifOn: box.get('hala.notif') === '1', imgBusy: false, imgErr: '', aquaNote: '', aquaBusy: false, aquaErr: '', pushStatus: '', replyTo: null, fwdMsg: null, mediaFor: null, searching: false, sq: '', infoFor: null, botPick: null, botThinking: null, botErr: '' };
+
+// تنبيهات المتصفح: نطلب الإذن بس لما المستخدم يفعّلها بنفسه (زر بالإعدادات)،
+// مو تلقائياً — المتصفحات كثير تتجاهل الطلب التلقائي، وهذا أدب أكثر برضو.
+var VAPID_PUBLIC_KEY = 'BMeDlVjZnnIKR741yuxi0u5fdjGfJYDiCVXp8aOPumBT0F8aqHqy-ng0sMupRo6OFrF0pNkqSx52AxLdrbo_fws';
+function urlBase64ToUint8Array(base64) {
+  var padding = '='.repeat((4 - base64.length % 4) % 4);
+  var b64 = (base64 + padding).replace(/-/g, '+').replace(/_/g, '/');
+  var raw = atob(b64), out = new Uint8Array(raw.length);
+  for (var i = 0; i < raw.length; ++i) out[i] = raw.charCodeAt(i);
+  return out;
+}
+// نشترك بتنبيهات الدفع — هذي توصل حتى لو التطبيق مقفول تماماً (مو بس
+// بالخلفية)، بالضبط زي واتساب أو سناب. لو فشلت لأي سبب (متصفح قديم،
+// المستخدم رفض، أو حتى AQUA_URL/PUSH_URL مو شغّالين)، نتجاهلها بهدوء —
+// التنبيهات العادية (بالخلفية بس) تبقى شغّالة براحتها بدونها.
+function subscribeToPush() {
+  if (!('serviceWorker' in navigator)) { V.pushStatus = 'المتصفح ما يدعم عامل الخدمة إطلاقاً'; paint(); return; }
+  if (!('PushManager' in window)) { V.pushStatus = 'المتصفح ما يدعم تنبيهات الدفع (PushManager)'; paint(); return; }
+  if (!ME) return;
+  V.pushStatus = 'جاري الاشتراك…'; paint();
+  navigator.serviceWorker.ready.then(function (reg) {
+    return reg.pushManager.getSubscription().then(function (existing) {
+      if (existing) return existing;
+      return reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY) });
+    });
+  }).then(function (sub) {
+    if (!sub) { V.pushStatus = 'فشل — المتصفح رفض ينشئ اشتراك'; paint(); return; }
+    if (typeof fetch !== 'function') { V.pushStatus = 'فشل — fetch غير متوفرة'; paint(); return; }
+    var pushUrl = BROKER.replace(/^wss:\/\//, 'https://').replace(/^ws:\/\//, 'http://') + '/push/subscribe';
+    fetch(pushUrl, { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ username: ME.username, subscription: sub }) })
+      .then(function (r) {
+        if (r.ok) { V.pushStatus = 'مشترك ✓ (' + hhmm(Date.now()) + ')'; }
+        else { V.pushStatus = 'السيرفر رفض الاشتراك (كود ' + r.status + ')'; }
+        paint();
+      })
+      .catch(function (e) { V.pushStatus = 'فشل الاتصال بالسيرفر: ' + (e && e.message || '؟'); paint(); });
+  }).catch(function (e) {
+    V.pushStatus = 'فشل: ' + (e && e.message || 'المستخدم رفض الإذن غالباً');
+    paint();
+  });
+}
+function sendTestPush() {
+  if (!ME || typeof fetch !== 'function') return;
+  V.pushStatus = 'جاري إرسال تنبيه تجريبي…'; paint();
+  var pushUrl = BROKER.replace(/^wss:\/\//, 'https://').replace(/^ws:\/\//, 'http://') + '/push/notify';
+  fetch(pushUrl, { method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ toUsername: ME.username, title: 'تجربة 🔔', body: 'لو وصلك هذا، كل شي شغّال تمام!', tag: 'hala-test' }) })
+    .then(function (r) { return r.json().then(function (d) { return { status: r.status, d: d }; }); })
+    .then(function (res) {
+      if (res.d && res.d.ok) V.pushStatus = 'انبعث فعلاً من السيرفر — شوف لو طلع لك تنبيه (اقفل هذا التبويب أول لو تقدر)';
+      else V.pushStatus = 'السيرفر رد بعدم نجاح: ' + (res.d && res.d.reason ? res.d.reason : 'كود ' + res.status);
+      paint();
+    })
+    .catch(function (e) { V.pushStatus = 'فشل الاتصال بالسيرفر: ' + (e && e.message || '؟'); paint(); });
+}
+// حذف الحساب نهائياً: نعلّم كل رسائلي المعروفة محلياً محذوفة (ننشرها
+// من جديد فاضية)، ونحذف حسابي من دليل الحسابات (رسالة محفوظة فاضية =
+// حذف بمصطلح MQTT)، وبعدها نسجّل خروج ونمسح كل شي محلي.
+function deleteAccountForever() {
+  if (!ME) return;
+  var username = ME.username;
+  ROOMS.forEach(function (r) {
+    var hash = fnv(r.code.trim().toLowerCase());
+    var list = MSGS[hash] || [];
+    list.forEach(function (m) {
+      if (m.who === ME.id && !m.deleted) {
+        m.deleted = true; m.body = '';
+        safePublish(NS + '/' + hash + '/m/' + m.id, JSON.stringify(m), { qos: 1, retain: true });
+      }
+    });
+  });
+  safePublish(NS + '/acct/' + username, '', { qos: 1, retain: true });
+  setTimeout(function () { logout(); paint(); }, 500);   // نعطي وقت كافي للنشر قبل ما نقطع الاتصال
+}
+function sendReport(reportedUsername, roomCode, reason) {
+  if (typeof fetch !== 'function' || !ME) return;
+  var url = BROKER.replace(/^wss:\/\//, 'https://').replace(/^ws:\/\//, 'http://') + '/report';
+  try {
+    fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ reportedUsername: reportedUsername, reporterUsername: ME.username, roomCode: roomCode, reason: reason || '' }) })
+      .catch(function () {});
+  } catch (e) {}
+}
+function sendPush(toUsername, title, body, tag) {
+  if (!toUsername || typeof fetch !== 'function') return;
+  var pushUrl = BROKER.replace(/^wss:\/\//, 'https://').replace(/^ws:\/\//, 'http://') + '/push/notify';
+  try {
+    fetch(pushUrl, { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ toUsername: toUsername, title: title, body: body, tag: tag }) }).catch(function () {});
+  } catch (e) {}
+}
+
+function toggleNotif() {
+  if (V.notifOn) { V.notifOn = false; V.pushStatus = ''; box.set('hala.notif', '0'); paint(); return; }
+  if (typeof Notification === 'undefined') { V.notifOn = false; V.pushStatus = 'المتصفح ما يدعم التنبيهات إطلاقاً'; paint(); return; }
+  if (Notification.permission === 'granted') { V.notifOn = true; box.set('hala.notif', '1'); subscribeToPush(); paint(); return; }
+  if (Notification.permission === 'denied') { V.notifOn = false; V.pushStatus = 'الإذن مرفوض من إعدادات المتصفح نفسه — لازم تسمح له يدوياً من هناك'; paint(); return; }
+  Notification.requestPermission().then(function (perm) {
+    V.notifOn = perm === 'granted';
+    box.set('hala.notif', V.notifOn ? '1' : '0');
+    if (V.notifOn) subscribeToPush();
+    else V.pushStatus = 'ما وافقت على الإذن وقت الطلب';
+    paint();
+  });
+}
+function notifyNewMessage(roomTitle, senderName, text) {
+  if (JUST_SYNCED) return;   // فيضان رسائل قديمة وقت الاتصال — مو رسالة جديدة فعلاً
+  if (!V.notifOn || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+  if (typeof document !== 'undefined' && document.visibilityState === 'visible' && V.open) return;   // مفتوح التطبيق قدامك أصلاً
+  try { new Notification(senderName + ' — ' + roomTitle, { body: text || 'رسالة جديدة', tag: 'hala-msg' }); } catch (e) {}
+}
+var JUST_SYNCED = false, syncTimer = null;
+var HOST = document.getElementById('root');
+
+function paint() {
+  var a = document.activeElement;
+  var slot = a && a.getAttribute ? a.getAttribute('data-slot') : null;
+  var s0 = null, s1 = null;
+  if (slot) { try { s0 = a.selectionStart; s1 = a.selectionEnd; } catch (e) {} }
+  var fd = document.querySelector('.feed');
+  var glue = !fd || fd.scrollHeight - fd.scrollTop - fd.clientHeight < 110;
+  var top = fd ? fd.scrollTop : 0;
+
+  HOST.innerHTML = '';
+  try {
+    HOST.appendChild(ME ? frame() : welcome());
+  } catch (e) {
+    // أي خطأ غير متوقع بالرسم ما لازم يسيب المستخدم بشاشة فاضية —
+    // نعرض حالة واضحة فيها طريقة يرجع منها، بدل ما "يعلّق" التطبيق بصمت.
+    HOST.innerHTML = '';
+    HOST.appendChild(N('div', { k: 'auth' }, [
+      N('div', { k: 'auth-top' }),
+      N('div', { k: 'auth-wrap' }, [
+        N('div', { k: 'auth-card' }, [
+          N('div', { k: 'brand' }, [ic('mark', 29), N('b', { txt: 'هلا شات' })]),
+          N('div', { k: 'err', txt: 'صار خطأ غير متوقع. جرّب ترجع للقائمة أو تحدّث الصفحة.' }),
+          N('button', { k: 'btn', txt: 'ارجع للقائمة', onclick: function () { V.open = null; V.sheet = false; paint(); } })
+        ])
+      ])
+    ]));
+  }
+
+  var fd2 = document.querySelector('.feed');
+  if (fd2) fd2.scrollTop = glue ? fd2.scrollHeight : top;
+  if (slot) {
+    var back = document.querySelector('[data-slot="' + slot + '"]');
+    if (back) { back.focus(); try { if (s0 !== null) back.setSelectionRange(s0, s1); } catch (e) {} }
+  }
+  var ta = document.querySelector('.box textarea');
+  if (ta) { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 112) + 'px'; }
+}
+
+/* ---------- شاشة الترحيب ---------- */
+function welcome() {
+  if (REGISTERING) {
+    return N('div', { k: 'auth' }, [
+      N('div', { k: 'auth-top' }),
+      N('div', { k: 'auth-wrap' }, [
+        N('div', { k: 'auth-card' }, [
+          N('div', { k: 'brand' }, [ic('mark', 29), N('b', { txt: 'هلا شات' })]),
+          N('p', { k: 'sub', txt: V.authTab === 'login' ? 'جاري تسجيل الدخول…' : 'جاري إنشاء حسابك…', sty: 'text-align:center;margin-top:8px' })
+        ])
+      ])
+    ]);
+  }
+
+  var NAME_MAX = 30;
+  function doRegister() {
+    if (V.authBusy) return;
+    V.authErr = ''; BANNED_MSG = ''; V.authBusy = true; paint();
+    register(V.regUsername, V.regPass, V.regName.slice(0, NAME_MAX), V.regAvatar, function (msg) {
+      V.authBusy = false; V.authErr = msg; paint();
+    });
+  }
+  function doLogin() {
+    if (V.authBusy) return;
+    V.authErr = ''; BANNED_MSG = ''; V.authBusy = true; paint();
+    login(V.loginUsername, V.loginPass, function (msg) {
+      V.authBusy = false; V.authErr = msg; paint();
+    });
+  }
+
+  var fileInput = N('input', { type: 'file', accept: 'image/*', sty: 'display:none',
+    onchange: function (e) {
+      var f = e.target.files && e.target.files[0];
+      if (!f) return;
+      shrinkImage(f, 96, function (dataUrl) { V.regAvatar = dataUrl; paint(); });
+    } });
+  var pic = N('button', { k: 'pick-avatar', title: 'صورة البروفايل', 'aria-label': 'اختر صورة',
+    onclick: function () { fileInput.click(); } }, [
+      V.regAvatar ? avatar('', '#7C5A94', 'l', false, V.regAvatar) : N('div', { k: 'avatar l', sty: 'background:#332042' }, [ic('cam', 22)]),
+      N('span', { k: 'cam-badge' }, [ic('cam', 12)])
+    ]);
+
+  var body;
+  if (V.authTab === 'login') {
+    body = [
+      N('div', { k: 'fld' }, [
+        N('label', { txt: 'اسم المستخدم' }),
+        N('input', { value: V.loginUsername, 'data-slot': 'lu', dir: 'ltr', placeholder: 'اسم المستخدم',
+          oninput: function (e) { V.loginUsername = e.target.value; },
+          onkeydown: function (e) { if (e.key === 'Enter') doLogin(); } })
+      ]),
+      N('div', { k: 'fld' }, [
+        N('label', { txt: 'الرمز السري' }),
+        N('input', { value: V.loginPass, 'data-slot': 'lp', type: 'password', dir: 'ltr', placeholder: '••••••',
+          oninput: function (e) { V.loginPass = e.target.value; },
+          onkeydown: function (e) { if (e.key === 'Enter') doLogin(); } })
+      ]),
+      N('button', { k: 'btn', txt: V.authBusy ? 'جاري الدخول…' : 'دخول', disabled: V.authBusy ? 'disabled' : null, onclick: doLogin })
+    ];
+  } else {
+    body = [
+      N('div', { k: 'pick-row' }, [pic, fileInput]),
+      N('div', { k: 'fld' }, [
+        N('label', { txt: 'وش اسمك اللي يشوفه صاحبك؟' }),
+        N('input', { value: V.regName, 'data-slot': 'nm', placeholder: 'مثلاً: عوض', maxlength: String(NAME_MAX),
+          oninput: function (e) { V.regName = e.target.value; } })
+      ]),
+      N('div', { k: 'fld' }, [
+        N('label', { txt: 'اسم المستخدم (إنجليزي، يستخدمه صاحبك يضيفك فيه)' }),
+        N('input', { value: V.regUsername, 'data-slot': 'ru', dir: 'ltr', placeholder: 'مثلاً: awadh', maxlength: '20',
+          oninput: function (e) { V.regUsername = e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ''); } })
+      ]),
+      N('div', { k: 'fld' }, [
+        N('label', { txt: 'رمز سري (٦ خانات فأكثر)' }),
+        N('input', { value: V.regPass, 'data-slot': 'rp', type: 'password', dir: 'ltr', placeholder: '••••••',
+          oninput: function (e) { V.regPass = e.target.value; },
+          onkeydown: function (e) { if (e.key === 'Enter') doRegister(); } })
+      ]),
+      N('button', { k: 'btn', txt: V.authBusy ? 'جاري الإنشاء…' : 'إنشاء الحساب', disabled: V.authBusy ? 'disabled' : null, onclick: doRegister })
+    ];
+  }
+
+  return N('div', { k: 'auth' }, [
+    N('div', { k: 'auth-top' }),
+    N('div', { k: 'auth-wrap' }, [
+      N('div', { k: 'auth-card' }, [
+        N('div', { k: 'brand' }, [ic('mark', 29), N('b', { txt: 'هلا شات' })]),
+        N('h1', { txt: V.authTab === 'login' ? 'تسجيل الدخول' : 'حساب جديد' }),
+        N('p', { k: 'sub', txt: 'راسل صاحبك من أي جهاز، بحساب حقيقي.' }),
+        N('div', { k: 'tip' }, [ic('note', 17), N('span', {
+          txt: 'يتصل بسيرفرنا الخاص مباشرة. رمزك السري يُشفَّر قبل ما يُرسل، بس هذا مشروع شخصي مو بنك — لا تستخدم رمز تستخدمه بحساب مهم.' })]),
+        BANNED_MSG ? N('div', { k: 'err', txt: BANNED_MSG }) : null,
+        V.authErr ? N('div', { k: 'err', txt: V.authErr }) : null,
+        N('div', { k: 'seg', sty: 'padding:0;margin-bottom:20px' }, [
+          N('button', { k: V.authTab === 'reg' ? 'on' : '', txt: 'حساب جديد', onclick: function () { V.authTab = 'reg'; V.authErr = ''; paint(); } }),
+          N('button', { k: V.authTab === 'login' ? 'on' : '', txt: 'تسجيل الدخول', onclick: function () { V.authTab = 'login'; V.authErr = ''; paint(); } })
+        ]),
+        N('div', {}, body)
+      ])
+    ])
+  ]);
+}
+
+/* ---------- الإطار الرئيسي ---------- */
+function frame() {
+  ensureLink();
+  var cur = V.open;
+  var totalUnread = ROOMS.reduce(function (sum, r) { return sum + unread(r.code); }, 0);
+
+  var rooms = ROOMS.filter(function (r) {
+    if (V.filter === 'direct') return r.kind === 'direct';
+    if (V.filter === 'group') return r.kind === 'group' || !r.kind;
+    return true;
+  });
+
+  var side = N('aside', { k: 'side' }, [
+    N('div', { k: 'bar' }, [
+      N('button', { k: 'ico', title: 'التنبيهات', 'aria-label': 'التنبيهات', sty: 'position:relative' }, [
+        ic('bell', 20),
+        totalUnread ? N('span', { sty: 'position:absolute;top:6px;left:6px;width:8px;height:8px;border-radius:50%;background:var(--bad);border:2px solid var(--panel)' }) : null
+      ]),
+      N('div', { sty: 'flex:1;text-align:center;min-width:0' }, [
+        N('b', { k: 'wordmark', txt: 'هلا شات' }),
+        N('span', { k: 'wordmark-en', txt: 'HALA CHAT' })
+      ]),
+      N('button', { k: 'ico', title: 'بروفايلك', 'aria-label': 'بروفايلك', sty: 'padding:0;border-radius:50%',
+        onclick: function () { V.profileSheet = true; V.editName = ME.name; V.editAvatar = ME.avatar || null; paint(); } },
+        [avatar(ME.name.slice(0, 1), ME.hue, 's', false, ME.avatar)])
+    ]),
+    linkRow(),
+    N('div', { k: 'seek' }, [
+      N('div', { k: 'seek-in' }, [ic('find', 17),
+        N('input', { placeholder: 'ابحث عن محادثة أو صديق…', value: V.q || '', 'data-slot': 'seek',
+          oninput: function (e) { V.q = e.target.value; paint(); } })])
+    ]),
+    N('div', { k: 'pillbar' }, [
+      N('button', { k: 'pillbtn' + (V.filter === 'group' ? ' on' : ''), txt: 'المجموعات', onclick: function () { V.filter = 'group'; paint(); } }),
+      N('button', { k: 'pillbtn' + (V.filter === 'direct' ? ' on' : ''), txt: 'الأصدقاء', onclick: function () { V.filter = 'direct'; paint(); } }),
+      N('button', { k: 'pillbtn' + (V.filter === 'all' ? ' on' : ''), txt: 'الكل', onclick: function () { V.filter = 'all'; paint(); } })
+    ]),
+    N('div', { k: 'list' }, (V.q ? [] : [aquaCard()]).concat(rooms.length ? rooms.filter(function (r) {
+      return !V.q || label_(r).indexOf(V.q.trim()) >= 0;
+    }).map(roomCard) : [
+      N('div', { k: 'nothing', txt: 'ما فيك دردشات بعد.\nاضغط "جهات الاتصال" تحت: أضف صديق باسمه، أو سوّي مجموعة.' })
+    ])),
+    N('div', { k: 'tabbar' }, [
+      N('button', { k: 'tabbtn on' }, [ic('bubl', 22), N('span', { txt: 'المحادثات' })]),
+      N('button', { k: 'tabbtn', onclick: function () { V.sheet = true; V.dtab = 'friend'; V.code = ''; V.title = ''; V.fidErr = ''; V.busy = false; paint(); } },
+        [ic('one', 22), N('span', { txt: 'جهات الاتصال' })]),
+      N('button', { k: 'tabbtn', onclick: function () { V.soonSheet = true; paint(); } },
+        [ic('phone', 22), N('span', { txt: 'الاتصالات' })]),
+      N('button', { k: 'tabbtn', onclick: function () { V.settingsSheet = true; paint(); } },
+        [ic('gear', 22), N('span', { txt: 'الإعدادات' })])
+    ])
+  ]);
+
+  var main = N('main', { k: 'main' }, cur === AQUA_CODE ? aquaView() : cur ? roomView(cur) : [hollow()]);
+  var app = N('div', { k: 'app' + (V.open ? ' deep' : '') }, [side, main]);
+  if (V.settingsSheet) app.appendChild(settingsDialog());
+  if (V.soonSheet) app.appendChild(soonDialog());
+  if (V.sheet) app.appendChild(dialog());
+  if (V.profileSheet) app.appendChild(profileDialog());
+  if (CALL) app.appendChild(callOverlay());   // فوق كل شي — مكالمة واردة توقفك أينما كنت
+  if (V.fwdMsg) app.appendChild(forwardDialog());
+  if (V.botPick) app.appendChild(botPickDialog());
+  return app;
+}
+function label_(r) { return r.title || ''; }
+
+function linkRow() {
+  if (LINK === 'up') return null;
+  var word = LINK === 'mid' ? 'يتصل بالشبكة…'
+    : LINK === 'nolib' ? 'ما قدرنا نحمّل مكتبة الاتصال — تأكد من الإنترنت وحدّث الصفحة'
+    : 'ما فيه اتصال حالياً';
+  var kids = [N('span', { k: 'pulse ' + (LINK === 'nolib' ? 'down' : LINK) }), N('span', { txt: word })];
+  if (LINK === 'down') kids.push(N('button', { txt: 'أعد المحاولة', onclick: function () { CLIENT = null; ensureLink(); paint(); } }));
+  if (LINK === 'nolib') kids.push(N('button', { txt: 'حدّث الصفحة', onclick: function () { location.reload(); } }));
+  return N('div', { k: 'net-row' }, kids);
+}
+
+function hollow() {
+  return N('div', { k: 'void' }, [
+    ic('glass', 76),
+    N('h2', { txt: 'هلا شات' }),
+    N('p', { txt: 'اختر دردشة من القائمة، أو ابدأ وحدة جديدة — أضف صديق باسم المستخدم حقّه، أو سوّي مجموعة.' })
+  ]);
+}
+
+function roomAvatar(r, size) {
+  var isGroup = r.kind === 'group' || !r.kind;   // الغرف القديمة قبل هذا التحديث تُعامل كمجموعة افتراضياً
+  var node = r.avatar ? avatar('', roomHue(r.code), size, false, r.avatar)
+    : avatar(r.title.slice(0, 1), roomHue(r.code), size, isGroup);
+  if (isGroup) return node;
+  var online = LINK === 'up' && peerOnline(r.code);
+  return N('span', { k: 'avatar-wrap' + (online ? ' online' : '') }, [node, N('span', { k: 'ring' })]);
+}
+
+function aquaCard() {
+  var last = AQUA_MSGS.length ? AQUA_MSGS[AQUA_MSGS.length - 1] : null;
+  return N('button', { k: 'item', 'aria-current': V.open === AQUA_CODE ? 'true' : 'false',
+    onclick: function () { V.open = AQUA_CODE; V.emos = null; V.menu = false; paint(); } }, [
+    N('div', { k: 'avatar l', sty: 'background:linear-gradient(160deg,#22C1DC,#3B82F6);color:#fff' }, [ic('drop', 22)]),
+    N('div', { k: 'body' }, [
+      N('div', { k: 'r1' }, [N('span', { k: 't', txt: 'أكوا' }), N('span', { k: 'w', txt: last ? hhmm(last.t) : '' })]),
+      N('div', { k: 'r2' }, [N('span', { k: 'p' }, [N('span', { txt: last ? last.text : 'مساعدك الذكي داخل التطبيق — اسألني أي شي' })])])
+    ])
+  ]);
+}
+
+function roomCard(r) {
+  var f = feedOf(r.code), last = f.length ? f[f.length - 1] : null;
+  var n = unread(r.code), bits = [];
+  if (last) {
+    if (last.who === ME.id) {
+      var c = ic(read(r.code, last) ? 'ok2' : 'ok', 15);
+      c.style.color = read(r.code, last) ? 'var(--seen)' : 'var(--dim)';
+      bits.push(c);
+    } else {
+      bits.push(N('span', { txt: last.name + ': ' }));
+    }
+    bits.push(N('span', { txt: last.deleted ? 'تم حذف الرسالة' : last.kind === 'play' ? 'لعبة إكس-أو' : last.kind === 'image' ? '📷 صورة' : last.kind === 'sticker' ? '🎨 ستيكر' : last.body }));
+  } else {
+    bits.push(N('span', { txt: 'ابدأ الطاري', sty: 'color:var(--dim-2)' }));
+  }
+  return N('button', { k: 'item', 'aria-current': r.code === V.open ? 'true' : 'false',
+    onclick: function () { V.open = r.code; V.emos = null; V.menu = false; V.note = ''; markSeen(r.code); paint(); } }, [
+    roomAvatar(r, 'l'),
+    N('div', { k: 'body' }, [
+      N('div', { k: 'r1' }, [N('span', { k: 't', txt: r.title }), N('span', { k: 'w' + (n ? ' hot' : ''), txt: last ? hhmm(last.t) : '' })]),
+      N('div', { k: 'r2' }, [N('span', { k: 'p' }, bits), n ? N('span', { k: 'tag', txt: String(n) }) : null])
+    ])
+  ]);
+}
+
+/* ---------- لوحة الغرفة ---------- */
+function aquaView() {
+  var head = N('div', { k: 'head' }, [
+    N('button', { k: 'ico back', title: 'رجوع', 'aria-label': 'رجوع', onclick: function () { V.open = null; paint(); } }, [ic('prev', 22)]),
+    N('div', { k: 'avatar m', sty: 'background:linear-gradient(160deg,#22C1DC,#3B82F6);color:#fff' }, [ic('drop', 18)]),
+    N('div', { k: 'meta' }, [N('b', { txt: 'أكوا' }), N('span', { txt: 'مساعد ذكي — إجاباته مو مضمونة دايماً صحيحة' })])
+  ]);
+
+  var feed = N('div', { k: 'feed' });
+  if (!AQUA_MSGS.length) {
+    feed.appendChild(N('div', { k: 'nothing' }, [
+      ic('drop', 50),
+      N('p', { sty: 'margin-top:10px', txt: 'هلا! أنا أكوا، اسألني أي شي يخطر ببالك 👋' })
+    ]));
+  } else {
+    AQUA_MSGS.forEach(function (m) {
+      var me = m.who === 'me';
+      var txt = N('div', { k: 'txt' });
+      txt.appendChild(document.createTextNode(m.text));
+      txt.appendChild(N('span', { k: 'gap' }));
+      var bub = N('div', { k: 'bub' }, [txt, N('span', { k: 'stamp' }, [N('span', { txt: hhmm(m.t) })])]);
+      feed.appendChild(N('div', { k: 'line' + (me ? ' me' : '') }, [bub]));
+    });
+  }
+  if (V.aquaBusy) {
+    feed.appendChild(N('div', { k: 'line' }, [N('div', { k: 'bub' }, [N('div', { k: 'txt', sty: 'color:var(--dim)', txt: 'أكوا يكتب…' })])]));
+  }
+  if (V.aquaErr) {
+    feed.appendChild(N('div', { k: 'err', sty: 'margin:10px 6%', txt: V.aquaErr }));
+  }
+
+  function fire() {
+    var t = V.aquaNote.trim();
+    if (!t || V.aquaBusy) return;
+    V.aquaNote = '';
+    sendToAqua(t);
+  }
+  var area = N('textarea', { rows: 1, placeholder: 'اسأل أكوا…', maxlength: '1200',
+    oninput: function (e) { V.aquaNote = e.target.value; e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 112) + 'px'; },
+    onkeydown: function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); fire(); } } });
+  area.value = V.aquaNote;
+  var write = N('div', { k: 'write' }, [N('div', { k: 'write-row' }, [
+    N('div', { k: 'box' }, [area]),
+    N('button', { k: 'go', title: 'إرسال', 'aria-label': 'إرسال', disabled: V.aquaBusy ? 'disabled' : null, onclick: fire }, [ic('plane', 21)])
+  ])]);
+
+  return [head, feed, write];
+}
+
+function roomView(code) {
+  var room = ROOMS.filter(function (r) { return r.code === code; })[0];
+  if (!room) { V.open = null; return [hollow()]; }
+  var isGroup = room.kind === 'group' || !room.kind;
+  var status;
+  if (LINK !== 'up') status = LINK === 'mid' ? 'يتصل بالشبكة…' : 'ما فيه اتصال بالشبكة';
+  else if (!everSeenPeer(room.code)) status = isGroup ? 'بانتظار ما ينضم أحد' : 'بانتظار ما ينضم صاحبك';
+  else status = peerOnline(room.code) ? (isGroup ? 'فيه أعضاء متصلين الآن' : 'صاحبك متصل الآن') : (isGroup ? 'محادثة جماعية' : 'صاحبك غير متصل حالياً');
+
+  var head = N('div', { k: 'head' }, [
+    N('button', { k: 'ico back', title: 'رجوع', 'aria-label': 'رجوع', onclick: function () { V.open = null; paint(); } }, [ic('prev', 22)]),
+    N('button', { k: 'who-am-i', title: 'معلومات', 'aria-label': 'معلومات', onclick: function () { V.infoFor = code; paint(); } }, [
+      roomAvatar(room, 'm'), N('div', { k: 'meta' }, [N('b', { txt: room.title }), N('span', { txt: status })])
+    ]),
+    isGroup ? null : N('button', { k: 'ico', title: 'مكالمة صوتية', 'aria-label': 'مكالمة صوتية',
+      onclick: function () { startCall(code, false); } }, [ic('phone', 20)]),
+    isGroup ? null : N('button', { k: 'ico', title: 'مكالمة فيديو', 'aria-label': 'مكالمة فيديو',
+      onclick: function () { startCall(code, true); } }, [ic('vid', 21)]),
+    N('button', { k: 'ico', title: 'خيارات', 'aria-label': 'خيارات',
+      onclick: function (e) { e.stopPropagation(); V.menu = !V.menu; paint(); } }, [ic('more', 20)]),
+    V.menu ? N('div', { k: 'menu', onclick: function (e) { e.stopPropagation(); } }, roomMenu(room, code)) : null
+  ]);
+
+  var searchBar = V.searching ? N('div', { k: 'seek', sty: 'padding-top:8px' }, [
+    N('div', { k: 'seek-in' }, [ic('find', 17),
+      N('input', { placeholder: 'ابحث بهذي المحادثة…', value: V.sq || '', 'data-slot': 'sq',
+        oninput: function (e) {
+          V.sq = e.target.value;
+          // ما نعيد رسم الشاشة كاملة مع كل حرف — هذا كان يسبب تعليق ملحوظ
+          // بلوحة المفاتيح، خصوصاً بمحادثات فيها رسائل كثيرة. نأخّر شوي
+          // بدلها، نفس فكرة تجميع الرسائل الواردة اللي نسويها أصلاً.
+          clearTimeout(searchPaintTimer);
+          searchPaintTimer = setTimeout(paint, 160);
+        } }),
+      N('button', { title: 'إغلاق البحث', 'aria-label': 'إغلاق البحث', onclick: function () { V.searching = false; V.sq = ''; paint(); } }, [ic('shut', 16)])
+    ])
+  ]) : null;
+
+  return [head, searchBar, stream(code), tapRow(code), botStatusRow(code), pen(code)]
+    .concat(V.membersFor === code ? [membersDialog(code)] : [])
+    .concat(V.mediaFor === code ? [mediaDialog(code)] : [])
+    .concat(V.infoFor === code ? [infoScreen(code)] : []);
+}
+
+function infoScreen(code) {
+  var room = ROOMS.filter(function (r) { return r.code === code; })[0];
+  if (!room) { V.infoFor = null; return null; }
+  var isGroup = room.kind === 'group' || !room.kind;
+  function shut() { V.infoFor = null; paint(); }
+  var pics = feedOf(code).filter(function (m) { return m.kind === 'image' && !m.deleted; });
+  var blocked = !isGroup && room.friendUser && isBlocked(room.friendUser);
+
+  var kids = [
+    N('div', { k: 'info-head' }, [
+      N('button', { k: 'ico', title: 'رجوع', 'aria-label': 'رجوع', onclick: shut }, [ic('prev', 22)])
+    ]),
+    N('div', { k: 'info-top' }, [
+      (isGroup && room.admin === ME.username) ? (function () {
+        var fileInput = N('input', { type: 'file', accept: 'image/*', sty: 'display:none',
+          onchange: function (e) {
+            var f = e.target.files && e.target.files[0];
+            if (!f) return;
+            shrinkImage(f, 160, function (dataUrl) { setGroupPhoto(code, dataUrl); });
+          } });
+        return N('button', { k: 'pick-group-avatar', title: 'غيّر صورة المجموعة', 'aria-label': 'غيّر صورة المجموعة',
+          onclick: function () { fileInput.click(); } },
+          [roomAvatar(room, 'xl'), N('span', { k: 'cam-badge' }, [ic('cam', 14)]), fileInput]);
+      })() : roomAvatar(room, 'xl'),
+      N('b', { txt: room.title }),
+      N('span', { k: 'info-sub', txt: isGroup ? 'مجموعة · ' + roomMembers(code).length + ' أعضاء' : '@' + (room.friendUser || '؟') })
+    ]),
+    N('div', { k: 'info-actions' }, (isGroup ? [] : [
+      N('button', { onclick: function () { V.infoFor = null; startCall(code, false); } }, [ic('phone', 20), N('span', { txt: 'صوت' })]),
+      N('button', { onclick: function () { V.infoFor = null; startCall(code, true); } }, [ic('vid', 21), N('span', { txt: 'فيديو' })])
+    ]).concat([
+      N('button', { onclick: function () { V.infoFor = null; V.open = code; V.searching = true; V.sq = ''; paint(); } }, [ic('find', 19), N('span', { txt: 'بحث' })])
+    ])),
+    N('div', { k: 'info-sec' }, [
+      N('div', { k: 'info-sec-h' }, [N('span', { txt: 'الوسائط' }), N('b', { txt: String(pics.length) })]),
+      pics.length ? N('div', { k: 'media-grid', sty: 'max-height:none' }, pics.slice(-9).map(function (m) {
+        return N('img', { src: m.img, alt: '', onclick: function () { V.infoFor = null; V.mediaFor = code; V.open = code; paint(); } });
+      })) : N('p', { sty: 'margin:0 16px 14px;color:var(--dim-2);font-size:12px', txt: 'ما فيه صور بعد' })
+    ])
+  ];
+
+  if (isGroup) {
+    var mem = roomMembers(code).sort(function (a, b) { return (b.online - a.online) || (b.me - a.me); });
+    kids.push(N('div', { k: 'info-sec' }, [
+      N('div', { k: 'info-sec-h' }, [N('span', { txt: 'الأعضاء' }), N('b', { txt: String(mem.length) })]),
+      N('div', {}, mem.map(function (mm) {
+        return N('div', { k: 'set-row' }, [avatar(mm.name.slice(0, 1), roomHue(mm.id), 's'),
+          N('span', { sty: 'flex:1', txt: mm.name + (mm.me ? ' (أنت)' : '') }), mm.online ? N('span', { k: 'pulse up' }) : null]);
+      })),
+      N('button', { txt: 'نسخ رمز الدعوة', k: 'set-row', onclick: function () { copyText(room.code); } })
+    ]));
+
+    var isAdmin = room.admin === ME.username;
+    kids.push(N('div', { k: 'info-sec' }, [
+      N('div', { k: 'info-sec-h' }, [N('span', { txt: 'بوت المجموعة' })]),
+      room.bot ? N('div', { k: 'set-row' }, [N('span', { sty: 'font-size:22px', txt: room.bot.emoji }),
+        N('span', { sty: 'flex:1', txt: room.bot.name }),
+        N('span', { sty: 'color:var(--dim-2);font-size:11.5px', txt: 'نادوه بـ "@بوت"' })])
+        : N('p', { sty: 'margin:0 16px 10px;color:var(--dim-2);font-size:12px',
+            txt: isAdmin ? 'ما فيه بوت بعد — اختر وحد تحت' : 'الأدمن ما اختار بوت للمجموعة بعد' }),
+      isAdmin ? N('button', { k: 'set-row', onclick: function () { V.botPick = code; paint(); } },
+        [ic('one', 18), N('span', { txt: room.bot ? 'تغيير البوت' : 'اختيار بوت' })]) : null
+    ]));
+  }
+
+  kids.push(N('div', { k: 'info-sec' }, [
+    !isGroup && room.friendUser ? N('button', { k: 'set-row' + (blocked ? '' : ' bad'), onclick: function () {
+      if (blocked) { unblockUser(room.friendUser); }
+      else if (confirm('تحظر ' + room.title + '؟ رسائله ومكالماته ما توصلك بعدها.')) { blockUser(room.friendUser); }
+      paint();
+    } }, [ic('shut', 18), N('span', { txt: blocked ? 'إلغاء حظر @' + room.friendUser : 'حظر @' + room.friendUser })]) : null,
+    !isGroup && room.friendUser ? N('button', { k: 'set-row', onclick: function () {
+      if (confirm('تبلّغ عن ' + room.title + ' لمطوّر التطبيق؟ يقدر يوقف حسابه لو البلاغ صحيح.')) {
+        sendReport(room.friendUser, code);
+        alert('انبعث بلاغك. شكراً إنك بلّغت.');
+      }
+    } }, [ic('note', 18), N('span', { txt: 'أبلغ عن @' + room.friendUser })]) : null,
+    N('button', { k: 'set-row bad', onclick: function () { leaveRoom(code); V.infoFor = null; V.open = null; paint(); } },
+      [ic('out', 18), N('span', { txt: isGroup ? 'مغادرة المجموعة' : 'حذف المحادثة' })])
+  ]));
+
+  return N('div', { k: 'info-screen' }, kids);
+}
+
+function roomMenu(room, code) {
+  var isGroup = room.kind === 'group' || !room.kind;
+  var items = [];
+  if (isGroup) {
+    items.push(N('button', { txt: 'نسخ رمز الدعوة', onclick: function () { copyText(room.code); V.menu = false; paint(); } }));
+    if (typeof navigator.share === 'function') {
+      items.push(N('button', { txt: 'شارك رمز الدعوة', onclick: function () {
+        navigator.share({ title: 'هلا شات', text: 'انضم لمجموعتنا في هلا شات — رمز الدعوة: ' + room.code }).catch(function () {});
+        V.menu = false; paint();
+      } }));
+    }
+    items.push(N('button', { txt: 'الأعضاء', onclick: function () { V.menu = false; V.membersFor = code; paint(); } }));
+  } else if (room.friendUser) {
+    var blocked = isBlocked(room.friendUser);
+    items.push(N('button', { k: blocked ? '' : 'bad', txt: blocked ? 'إلغاء حظر @' + room.friendUser : 'حظر @' + room.friendUser,
+      onclick: function () {
+        if (blocked) { unblockUser(room.friendUser); }
+        else if (confirm('تحظر ' + room.title + '؟ رسائله ومكالماته ما توصلك بعدها.')) { blockUser(room.friendUser); }
+        V.menu = false; paint();
+      } }));
+  }
+  items.push(N('button', { txt: 'الوسائط', onclick: function () { V.menu = false; V.mediaFor = code; paint(); } }));
+  items.push(N('button', { txt: 'بحث بالمحادثة', onclick: function () { V.menu = false; V.searching = true; V.sq = ''; paint();
+    setTimeout(function () { var el = document.querySelector('[data-slot="sq"]'); if (el) el.focus(); }, 30);
+  } }));
+  items.push(N('button', { k: 'bad', txt: isGroup ? 'مغادرة المجموعة' : 'حذف المحادثة',
+    onclick: function () { leaveRoom(code); V.open = null; V.menu = false; paint(); } }));
+  return items;
+}
+
+function botPickDialog() {
+  var code = V.botPick;
+  var room = ROOMS.filter(function (r) { return r.code === code; })[0];
+  function shut() { V.botPick = null; paint(); }
+  if (!room) return null;
+  var kids = [
+    N('div', { k: 'sheet-h' }, [N('button', { k: 'ico', title: 'إغلاق', 'aria-label': 'إغلاق', onclick: shut }, [ic('shut', 21)]), N('b', { txt: 'اختر بوت المجموعة' })]),
+    N('div', { k: 'sheet-b' }, BOT_TYPES.map(function (t) {
+      return N('button', { k: 'set-row', onclick: function () { setGroupBot(code, t.id); shut(); } },
+        [N('span', { sty: 'font-size:22px', txt: t.emoji }), N('span', { sty: 'flex:1', txt: t.name }),
+          room.bot && room.bot.id === t.id ? ic('ok', 16) : null]);
+    }).concat(room.bot ? [N('button', { k: 'set-row bad', onclick: function () { setGroupBot(code, null); shut(); } },
+      [ic('trash', 18), N('span', { txt: 'إلغاء البوت من المجموعة' })])] : []))
+  ];
+  return N('div', { k: 'veil', onclick: shut }, [N('div', { k: 'sheet', onclick: function (e) { e.stopPropagation(); } }, kids)]);
+}
+
+function forwardDialog() {
+  function shut() { V.fwdMsg = null; paint(); }
+  var list = ROOMS.filter(function (r) { return !(r.kind === 'direct' && isBlocked(r.friendUser)); });
+  var body = list.length
+    ? N('div', { k: 'sheet-b' }, list.map(function (r) {
+        return N('button', { k: 'set-row', onclick: function () {
+          post(r.code, V.fwdMsg.body, null, 'text', null, null);
+          shut();
+        } }, [roomAvatar(r, 's'), N('span', { sty: 'flex:1', txt: r.title })]);
+      }))
+    : N('div', { k: 'sheet-b', sty: 'padding:30px;text-align:center;color:var(--dim);font-size:13px' }, [document.createTextNode('ما فيك دردشات ثانية توجّه لها')]);
+  var kids = [
+    N('div', { k: 'sheet-h' }, [N('button', { k: 'ico', title: 'إغلاق', 'aria-label': 'إغلاق', onclick: shut }, [ic('shut', 21)]), N('b', { txt: 'توجيه إلى…' })]),
+    body
+  ];
+  return N('div', { k: 'veil', onclick: shut }, [N('div', { k: 'sheet', onclick: function (e) { e.stopPropagation(); } }, kids)]);
+}
+
+
+function mediaDialog(code) {
+  function shut() { V.mediaFor = null; paint(); }
+  var pics = feedOf(code).filter(function (m) { return m.kind === 'image' && !m.deleted; });
+  var body = pics.length
+    ? N('div', { k: 'media-grid' }, pics.map(function (m) {
+        return N('img', { src: m.img, alt: '', onclick: function () { V.mediaFor = null; V.open = code; paint(); } });
+      }))
+    : N('div', { k: 'sheet-b', sty: 'padding:30px;text-align:center;color:var(--dim);font-size:13px' }, [document.createTextNode('ما فيه صور بهذي المحادثة بعد')]);
+  var kids = [
+    N('div', { k: 'sheet-h' }, [N('button', { k: 'ico', title: 'إغلاق', 'aria-label': 'إغلاق', onclick: shut }, [ic('shut', 21)]),
+      N('b', { txt: 'الوسائط (' + pics.length + ')' })]),
+    body
+  ];
+  return N('div', { k: 'veil', onclick: shut }, [N('div', { k: 'sheet', onclick: function (e) { e.stopPropagation(); } }, kids)]);
+}
+
+function membersDialog(code) {
+  function shut() { V.membersFor = null; paint(); }
+  var members = roomMembers(code).sort(function (a, b) { return (b.online - a.online) || (b.me - a.me); });
+  var rows = members.map(function (mm) {
+    return N('div', { k: 'set-row' }, [
+      avatar(mm.name.slice(0, 1), roomHue(mm.id), 's'),
+      N('span', { sty: 'flex:1' }, [N('span', { txt: mm.name + (mm.me ? ' (أنت)' : '') })]),
+      mm.online ? N('span', { k: 'pulse up' }) : null
+    ]);
+  });
+  var kids = [
+    N('div', { k: 'sheet-h' }, [
+      N('button', { k: 'ico', title: 'إغلاق', 'aria-label': 'إغلاق', onclick: shut }, [ic('shut', 21)]),
+      N('b', { txt: 'الأعضاء' })
+    ]),
+    N('div', { k: 'sheet-b' }, rows.concat([
+      N('p', { sty: 'margin:10px 16px;font-size:11.5px;color:var(--dim)', txt: 'هذي قائمة كل من فتح المجموعة وظهر حضوره — مو عضوية رسمية، ما فيها حذف أعضاء بعد.' })
+    ]))
+  ];
+  return N('div', { k: 'veil', onclick: shut }, [N('div', { k: 'sheet', onclick: function (e) { e.stopPropagation(); } }, kids)]);
+}
+
+function copyText(t) {
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).catch(function () {});
+}
+
+function stream(code) {
+  var f = feedOf(code);
+  if (V.searching && V.sq.trim()) {
+    var q = V.sq.trim();
+    f = f.filter(function (m) { return !m.deleted && m.kind !== 'play' && (m.body || '').indexOf(q) >= 0; });
+  }
+  var wrap = N('div', { k: 'feed' });
+  if (!f.length) {
+    wrap.appendChild(N('div', { k: 'nothing', txt: V.searching && V.sq.trim() ? 'ما فيه رسائل تطابق البحث' : LINK === 'up' ? 'ما فيه رسائل بعد.\nاكتب أول وحدة تحت.' : 'نتصل بشبكة الرسائل…' }));
+    return wrap;
+  }
+  var day = '', who = null, when = 0;
+  f.forEach(function (m) {
+    var d = dayName(m.t), fresh = d !== day;
+    if (fresh) { day = d; wrap.appendChild(N('div', { k: 'sep', txt: d })); who = null; }
+    var head = fresh || m.who !== who || (m.t - when) > 18e4;
+    wrap.appendChild(note(m, code, head));
+    who = m.who; when = m.t;
+  });
+  return wrap;
+}
+
+function note(m, code, head) {
+  var me = m.who === ME.id, kids = [];
+  if (head && !me) kids.push(N('div', { k: 'by', txt: m.name, sty: 'color:' + (m.hue || '#8696A0') }));
+
+  if (m.reply) {
+    kids.push(N('div', { k: 'quote' }, [
+      N('b', { txt: m.reply.name }),
+      N('span', { txt: m.reply.body })
+    ]));
+  }
+
+  if (m.kind === 'play') kids.push(gameCard(m.gid, code));
+
+  if (m.deleted) {
+    var delBody = N('div', { k: 'txt', sty: 'color:var(--dim);font-style:italic;display:flex;align-items:center;gap:6px' },
+      [ic('trash', 14), document.createTextNode('تم حذف هذي الرسالة')]);
+    delBody.appendChild(N('span', { k: 'gap' }));
+    kids.push(delBody);
+  } else if (m.kind === 'sticker') {
+    var stk = findSticker(m.stk || m.body);
+    kids.push(stk ? N('img', { src: stk.src, alt: stk.name, sty: 'width:128px;height:128px;display:block' })
+      : N('div', { k: 'txt', sty: 'color:var(--dim);font-style:italic', txt: 'ستيكر (' + m.body + ')' }));
+  } else if (m.kind === 'image') {
+    kids.push(N('img', { src: m.img, alt: '', sty: 'max-width:240px;max-height:320px;border-radius:10px;display:block;object-fit:cover' }));
+    if (m.body) {
+      var capBody = N('div', { k: 'txt', sty: 'margin-top:5px' });
+      capBody.appendChild(document.createTextNode(m.body));
+      capBody.appendChild(N('span', { k: 'gap' }));
+      kids.push(capBody);
+    }
+  } else {
+    var body = N('div', { k: 'txt' });
+    body.appendChild(document.createTextNode(m.kind === 'play' ? 'إكس-أو' : m.body));
+    if (m.edited) body.appendChild(N('span', { sty: 'color:var(--dim);font-size:11.5px', txt: ' (معدّلة)' }));
+    body.appendChild(N('span', { k: 'gap' }));
+    kids.push(body);
+  }
+
+  var st = [];
+  if (m.open && m.open > Date.now()) {
+    st.push(ic('time', 14, 'soon'));
+    st.push(N('span', { txt: hhmm(m.open), sty: 'color:var(--warn)' }));
+  } else {
+    st.push(N('span', { txt: hhmm(m.t) }));
+    if (me) st.push(ic(read(code, m) ? 'ok2' : 'ok', 15, read(code, m) ? 'ok2' : null));
+  }
+  kids.push(N('span', { k: 'stamp' }, st));
+
+  var es = Object.keys(m.felt || {});
+  if (es.length) {
+    kids.push(N('div', { k: 'rx' }, es.map(function (e) {
+      var who = m.felt[e];
+      return N('button', { k: who.indexOf(ME.id) >= 0 ? 'on' : '',
+        onclick: function (ev) { ev.stopPropagation(); feel(code, m.id, e); paint(); } },
+        [N('span', { txt: e }), who.length > 1 ? N('span', { k: 'c', txt: String(who.length) }) : null]);
+    })));
+  }
+
+  if (m.kind !== 'play' && !m.deleted) {
+    kids.push(N('button', { k: 'pull', title: 'خيارات', 'aria-label': 'خيارات',
+      onclick: function (ev) { ev.stopPropagation(); V.emos = V.emos === m.id ? null : m.id; paint(); } }, [ic('down', 18)]));
+    if (V.emos === m.id) {
+      var panel = ['👍','❤️','😂','😮','😢','🙏'].map(function (e) {
+        var on = (m.felt && m.felt[e] || []).indexOf(ME.id) >= 0;
+        return N('button', { k: on ? 'on' : '', txt: e, onclick: function () { feel(code, m.id, e); V.emos = null; paint(); } });
+      });
+      if (m.kind !== 'sticker') {
+        panel.push(N('button', { title: 'رد', 'aria-label': 'رد', onclick: function () {
+          V.replyTo = { id: m.id, name: m.name, body: m.kind === 'image' ? '📷 صورة' : m.body };
+          V.emos = null; paint();
+          var ta = document.querySelector('[data-slot="pen"]'); if (ta) ta.focus();
+        } }, [ic('reply', 16)]));
+      }
+      if (m.kind === 'text' && !m.deleted) {
+        panel.push(N('button', { title: 'توجيه', 'aria-label': 'توجيه', onclick: function () {
+          V.fwdMsg = { body: m.body }; V.emos = null; paint();
+        } }, [ic('fwd', 16)]));
+      }
+      if (me && m.kind !== 'image' && m.kind !== 'sticker') {
+        panel.push(N('button', { title: 'تعديل', 'aria-label': 'تعديل', onclick: function () {
+          V.editingMsg = m.id; V.note = m.body; V.emos = null; paint();
+        } }, [ic('pen', 15)]));
+      }
+      if (me) {
+        panel.push(N('button', { title: 'حذف', 'aria-label': 'حذف', onclick: function () {
+          if (confirm('تحذف هذي الرسالة؟')) deleteMsg(code, m.id);
+          V.emos = null; paint();
+        } }, [ic('trash', 15)]));
+      }
+      kids.push(N('div', { k: 'emos', onclick: function (e) { e.stopPropagation(); } }, panel));
+    }
+  }
+
+  // نعطي حركة "الظهور" لأول مرة بس — لو أعطيناها لكل رسالة بكل إعادة
+  // رسم (يصير كثير: رسالة جديدة، نبضة كتابة، تحديث حضور...)، كل
+  // الفقاعات القديمة كانت تهتز من جديد كل مرة، وهذا كان مزعج فعلاً.
+  var isFresh = !ANIMATED_MSGS[m.id];
+  ANIMATED_MSGS[m.id] = true;
+  var b = N('div', { k: 'bub' + (isFresh ? ' bub-in' : '') + (head && m.kind !== 'sticker' ? ' tip-l' : '') + (m.kind === 'sticker' ? ' sticker' : '') }, kids);
+  return N('div', { k: 'line' + (me ? ' me' : '') + (head ? ' fresh' : '') + (es.length ? ' rxd' : '') }, [b]);
+}
+
+function gameCard(gid, code) {
+  var g = GAMES[gid];
+  if (!g) return N('div', { k: 'play', txt: 'جاري تحميل اللوحة…' });
+  var s = ME.id === g.x ? 'X' : (ME.id === g.o ? 'O' : null);
+  var turn = !g.over && (s === g.turn || (!g.o && ME.id !== g.x));
+  var word = g.over ? (g.won === 'tie' ? 'تعادل' : 'فاز ' + g.won)
+    : (!g.o ? 'اضغط أي مربع وتدخل اللعبة' : (turn ? 'دورك' : 'ننتظر الطرف الثاني'));
+  return N('div', { k: 'play' }, [
+    N('div', { k: 'play-h' }, [ic('grid', 15), N('span', { txt: 'إكس-أو' })]),
+    N('div', { k: 'net' }, g.b.split('').map(function (c, i) {
+      return N('button', { k: 'sq' + (c === 'X' ? ' x' : c === 'O' ? ' o' : ''), txt: c === '.' ? '' : c,
+        'aria-label': 'مربع ' + (i+1), disabled: (c !== '.' || g.over || !turn) ? 'disabled' : null,
+        onclick: function () { drop(code, g.id, i); } });
+    })),
+    N('div', { k: 'play-s', txt: word })
+  ]);
+}
+
+function tapRow(code) {
+  var hash = fnv(code.trim().toLowerCase());
+  var t = TAPS[hash] || {}, names = [];
+  for (var id in t) {
+    if (Date.now() - t[id].t > 3500) { delete t[id]; continue; }
+    if (id !== ME.id) names.push(t[id].n);
+  }
+  if (!names.length) return N('div', { k: 'tap' });
+  return N('div', { k: 'tap' }, [N('span', { k: 'blips' }, [N('i'),N('i'),N('i')]), N('span', { txt: names.join('، ') + ' يكتب' })]);
+}
+
+function botStatusRow(code) {
+  var room = ROOMS.filter(function (r) { return r.code === code; })[0];
+  if (!room || !room.bot) return null;
+  if (V.botThinking === room.bot.id) {
+    return N('div', { k: 'tap' }, [N('span', { k: 'blips' }, [N('i'), N('i'), N('i')]), N('span', { txt: room.bot.name + ' يفكر…' })]);
+  }
+  if (V.botErr) {
+    return N('div', { k: 'err', sty: 'margin:0 12px 6px;display:flex;align-items:center;gap:8px' }, [
+      N('span', { sty: 'flex:1', txt: V.botErr }),
+      N('button', { title: 'إغلاق', 'aria-label': 'إغلاق', onclick: function () { V.botErr = ''; paint(); } }, [ic('shut', 14)])
+    ]);
+  }
+  return null;
+}
+
+var beat = null;
+var searchPaintTimer = null;
+var typingActive = false;
+function pen(code) {
+  var at = N('input', { type: 'datetime-local', 'data-slot': 'when', value: V.whenVal,
+    oninput: function (e) { V.whenVal = e.target.value; } });
+  var MSG_MAX = 4000;   // حد معقول جداً لأي رسالة نصية، يمنع لصق نص ضخم بالغلط
+  var area = N('textarea', { rows: 1, placeholder: V.editingMsg ? 'عدّل رسالتك' : 'اكتب رسالة', 'data-slot': 'pen', maxlength: String(MSG_MAX),
+    oninput: function (e) {
+      V.note = e.target.value.slice(0, MSG_MAX);
+      e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 112) + 'px';
+      // نبلّغ "أكتب" مرة وحدة بس عند البداية، مو مع كل حرف —
+      // إرسال حدث شبكة مع كل ضغطة كان يسبب تجمّد ملحوظ وقت الكتابة السريعة.
+      if (!typingActive) { typingActive = true; typingPing(code, true); }
+      clearTimeout(beat);
+      beat = setTimeout(function () { typingActive = false; typingPing(code, false); }, 1700);
+    },
+    onkeydown: function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); fire(); } }
+  });
+  area.value = V.note;
+
+  function fire() {
+    var body = V.note.trim().slice(0, MSG_MAX);
+    if (!body) return;
+    if (V.editingMsg) {
+      var editingId = V.editingMsg;
+      V.editingMsg = null; V.note = '';
+      editMsg(code, editingId, body);   // ينادي paint() بنفسه — رسمة وحدة تعكس التعديل ومسح الصندوق معاً
+      return;
+    }
+    var open = (V.timed && V.whenVal) ? new Date(V.whenVal).getTime() : null;
+    var replyTo = V.replyTo;
+    V.note = ''; V.timed = false; V.pad = false; V.whenVal = ''; V.replyTo = null;
+    typingActive = false;
+    clearTimeout(beat);
+    typingPing(code, false);
+    post(code, body, open, null, null, replyTo);   // ينادي paint() بنفسه — رسمة وحدة تعكس الرسالة الجديدة ومسح الصندوق معاً.
+    // (قبل هذا الإصلاح، كنا ننادي paint() مرة ثانية هنا بعد post() — رسمتين
+    // متتاليتين لكل رسالة كانت تمسح علامة "جديدة" قبل ما تظهر، وهذا كان
+    // يسبب إعادة رسم الفقاعات القديمة بلا داعي = الاهتزاز المزعج.)
+  }
+
+  var imgInput = N('input', { type: 'file', accept: 'image/*', sty: 'display:none',
+    onchange: function (e) {
+      var f = e.target.files && e.target.files[0];
+      e.target.value = '';
+      if (!f) return;
+      V.imgBusy = true; paint();
+      prepareImageForChat(f, function (dataUrl, err) {
+        V.imgBusy = false;
+        if (err) { V.imgErr = err; paint(); setTimeout(function () { V.imgErr = ''; paint(); }, 3500); return; }
+        postImage(code, dataUrl, '');
+      });
+    } });
+
+  var rows = [];
+  if (V.imgErr) rows.push(N('div', { k: 'err', sty: 'margin:0 0 6px', txt: V.imgErr }));
+  if (V.editingMsg) {
+    rows.push(N('div', { k: 'clock-row' }, [ic('pen', 16), N('span', { txt: 'تعديل رسالة' }),
+      N('button', { k: 'gen', txt: 'إلغاء', onclick: function () { V.editingMsg = null; V.note = ''; paint(); } })]));
+  }
+  if (V.replyTo) {
+    rows.push(N('div', { k: 'clock-row' }, [ic('reply', 16),
+      N('span', { sty: 'flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap', txt: 'رد على ' + V.replyTo.name + ': ' + V.replyTo.body }),
+      N('button', { k: 'gen', txt: 'إلغاء', onclick: function () { V.replyTo = null; paint(); } })]));
+  }
+  if (V.pad) {
+    rows.push(N('div', { k: 'seg', sty: 'padding:6px 10px 0' }, [
+      N('button', { k: V.padTab !== 'stk' ? 'on' : '', txt: 'إيموجي', onclick: function () { V.padTab = 'emoji'; paint(); } }),
+      N('button', { k: V.padTab === 'stk' ? 'on' : '', txt: 'ستيكرات', onclick: function () { V.padTab = 'stk'; paint(); } })
+    ]));
+    if (V.padTab === 'stk') {
+      rows.push(N('div', { k: 'pad-row sticker-row' }, STICKERS.map(function (s) {
+        return N('button', { title: s.name, onclick: function () { V.pad = false; postSticker(code, s); } },
+          [N('img', { src: s.src, alt: s.name, sty: 'width:44px;height:44px;display:block' })]);
+      })));
+    } else {
+      rows.push(N('div', { k: 'pad-row' }, ['😀','😂','🥲','😍','😎','🤔','👍','🙏','🔥','❤️','🎉','💯','😴','🤝','👏','🌙','☕','⚽'].map(function (e) {
+        return N('button', { txt: e, onclick: function () { V.note += e; paint(); } });
+      })));
+    }
+  }
+  if (V.timed) {
+    rows.push(N('div', { k: 'clock-row' }, [ic('time', 17), N('span', { txt: 'تنفتح الرسالة:' }), at,
+      N('span', { txt: 'تنبيه: أي أحد بالشبكة يقدر يشوف بيانات الرسالة وقت إرسالها، بس الشاشة تخفيها عنه لين وقتها.' })]));
+  }
+  rows.push(N('div', { k: 'write-row' }, [
+    N('button', { k: 'ico' + (V.pad ? ' act' : ''), title: 'إيموجي وستيكرات', 'aria-label': 'إيموجي وستيكرات', onclick: function () { V.pad = !V.pad; paint(); } }, [ic('face', 23)]),
+    N('button', { k: 'ico', title: V.imgBusy ? 'جاري التجهيز…' : 'إرسال صورة', 'aria-label': 'إرسال صورة', disabled: V.imgBusy ? 'disabled' : null,
+      onclick: function () { imgInput.click(); } }, [ic('cam', 22)]),
+    imgInput,
+    N('button', { k: 'ico' + (V.timed ? ' act' : ''), title: 'رسالة موقوتة', 'aria-label': 'رسالة موقوتة', onclick: function () { V.timed = !V.timed; paint(); } }, [ic('time', 22)]),
+    N('button', { k: 'ico', title: 'ابدأ لعبة إكس-أو', 'aria-label': 'لعبة إكس-أو', onclick: function () { startGame(code); } }, [ic('grid', 22)]),
+    N('div', { k: 'box' }, [area]),
+    N('button', { k: 'go', title: 'إرسال', 'aria-label': 'إرسال', onclick: fire }, [ic('plane', 21)])
+  ]));
+  return N('div', { k: 'write' }, rows);
+}
+
+/* ---------- نافذة إنشاء/انضمام لغرفة ---------- */
+function dialog() {
+  var TITLE_MAX = 60, CODE_MAX = 80;
+  function shut() { V.sheet = false; paint(); }
+
+  function goGroup() {
+    var code = V.code.trim().slice(0, CODE_MAX);
+    if (!code) return;
+    var isCreating = V.dtab === 'newgroup';
+    // بالإنشاء: نمرر الاسم اللي كتبه المنشئ وننشره كأدمن. بالانضمام: ما
+    // نمرر أي اسم إطلاقاً — الاسم الصحيح يوصل تلقائياً من مزامنة الأدمن،
+    // وما نبيه يظهر حقل "سمّي المجموعة" لأي حد ينضم غير اللي أنشأها.
+    var r = joinRoom(code, isCreating ? (V.title.trim().slice(0, TITLE_MAX) || code) : null, 'group', isCreating);
+    V.open = r.code; V.sheet = false; markSeen(r.code); paint();
+  }
+  function goFriend() {
+    var uname = V.code.trim().toLowerCase();
+    if (!uname || V.busy) return;
+    V.busy = true; V.fidErr = ''; paint();
+    addFriendByUsername(uname, function (res) {
+      V.busy = false;
+      if (res.error) { V.fidErr = res.error; paint(); return; }
+      V.open = res.room.code; V.sheet = false; markSeen(res.room.code); paint();
+    });
+  }
+
+  var body = [];
+  if (V.dtab === 'friend') {
+    body.push(N('div', { k: 'txt-fld' }, [
+      N('label', { k: 'fld-lab', txt: 'اسم مستخدم صاحبك' }),
+      N('input', { value: V.code, 'data-slot': 'gc', dir: 'ltr', placeholder: 'مثلاً: salem', maxlength: '20',
+        oninput: function (e) { V.code = e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ''); },
+        onkeydown: function (e) { if (e.key === 'Enter') goFriend(); } })
+    ]));
+    if (V.fidErr) body.push(N('div', { k: 'err', sty: 'margin:0 16px 14px', txt: V.fidErr }));
+    body.push(N('p', { k: 'hint-line', txt: 'اطلب من صاحبك اسم المستخدم حقّه، واكتبه هنا. ما يحتاج رمز يدوي.' }));
+  } else if (V.dtab === 'newgroup') {
+    body.push(N('div', { k: 'txt-fld' }, [
+      N('label', { k: 'fld-lab', txt: 'اسم المجموعة' }),
+      N('input', { value: V.title, 'data-slot': 'gt', placeholder: 'مثلاً: شلة المدرسة', maxlength: String(TITLE_MAX),
+        oninput: function (e) { V.title = e.target.value; } })
+    ]));
+    body.push(N('div', { k: 'txt-fld' }, [
+      N('div', { k: 'fld-lab row' }, [
+        N('span', { txt: 'رمز الدعوة' }),
+        N('button', { k: 'gen', txt: 'رمز جديد', onclick: function () { V.code = randomCode(); paint(); } })
+      ]),
+      N('div', { k: 'code-box' }, [
+        N('b', { txt: V.code }),
+        N('button', { title: 'نسخ', 'aria-label': 'نسخ الرمز', onclick: function () { copyText(V.code); } }, [ic('copy', 17)])
+      ])
+    ]));
+    body.push(N('p', { k: 'hint-line', txt: 'أرسل هذا الرمز لأعضاء المجموعة، وخلّهم يضغطون "انضم لمجموعة" ويكتبونه.' }));
+  } else {
+    body.push(N('div', { k: 'txt-fld' }, [
+      N('label', { k: 'fld-lab', txt: 'رمز الدعوة اللي أرسلوه لك' }),
+      N('input', { value: V.code, 'data-slot': 'gc', dir: 'ltr', placeholder: 'الصق الرمز هنا', maxlength: String(CODE_MAX),
+        oninput: function (e) { V.code = e.target.value; },
+        onkeydown: function (e) { if (e.key === 'Enter') goGroup(); } })
+    ]));
+    body.push(N('p', { k: 'hint-line', txt: 'اسم المجموعة وصورتها يجيبهم التطبيق تلقائياً من الأدمن — ما تحتاج تكتبهم.' }));
+  }
+
+  var goFn = V.dtab === 'friend' ? goFriend : (V.dtab === 'newgroup' ? goGroup : goGroup);
+  var btnLabel = V.dtab === 'friend' ? (V.busy ? 'جاري البحث…' : 'أضف الصديق') : (V.dtab === 'newgroup' ? 'إنشاء ودخول' : 'انضم للمجموعة');
+
+  var kids = [
+    N('div', { k: 'sheet-h' }, [
+      N('button', { k: 'ico', title: 'إغلاق', 'aria-label': 'إغلاق', onclick: shut }, [ic('shut', 21)]),
+      N('b', { txt: 'دردشة جديدة' })
+    ]),
+    N('div', { k: 'seg' }, [
+      N('button', { k: V.dtab === 'friend' ? 'on' : '', txt: 'صديق جديد',
+        onclick: function () { V.dtab = 'friend'; V.code = ''; V.fidErr = ''; paint(); } }),
+      N('button', { k: V.dtab === 'newgroup' ? 'on' : '', txt: 'إنشاء مجموعة',
+        onclick: function () { V.dtab = 'newgroup'; V.code = randomCode(); V.title = ''; paint(); } }),
+      N('button', { k: V.dtab === 'joingroup' ? 'on' : '', txt: 'انضم لمجموعة',
+        onclick: function () { V.dtab = 'joingroup'; V.code = ''; V.title = ''; paint(); } })
+    ]),
+    N('div', { k: 'sheet-b' }, body),
+    N('div', { k: 'sheet-f' }, [N('button', { k: 'btn', txt: btnLabel, disabled: V.busy ? 'disabled' : null, onclick: goFn })])
+  ];
+  return N('div', { k: 'veil', onclick: shut }, [N('div', { k: 'sheet', onclick: function (e) { e.stopPropagation(); } }, kids)]);
+}
+
+/* ---------- نافذة تعديل البروفايل ---------- */
+function profileDialog() {
+  var NAME_MAX = 30;
+  function shut() { V.profileSheet = false; paint(); }
+  function save() {
+    var v = V.editName.trim().slice(0, NAME_MAX);
+    if (v.length < 2) return;
+    updateProfile(v, V.editAvatar);
+    V.profileSheet = false; paint();
+  }
+  var fileInput = N('input', { type: 'file', accept: 'image/*', sty: 'display:none',
+    onchange: function (e) {
+      var f = e.target.files && e.target.files[0];
+      if (!f) return;
+      shrinkImage(f, 96, function (dataUrl) { V.editAvatar = dataUrl; paint(); });
+    } });
+  var pic = N('button', { k: 'pick-avatar', title: 'غيّر الصورة', 'aria-label': 'غيّر الصورة',
+    onclick: function () { fileInput.click(); } },
+    [avatar(V.editName.slice(0, 1), ME.hue, 'l', false, V.editAvatar), N('span', { k: 'cam-badge' }, [ic('cam', 12)])]);
+
+  var kids = [
+    N('div', { k: 'sheet-h' }, [
+      N('button', { k: 'ico', title: 'إغلاق', 'aria-label': 'إغلاق', onclick: shut }, [ic('shut', 21)]),
+      N('b', { txt: 'بروفايلك' })
+    ]),
+    N('div', { k: 'sheet-b' }, [
+      N('div', { k: 'pick-row' }, [pic, fileInput]),
+      N('div', { k: 'txt-fld' }, [
+        N('label', { k: 'fld-lab', txt: 'اسمك' }),
+        N('input', { value: V.editName, 'data-slot': 'pn', maxlength: String(NAME_MAX),
+          oninput: function (e) { V.editName = e.target.value; } })
+      ]),
+      N('div', { k: 'txt-fld' }, [
+        N('label', { k: 'fld-lab', txt: 'اسم المستخدم حقّك (يضيفك فيه أصحابك)' }),
+        N('div', { k: 'code-box' }, [
+          N('b', { txt: '@' + ME.username }),
+          N('button', { title: 'نسخ', 'aria-label': 'نسخ اسم المستخدم', onclick: function () { copyText(ME.username); } }, [ic('copy', 17)])
+        ])
+      ])
+    ]),
+    N('div', { k: 'sheet-f' }, [N('button', { k: 'btn', txt: 'حفظ', onclick: save })])
+  ];
+  return N('div', { k: 'veil', onclick: shut }, [N('div', { k: 'sheet', onclick: function (e) { e.stopPropagation(); } }, kids)]);
+}
+
+/* ---------- نافذة الإعدادات ---------- */
+/* ---------- نافذة "قريباً" — بصراحة، ميزة المكالمات مو موجودة بعد ---------- */
+/* ---------- واجهة المكالمة — تظهر فوق كل شي، بكل حالاتها ---------- */
+function fmtDur(ms) {
+  var s = Math.floor(ms / 1000), m = Math.floor(s / 60);
+  return z(m) + ':' + z(s % 60);
+}
+function callOverlay() {
+  if (!CALL) return null;
+  var av = CALL.peerAvatar
+    ? N('img', { k: 'call-photo', src: CALL.peerAvatar, alt: CALL.peerName })
+    : avatar(CALL.peerName.slice(0, 1), roomHue(CALL.code || CALL.hash), 'l');
+  // خلفية ضبابية من نفس صورة الشخص (لو موجودة) — زي فيستايم بالضبط،
+  // هذا اللي يخلّي الشاشة تحس فيها إحساس المكالمة الحقيقية، مو تصميم فاضي.
+  var bgStyle = CALL.peerAvatar ? "background-image:url('" + CALL.peerAvatar + "')" : '';
+
+  if (CALL.err) {
+    return N('div', { k: 'call-screen' }, [
+      ic('phone', 40), N('p', { sty: 'margin-top:14px;color:#fff', txt: CALL.err })
+    ]);
+  }
+
+  if (CALL.state === 'ringing') {
+    var handle = N('div', { k: 'call-handle' }, [ic(CALL.withVideo ? 'vid' : 'phone', 24)]);
+    var drag = { on: false, x: 0, sx: 0 };
+    // مهم: الصفحة RTL — يعني بالتخطيط، زر الرفض (الأحمر) يطلع فعلياً
+    // يمين الشاشة، وزر القبول (الأخضر) يسارها (أول عنصر بترتيب HTML
+    // يطلع يمين بالـ RTL). سحب المقبض يمين (قيمة موجبة) لازم يودّي
+    // لجهة الأحمر = رفض، وسحبه يسار (قيمة سالبة) لجهة الأخضر = قبول.
+    function dragMove(clientX) {
+      if (!drag.on) return;
+      drag.x = Math.max(-92, Math.min(92, clientX - drag.sx));
+      handle.style.transform = 'translateX(' + drag.x + 'px)';
+      handle.style.background = drag.x > 46 ? 'var(--bad)' : drag.x < -46 ? '#2FBF71' : '';
+    }
+    function dragEnd() {
+      if (!drag.on) return;
+      drag.on = false;
+      if (drag.x > 78) rejectCall();
+      else if (drag.x < -78) acceptCall();
+      else { handle.style.transform = ''; handle.style.background = ''; }
+    }
+    handle.addEventListener('pointerdown', function (e) { drag.on = true; drag.sx = e.clientX; try { handle.setPointerCapture(e.pointerId); } catch (er) {} });
+    handle.addEventListener('pointermove', function (e) { dragMove(e.clientX); });
+    handle.addEventListener('pointerup', dragEnd);
+    handle.addEventListener('pointercancel', dragEnd);
+
+    return N('div', { k: 'call-screen', sty: bgStyle }, [
+      N('div', { k: 'call-bg-shade' }),
+      N('div', { k: 'call-who' }, [N('div', { k: 'call-photo-ring' }, [av]), N('b', { txt: CALL.peerName }), N('span', { txt: (CALL.withVideo ? 'مكالمة فيديو' : 'مكالمة صوتية') + ' واردة…' })]),
+      N('div', { k: 'call-swipe' }, [
+        N('div', { k: 'call-swipe-side bad' }, [ic('shut', 22)]),
+        handle,
+        N('div', { k: 'call-swipe-side ok' }, [ic(CALL.withVideo ? 'vid' : 'phone', 20)])
+      ]),
+      N('p', { k: 'call-hint', txt: 'اسحب المقبض يمين تقبل، يسار ترفض' }),
+      N('div', { k: 'call-actions' }, [
+        N('div', { k: 'call-btn-wrap' }, [N('button', { k: 'call-btn bad', title: 'رفض', 'aria-label': 'رفض', onclick: rejectCall }, [ic('shut', 26)]), N('span', { txt: 'رفض' })]),
+        N('div', { k: 'call-btn-wrap' }, [N('button', { k: 'call-btn ok', title: 'قبول', 'aria-label': 'قبول', onclick: acceptCall }, [ic(CALL.withVideo ? 'vid' : 'phone', 24)]), N('span', { txt: 'قبول' })])
+      ])
+    ]);
+  }
+
+  if (CALL.state === 'calling' || CALL.state === 'connecting') {
+    return N('div', { k: 'call-screen', sty: bgStyle }, [
+      N('div', { k: 'call-bg-shade' }),
+      N('div', { k: 'call-who' }, [N('div', { k: 'call-photo-ring' }, [av]), N('b', { txt: CALL.peerName }), N('span', { txt: CALL.state === 'calling' ? 'يرن…' : 'يتصل…' })]),
+      N('div', { k: 'call-actions' }, [
+        N('div', { k: 'call-btn-wrap' }, [N('button', { k: 'call-btn bad', title: 'إلغاء', 'aria-label': 'إلغاء', onclick: endCall }, [ic('shut', 26)]), N('span', { txt: 'إنهاء' })])
+      ])
+    ]);
+  }
+
+  // متصلة فعلياً
+  var vids = [];
+  if (CALL.withVideo) {
+    vids.push(N('video', { k: 'call-remote', autoplay: 'autoplay', playsinline: 'playsinline',
+      ref: function (el) { if (el && CALL.remoteStream && el.srcObject !== CALL.remoteStream) el.srcObject = CALL.remoteStream; } }));
+    vids.push(N('video', { k: 'call-local', autoplay: 'autoplay', muted: 'muted', playsinline: 'playsinline',
+      ref: function (el) { if (el && CALL.localStream && el.srcObject !== CALL.localStream) el.srcObject = CALL.localStream; } }));
+  }
+  return N('div', { k: 'call-screen' + (CALL.withVideo ? ' vid' : ''), sty: CALL.withVideo ? '' : bgStyle }, [CALL.withVideo ? null : N('div', { k: 'call-bg-shade' })].concat(vids).concat([
+    N('div', { k: 'call-who' }, [CALL.withVideo ? null : N('div', { k: 'call-photo-ring' }, [av]), N('b', { txt: CALL.peerName }),
+      N('span', { txt: fmtDur(Date.now() - CALL.startedAt) })]),
+    N('div', { k: 'call-actions' }, [
+      N('div', { k: 'call-btn-wrap' }, [N('button', { k: 'call-btn' + (CALL.muted ? ' on' : ''), title: CALL.muted ? 'شغّل الصوت' : 'كتم', 'aria-label': 'كتم', onclick: toggleMute }, [ic('mic', 22)]), N('span', { txt: CALL.muted ? 'مكتوم' : 'كتم' })]),
+      CALL.withVideo ? N('div', { k: 'call-btn-wrap' }, [N('button', { k: 'call-btn' + (CALL.videoOff ? ' on' : ''), title: 'الكاميرا', 'aria-label': 'الكاميرا', onclick: toggleCallVideo }, [ic('vid', 21)]), N('span', { txt: 'كاميرا' })]) : null,
+      N('div', { k: 'call-btn-wrap' }, [N('button', { k: 'call-btn bad', title: 'إنهاء', 'aria-label': 'إنهاء المكالمة', onclick: endCall }, [ic('shut', 26)]), N('span', { txt: 'إنهاء' })])
+    ])
+  ]));
+}
+
+function soonDialog() {
+  function shut() { V.soonSheet = false; paint(); }
+  var direct = ROOMS.filter(function (r) { return r.kind === 'direct'; });
+  var body;
+  if (!direct.length) {
+    body = N('div', { k: 'sheet-b', sty: 'display:flex;flex-direction:column;align-items:center;gap:14px;padding:36px 24px;text-align:center' }, [
+      ic('phone', 46),
+      N('p', { sty: 'margin:0;color:var(--dim);font-size:13.5px;line-height:1.7', txt: 'المكالمات موجودة! بس تحتاج تضيف صديق أول — افتح "جهات الاتصال" بالأسفل.' })
+    ]);
+  } else {
+    body = N('div', { k: 'sheet-b' }, direct.map(function (r) {
+      return N('button', { k: 'set-row', onclick: function () { V.soonSheet = false; V.open = r.code; paint(); } }, [
+        roomAvatar(r, 's'), N('span', { sty: 'flex:1', txt: r.title }),
+        N('span', { sty: 'color:var(--accent)', title: 'مكالمة صوتية', onclick: function (e) { e.stopPropagation(); V.soonSheet = false; startCall(r.code, false); } }, [ic('phone', 19)])
+      ]);
+    }).concat([N('p', { sty: 'margin:8px 16px 16px;color:var(--dim-2);font-size:11.5px;line-height:1.6',
+      txt: 'اضغط أي اسم يفتح محادثته (فيها زر اتصال فوق)، أو اضغط أيقونة الهاتف تتصل فيه على طول.' })]));
+  }
+  var kids = [
+    N('div', { k: 'sheet-h' }, [
+      N('button', { k: 'ico', title: 'إغلاق', 'aria-label': 'إغلاق', onclick: shut }, [ic('shut', 21)]),
+      N('b', { txt: 'الاتصالات' })
+    ]),
+    body
+  ];
+  return N('div', { k: 'veil', onclick: shut }, [N('div', { k: 'sheet', onclick: function (e) { e.stopPropagation(); } }, kids)]);
+}
+
+function settingsDialog() {
+  function shut() { V.settingsSheet = false; paint(); }
+  var kids = [
+    N('div', { k: 'sheet-h' }, [
+      N('button', { k: 'ico', title: 'إغلاق', 'aria-label': 'إغلاق', onclick: shut }, [ic('shut', 21)]),
+      N('b', { txt: 'الإعدادات' })
+    ]),
+    N('div', { k: 'sheet-b' }, [
+      N('button', { k: 'set-row', onclick: function () { V.settingsSheet = false; V.profileSheet = true; V.editName = ME.name; V.editAvatar = ME.avatar || null; paint(); } },
+        [ic('one', 20), N('span', { txt: 'البروفايل — الاسم والصورة والرقم' })]),
+      N('button', { k: 'set-row', onclick: function () { copyText(ME.username); } },
+        [ic('hash', 20), N('span', { txt: 'نسخ اسم المستخدم (@' + ME.username + ')' })]),
+      N('button', { k: 'set-row', onclick: toggleNotif },
+        [ic('bell', 20), N('span', { sty: 'flex:1', txt: 'تنبيهات المتصفح' }), N('span', { k: 'mark' + (V.notifOn ? ' on' : ''), sty: 'display:grid' }, V.notifOn ? [ic('ok', 13)] : [])]),
+      V.pushStatus ? N('p', { sty: 'margin:0 16px 8px;font-size:11.5px;color:var(--dim);line-height:1.6', txt: 'حالة الاشتراك: ' + V.pushStatus }) : null,
+      V.notifOn ? N('button', { k: 'gen', sty: 'display:block;margin:0 16px 14px;font-size:12.5px', onclick: sendTestPush }, [document.createTextNode('🔔 أرسل تنبيه تجريبي لنفسي')]) : null,
+      N('div', { k: 'set-note' }, [ic('note', 15), N('span', { txt: 'حسابك محفوظ باسم المستخدم والرمز السري — تقدر تسجّل دخول فيه من أي جهاز، حتى لو مسحت بيانات المتصفح.' })]),
+      N('button', { k: 'set-row bad', onclick: function () { logout(); paint(); } },
+        [ic('out', 20), N('span', { txt: 'تسجيل الخروج' })]),
+      N('button', { k: 'set-row bad', onclick: function () {
+        if (!confirm('تحذف حسابك نهائياً؟ رسائلك تتحذف من كل محادثاتك، وحسابك ما يرجع.')) return;
+        if (!confirm('متأكد ١٠٠٪؟ ما فيه رجوع بعد كذا.')) return;
+        deleteAccountForever();
+      } }, [ic('trash', 20), N('span', { txt: 'حذف حسابي نهائياً' })])
+    ])
+  ];
+  return N('div', { k: 'veil', onclick: shut }, [N('div', { k: 'sheet', onclick: function (e) { e.stopPropagation(); } }, kids)]);
+}
+
+/* ---------- إغلاق القوائم ---------- */
+document.addEventListener('click', function () { if (V.emos !== null || V.menu) { V.emos = null; V.menu = false; paint(); } });
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'Escape') return;
+  if (V.emos !== null || V.menu) { V.emos = null; V.menu = false; paint(); }
+  else if (V.sheet) { V.sheet = false; paint(); }
+  else if (V.open) { V.open = null; paint(); }
+});
+
+/* ---------- نبضات محلية: موقوتة + تنظيف مؤشرات الكتابة القديمة ---------- */
+var lastTapSig = '';
+setInterval(function () {
+  if (!ME) return;
+  var t = Date.now(), due = false;
+  for (var h in MSGS) for (var i = 0; i < MSGS[h].length; i++) {
+    var m = MSGS[h][i];
+    if (m.open && m.open <= t && m.open > t - 1100) { due = true; break; }
+  }
+  var live = [];
+  if (V.open) { var hh = fnv(V.open.trim().toLowerCase()); var tp = TAPS[hh] || {};
+    for (var id in tp) if (t - tp[id].t <= 3500) live.push(id); }
+  var sig = live.sort().join(',');
+  if (due || sig !== lastTapSig) { lastTapSig = sig; paint(); }
+}, 900);
+
+setInterval(function () {
+  if (ME && V.open && document.hasFocus()) markSeen(V.open);
+}, 1500);
+
+// نسجّل عامل الخدمة (شرط تقني عشان المتصفح ومولّدات APK يعتبرون
+// الصفحة تطبيق ويب تقدمي قابل للتثبيت). لو فشل لأي سبب، نتجاهله
+// بهدوء — التطبيق يشتغل عادي بدونه، بس ما يصير "قابل للتثبيت".
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  });
+}
+
+// لو المستخدم مسجّل دخول أصلاً (فتح التطبيق عادي، مو أول تسجيل) وعنده
+// التنبيهات مفعّلة من قبل، نتأكد الاشتراك بتنبيهات الدفع موجود وصالح —
+// بدون هذا السطر، تفعيل قديم للتنبيهات (من قبل ما نضيف هذي الميزة)
+// ما يشترك تلقائياً؛ يحتاج لمسة وحدة هنا كل ما يفتح التطبيق.
+if (ME && V.notifOn) subscribeToPush();
+
+paint();
+</script>
+
+</body>
+</html>
