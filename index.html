@@ -458,6 +458,9 @@ function sendToAqua(text) {
     });
 }
 var NS = 'halachat9x';   // بادئة تميّز رسائلنا عن غيرنا على نفس البروكر العام
+// أعلام تفعيل مؤقتة — الميزتين موجودتين كاملتين بالكود، بس معطّلتين من
+// الواجهة. لو تبي ترجعهم بالمستقبل، بس غيّر false إلى true هنا.
+var FEATURES = { calls: false, voice: false };
 
 /* هاش بسيط (FNV-1a) يحوّل رمز الغرفة إلى مقطع صالح لموضوع MQTT
    — ليس تشفيراً، مجرد تعمية شكلية */
@@ -2181,10 +2184,10 @@ function roomView(code) {
     N('button', { k: 'who-am-i', title: 'معلومات', 'aria-label': 'معلومات', onclick: function () { V.infoFor = code; paint(); } }, [
       roomAvatar(room, 'm'), N('div', { k: 'meta' }, [N('b', { txt: room.title }), N('span', { txt: status })])
     ]),
-    isGroup ? null : N('button', { k: 'ico', title: 'مكالمة صوتية', 'aria-label': 'مكالمة صوتية',
-      onclick: function () { startCall(code, false); } }, [ic('phone', 20)]),
-    isGroup ? null : N('button', { k: 'ico', title: 'مكالمة فيديو', 'aria-label': 'مكالمة فيديو',
-      onclick: function () { startCall(code, true); } }, [ic('vid', 21)]),
+    (!isGroup && FEATURES.calls) ? N('button', { k: 'ico', title: 'مكالمة صوتية', 'aria-label': 'مكالمة صوتية',
+      onclick: function () { startCall(code, false); } }, [ic('phone', 20)]) : null,
+    (!isGroup && FEATURES.calls) ? N('button', { k: 'ico', title: 'مكالمة فيديو', 'aria-label': 'مكالمة فيديو',
+      onclick: function () { startCall(code, true); } }, [ic('vid', 21)]) : null,
     N('button', { k: 'ico', title: 'خيارات', 'aria-label': 'خيارات',
       onclick: function (e) { e.stopPropagation(); V.menu = !V.menu; paint(); } }, [ic('more', 20)]),
     V.menu ? N('div', { k: 'menu', onclick: function (e) { e.stopPropagation(); } }, roomMenu(room, code)) : null
@@ -2238,7 +2241,7 @@ function infoScreen(code) {
       N('b', { txt: room.title }),
       N('span', { k: 'info-sub', txt: isGroup ? 'مجموعة · ' + roomMembers(code).length + ' أعضاء' : '@' + (room.friendUser || '؟') })
     ]),
-    N('div', { k: 'info-actions' }, (isGroup ? [] : [
+    N('div', { k: 'info-actions' }, ((isGroup || !FEATURES.calls) ? [] : [
       N('button', { onclick: function () { V.infoFor = null; startCall(code, false); } }, [ic('phone', 20), N('span', { txt: 'صوت' })]),
       N('button', { onclick: function () { V.infoFor = null; startCall(code, true); } }, [ic('vid', 21), N('span', { txt: 'فيديو' })])
     ]).concat([
@@ -2703,12 +2706,12 @@ function pen(code) {
   var hasText = !!V.note.trim();
   var micBtn = hasText
     ? N('button', { k: 'go', title: 'إرسال', 'aria-label': 'إرسال', onclick: fire }, [ic('plane', 21)])
-    : N('button', { k: 'go' + (V.recording ? ' rec' : ''), title: 'اضغط مطوّل عشان تسجّل صوت', 'aria-label': 'تسجيل صوتي',
+    : (FEATURES.voice ? N('button', { k: 'go' + (V.recording ? ' rec' : ''), title: 'اضغط مطوّل عشان تسجّل صوت', 'aria-label': 'تسجيل صوتي',
         onpointerdown: function (e) { e.preventDefault(); startRecording(code); },
         onpointerup: function () { stopRecording(code, true); },
         onpointerleave: function () { if (V.recording) stopRecording(code, true); },
         onpointercancel: function () { if (V.recording) stopRecording(code, false); }
-      }, [ic('mic', 21)]);
+      }, [ic('mic', 21)]) : N('button', { k: 'go', title: 'اكتب رسالة', 'aria-label': 'اكتب رسالة', sty: 'opacity:.35', onclick: function(){} }, [ic('mic', 21)]));
   rows.push(N('div', { k: 'write-row' }, [
     N('button', { k: 'ico' + (V.pad ? ' act' : ''), title: 'إيموجي وستيكرات', 'aria-label': 'إيموجي وستيكرات', onclick: function () { V.pad = !V.pad; paint(); } }, [ic('face', 23)]),
     N('button', { k: 'ico', title: V.imgBusy ? 'جاري التجهيز…' : 'إرسال صورة', 'aria-label': 'إرسال صورة', disabled: V.imgBusy ? 'disabled' : null,
@@ -2958,7 +2961,7 @@ function soonDialog() {
     body = N('div', { k: 'sheet-b' }, direct.map(function (r) {
       return N('button', { k: 'set-row', onclick: function () { V.soonSheet = false; V.open = r.code; paint(); } }, [
         roomAvatar(r, 's'), N('span', { sty: 'flex:1', txt: r.title }),
-        N('span', { sty: 'color:var(--accent)', title: 'مكالمة صوتية', onclick: function (e) { e.stopPropagation(); V.soonSheet = false; startCall(r.code, false); } }, [ic('phone', 19)])
+        FEATURES.calls ? N('span', { sty: 'color:var(--accent)', title: 'مكالمة صوتية', onclick: function (e) { e.stopPropagation(); V.soonSheet = false; startCall(r.code, false); } }, [ic('phone', 19)]) : null
       ]);
     }).concat([N('p', { sty: 'margin:8px 16px 16px;color:var(--dim-2);font-size:11.5px;line-height:1.6',
       txt: 'اضغط أي اسم يفتح محادثته (فيها زر اتصال فوق)، أو اضغط أيقونة الهاتف تتصل فيه على طول.' })]));
