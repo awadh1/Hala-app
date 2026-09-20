@@ -240,7 +240,7 @@ svg{display:block;flex:none}
   background:linear-gradient(to left,var(--in) 58%,transparent)}
 .line.me .pull{background:linear-gradient(to left,#DCEBFF 58%,transparent)}
 .bub:hover .pull,.pull:focus-visible{opacity:1}
-.emos{position:absolute;top:-46px;inset-inline-end:-4px;background:var(--panel);border-radius:26px;padding:5px 8px;display:flex;gap:3px;box-shadow:var(--shade-3);z-index:9;border:1px solid var(--edge)}
+.emos{position:absolute;bottom:100%;margin-bottom:6px;inset-inline-end:-4px;background:var(--panel);border-radius:18px;padding:6px 8px;display:flex;flex-wrap:wrap;gap:5px;box-shadow:var(--shade-3);z-index:9;border:1px solid var(--edge);max-width:min(230px,85vw);justify-content:flex-end}
 .emos button{width:32px;height:32px;border-radius:50%;font-size:19px;display:grid;place-items:center;transition:transform .13s var(--ease)}
 .emos button:hover{transform:scale(1.25)}
 .emos button.on{background:#E3EFFF}
@@ -2035,8 +2035,6 @@ function frame() {
       N('button', { k: 'tabbtn on' }, [ic('bubl', 22), N('span', { txt: 'المحادثات' })]),
       N('button', { k: 'tabbtn', onclick: function () { V.sheet = true; V.dtab = 'friend'; V.code = ''; V.title = ''; V.fidErr = ''; V.busy = false; paint(); } },
         [ic('one', 22), N('span', { txt: 'جهات الاتصال' })]),
-      N('button', { k: 'tabbtn', onclick: function () { V.soonSheet = true; paint(); } },
-        [ic('phone', 22), N('span', { txt: 'الاتصالات' })]),
       N('button', { k: 'tabbtn', onclick: function () { V.settingsSheet = true; paint(); } },
         [ic('gear', 22), N('span', { txt: 'الإعدادات' })])
     ])
@@ -2717,8 +2715,6 @@ function pen(code) {
     N('button', { k: 'ico', title: V.imgBusy ? 'جاري التجهيز…' : 'إرسال صورة', 'aria-label': 'إرسال صورة', disabled: V.imgBusy ? 'disabled' : null,
       onclick: function () { imgInput.click(); } }, [ic('cam', 22)]),
     imgInput,
-    N('button', { k: 'ico' + (V.timed ? ' act' : ''), title: 'رسالة موقوتة', 'aria-label': 'رسالة موقوتة', onclick: function () { V.timed = !V.timed; paint(); } }, [ic('time', 22)]),
-    N('button', { k: 'ico', title: 'ابدأ لعبة إكس-أو', 'aria-label': 'لعبة إكس-أو', onclick: function () { startGame(code); } }, [ic('grid', 22)]),
     V.recording
       ? N('div', { k: 'box rec-box' }, [N('span', { k: 'rec-dot' }), N('span', { txt: 'جاري التسجيل… ' + fmtDur(Date.now() - V.recordStart) })])
       : N('div', { k: 'box' }, [area]),
