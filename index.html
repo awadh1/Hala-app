@@ -2980,10 +2980,12 @@ function settingsDialog() {
       N('b', { txt: 'الإعدادات' })
     ]),
     N('div', { k: 'sheet-b' }, [
+      N('div', { k: 'info-sec-h', sty: 'padding:10px 4px 6px' }, [N('span', { txt: 'حسابك' })]),
       N('button', { k: 'set-row', onclick: function () { V.settingsSheet = false; V.profileSheet = true; V.editName = ME.name; V.editAvatar = ME.avatar || null; paint(); } },
         [ic('one', 20), N('span', { txt: 'البروفايل — الاسم والصورة والرقم' })]),
       N('button', { k: 'set-row', onclick: function () { copyText(ME.username); } },
         [ic('hash', 20), N('span', { txt: 'نسخ اسم المستخدم (@' + ME.username + ')' })]),
+      N('div', { k: 'info-sec-h', sty: 'padding:14px 4px 6px' }, [N('span', { txt: 'التفضيلات' })]),
       N('div', { k: 'set-row', sty: 'flex-direction:column;align-items:stretch;gap:8px' }, [
         N('div', { sty: 'display:flex;align-items:center;gap:14px' }, [ic('moon', 20), N('span', { sty: 'flex:1', txt: 'المظهر' })]),
         N('div', { k: 'seg', sty: 'padding:0' }, [
@@ -2997,10 +2999,12 @@ function settingsDialog() {
       V.pushStatus ? N('p', { sty: 'margin:0 16px 8px;font-size:11.5px;color:var(--dim);line-height:1.6', txt: 'حالة الاشتراك: ' + V.pushStatus }) : null,
       V.notifOn ? N('button', { k: 'gen', sty: 'display:block;margin:0 16px 14px;font-size:12.5px', onclick: sendTestPush }, [document.createTextNode('🔔 أرسل تنبيه تجريبي لنفسي')]) : null,
       N('div', { k: 'set-note' }, [ic('note', 15), N('span', { txt: 'حسابك محفوظ باسم المستخدم والرمز السري — تقدر تسجّل دخول فيه من أي جهاز، حتى لو مسحت بيانات المتصفح.' })]),
+      N('div', { k: 'info-sec-h', sty: 'padding:14px 4px 6px' }, [N('span', { txt: 'قانوني' })]),
       N('button', { k: 'set-row', onclick: function () { window.open('privacy.html', '_blank'); } },
         [ic('note', 20), N('span', { txt: 'سياسة الخصوصية' })]),
       N('button', { k: 'set-row', onclick: function () { window.open('terms.html', '_blank'); } },
         [ic('note', 20), N('span', { txt: 'قوانين الاستخدام' })]),
+      N('div', { k: 'info-sec-h', sty: 'padding:14px 4px 6px' }, [N('span', { txt: 'خطر' })]),
       N('button', { k: 'set-row bad', onclick: function () { logout(); paint(); } },
         [ic('out', 20), N('span', { txt: 'تسجيل الخروج' })]),
       N('button', { k: 'set-row bad', onclick: function () {
