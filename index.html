@@ -1116,9 +1116,7 @@ function leaveRoom(code) {
   box.set('hala.msgs.' + hash, '[]'); box.set('hala.games.' + hash, '{}');
 }
 function randomCode() {
-  var words = ['بدر','نجم','فجر','ياسمين','قمر','سديم','لؤلؤ','ريم','هدهد','عنبر'];
-  var w = words[Math.floor(Math.random() * words.length)];
-  return w + '-' + Math.floor(1000 + Math.random() * 9000);
+  return String(Math.floor(1000 + Math.random() * 9000));
 }
 
 /* ---------- رسائل / تفاعلات / ألعاب ---------- */
@@ -2730,13 +2728,33 @@ function dialog() {
 
   function goGroup() {
     var code = V.code.trim().slice(0, CODE_MAX);
-    if (!code) return;
-    var isCreating = V.dtab === 'newgroup';
-    // بالإنشاء: نمرر الاسم اللي كتبه المنشئ وننشره كأدمن. بالانضمام: ما
-    // نمرر أي اسم إطلاقاً — الاسم الصحيح يوصل تلقائياً من مزامنة الأدمن،
-    // وما نبيه يظهر حقل "سمّي المجموعة" لأي حد ينضم غير اللي أنشأها.
-    var r = joinRoom(code, isCreating ? (V.title.trim().slice(0, TITLE_MAX) || code) : null, 'group', isCreating);
-    V.open = r.code; V.sheet = false; markSeen(r.code); paint();
+    if (!code || V.busy) return;
+    if (V.dtab === 'newgroup') {
+      var r = joinRoom(code, V.title.trim().slice(0, TITLE_MAX) || code, 'group', true);
+      V.open = r.code; V.sheet = false; markSeen(r.code); paint();
+      return;
+    }
+    V.busy = true; V.fidErr = ''; paint();
+    var hash = fnv(code.trim().toLowerCase());
+    var topic = NS + '/' + hash + '/meta', done = false;
+    function onMsg(t, buf) {
+      if (t !== topic || done) return;
+      done = true; CLIENT.removeListener('message', onMsg);
+      var data = null; try { data = JSON.parse(buf.toString()); } catch (e) {}
+      V.busy = false;
+      if (!data || !data.title) { V.fidErr = 'رمز غير صحيح، أو المجموعة مو موجودة'; paint(); return; }
+      var r2 = joinRoom(code, null, 'group', false);
+      r2.admin = data.admin || null; r2.bot = data.bot || null; r2.avatar = data.avatar || null; r2.title = data.title;
+      saveRooms(ROOMS);
+      V.open = r2.code; V.sheet = false; markSeen(r2.code); paint();
+    }
+    CLIENT.on('message', onMsg);
+    CLIENT.subscribe(topic, { qos: 1 });
+    setTimeout(function () {
+      if (done) return;
+      done = true; CLIENT.removeListener('message', onMsg);
+      V.busy = false; V.fidErr = 'رمز غير صحيح، أو المجموعة مو موجودة'; paint();
+    }, 3000);
   }
   function goFriend() {
     var uname = V.code.trim().toLowerCase();
@@ -2784,10 +2802,11 @@ function dialog() {
         onkeydown: function (e) { if (e.key === 'Enter') goGroup(); } })
     ]));
     body.push(N('p', { k: 'hint-line', txt: 'اسم المجموعة وصورتها يجيبهم التطبيق تلقائياً من الأدمن — ما تحتاج تكتبهم.' }));
+    if (V.fidErr) body.push(N('div', { k: 'err', sty: 'margin:10px 16px 0', txt: V.fidErr }));
   }
 
   var goFn = V.dtab === 'friend' ? goFriend : (V.dtab === 'newgroup' ? goGroup : goGroup);
-  var btnLabel = V.dtab === 'friend' ? (V.busy ? 'جاري البحث…' : 'أضف الصديق') : (V.dtab === 'newgroup' ? 'إنشاء ودخول' : 'انضم للمجموعة');
+  var btnLabel = V.dtab === 'friend' ? (V.busy ? 'جاري البحث…' : 'أضف الصديق') : (V.dtab === 'newgroup' ? 'إنشاء ودخول' : (V.busy ? 'جاري التحقق…' : 'انضم للمجموعة'));
 
   var kids = [
     N('div', { k: 'sheet-h' }, [
@@ -2800,7 +2819,7 @@ function dialog() {
       N('button', { k: V.dtab === 'newgroup' ? 'on' : '', txt: 'إنشاء مجموعة',
         onclick: function () { V.dtab = 'newgroup'; V.code = randomCode(); V.title = ''; paint(); } }),
       N('button', { k: V.dtab === 'joingroup' ? 'on' : '', txt: 'انضم لمجموعة',
-        onclick: function () { V.dtab = 'joingroup'; V.code = ''; V.title = ''; paint(); } })
+        onclick: function () { V.dtab = 'joingroup'; V.code = ''; V.title = ''; V.fidErr = ''; paint(); } })
     ]),
     N('div', { k: 'sheet-b' }, body),
     N('div', { k: 'sheet-f' }, [N('button', { k: 'btn', txt: btnLabel, disabled: V.busy ? 'disabled' : null, onclick: goFn })])
