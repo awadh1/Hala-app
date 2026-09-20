@@ -57,7 +57,7 @@ svg{display:block;flex:none}
 ::-webkit-scrollbar-thumb:hover{background:#B9C6DA}
 ::-webkit-scrollbar-track{background:transparent}
 
-/* ═══ الدخول ═══ */
+
 .auth{min-height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,#E4F0FC 0%,var(--bg) 100%)}
 .auth-top{height:180px;flex:none;background:transparent}
 .auth-wrap{flex:1;margin-top:-116px;padding:0 16px 48px;display:flex;justify-content:center}
@@ -100,7 +100,7 @@ svg{display:block;flex:none}
 .tip{display:flex;gap:10px;background:var(--panel-2);border-radius:12px;padding:12px 13px;margin-bottom:22px;font-size:12px;color:var(--dim);line-height:1.6;border:1px solid var(--edge)}
 .tip svg{color:var(--accent);margin-top:2px}
 
-/* ═══ الهيكل ═══ */
+
 .app{height:100%;display:flex}
 .side{width:410px;max-width:38%;flex:none;background:var(--panel);display:flex;flex-direction:column;border-inline-end:1px solid var(--edge);position:relative;padding-bottom:64px}
 .bar{height:58px;flex:none;background:var(--panel);display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid var(--edge)}
@@ -135,7 +135,7 @@ svg{display:block;flex:none}
 .seek-in input:focus{outline:none}
 .seek-in input::placeholder{color:var(--dim-2)}
 
-/* شريط التصنيفات — يظهر بس بقائمة الدردشات */
+
 .pillbar{display:flex;gap:8px;padding:0 14px 12px;overflow-x:auto;flex:none}
 .pillbar::-webkit-scrollbar{display:none}
 .pillbtn{flex:none;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:700;background:var(--panel);color:var(--dim);
@@ -158,7 +158,7 @@ svg{display:block;flex:none}
 .tag{background:var(--grad);color:#fff;font-size:11px;font-weight:800;min-width:20px;height:20px;border-radius:10px;display:grid;place-items:center;padding:0 6px;flex:none;box-shadow:0 2px 7px rgba(59,130,246,.32)}
 .nothing{color:var(--dim);text-align:center;padding:46px 30px;font-size:13.5px;line-height:1.9;white-space:pre-line}
 
-/* ═══ المحادثة ═══ */
+
 .main{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--bg)}
 .void{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;text-align:center;padding:40px;background:var(--bg)}
 .void svg{color:var(--accent);opacity:.5}
@@ -209,7 +209,7 @@ svg{display:block;flex:none}
 .media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:3px;max-height:70vh;overflow-y:auto}
 .media-grid img{width:100%;aspect-ratio:1;object-fit:cover;cursor:pointer;background:var(--panel-2)}
 
-/* ═══ شاشة معلومات المحادثة/المجموعة ═══ */
+
 .info-screen{position:fixed;inset:0;z-index:55;background:var(--panel);display:flex;flex-direction:column;overflow-y:auto}
 .info-head{height:52px;flex:none;display:flex;align-items:center;padding:0 8px;background:var(--panel-2)}
 .info-top{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 24px 22px;text-align:center;background:var(--panel-2)}
@@ -294,7 +294,7 @@ svg{display:block;flex:none}
 .sticker-row button{width:54px;height:54px;border-radius:10px}
 .sticker-row img{width:44px;height:44px}
 
-/* ═══ نافذة ═══ */
+
 .veil{position:fixed;inset:0;background:rgba(20,30,50,.4);display:grid;place-items:center;padding:20px;z-index:40;animation:in .16s var(--ease);backdrop-filter:blur(3px)}
 @keyframes in{from{opacity:0}to{opacity:1}}
 .sheet{width:min(428px,100%);background:var(--panel);border-radius:22px;box-shadow:var(--shade-3);overflow:hidden;display:flex;flex-direction:column;max-height:min(570px,86vh);
@@ -325,7 +325,7 @@ svg{display:block;flex:none}
 .set-note{display:flex;gap:10px;padding:10px 16px 16px;font-size:12px;color:var(--dim);line-height:1.65}
 .set-note svg{color:var(--dim-2);margin-top:2px;flex:none}
 
-/* شريط التنقّل السفلي — يظهر بأي حجم شاشة، ويختفي بس مع القائمة بوضع الجوال العميق */
+
 .tabbar{display:flex}
 
 @media (max-width:820px){
@@ -349,7 +349,7 @@ svg{display:block;flex:none}
 .tabbtn.on{color:var(--accent)}
 .tabbtn.on::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:26px;height:3px;background:var(--accent);border-radius:0 0 4px 4px}
 
-/* ═══ إضافات النسخة الأونلاين ═══ */
+
 .pulse{width:8px;height:8px;border-radius:50%;flex:none;box-shadow:0 0 0 3px rgba(255,255,255,.7)}
 .pulse.up{background:var(--online)}
 .pulse.mid{background:var(--warn);animation:blink 1s infinite}
@@ -368,7 +368,7 @@ svg{display:block;flex:none}
 .gen{color:var(--accent);font-size:12.5px;font-weight:700;margin-inline-start:auto}
 .gen:hover{text-decoration:underline}
 
-/* ═══ المكالمات ═══ */
+
 .call-screen{position:fixed;inset:0;z-index:60;background:radial-gradient(circle at 50% 15%,#2D2050,#160F26 70%) #160F26;background-size:cover;background-position:center;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:70px 24px 52px;overflow:hidden}
 .call-bg-shade{position:absolute;inset:-20px;backdrop-filter:blur(38px) saturate(1.3);-webkit-backdrop-filter:blur(38px) saturate(1.3);background:linear-gradient(180deg,rgba(15,9,26,.55),rgba(15,9,26,.82) 60%,rgba(15,9,26,.94));z-index:0}
 .call-who{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:auto}
@@ -401,7 +401,7 @@ svg{display:block;flex:none}
 .call-remote{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
 .call-local{position:absolute;top:48px;left:16px;width:100px;height:136px;border-radius:16px;object-fit:cover;background:#000;box-shadow:0 8px 22px rgba(0,0,0,.5);z-index:2;border:2px solid rgba(255,255,255,.3)}
 
-/* ═══ الجولة الترحيبية ═══ */
+
 .tour-card{position:relative;text-align:center;padding:40px 26px 30px;max-width:340px}
 .tour-skip{position:absolute;top:12px;left:12px;color:var(--dim)}
 .tour-ico{width:76px;height:76px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;margin:0 auto 18px}
@@ -417,19 +417,9 @@ svg{display:block;flex:none}
 <div id="root"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.15.2/mqtt.min.js"></script>
 <script>
-/* ══════════════════════════════════════════════════════════
-   هلا شات — النسخة الأونلاين
-   يتصل بسيرفر MQTT خاص فينا (Render، فئة مجانية) بدل بروكر عام
-   مشترك. بدون حساب، بدون تسجيل من طرف المستخدم.
 
-   القيود اللي لازم تعرفها:
-   - رمز الغرفة هو الحماية الوحيدة — أي أحد يعرفه يقدر يدخلها.
-     اختر رمز طويل وغريب، وما تحطون فيها معلومات حسّاسة.
-   - الفئة المجانية من Render تنيّم السيرفر بعد ١٥ دقيقة سكون.
-     أول رسالة بعد فترة سكون تاخذ نص دقيقة لين يصحى.
-   ══════════════════════════════════════════════════════════ */
 
-var BROKER = 'wss://hala-chat-jh6w.onrender.com';   // سيرفرنا الخاص، بدل البروكر العام
+var BROKER = 'wss://hala-chat-jh6w.onrender.com';   
 var AQUA_URL = BROKER.replace(/^wss:\/\//, 'https://').replace(/^ws:\/\//, 'http://') + '/aqua';
 var AQUA_CODE = '__aqua__';
 var AQUA_MSGS = (function () { try { return JSON.parse(box.get('hala.aqua') || '[]'); } catch (e) { return []; } })();
@@ -457,13 +447,12 @@ function sendToAqua(text) {
       paint();
     });
 }
-var NS = 'halachat9x';   // بادئة تميّز رسائلنا عن غيرنا على نفس البروكر العام
-// أعلام تفعيل مؤقتة — الميزتين موجودتين كاملتين بالكود، بس معطّلتين من
-// الواجهة. لو تبي ترجعهم بالمستقبل، بس غيّر false إلى true هنا.
+var NS = 'halachat9x';   
+
+
 var FEATURES = { calls: false, voice: false };
 
-/* هاش بسيط (FNV-1a) يحوّل رمز الغرفة إلى مقطع صالح لموضوع MQTT
-   — ليس تشفيراً، مجرد تعمية شكلية */
+
 function fnv(s) {
   var h = 0x811c9dc5;
   for (var i = 0; i < s.length; i++) {
@@ -476,7 +465,7 @@ function roomTopic(code) { return NS + '/' + fnv(String(code).trim().toLowerCase
 var ROOM_HUES = ['#C97B4A','#7C5A94','#4A8B7C','#B8763F','#9C5470','#5C7A9C','#8A9C4A','#A85C8C'];
 function roomHue(code) { var h = fnv(String(code).trim().toLowerCase()); return ROOM_HUES[parseInt(h.slice(0, 4), 16) % ROOM_HUES.length]; }
 
-/* ---------- هوية الجهاز ---------- */
+
 var cache = {};
 var box = {
   get: function (k) { try { return localStorage.getItem(k); } catch (e) { return cache[k] || null; } },
@@ -490,10 +479,7 @@ var ME = (function () {
 })();
 var HUES = ['#7C5A94', '#A85C8C', '#4A8B7C', '#B8763F', '#9C5470', '#C97B4A', '#5C7A9C', '#8A9C4A'];
 
-/* تشفير كلمة السر: نستخدم SubtleCrypto (مدمجة بالمتصفح، صفر مكتبات
-   خارجية) — الرمز السري نفسه ما يُنشر أبداً، بس بصمته (هاش). هذا
-   أفضل من نص عادي، بس خلّك صريح مع نفسك: هذا مستوى حماية "مشروع
-   شخصي"، مو مستوى بنك — لأنه بدون سيرفر حقيقي يحد محاولات الدخول. */
+
 function hashPassword(username, password) {
   var enc = new TextEncoder();
   var data = enc.encode('halasalt9x:' + username.toLowerCase() + ':' + password);
@@ -502,10 +488,8 @@ function hashPassword(username, password) {
   });
 }
 
-/* دليل الحسابات: كل حساب يُنشر برسالة محفوظة (retained) على
-   NS/acct/<username> — أي أحد يشترك بنفس الموضوع يشوفها فوراً. هذا
-   يغنينا عن قاعدة بيانات منفصلة؛ نفس البروكر اللي عندنا يكفي كدليل. */
-var PENDING_LOOKUPS = {};   // username -> [callback,...]
+
+var PENDING_LOOKUPS = {};   
 function lookupAccount(username, timeoutMs, cb) {
   if (!CLIENT) { cb(null); return; }
   var topic = NS + '/acct/' + username;
@@ -529,8 +513,8 @@ function resolveLookup(username, data) {
 
 var USERNAME_RE = /^[a-z0-9_]{3,20}$/;
 
-// إنشاء حساب: نتأكد الاسم متاح، نشفّر الرمز السري، وننشر الحساب —
-// كل هذا بعد ما تكتمل خطوات نص متزامنة (اتصال + تشفير + بحث).
+
+
 function register(username, password, name, avatar, onError) {
   username = String(username || '').trim().toLowerCase();
   if (!USERNAME_RE.test(username)) { onError('اسم المستخدم لازم يكون ٣-٢٠ حرف إنجليزي صغير أو رقم أو _'); return; }
@@ -566,8 +550,8 @@ function register(username, password, name, avatar, onError) {
   waitLink();
 }
 
-// تسجيل الدخول: نلقى الحساب بالدليل، نشفّر الرمز اللي كتبه، ونقارنه
-// بالمخزّن. لو تطابق، نرجّع نفس الحساب لهذا الجهاز.
+
+
 function login(username, password, onError) {
   username = String(username || '').trim().toLowerCase();
   if (!username || !password) { onError('اكتب اسم المستخدم والرمز السري'); return; }
@@ -602,18 +586,18 @@ function updateProfile(name, avatar) {
   ME.name = name;
   if (avatar !== undefined) ME.avatar = avatar;
   box.set('hala.me', JSON.stringify(ME));
-  // نحدّث الاسم والصورة بالدليل بدون ما نلمس بصمة الرمز السري —
-  // نجيبها كما هي من آخر شي نعرفه (ما نملك كشفها، وما نحتاجها هنا أصلاً
-  // إلا وقت التحقق من الدخول)، فننشر نسخة مؤقتة بالأشياء العلنية بس
-  // ونعتمد إن أي جهاز يسجّل دخول لاحقاً يقرأها من آخر نسخة محفوظة.
+  
+  
+  
+  
   lookupAccount(ME.username, 900, function (acct) {
     var merged = { passHash: acct ? acct.passHash : undefined, id: ME.id, name: ME.name, hue: ME.hue, avatar: ME.avatar || null };
     safePublish(NS + '/acct/' + ME.username, JSON.stringify(merged), { qos: 1, retain: true });
   });
 }
 var REGISTERING = false;
-// السمة: فاتح / غامق / تلقائي (يتبع إعداد الجهاز نفسه). محفوظة محلياً،
-// تُطبَّق فوراً عند فتح التطبيق قبل حتى ما نتصل بالشبكة.
+
+
 var THEME = box.get('hala.theme') || 'auto';
 function applyTheme() {
   var wantDark = THEME === 'dark' || (THEME === 'auto' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -626,8 +610,8 @@ if (window.matchMedia) {
 }
 var BANNED_MSG = '';
 
-// الخروج: ننسى هويتك المحلية كاملة وغرفك، ونرجع لشاشة تسجيل الدخول.
-// حسابك يبقى موجود على الشبكة — ترجع له بالاسم والرمز السري من أي جهاز.
+
+
 function logout() {
   if (CLIENT) { try { CLIENT.end(true); } catch (e) {} }
   CLIENT = null; LINK = 'down'; SUBBED = {};
@@ -638,14 +622,14 @@ function logout() {
   box.set('hala.seen', '{}');
   ME = null; REGISTERING = false;
   V.open = null; V.sheet = false; V.profileSheet = false; V.settingsSheet = false; V.menu = false;
-  // علم "مشغول" كان يعلق true بعد أول نجاح تسجيل (ما يترجع إلا بمسار
-  // الخطأ)، ولو ما صفّرناه هنا، أي محاولة دخول بعد الخروج تنرفض بصمت.
+  
+  
   V.authBusy = false; V.authErr = ''; V.authTab = 'login';
   V.loginUsername = ''; V.loginPass = ''; V.regUsername = ''; V.regPass = ''; V.regName = ''; V.regAvatar = null;
 }
 
-// نصغّر أي صورة يختارها المستخدم لمربّع صغير قبل الإرسال —
-// بدون هذا، صورة عادية من الكاميرا تكون ميجابايتات وتكسر حد حجم الرسالة
+
+
 function shrinkImage(file, size, cb) {
   var reader = new FileReader();
   reader.onload = function () {
@@ -673,11 +657,11 @@ function saveRooms(list) {
   box.set('hala.rooms', JSON.stringify(list));
   syncRoomsToServer();
 }
-// نحفظ نسخة خفيفة من قائمة محادثاتي على السيرفر (رسالة محفوظة باسم
-// مستخدمي) — بدون هذا، لو سجّلت خروج ورجعت دخول، أي محادثة أنا البادئ
-// فيها (أنا اللي ضفت الطرف الثاني) تضيع نهائياً، لأنها ما كانت محفوظة
-// إلا بجهازي فقط. المحادثات اللي الطرف الثاني ضافني فيها كانت تنجو
-// لوحدها (بفضل صندوق الوارد)، بس هذي ما كانت.
+
+
+
+
+
 function syncRoomsToServer() {
   if (!ME || !CLIENT) return;
   var slim = ROOMS.map(function (r) {
@@ -685,9 +669,9 @@ function syncRoomsToServer() {
   });
   safePublish(NS + '/rooms/' + ME.username, JSON.stringify(slim), { qos: 1, retain: true });
 }
-// محادثات خاصة قديمة (قبل ما نضيف حقل friendUser) ناقصة هالمعلومة —
-// نستنتجها من رمز الغرفة نفسه، لأن شكله ثابت: dm-<اسم-اسم> (أبجدياً)،
-// فأي اسم مو أنا هو صاحب المحادثة.
+
+
+
 function backfillFriendUsers() {
   if (!ME) return;
   var changed = false;
@@ -701,22 +685,19 @@ function backfillFriendUsers() {
   if (changed) saveRooms(ROOMS);
 }
 
-/* حفظ محلي للرسائل والألعاب — نسخة احتياطية على جهازك.
-   حتى لو تقطّع الاتصال بالشبكة أو تأخرت، تفتح المحادثة وتشوف
-   آخر شي وصلك فوراً بدون ما تنتظر البروكر. سقف ٤٠٠ رسالة لكل غرفة
-   عشان التخزين المحلي ما يكبر بلا حدود. */
+
 function saveMsgs(hash) {
   var list = MSGS[hash] || [];
   var trimmed = list.length > 400 ? list.slice(list.length - 400) : list;
-  // نخفّف النسخة المحفوظة بالقرص من الوسائط الثقيلة (صور، صوت) — هذي
-  // أصلاً محفوظة بالسيرفر (رسائل محفوظة)، فتكرارها محلياً يملأ مساحة
-  // المتصفح المحدودة بسرعة (~٥ ميجا). لو امتلأت، التخزين يفشل بصمت
-  // ويرجع لذاكرة مؤقتة تنمسح أول ما تحدّث الصفحة — بدون هذا التخفيف،
-  // نشاط عادي (صور وستيكرات صوتية) يوصلنا لهالحد بسرعة غير متوقعة.
-  // نخفّف بس رسائل الطرف الثاني — رسائلي أنا ما نخفّفها، لأن السيرفر
-  // "يرجّع" لي نسخة من رسالتي بس أنا أتجاهلها عمداً (عشان ما تتكرر)،
-  // فما فيه أي مصدر ثاني يكمّلها لو خفّفتها. لو خفّفناها، صورك وصوتك
-  // أنت بالذات كانت بتضل عالقة على "جاري التحميل" للأبد بعد كل تحديث صفحة.
+  
+  
+  
+  
+  
+  
+  
+  
+  
   var slim = trimmed.map(function (m) {
     if (m.who === ME.id) return m;
     if (m.kind === 'image' && m.img) { var c = Object.assign({}, m); c.img = ''; c.imgSlim = true; return c; }
@@ -726,8 +707,8 @@ function saveMsgs(hash) {
   try {
     box.set('hala.msgs.' + hash, JSON.stringify(slim));
   } catch (e) {
-    // حتى مع التخفيف، لو المساحة امتلأت من نشاط قديم متراكم، نحاول
-    // مرة ثانية بنسخة أصغر (١٠٠ رسالة بس) بدل ما نفشل بصمت كامل
+    
+    
     try { box.set('hala.msgs.' + hash, JSON.stringify(slim.slice(-100))); } catch (e2) {}
   }
 }
@@ -746,27 +727,27 @@ function loadGames(hash) {
   } catch (e) {}
 }
 
-/* ---------- حالة التطبيق (كل شي هنا مؤقت بالذاكرة، يتغذى من البروكر) ---------- */
-var ROOMS = loadRooms();                 // [{code, title}]
-var MSGS = {};                            // topic-hash -> [msg,...]
-var ANIMATED_MSGS = {};                   // id -> true — لمنع تكرار حركة الدخول بكل إعادة رسم
-var GAMES = {};                           // gameId -> game
-var TAPS = {};                            // topic-hash -> {clientId:{name,at}}
-// عدّاد غير المقروء يعتمد عليه — لو ضاع بعد الريفريش، أي غرفة آخر
-// رسالة فيها من شخص ثاني تبين "غير مقروءة" حتى لو قريتها من زمان.
+
+var ROOMS = loadRooms();                 
+var MSGS = {};                            
+var ANIMATED_MSGS = {};                   
+var GAMES = {};                           
+var TAPS = {};                            
+
+
 var SEEN_UPTO = (function () {
   try { return JSON.parse(box.get('hala.seen') || '{}'); } catch (e) { return {}; }
 })();
-var PEER_SEEN = {};                       // topic-hash -> {clientId: ts} (مبثوثة عبر الشبكة، لعلامة الصح المزدوج)
-var PRESENCE = {};                        // topic-hash -> {clientId: ts آخر نبضة} — عشان نعرف صاحبك متصل الآن ولا لا
-// الحظر: قائمة أسماء مستخدمين محفوظة بجهازك بس (مو بالسيرفر) — لو حظرت
-// حد، رسائله تختفي عندك أنت بس، هو ما يعرف ولا يتأثر عنده شي.
+var PEER_SEEN = {};                       
+var PRESENCE = {};                        
+
+
 var BLOCKED = (function () { try { return JSON.parse(box.get('hala.blocked') || '[]'); } catch (e) { return []; } })();
 function saveBlocked() {
   box.set('hala.blocked', JSON.stringify(BLOCKED));
-  // نفس مبدأ قائمة الغرف بالضبط: بدون هذا، لو مسحت بيانات المتصفح أو
-  // بدّلت جهاز، أي حظر سويته يضيع بصمت والشخص يقدر يراسلك من جديد —
-  // هذا يتناقض مباشرة مع الهدف من ميزة الحظر أصلاً.
+  
+  
+  
   if (ME && CLIENT) safePublish(NS + '/myblocks/' + ME.username, JSON.stringify(BLOCKED), { qos: 1, retain: true });
 }
 function isBlocked(username) { return !!username && BLOCKED.indexOf(username) >= 0; }
@@ -779,11 +760,11 @@ function unblockUser(username) {
   var i = BLOCKED.indexOf(username);
   if (i >= 0) { BLOCKED.splice(i, 1); saveBlocked(); paint(); }
 }
-var CALL = null;                          // null لما ما فيه مكالمة، وإلا كائن فيه كل حالتها (شرح تفصيلي بالأسفل)
-// STUN بس ما يكفي لبعض الشبكات (خصوصاً شبكات الجوال المقيّدة) — بدونه
-// المتصفح يضل يحاول ويحاول لين يوصل لطريق مباشر، وهذا اللي كان يسبب
-// التأخر الطويل قبل ما تقدروا تسمعون بعض. أضفنا TURN مجاني (Open Relay)
-// كخط احتياط فوري — بيانات وصوله منشورة للعموم، ما يحتاج تسجيل.
+var CALL = null;                          
+
+
+
+
 var ICE_SERVERS = [
   { urls: 'stun:stun.l.google.com:19302' },
   { urls: 'stun:stun1.l.google.com:19302' },
@@ -799,20 +780,20 @@ function refreshIceServers() {
   var iceUrl = BROKER.replace(/^wss:\/\//, 'https://').replace(/^ws:\/\//, 'http://') + '/ice';
   return fetch(iceUrl).then(function (r) { return r.json(); }).then(function (d) {
     if (d && Array.isArray(d.iceServers) && d.iceServers.length) {
-      // نضيف سيرفر الترحيل فوق الـ STUN الافتراضي (ما نستبدله) — أي
-      // مساعدة إضافية تفيد، وحتى لو صار فيها خلل، الـ STUN يبقى شغّال.
+      
+      
       ICE_SERVERS = [{ urls: 'stun:stun.l.google.com:19302' }].concat(d.iceServers);
     }
     ICE_FETCHED = true;
   }).catch(function () { ICE_FETCHED = true; });
 }
 
-var LINK = 'down';                        // down | mid | nolib | up
+var LINK = 'down';                        
 var CLIENT = null;
-var SUBBED = {};                          // topic-hash already subscribed?
+var SUBBED = {};                          
 
-// نشر آمن: أي فشل غير متوقع بمكتبة الاتصال (مو مشكلة الشبكة العادية،
-// اللي أصلاً المكتبة تتعامل معها) يُسجَّل بس، وما يوقف باقي الكود.
+
+
 function safePublish(topic, payload, opts) {
   if (!CLIENT) return;
   try { CLIENT.publish(topic, payload, opts); }
@@ -822,8 +803,8 @@ function safePublish(topic, payload, opts) {
 function ensureLink() {
   if (CLIENT) return;
   if (!ME && !REGISTERING) return;
-  // لو مكتبة الاتصال ما حمّلت (نت بطيء، أو الشبكة تحجب الروابط الخارجية)،
-  // ما نخلي الصفحة كلها تنهار — نعرض حالة واضحة بدالها.
+  
+  
   if (typeof mqtt === 'undefined' || !mqtt || typeof mqtt.connect !== 'function') {
     LINK = 'nolib';
     return;
@@ -838,21 +819,21 @@ function ensureLink() {
     return;
   }
 
-  // البروكر يرجّع لنا رسائلنا نفسها لأننا مشتركين بنفس الموضوع اللي ننشر عليه.
-  // clean:true يعني الاشتراكات تنمسح من عند البروكر عند أي قطع اتصال،
-  // فلازم نعيد الاشتراك من الصفر كل مرة يتصل فيها الجهاز (أول مرة أو بعد انقطاع).
+  
+  
+  
   CLIENT.on('connect', function () {
     LINK = 'up'; SUBBED = {}; ROOMS.forEach(subRoom); heartbeat(); paint();
-    // نشترك بصندوقنا الخاص — هذا اللي يوصلنا فيه إشعار لو حد ضافنا
-    // كصديق، حتى لو إحنا ما ضفناه هو بعد.
+    
+    
     if (ME && ME.username) { CLIENT.subscribe(NS + '/inbox/' + ME.username); CLIENT.subscribe(NS + '/rooms/' + ME.username); CLIENT.subscribe(NS + '/myblocks/' + ME.username); }
-    // نشترك بقائمة المحظورين العامة — لو اسمي ظهر فيها، معناته الأدمن
-    // حظرني بسبب بلاغ حقيقي، ونطلع من التطبيق فوراً بدل ما نكمل نستخدمه.
+    
+    
     CLIENT.subscribe(NS + '/banned');
-    // أول ما نتصل (خصوصاً بعد ريفريش)، البروكر يرجّع كل الرسائل القديمة
-    // المحفوظة — حتى اللي أنا نفسي أرسلتها أو حذفتها أو عدّلتها من قبل.
-    // خلال هذي الفترة بس، ما نطلق أي تنبيه — بعدها نرجع نتنبّه عادي
-    // بس على الشي اللي يوصل فعلاً جديد وأنت متصل.
+    
+    
+    
+    
     JUST_SYNCED = true;
     clearTimeout(syncTimer);
     syncTimer = setTimeout(function () { JUST_SYNCED = false; }, 3000);
@@ -862,11 +843,7 @@ function ensureLink() {
   CLIENT.on('offline', function () { LINK = 'down'; paint(); });
   CLIENT.on('error', function () { LINK = 'down'; paint(); });
 
-  /* لما تفتح غرفة فيها تاريخ طويل، البروكر يرجّع كل الرسائل المحفوظة
-     دفعة وحدة خلال أجزاء من الثانية. لو رسمنا الشاشة كاملة مع كل
-     رسالة توصل لحالها، الشاشة تتجمّد لحظة — وهذا بالضبط سبب التعليق
-     اللي تشوفه. الحل: نجمع كل التحديثات اللي توصل بسرعة ونرسم مرة
-     وحدة بعدها، بدل ما نرسم عشرات المرات خلال نفس الثانية. */
+  
   var paintTimer = null;
   var dirtyMsgs = {}, dirtyGames = {};
   function paintSoon(msgHash, gameHash) {
@@ -883,17 +860,17 @@ function ensureLink() {
   }
 
   CLIENT.on('message', function (topic, buf) {
-    var parts = topic.split('/');           // NS / hash-أو-dir / kind / ...
+    var parts = topic.split('/');           
     var raw = buf.toString();
     var data = null;
     try { data = raw ? JSON.parse(raw) : null; } catch (e) { return; }
 
-    // موضوع دليل الحسابات له شكل مختلف: NS/acct/<username> — نعالجه هنا
-    // ونطلع قبل أي شي يحتاج ME (ممكن نكون لسا بمنتصف التسجيل).
+    
+    
     if (parts[1] === 'acct') { resolveLookup(parts[2], data); return; }
 
-    // قائمة الحظر: لو اسمي فيها، معناته أدمن التطبيق حظرني بسبب بلاغ
-    // حقيقي — نطلع من التطبيق فوراً بدل ما نكمل نستخدمه بصمت.
+    
+    
     if (parts[1] === 'banned') {
       if (ME && Array.isArray(data) && data.indexOf(ME.username) >= 0) {
         BANNED_MSG = 'حسابك متوقف من استخدام هلا شات بسبب بلاغ. لو تحس إن هذا غلط، تواصل مع اللي بنى التطبيق.';
@@ -902,9 +879,9 @@ function ensureLink() {
       return;
     }
 
-    // استعادة قائمة محادثاتي من السيرفر — توصل هذي غالباً فور ما نسجّل
-    // دخول (رسالة محفوظة). أي محادثة موجودة بالقائمة المستعادة وناقصة
-    // محلياً (زي بعد تسجيل خروج مسح كل شي)، نضيفها ونشترك بموضوعها.
+    
+    
+    
     if (parts[1] === 'rooms' && ME && parts[2] === ME.username) {
       if (!Array.isArray(data)) return;
       var addedAny = false;
@@ -921,8 +898,8 @@ function ensureLink() {
       return;
     }
 
-    // استعادة قائمة المحظورين من السيرفر — بدونها، حظر سويته بجهاز
-    // يضيع لو مسحت بيانات المتصفح أو دخلت من جهاز ثاني.
+    
+    
     if (parts[1] === 'myblocks' && ME && parts[2] === ME.username) {
       if (!Array.isArray(data)) return;
       var addedBlock = false;
@@ -931,12 +908,12 @@ function ensureLink() {
       return;
     }
 
-    // "صندوق الوارد": NS/inbox/<اسم_مستخدمي> — لما حد يضيفني كصديق، يوصلني
-    // إشعار هنا حتى لو أنا ما ضفته هو بعد. بدون هذا، لازم الاثنين يضيفون
-    // بعض بنفس الوقت عشان المحادثة تشتغل — وهذا مزعج وغير منطقي.
+    
+    
+    
     if (parts[1] === 'inbox') {
       if (!ME || !data || data.from === ME.username) return;
-      if (isBlocked(data.from)) return;   // محظور — حتى لو حاول يضيف نفسه من جديد
+      if (isBlocked(data.from)) return;   
       var already = ROOMS.filter(function (r) { return r.code === data.code; })[0];
       if (!already) {
         var newRoom = joinRoom(data.code, data.fromName || data.from, 'direct');
@@ -949,17 +926,17 @@ function ensureLink() {
     }
 
     var hash = parts[1], kind = parts[2];
-    if (!ME) return;   // رسالة غرفة وصلت قبل ما يخلص التسجيل — نتجاهلها بأمان
+    if (!ME) return;   
 
     if (kind === 'm') {
-      if (!data || data.who === ME.id) return;   // صدى رسالتي أنا — مطبّقة محلياً أصلاً
+      if (!data || data.who === ME.id) return;   
       var mRoom = ROOMS.filter(function (rr) { return fnv(rr.code.trim().toLowerCase()) === hash; })[0];
-      if (mRoom && mRoom.kind === 'direct' && isBlocked(mRoom.friendUser)) return;   // محظور — نتجاهل رسالته بصمت
+      if (mRoom && mRoom.kind === 'direct' && isBlocked(mRoom.friendUser)) return;   
       var list = MSGS[hash] = MSGS[hash] || [];
       var idx = -1;
       for (var mi = 0; mi < list.length; mi++) if (list[mi].id === data.id) { idx = mi; break; }
       if (idx >= 0) {
-        list[idx] = data;   // تحديث رسالة موجودة (تعديل أو حذف وصل متأخر)
+        list[idx] = data;   
         paintSoon(hash, null);
       } else {
         list.push(data);
@@ -980,7 +957,7 @@ function ensureLink() {
     } else if (kind === 'call') {
       handleCallSignal(hash, data);
     } else if (kind === 't') {
-      if (!data || data.who === ME.id) return;   // صدى كتابتي أنا
+      if (!data || data.who === ME.id) return;   
       TAPS[hash] = TAPS[hash] || {};
       if (data.on) TAPS[hash][data.who] = { n: data.name, t: Date.now() };
       else delete TAPS[hash][data.who];
@@ -1012,8 +989,7 @@ function ensureLink() {
   });
 }
 
-/* نبضة حضور: نعلن كل فترة إننا موجودين بكل غرفة منضمّين لها،
-   عشان الطرف الثاني يشوف "متصل الآن" بدل نص عام ما يفرق شي. */
+
 function heartbeat() {
   if (!CLIENT || LINK !== 'up') return;
   ROOMS.forEach(function (r) { pingPresence(r.code); });
@@ -1037,7 +1013,7 @@ function everSeenPeer(code) {
   for (var id in p) if (id !== ME.id) return true;
   return false;
 }
-// قائمة الأعضاء: كل شخص نبّه حضوره بهذي الغرفة (يشمل نفسي)، بأحدث اسم عرفناه له
+
 function roomMembers(code) {
   var hash = fnv(code.trim().toLowerCase());
   var p = PRESENCE[hash] || {}, now = Date.now(), list = [{ id: ME.id, name: ME.name, me: true, online: true }];
@@ -1047,14 +1023,14 @@ function roomMembers(code) {
 
 function subRoom(r) {
   var hash = fnv(r.code.trim().toLowerCase());
-  if (!MSGS[hash]) MSGS[hash] = loadMsgs(hash);   // نعرض المحفوظ محلياً فوراً، قبل ما توصل الشبكة
+  if (!MSGS[hash]) MSGS[hash] = loadMsgs(hash);   
   loadGames(hash);
   if (SUBBED[hash] || !CLIENT) return;
   SUBBED[hash] = true;
   CLIENT.subscribe(NS + '/' + hash + '/#', { qos: 0 });
 }
 
-/* ---------- عمليات الغرف ---------- */
+
 function joinRoom(code, title, kind, publishTitle) {
   code = String(code || '').trim();
   if (!code) return null;
@@ -1068,10 +1044,10 @@ function joinRoom(code, title, kind, publishTitle) {
     saveRooms(ROOMS);
   }
   subRoom(exists);
-  pingPresence(exists.code);   // نعلن حضورنا فوراً بدل ما ننتظر أول نبضة دورية
-  // اسم المجموعة يتزامن تلقائياً بين كل الأعضاء: بس اللي ينشئها فعلياً
-  // ينشر اسمها (وهويته كأدمن) كرسالة محفوظة (مو أي أحد ينضم لها، حتى لو
-  // أول مرة يشوفها من جهازه هو) — غير كذا كل عضو جديد يمسح اسم اللي قبله بالغلط.
+  pingPresence(exists.code);   
+  
+  
+  
   if (publishTitle && title && title.trim()) {
     exists.admin = ME.username;
     var hash = fnv(code.trim().toLowerCase());
@@ -1080,9 +1056,9 @@ function joinRoom(code, title, kind, publishTitle) {
   return exists;
 }
 
-// إضافة صديق باسم المستخدم: نلقى حسابه بالدليل، ونشتق رمز غرفة ثابت
-// من الاسمين (أبجدياً) — كذا الطرفين يوصلون لنفس الرمز بالضبط، بدون
-// ما أحد يحتاج ينسخ ويشارك رمز يدوياً، زي واتساب بالضبط.
+
+
+
 function directCode(userA, userB) {
   var list = [String(userA).toLowerCase(), String(userB).toLowerCase()].sort();
   return 'dm-' + list[0] + '-' + list[1];
@@ -1099,9 +1075,9 @@ function addFriendByUsername(username, onResult) {
     room.avatar = data.avatar || null;
     room.friendUser = username;
     saveRooms(ROOMS);
-    // نبلّغ صاحبنا فوراً — كذا المحادثة تفتح عنده تلقائياً بدون ما يحتاج
-    // يضيفني هو بالمقابل. الرسالة محفوظة (retain) عشان توصله حتى لو
-    // كان مسكّر التطبيق وقت ما ضفته.
+    
+    
+    
     safePublish(NS + '/inbox/' + username, JSON.stringify({ from: ME.username, fromName: ME.name, fromAvatar: ME.avatar || null, code: code }), { qos: 1, retain: true });
     onResult({ room: room });
   });
@@ -1112,18 +1088,18 @@ function leaveRoom(code) {
   var hash = fnv(code.trim().toLowerCase());
   if (CLIENT) CLIENT.unsubscribe(NS + '/' + hash + '/#');
   delete SUBBED[hash]; delete MSGS[hash]; delete TAPS[hash]; delete PEER_SEEN[hash]; delete PRESENCE[hash];
-  for (var id in GAMES) if (GAMES[id].r === hash) delete GAMES[id];   // الألعاب مفهرسة بمعرّفها لا برمز الغرفة
+  for (var id in GAMES) if (GAMES[id].r === hash) delete GAMES[id];   
   box.set('hala.msgs.' + hash, '[]'); box.set('hala.games.' + hash, '{}');
 }
 function randomCode() {
   return String(Math.floor(1000 + Math.random() * 9000));
 }
 
-/* ---------- رسائل / تفاعلات / ألعاب ---------- */
-// نرسل تنبيه دفع لصاحب المحادثة — بس بالمحادثات الخاصة (نعرف اسم
-// مستخدمه المحفوظ)، ما ندعمها بالمجموعات بعد (تحتاج نعرف كل الأعضاء).
-// أنواع البوتات المعتمدة — شخصية كل وحدة وتوجيهها للذكاء الاصطناعي محدّدة
-// مسبقاً من طرفنا (مو نص حر يكتبه الأدمن)، عشان تكون آمنة ومضبوطة دايماً.
+
+
+
+
+
 var BOT_TYPES = [
   { id: 'poetry', name: 'بوت الشعر والأدب', emoji: '📜' },
   { id: 'math', name: 'بوت الرياضيات', emoji: '🔢' },
@@ -1136,9 +1112,9 @@ var BOT_TYPES = [
 ];
 function findBotType(id) { for (var i = 0; i < BOT_TYPES.length; i++) if (BOT_TYPES[i].id === id) return BOT_TYPES[i]; return null; }
 
-// الأدمن بس يقدر يعيّن بوت المجموعة — بوت وحد بس بكل مجموعة، وتعيين
-// وحد جديد يستبدل القديم لو كان موجود.
-// الأدمن بس يقدر يغيّر صورة المجموعة — تتزامن للكل فوراً
+
+
+
 function setGroupPhoto(code, dataUrl) {
   var room = ROOMS.filter(function (r) { return r.code === code; })[0];
   if (!room || room.admin !== ME.username) return;
@@ -1158,8 +1134,8 @@ function setGroupBot(code, botId) {
   safePublish(NS + '/' + hash + '/meta', JSON.stringify({ title: room.title, admin: room.admin, bot: room.bot }), { qos: 1, retain: true });
   paint();
 }
-// نرسل تنبيه دفع لصاحب المحادثة — بس بالمحادثات الخاصة (نعرف اسم
-// مستخدمه المحفوظ)، ما ندعمها بالمجموعات بعد (تحتاج نعرف كل الأعضاء).
+
+
 function pushForRoom(code, body, tag) {
   var room = ROOMS.filter(function (r) { return r.code === code; })[0];
   if (room && room.kind === 'direct' && room.friendUser) sendPush(room.friendUser, ME.name, body, tag);
@@ -1176,8 +1152,8 @@ function post(code, body, open, kind, extra, replyTo) {
   paint();
   return m;
 }
-// لو الرسالة تذكر بوت المجموعة (@بوت، أو اسمه كامل)، نستدعي رده —
-// بس بالمجموعات اللي عندها بوت معيّن أصلاً.
+
+
 function checkBotMention(code, body) {
   var room = ROOMS.filter(function (r) { return r.code === code; })[0];
   if (!room || !room.bot || !body) return;
@@ -1190,8 +1166,8 @@ function triggerBotReply(code, bot, triggerText) {
   var recent = (MSGS[hash] || []).slice(-10).filter(function (m) { return (m.kind === 'text') && !m.deleted; })
     .map(function (m) { return { name: m.name, text: m.body }; });
   var url = BROKER.replace(/^wss:\/\//, 'https://').replace(/^ws:\/\//, 'http://') + '/bot';
-  // تنبيه محلي بس (ما ننشره بالمجموعة) — يوريك أنت بس إن البوت "يفكر"،
-  // عشان ما تحس إنه ساكت بدون تفسير وانت تنتظر
+  
+  
   V.botThinking = bot.id; paint();
   fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ botId: bot.id, history: recent, question: triggerText }) })
@@ -1199,8 +1175,8 @@ function triggerBotReply(code, bot, triggerText) {
     .then(function (res) {
       V.botThinking = null;
       if (!res.ok || !res.d || !res.d.reply) {
-        // فشل الرد (تجاوزت حد الطلبات غالباً، أو خطأ سيرفر) — نوريك
-        // السبب بدل ما نسكت تماماً وتحس إن التطبيق "علّق"
+        
+        
         V.botErr = (res.d && res.d.error) || 'ما قدرنا نوصل للبوت الحين';
         paint();
         return;
@@ -1228,7 +1204,7 @@ function postImage(code, dataUrl, caption) {
   paint();
   return m;
 }
-var VOICE_MAX_SEC = 45;   // سقف معقول يخلّي حجم الملف تحت حد الرسالة (١٢٨ كيلوبايت)
+var VOICE_MAX_SEC = 45;   
 var mediaRecorder = null, recordChunks = [], recordStream = null, recordTimer = null;
 function startRecording(code) {
   if (V.recording || typeof navigator === 'undefined' || !navigator.mediaDevices || typeof MediaRecorder === 'undefined') {
@@ -1282,9 +1258,9 @@ function postVoice(code, dataUrl, seconds) {
 }
 function postSticker(code, sticker) {
   var hash = roomTopic(code).split('/')[1];
-  // نرسل اسم الستيكر بس (بضع بايتات)، مو الصورة كاملة — كل الأجهزة عندها
-  // نفس مجموعة الستيكرات محفوظة بالتطبيق أصلاً، فما فيه داعي نكرر إرسال
-  // نفس الصورة بكل مرة. هذا يخلّي الستيكرات عملياً بلا أي استهلاك نت إضافي.
+  
+  
+  
   var m = { id: uid(), who: ME.id, name: ME.name, hue: ME.hue, body: sticker.name, stk: sticker.name, kind: 'sticker', gid: null, open: null, t: Date.now(), felt: {} };
   var list = MSGS[hash] = MSGS[hash] || [];
   list.push(m);
@@ -1298,8 +1274,8 @@ function findSticker(name) {
   for (var i = 0; i < STICKERS.length; i++) if (STICKERS[i].name === name) return STICKERS[i];
   return null;
 }
-// مجموعة ستيكرات مختارة — إيموجي كبيرة تتصرف كرسالة قائمة بذاتها، بدون فقاعة،
-// زي أي ستيكر بأي تطبيق دردشة، بدون ما نحتاج نصمم رسوم جديدة من الصفر.
+
+
 var STICKERS = [
   { name: 'مبسوط', src: 'data:image/png;base64,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' },
   { name: 'أموت ضحك', src: 'data:image/png;base64,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' },
@@ -1312,8 +1288,8 @@ var STICKERS = [
   { name: 'تمام', src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAE5UlEQVR4nO3dQVLiQBiGYZyaI7DWA3kR9nOO2XsRDoRr7qCLKauAkaQTSdJf9/OsKSp2ktc/EeJuBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwIinrTeAtjzv9x9TXv9+PjsGKeZg4cemRuoe8WKMA4TZHhWqW8LFPb+23gAyLRWrpd+bbH6TMcnaMTFtccmERbEtJh/TFpcEC4ghWBTZctIxZfHF/QFGTQ3G6Xgoet3L69uk7XA/CwcAo0qDVRqqW6XhEiwcAAwqidXcUN0qCZdo9c09LCCGYPEjj5quHv1etEmwuKvGv87VuE2sR7CYbYmJyJTFEMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWs728vkW8J+0QLO56P5+ftt6GWzVuE+sRLH7kkROR6YoxggXEMF4z6nm//yh53el4mPX+pZOVy0EcAA0oDcpaSsM19RJQsHAAhKotUmsQLBwAQXqM1D3i1Sc33UOI1TXr0Se/pSrnxBxn2uqHCatiYlXGOvVDsCrlJJzGevVBsCrk5JvHurXPtX9l5p50cz+0+WhTP1s1tN1zv6rjnla77NiKTI1VLZFagw+ZstsJVlWW/gpMC3yNp2/uYVVCrMqU/vzuZ7VJsCogVtOIVr8EK4RYXbMefRKsAE7O71mX/gjWxly2LMv6tkWwKmeKGGZ9+iJYQAzB2pDLlXVY53b83noDuG/kayt/V9yUNH+23gCWYcICYggWEMMlYajT8eCy54J/wtoHExYQQ7CAGIIFxBAsIIZgATEEC4ghWEAMwQJiCBYQQ7CAGIIFxBAsIIZgATEEC4ghWEAMwQJieIBfKM90H+Thho0yYQExBAuI4ZIwlGe6X/NM9z6YsIAYggXEECwghmABMQQLiCFYQAzBAmIIFhBDsIAYggXEECwghmABMQQLiCFYQAzBAmIIFhDDA/xCeab7IA83bJQJC4ghWECMp603oGfP+/3H2GtOx8MamxKt5Hnu7+ezY70BJqwNOYnWYZ3bIVhADMGqnH9fNcz69EWwNuZyZVnWty2CFcAU8T3r0h/BCuHkvGY9+iRYFSi9bHGS/lO6Di4H2yNYlRCtMmLVNzu1IiUfJL3U04dKp4ZasNpkp1ZmarS+tBivudOkWLXLjq3Q3GghVq1zD6tCTrp5rFv7BKtSTr5prFcfBKtiTsIy1qkfdnQI97X+J1T9MWGFcHJesx59stND9ThxiRQOgAa0HC+RAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAn0CC5UF2LJUxs8AAAAASUVORK5CYII=' },
   { name: 'نجم', src: 'data:image/png;base64,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' }
 ];
-// نصغّر أي صورة دردشة قبل الإرسال — لازم تصغر كفاية عشان تعبر حد
-// حجم الرسالة (١٢٨ك بالسيرفر)، فنقلل الجودة تدريجياً لين تصير مناسبة.
+
+
 function prepareImageForChat(file, cb) {
   var reader = new FileReader();
   reader.onload = function () {
@@ -1357,9 +1333,9 @@ function feel(code, mid, e) {
   safePublish(NS + '/' + hash + '/r/' + mid, JSON.stringify({ by: ME.id, felt: m.felt }), { qos: 1, retain: true });
   paint();
 }
-// الحذف: ننشر نفس معرّف الرسالة بعلامة "محذوفة" بدل النص — كذا كل
-// جهاز (حتى لو ينضم متأخر) يشوف "الرسالة محذوفة" مكانها، مو فراغ
-// غريب بالترتيب. ما نمسحها من عندنا محلياً بالكامل، نعلّمها بس.
+
+
+
 function deleteMsg(code, mid) {
   var hash = roomTopic(code).split('/')[1];
   var list = MSGS[hash] || [];
@@ -1416,18 +1392,7 @@ function drop(code, gid, i) {
   safePublish(NS + '/' + hash + '/g/' + gid, JSON.stringify(g), { qos: 1, retain: true });
   paint();
 }
-/* ══════════════════════════════════════════════════════════
-   المكالمات (صوت/فيديو) — بدون سيرفر جديد إطلاقاً.
-   نستخدم نفس بروكر الرسائل عندنا لتبادل "بيانات الاتصال" فقط
-   (عرض/رد/عناوين شبكة) — موضوع NS/<hash>/call/<من>. هذي رسائل
-   عابرة (retain:false)، عكس رسائل الدردشة، عشان ما "يرد" اتصال
-   قديم لما تفتح التطبيق من جديد.
-   بعد ما الجهازين يتبادلون هالمعلومات، الصوت/الصورة يمشون مباشرة
-   من جهاز لجهاز (WebRTC) بدون ما يمرّون على أي سيرفر عندنا —
-   هذا اللي يخليها ممكنة بدون تكلفة إضافية. الاستثناء الوحيد: بعض
-   الشبكات المقيّدة جداً ممكن تفشل توصل مباشرة بدون "سيرفر ترحيل"
-   مدفوع، وهذا قيد نعرفه وما نقدر نحله بدون تكلفة شهرية.
-   ══════════════════════════════════════════════════════════ */
+
 function callTopic(hash) { return NS + '/' + hash + '/call'; }
 function sendCallSignal(hash, msg) {
   msg.from = ME.id; msg.fromName = ME.name;
@@ -1445,9 +1410,9 @@ function setupPeerConnection() {
     CALL.remoteStream = e.streams[0];
     paint();
   };
-  // نراقب حالة الاتصال من مسارين مختلفين (connectionState و
-  // iceConnectionState) — بعض المتصفحات ما تحدّث الأول بثقة، فلو
-  // اعتمدنا عليه بس، الشاشة تضل "تتصل" حتى لو الصوت شغّال فعلياً.
+  
+  
+  
   function markConnected() {
     if (!CALL || CALL.state === 'connected') return;
     CALL.state = 'connected'; CALL.startedAt = Date.now();
@@ -1469,8 +1434,8 @@ function setupPeerConnection() {
   return pc;
 }
 
-// أنا أبدأ مكالمة لصديق (محادثة خاصة بس — المكالمات الجماعية أعقد بكثير
-// تقنياً وممكن نضيفها لاحقاً لو احتجناها).
+
+
 function startCall(code, withVideo) {
   if (CALL || typeof RTCPeerConnection === 'undefined') return;
   var hash = roomTopic(code).split('/')[1];
@@ -1485,7 +1450,7 @@ function startCall(code, withVideo) {
   var iceReady = Promise.race([refreshIceServers(), new Promise(function (r) { setTimeout(r, 2500); })]);
   Promise.all([navigator.mediaDevices.getUserMedia({ audio: true, video: withVideo ? { width: 480 } : false }), iceReady]).then(function (res) {
     var stream = res[0];
-    if (!CALL) { stream.getTracks().forEach(function (t) { t.stop(); }); return; }   // ألغى قبل ما يخلص الإذن
+    if (!CALL) { stream.getTracks().forEach(function (t) { t.stop(); }); return; }   
     CALL.localStream = stream;
     var pc = setupPeerConnection();
     stream.getTracks().forEach(function (t) { pc.addTrack(t, stream); });
@@ -1563,12 +1528,12 @@ function toggleCallVideo() {
   paint();
 }
 
-// وصول إشارة اتصال من الشبكة — يُنادى من معالج الرسائل الرئيسي
+
 function handleCallSignal(hash, data) {
   if (!data || data.from === ME.id) return;
   if (data.type === 'offer') {
     var room = ROOMS.filter(function (r) { return fnv(r.code.trim().toLowerCase()) === hash; })[0];
-    if (room && room.kind === 'direct' && isBlocked(room.friendUser)) return;   // محظور — نتجاهل مكالمته بصمت
+    if (room && room.kind === 'direct' && isBlocked(room.friendUser)) return;   
     if (CALL) { safePublish(callTopic(hash) + '/' + ME.id, JSON.stringify({ type: 'reject', from: ME.id, fromName: ME.name, busy: true }), { qos: 1 }); return; }
     CALL = { code: room ? room.code : null, hash: hash, peerId: data.from, peerName: data.fromName || (room ? room.title : '؟'), peerAvatar: room ? room.avatar : null,
       withVideo: !!data.video, state: 'ringing', pc: null, localStream: null, remoteStream: null, startedAt: null,
@@ -1620,7 +1585,7 @@ function read(code, m) {
   return false;
 }
 
-/* ---------- أدوات عرض ---------- */
+
 function N(tag, attr, kids) {
   var n = document.createElement(tag);
   attr = attr || {};
@@ -1630,13 +1595,13 @@ function N(tag, attr, kids) {
     if (k === 'k') n.className = v;
     else if (k === 'txt') n.textContent = v;
     else if (k === 'sty') n.setAttribute('style', v);
-    else if (k === 'ref') continue;   // نتعامل معه بعد ما العنصر يخلص كامل (تحت)
+    else if (k === 'ref') continue;   
     else if (k.slice(0, 2) === 'on') n.addEventListener(k.slice(2), v);
     else n.setAttribute(k, v);
   }
   (kids || []).forEach(function (c) { if (c) n.appendChild(c); });
-  // ref: وصول مباشر للعنصر بعد بنائه كامل — نحتاجه بس لأشياء ما تنضبط
-  // بخاصية HTML عادية (زي srcObject لعناصر الفيديو، خاصية جافاسكربت بحتة).
+  
+  
   if (attr.ref) attr.ref(n);
   return n;
 }
@@ -1704,7 +1669,7 @@ function avatar(letter, color, size, groupy, img) {
                 : N('div', { k: 'avatar ' + size, sty: 'background:' + color, txt: letter });
 }
 
-/* نقشة الخلفية (نفس النسخة السابقة) */
+
 (function () {
   function star(cx, cy, h) {
     var d = h * 1.414;
@@ -1718,11 +1683,11 @@ function avatar(letter, color, size, groupy, img) {
   document.documentElement.style.setProperty('--weave', "url(\"data:image/svg+xml;utf8," + encodeURIComponent(svgstr) + "\")");
 })();
 
-/* ---------- حالة الواجهة ---------- */
+
 var V = { open: null, sheet: false, profileSheet: false, settingsSheet: false, soonSheet: false, dtab: 'friend', code: '', title: '', note: '', timed: false, pad: false, padTab: 'emoji', emos: null, menu: false, whenVal: '', busy: false, fidErr: '', regName: '', regAvatar: null, editName: '', editAvatar: null, authTab: 'reg', regUsername: '', regPass: '', loginUsername: '', loginPass: '', authErr: '', authBusy: false, filter: 'all', q: '', membersFor: null, editingMsg: null, notifOn: box.get('hala.notif') === '1', imgBusy: false, imgErr: '', aquaNote: '', aquaBusy: false, aquaErr: '', pushStatus: '', replyTo: null, fwdMsg: null, mediaFor: null, searching: false, sq: '', infoFor: null, botPick: null, botThinking: null, botErr: '', recording: false, recordStart: 0, recordErr: '', tourStep: 0 };
 
-// تنبيهات المتصفح: نطلب الإذن بس لما المستخدم يفعّلها بنفسه (زر بالإعدادات)،
-// مو تلقائياً — المتصفحات كثير تتجاهل الطلب التلقائي، وهذا أدب أكثر برضو.
+
+
 var VAPID_PUBLIC_KEY = 'BMeDlVjZnnIKR741yuxi0u5fdjGfJYDiCVXp8aOPumBT0F8aqHqy-ng0sMupRo6OFrF0pNkqSx52AxLdrbo_fws';
 function urlBase64ToUint8Array(base64) {
   var padding = '='.repeat((4 - base64.length % 4) % 4);
@@ -1731,10 +1696,10 @@ function urlBase64ToUint8Array(base64) {
   for (var i = 0; i < raw.length; ++i) out[i] = raw.charCodeAt(i);
   return out;
 }
-// نشترك بتنبيهات الدفع — هذي توصل حتى لو التطبيق مقفول تماماً (مو بس
-// بالخلفية)، بالضبط زي واتساب أو سناب. لو فشلت لأي سبب (متصفح قديم،
-// المستخدم رفض، أو حتى AQUA_URL/PUSH_URL مو شغّالين)، نتجاهلها بهدوء —
-// التنبيهات العادية (بالخلفية بس) تبقى شغّالة براحتها بدونها.
+
+
+
+
 function subscribeToPush() {
   if (!('serviceWorker' in navigator)) { V.pushStatus = 'المتصفح ما يدعم عامل الخدمة إطلاقاً'; paint(); return; }
   if (!('PushManager' in window)) { V.pushStatus = 'المتصفح ما يدعم تنبيهات الدفع (PushManager)'; paint(); return; }
@@ -1776,9 +1741,9 @@ function sendTestPush() {
     })
     .catch(function (e) { V.pushStatus = 'فشل الاتصال بالسيرفر: ' + (e && e.message || '؟'); paint(); });
 }
-// حذف الحساب نهائياً: نعلّم كل رسائلي المعروفة محلياً محذوفة (ننشرها
-// من جديد فاضية)، ونحذف حسابي من دليل الحسابات (رسالة محفوظة فاضية =
-// حذف بمصطلح MQTT)، وبعدها نسجّل خروج ونمسح كل شي محلي.
+
+
+
 function deleteAccountForever() {
   if (!ME) return;
   var username = ME.username;
@@ -1793,7 +1758,7 @@ function deleteAccountForever() {
     });
   });
   safePublish(NS + '/acct/' + username, '', { qos: 1, retain: true });
-  setTimeout(function () { logout(); paint(); }, 500);   // نعطي وقت كافي للنشر قبل ما نقطع الاتصال
+  setTimeout(function () { logout(); paint(); }, 500);   
 }
 function sendReport(reportedUsername, roomCode, reason) {
   if (typeof fetch !== 'function' || !ME) return;
@@ -1828,9 +1793,9 @@ function toggleNotif() {
   });
 }
 function notifyNewMessage(roomTitle, senderName, text) {
-  if (JUST_SYNCED) return;   // فيضان رسائل قديمة وقت الاتصال — مو رسالة جديدة فعلاً
+  if (JUST_SYNCED) return;   
   if (!V.notifOn || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
-  if (typeof document !== 'undefined' && document.visibilityState === 'visible' && V.open) return;   // مفتوح التطبيق قدامك أصلاً
+  if (typeof document !== 'undefined' && document.visibilityState === 'visible' && V.open) return;   
   try { new Notification(senderName + ' — ' + roomTitle, { body: text || 'رسالة جديدة', tag: 'hala-msg' }); } catch (e) {}
 }
 var JUST_SYNCED = false, syncTimer = null;
@@ -1849,8 +1814,8 @@ function paint() {
   try {
     HOST.appendChild(ME ? frame() : welcome());
   } catch (e) {
-    // أي خطأ غير متوقع بالرسم ما لازم يسيب المستخدم بشاشة فاضية —
-    // نعرض حالة واضحة فيها طريقة يرجع منها، بدل ما "يعلّق" التطبيق بصمت.
+    
+    
     HOST.innerHTML = '';
     HOST.appendChild(N('div', { k: 'auth' }, [
       N('div', { k: 'auth-top' }),
@@ -1874,7 +1839,7 @@ function paint() {
   if (ta) { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 112) + 'px'; }
 }
 
-/* ---------- شاشة الترحيب ---------- */
+
 function welcome() {
   if (REGISTERING) {
     return N('div', { k: 'auth' }, [
@@ -1983,7 +1948,7 @@ function welcome() {
   ]);
 }
 
-/* ---------- الإطار الرئيسي ---------- */
+
 function frame() {
   ensureLink();
   var cur = V.open;
@@ -2049,7 +2014,7 @@ function frame() {
   if (V.soonSheet) app.appendChild(soonDialog());
   if (V.sheet) app.appendChild(dialog());
   if (V.profileSheet) app.appendChild(profileDialog());
-  if (CALL) app.appendChild(callOverlay());   // فوق كل شي — مكالمة واردة توقفك أينما كنت
+  if (CALL) app.appendChild(callOverlay());   
   if (V.fwdMsg) app.appendChild(forwardDialog());
   if (V.botPick) app.appendChild(botPickDialog());
   if (V.tourStep) app.appendChild(tourOverlay());
@@ -2077,7 +2042,7 @@ function hollow() {
 }
 
 function roomAvatar(r, size) {
-  var isGroup = r.kind === 'group' || !r.kind;   // الغرف القديمة قبل هذا التحديث تُعامل كمجموعة افتراضياً
+  var isGroup = r.kind === 'group' || !r.kind;   
   var node = r.avatar ? avatar('', roomHue(r.code), size, false, r.avatar)
     : avatar(r.title.slice(0, 1), roomHue(r.code), size, isGroup);
   if (isGroup) return node;
@@ -2122,7 +2087,7 @@ function roomCard(r) {
   ]);
 }
 
-/* ---------- لوحة الغرفة ---------- */
+
 function aquaView() {
   var head = N('div', { k: 'head' }, [
     N('button', { k: 'ico back', title: 'رجوع', 'aria-label': 'رجوع', onclick: function () { V.open = null; paint(); } }, [ic('prev', 22)]),
@@ -2199,9 +2164,9 @@ function roomView(code) {
       N('input', { placeholder: 'ابحث بهذي المحادثة…', value: V.sq || '', 'data-slot': 'sq',
         oninput: function (e) {
           V.sq = e.target.value;
-          // ما نعيد رسم الشاشة كاملة مع كل حرف — هذا كان يسبب تعليق ملحوظ
-          // بلوحة المفاتيح، خصوصاً بمحادثات فيها رسائل كثيرة. نأخّر شوي
-          // بدلها، نفس فكرة تجميع الرسائل الواردة اللي نسويها أصلاً.
+          
+          
+          
           clearTimeout(searchPaintTimer);
           searchPaintTimer = setTimeout(paint, 160);
         } }),
@@ -2329,8 +2294,8 @@ function roomMenu(room, code) {
   return items;
 }
 
-// جولة ترحيبية سريعة — تظهر مرة وحدة بس، أول ما تسوي حساب جديد. الهدف
-// إنك تعرف وش موجود بالتطبيق قبل ما تضيع بين الميزات الكثيرة.
+
+
 var TOUR_SLIDES = [
   { icon: 'mark', title: 'هلا فيك بهلا شات 👋', body: 'تطبيق دردشة مبني بالكامل من الصفر — رسائل، صور، صوت، ومكالمات، بينك وبين أصحابك.' },
   { icon: 'drop', title: 'أكوا — مساعدك الذكي', body: 'اضغط أكوا بأعلى قائمة محادثاتك، واسأله أي شي. وبأي مجموعة، تقدر تضيف بوت متخصص (رياضيات، شعر، أنمي...) ينادونه أعضاء المجموعة بكتابة "@بوت".' },
@@ -2558,9 +2523,9 @@ function note(m, code, head) {
     }
   }
 
-  // نعطي حركة "الظهور" لأول مرة بس — لو أعطيناها لكل رسالة بكل إعادة
-  // رسم (يصير كثير: رسالة جديدة، نبضة كتابة، تحديث حضور...)، كل
-  // الفقاعات القديمة كانت تهتز من جديد كل مرة، وهذا كان مزعج فعلاً.
+  
+  
+  
   var isFresh = !ANIMATED_MSGS[m.id];
   ANIMATED_MSGS[m.id] = true;
   var b = N('div', { k: 'bub' + (isFresh ? ' bub-in' : '') + (head && m.kind !== 'sticker' ? ' tip-l' : '') + (m.kind === 'sticker' ? ' sticker' : '') }, kids);
@@ -2617,21 +2582,21 @@ var typingActive = false;
 function pen(code) {
   var at = N('input', { type: 'datetime-local', 'data-slot': 'when', value: V.whenVal,
     oninput: function (e) { V.whenVal = e.target.value; } });
-  var MSG_MAX = 4000;   // حد معقول جداً لأي رسالة نصية، يمنع لصق نص ضخم بالغلط
+  var MSG_MAX = 4000;   
   var area = N('textarea', { rows: 1, placeholder: V.editingMsg ? 'عدّل رسالتك' : 'اكتب رسالة', 'data-slot': 'pen', maxlength: String(MSG_MAX),
     oninput: function (e) {
       var wasEmpty = !V.note.trim();
       V.note = e.target.value.slice(0, MSG_MAX);
       var isEmpty = !V.note.trim();
       e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 112) + 'px';
-      // نبلّغ "أكتب" مرة وحدة بس عند البداية، مو مع كل حرف —
-      // إرسال حدث شبكة مع كل ضغطة كان يسبب تجمّد ملحوظ وقت الكتابة السريعة.
+      
+      
       if (!typingActive) { typingActive = true; typingPing(code, true); }
       clearTimeout(beat);
       beat = setTimeout(function () { typingActive = false; typingPing(code, false); }, 1700);
-      // زر الإرسال يتحول لمايك لما الصندوق فاضي، وبالعكس — هذا التحول
-      // بس (مو كل حرف) يستاهل إعادة رسم، عشان الزر يتبدّل فوراً لما تبدأ
-      // تكتب أو تمسح كل شي، بدون ما نرجع لمشكلة التعليق اللي صلّحناها قبل.
+      
+      
+      
       if (wasEmpty !== isEmpty) paint();
     },
     onkeydown: function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); fire(); } }
@@ -2644,7 +2609,7 @@ function pen(code) {
     if (V.editingMsg) {
       var editingId = V.editingMsg;
       V.editingMsg = null; V.note = '';
-      editMsg(code, editingId, body);   // ينادي paint() بنفسه — رسمة وحدة تعكس التعديل ومسح الصندوق معاً
+      editMsg(code, editingId, body);   
       return;
     }
     var open = (V.timed && V.whenVal) ? new Date(V.whenVal).getTime() : null;
@@ -2653,10 +2618,10 @@ function pen(code) {
     typingActive = false;
     clearTimeout(beat);
     typingPing(code, false);
-    post(code, body, open, null, null, replyTo);   // ينادي paint() بنفسه — رسمة وحدة تعكس الرسالة الجديدة ومسح الصندوق معاً.
-    // (قبل هذا الإصلاح، كنا ننادي paint() مرة ثانية هنا بعد post() — رسمتين
-    // متتاليتين لكل رسالة كانت تمسح علامة "جديدة" قبل ما تظهر، وهذا كان
-    // يسبب إعادة رسم الفقاعات القديمة بلا داعي = الاهتزاز المزعج.)
+    post(code, body, open, null, null, replyTo);   
+    
+    
+    
   }
 
   var imgInput = N('input', { type: 'file', accept: 'image/*', sty: 'display:none',
@@ -2726,7 +2691,7 @@ function pen(code) {
   return N('div', { k: 'write' }, rows);
 }
 
-/* ---------- نافذة إنشاء/انضمام لغرفة ---------- */
+
 function dialog() {
   var TITLE_MAX = 60, CODE_MAX = 80;
   function shut() { V.sheet = false; paint(); }
@@ -2832,7 +2797,7 @@ function dialog() {
   return N('div', { k: 'veil', onclick: shut }, [N('div', { k: 'sheet', onclick: function (e) { e.stopPropagation(); } }, kids)]);
 }
 
-/* ---------- نافذة تعديل البروفايل ---------- */
+
 function profileDialog() {
   var NAME_MAX = 30;
   function shut() { V.profileSheet = false; paint(); }
@@ -2877,8 +2842,8 @@ function profileDialog() {
   return N('div', { k: 'veil', onclick: shut }, [N('div', { k: 'sheet', onclick: function (e) { e.stopPropagation(); } }, kids)]);
 }
 
-/* ---------- نافذة الإعدادات ---------- */
-/* ---------- واجهة المكالمة — تظهر فوق كل شي، بكل حالاتها ---------- */
+
+
 function fmtDur(ms) {
   var s = Math.floor(ms / 1000), m = Math.floor(s / 60);
   return z(m) + ':' + z(s % 60);
@@ -2888,8 +2853,8 @@ function callOverlay() {
   var av = CALL.peerAvatar
     ? N('img', { k: 'call-photo', src: CALL.peerAvatar, alt: CALL.peerName })
     : avatar(CALL.peerName.slice(0, 1), roomHue(CALL.code || CALL.hash), 'l');
-  // خلفية ضبابية من نفس صورة الشخص (لو موجودة) — زي فيستايم بالضبط،
-  // هذا اللي يخلّي الشاشة تحس فيها إحساس المكالمة الحقيقية، مو تصميم فاضي.
+  
+  
   var bgStyle = CALL.peerAvatar ? "background-image:url('" + CALL.peerAvatar + "')" : '';
 
   if (CALL.err) {
@@ -2901,10 +2866,10 @@ function callOverlay() {
   if (CALL.state === 'ringing') {
     var handle = N('div', { k: 'call-handle' }, [ic(CALL.withVideo ? 'vid' : 'phone', 24)]);
     var drag = { on: false, x: 0, sx: 0 };
-    // مهم: الصفحة RTL — يعني بالتخطيط، زر الرفض (الأحمر) يطلع فعلياً
-    // يمين الشاشة، وزر القبول (الأخضر) يسارها (أول عنصر بترتيب HTML
-    // يطلع يمين بالـ RTL). سحب المقبض يمين (قيمة موجبة) لازم يودّي
-    // لجهة الأحمر = رفض، وسحبه يسار (قيمة سالبة) لجهة الأخضر = قبول.
+    
+    
+    
+    
     function dragMove(clientX) {
       if (!drag.on) return;
       drag.x = Math.max(-92, Math.min(92, clientX - drag.sx));
@@ -2949,7 +2914,7 @@ function callOverlay() {
     ]);
   }
 
-  // متصلة فعلياً
+  
   var vids = [];
   if (CALL.withVideo) {
     vids.push(N('video', { k: 'call-remote', autoplay: 'autoplay', playsinline: 'playsinline',
@@ -3041,7 +3006,7 @@ function settingsDialog() {
   return N('div', { k: 'veil', onclick: shut }, [N('div', { k: 'sheet', onclick: function (e) { e.stopPropagation(); } }, kids)]);
 }
 
-/* ---------- إغلاق القوائم ---------- */
+
 document.addEventListener('click', function () { if (V.emos !== null || V.menu) { V.emos = null; V.menu = false; paint(); } });
 document.addEventListener('keydown', function (e) {
   if (e.key !== 'Escape') return;
@@ -3050,7 +3015,7 @@ document.addEventListener('keydown', function (e) {
   else if (V.open) { V.open = null; paint(); }
 });
 
-/* ---------- نبضات محلية: موقوتة + تنظيف مؤشرات الكتابة القديمة ---------- */
+
 var lastTapSig = '';
 setInterval(function () {
   if (!ME) return;
@@ -3070,19 +3035,19 @@ setInterval(function () {
   if (ME && V.open && document.hasFocus()) markSeen(V.open);
 }, 1500);
 
-// نسجّل عامل الخدمة (شرط تقني عشان المتصفح ومولّدات APK يعتبرون
-// الصفحة تطبيق ويب تقدمي قابل للتثبيت). لو فشل لأي سبب، نتجاهله
-// بهدوء — التطبيق يشتغل عادي بدونه، بس ما يصير "قابل للتثبيت".
+
+
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
     navigator.serviceWorker.register('sw.js').catch(function () {});
   });
 }
 
-// لو المستخدم مسجّل دخول أصلاً (فتح التطبيق عادي، مو أول تسجيل) وعنده
-// التنبيهات مفعّلة من قبل، نتأكد الاشتراك بتنبيهات الدفع موجود وصالح —
-// بدون هذا السطر، تفعيل قديم للتنبيهات (من قبل ما نضيف هذي الميزة)
-// ما يشترك تلقائياً؛ يحتاج لمسة وحدة هنا كل ما يفتح التطبيق.
+
+
+
+
 if (ME && V.notifOn) subscribeToPush();
 
 paint();
