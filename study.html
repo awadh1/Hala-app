@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>المساعد الدراسي</title>
+<style>
+  :root{--bg:#0F1420;--panel:#171E2E;--panel2:#1E2740;--edge:#2A3450;--accent:#3B82F6;--text:#EAF0FF;--dim:#8A93B0}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);height:100dvh;display:flex;flex-direction:column}
+  header{padding:14px 16px;border-bottom:1px solid var(--edge);text-align:center}
+  header h1{margin:0;font-size:17px}
+  header p{margin:4px 0 0;font-size:12px;color:var(--dim)}
+  .subjects{display:flex;gap:8px;padding:10px;overflow-x:auto;border-bottom:1px solid var(--edge)}
+  .subjects button{flex:none;padding:9px 16px;border-radius:20px;border:1px solid var(--edge);background:var(--panel);color:var(--text);font-size:13.5px;cursor:pointer;white-space:nowrap}
+  .subjects button.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+  .feed{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+  .msg{max-width:80%;padding:10px 13px;border-radius:14px;font-size:14px;line-height:1.7;white-space:pre-wrap}
+  .msg.me{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-left-radius:4px}
+  .msg.ai{align-self:flex-start;background:var(--panel2);border:1px solid var(--edge);border-bottom-right-radius:4px}
+  .msg.ai.err{background:rgba(214,53,63,.12);border-color:rgba(214,53,63,.4);color:#FF9B9A}
+  .empty{margin:auto;text-align:center;color:var(--dim);font-size:13.5px;padding:20px}
+  .typing{align-self:flex-start;color:var(--dim);font-size:13px;padding:0 4px}
+  .box{display:flex;gap:8px;padding:12px;border-top:1px solid var(--edge);background:var(--panel)}
+  .box textarea{flex:1;resize:none;border:1px solid var(--edge);background:var(--panel2);color:var(--text);border-radius:14px;padding:10px 14px;font-size:14.5px;font-family:inherit;max-height:100px}
+  .box textarea:focus{outline:none;border-color:var(--accent)}
+  .box button{flex:none;width:44px;height:44px;border-radius:50%;border:none;background:var(--accent);color:#fff;font-size:18px;cursor:pointer;display:grid;place-items:center}
+  .box button:disabled{opacity:.5}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 المساعد الدراسي</h1>
+  <p>اسأل عن أي مادة — الجواب مبني على المواد المرفوعة (نسخة تجريبية أولى)</p>
+</header>
+
+<div class="subjects" id="subjects"></div>
+<div class="feed" id="feed"></div>
+<div class="box">
+  <textarea id="input" placeholder="اكتب سؤالك هنا…" rows="1"></textarea>
+  <button id="send" title="إرسال">➤</button>
+</div>
+
+<script>
+var BROKER = 'https://hala-chat-jh6w.onrender.com';
+var SUBJECTS = [
+  {id:'math', name:'الرياضيات', emoji:'🔢'},
+  {id:'science', name:'العلوم', emoji:'🔬'},
+  {id:'english', name:'الإنجليزي', emoji:'🔤'},
+  {id:'arabic', name:'العربي', emoji:'📖'},
+  {id:'social', name:'الاجتماعيات', emoji:'🌍'},
+  {id:'islamic', name:'الإسلامية', emoji:'🕌'}
+];
+var current = 'math';
+var HIST = {};   // subject -> [{who:'me'|'ai', text, err}]
+SUBJECTS.forEach(function(s){ HIST[s.id] = []; });
+
+var subjectsEl = document.getElementById('subjects');
+var feedEl = document.getElementById('feed');
+var inputEl = document.getElementById('input');
+var sendBtn = document.getElementById('send');
+var busy = false;
+
+function renderSubjects(){
+  subjectsEl.innerHTML = '';
+  SUBJECTS.forEach(function(s){
+    var b = document.createElement('button');
+    b.textContent = s.emoji + ' ' + s.name;
+    if (s.id === current) b.className = 'on';
+    b.onclick = function(){ current = s.id; render(); };
+    subjectsEl.appendChild(b);
+  });
+}
+
+function render(){
+  renderSubjects();
+  feedEl.innerHTML = '';
+  var list = HIST[current];
+  if (!list.length){
+    var e = document.createElement('div');
+    e.className = 'empty';
+    e.textContent = 'ما فيه أسئلة بعد بهالمادة. اكتب أول سؤال لك تحت 👇';
+    feedEl.appendChild(e);
+  }
+  list.forEach(function(m){
+    var d = document.createElement('div');
+    d.className = 'msg ' + (m.who === 'me' ? 'me' : 'ai') + (m.err ? ' err' : '');
+    d.textContent = m.text;
+    feedEl.appendChild(d);
+  });
+  feedEl.scrollTop = feedEl.scrollHeight;
+}
+
+function ask(){
+  var q = inputEl.value.trim();
+  if (!q || busy) return;
+  HIST[current].push({who:'me', text:q});
+  inputEl.value = '';
+  inputEl.style.height = 'auto';
+  busy = true; sendBtn.disabled = true;
+  render();
+  var typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.textContent = 'يفكر…';
+  feedEl.appendChild(typing);
+  feedEl.scrollTop = feedEl.scrollHeight;
+
+  fetch(BROKER + '/study/ask', {
+    method:'POST', headers:{'content-type':'application/json'},
+    body: JSON.stringify({subject: current, question: q})
+  }).then(function(r){ return r.json().then(function(d){ return {ok:r.ok, d:d}; }); })
+    .then(function(res){
+      busy = false; sendBtn.disabled = false;
+      if (!res.ok || !res.d || !res.d.reply){
+        HIST[current].push({who:'ai', text: (res.d && res.d.error) || 'صار خطأ، جرّب مرة ثانية', err:true});
+      } else {
+        HIST[current].push({who:'ai', text: res.d.reply});
+      }
+      render();
+    }).catch(function(){
+      busy = false; sendBtn.disabled = false;
+      HIST[current].push({who:'ai', text:'ما قدرنا نوصل للسيرفر — تأكد من الإنترنت', err:true});
+      render();
+    });
+}
+
+sendBtn.onclick = ask;
+inputEl.addEventListener('keydown', function(e){
+  if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); ask(); }
+});
+inputEl.addEventListener('input', function(){
+  inputEl.style.height = 'auto';
+  inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
+});
+
+render();
+</script>
+</body>
+</html>
