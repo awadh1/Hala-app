@@ -349,7 +349,7 @@ refs[k][0].textContent=it.length?(it.length+' سؤال'+(nl>1?'، '+nl+' درس'
 refs[k][1].textContent=last?('آخر اختبار: '+last.sc+' من '+last.t):'ما اختبرت نفسك لين الحين'})}
 build();upd();Object.keys(SUBJ).forEach(function(k){qload(k).then(upd)});
 document.querySelector('.brand').onclick=function(){if(busy)return;view('home');upd()};
-var _qq=qq;qq=function(){_qq();var m=document.querySelector('.qmeta'),it=QZ.run[QZ.i];if(m&&it&&it.ln){var p=it.ln.split(' · ');if(p.length>1)m.textContent+=' · '+p.slice(1).join(' · ')}};
+var _qq=qq;qq=function(){_qq();var m=document.querySelector('.qmeta'),it=QZ.run[QZ.i];if(m&&it&&it.ln&&!it.u){var p=it.ln.split(' · ');if(p.length>1)m.textContent+=' · '+p.slice(1).join(' · ')}};
 var _qe=qend;qend=function(){var run=QZ.run,t=run.length;try{var h=hist();h.push({s:QZ.subj,sc:QZ.score,t:t,ts:Date.now()});localStorage.setItem('study_hist',JSON.stringify(h.slice(-30)))}catch(e){}
 _qe();var by={},ord=[];run.forEach(function(x){var n=x.ln||'عام';if(!by[n]){by[n]={t:0,m:0};ord.push(n)}by[n].t++});QZ.miss.forEach(function(x){var n=x.ln||'عام';if(by[n])by[n].m++});
 if(ord.length<2)return;var b=$('qbody'),box=el('div','qlev');box.appendChild(el('div','qlab','أداؤك حسب الدرس'));
@@ -357,7 +357,7 @@ ord.forEach(function(n){var r=by[n],ok=r.t-r.m,row=el('div','lrow'),nm=n.split('
 if(ok/r.t<.6){var bt=el('button','chip','راجعه');bt.onclick=function(){qclose();ask('اشرح لي درس '+nm)};row.appendChild(bt)}box.appendChild(row)});
 b.insertBefore(box,b.children[3]||null)};
 view('home');
-var _qs=qstart;qstart=function(){_qs();var b=$('qbody'),g=null;[].slice.call(b.children).forEach(function(k){if(k.classList.contains('qunit')){g=el('div','qgrp closed');b.insertBefore(g,k.nextSibling);k._g=g;var t=el('button','qtog');t.type='button';t.setAttribute('aria-label','إظهار الدروس');t.onclick=function(e){e.preventDefault();g.classList.toggle('closed');k.classList.toggle('open')};k._t=t}else if(k.classList.contains('qles')&&g){g.appendChild(k)}else{g=null}});
+var _qs=qstart;qstart=function(){_qs();var b=$('qbody'),g=null;[].slice.call(b.children).forEach(function(k){if(k.classList.contains('qunit')){g=el('div','qgrp closed');b.insertBefore(g,k.nextSibling);k._g=g;var t=el('button','qtog');t.type='button';t.setAttribute('aria-label','إظهار الدروس');t.onclick=function(e){e.preventDefault();var uu=this.parentNode;uu._g.classList.toggle('closed');uu.classList.toggle('open')};k._t=t}else if(k.classList.contains('qles')&&g){g.appendChild(k)}else{g=null}});
 var UN={science:{'الوحدة 1':'علوم الحياة','الوحدة 2':'الأرض والفضاء','الوحدة 3':'الفيزياء','الوحدة 4':'الكيمياء'}}[QZ.subj];
 [].forEach.call(b.querySelectorAll('.qunit'),function(u){var sp=u.querySelector('span');if(UN&&UN[sp.textContent])sp.textContent+=': '+UN[sp.textContent];var c=u._g?u._g.children.length:0;if(c>1)u.appendChild(el('span','qc',c+' دروس'));u.appendChild(u._t)})};
 
