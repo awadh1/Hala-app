@@ -12,7 +12,10 @@
 :root{--bg:#0e1014;--panel:#15181e;--line:#232832;--fg:#e8eaee;--mute:#8b93a1;--user:#1b2030;--acc:#8b9bff;--accfg:#0e1014;--r:14px}
 @media (prefers-color-scheme:light){:root{--bg:#fafaf9;--panel:#fff;--line:#e6e6e3;--fg:#17181b;--mute:#6b7280;--user:#eef0f6;--acc:#3b4cca;--accfg:#fff}}
 *{box-sizing:border-box;margin:0}
+html{color-scheme:dark light}
 html,body{height:100%;overflow-x:hidden}
+main{scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+main::-webkit-scrollbar{width:8px}main::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
 body{background:var(--bg);color:var(--fg);font:16px/1.7 "IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;display:flex;flex-direction:column;height:100dvh}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 header{border-bottom:1px solid var(--line);background:var(--bg)}
