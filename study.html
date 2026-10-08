@@ -68,13 +68,40 @@ textarea::placeholder{color:var(--mute)}
 .note{text-align:center;color:var(--mute);font-size:12px;margin-top:8px}
 .modes{display:flex;gap:8px;margin-bottom:8px;overflow-x:auto;scrollbar-width:none}.modes::-webkit-scrollbar{display:none}.modes .chip{white-space:nowrap;font-size:13px;padding:5px 12px}
 .wait{color:var(--mute);font-size:13px;min-height:1.2em}
+.qbtn{border:1px solid var(--acc);color:var(--acc);padding:5px 12px;border-radius:8px;font-size:13px;font-weight:500;white-space:nowrap}
+.qbtn:hover{background:var(--acc);color:var(--accfg)}
+#quiz{position:fixed;inset:0;background:var(--bg);z-index:10;overflow-y:auto}#quiz[hidden]{display:none}
+.qwrap{max-width:680px;margin:0 auto;padding:12px 16px 48px}
+.qtop{display:flex;align-items:center;justify-content:space-between;padding:6px 0 14px;border-bottom:1px solid var(--line);margin-bottom:16px}#qsub{font-weight:600;font-size:15px}
+.qh{font-size:22px;font-weight:600;margin:6px 0}
+.qmute{color:var(--mute);font-size:13.5px;margin:4px 0}
+.qlab{margin:18px 0 8px;font-size:14px;color:var(--mute)}
+.qchips{display:flex;flex-wrap:wrap;gap:8px}
+.chip.on{background:var(--acc);color:var(--accfg);border-color:var(--acc)}
+.qgo{background:var(--acc);color:var(--accfg);padding:10px 22px;border-radius:12px;font-weight:500;margin-top:20px}
+.qbar{height:4px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:10px}.qbar i{display:block;height:100%;background:var(--acc);transition:width .3s}
+.qmeta{font-size:12.5px;color:var(--mute);margin-bottom:10px}
+.qq{font-size:18px;line-height:1.8;margin-bottom:16px;white-space:pre-wrap;font-weight:500}
+.qbox{display:flex;flex-direction:column;gap:10px}
+.opt{display:block;width:100%;text-align:start;padding:12px 14px;border:1px solid var(--line);background:var(--panel);border-radius:12px;font-size:16px;transition:.15s}
+.opt:hover:not(:disabled){border-color:var(--acc)}
+.opt.ok{border-color:#3fb27f;background:rgba(63,178,127,.16)}
+.opt.bad{border-color:#e5645f;background:rgba(229,100,95,.16)}
+.opt:disabled{cursor:default;color:inherit}
+.qans{width:100%;resize:vertical;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:12px;padding:10px 12px;font:inherit}
+.qmodel{margin-top:6px;padding:12px 14px;border-radius:12px;background:var(--panel);border:1px solid var(--line);white-space:pre-wrap}
+.qfb{margin-top:16px;padding:12px 14px;border-radius:12px;border:1px solid var(--line)}
+.qfb.ok{border-color:#3fb27f}.qfb.bad{border-color:#e5645f}
+.qrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}.qrow .qgo{margin-top:0}
+.qmiss{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:8px;background:var(--panel)}.qmiss summary{cursor:pointer}
+@media (max-width:560px){.qbtn{margin-inline-start:auto}.new{margin-inline-start:0}}
 </style>
 </head>
 <body>
 <header><div class="top">
 <span class="brand">المساعد الدراسي</span>
 <div class="tabs" role="tablist" id="tabs"></div>
-<button class="new" id="new" title="محادثة جديدة">محادثة جديدة</button>
+<button class="qbtn" id="qz">اختبرني</button><button class="new" id="new" title="محادثة جديدة">محادثة جديدة</button>
 </div></header>
 <main id="main"><div class="col" id="col"></div></main>
 <footer><div class="box">
@@ -82,6 +109,7 @@ textarea::placeholder{color:var(--mute)}
 <button id="send" type="submit" aria-label="إرسال" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form>
 <div class="note">الإجابات مأخوذة من كتب المنهج. راجع كتابك للتأكد.</div>
 </div></footer>
+<div id="quiz" hidden><div class="qwrap"><div class="qtop"><button class="new" id="qx">رجوع للمحادثة</button><span id="qsub"></span></div><div id="qbody"></div></div></div>
 <script>
 var BROKER='https://hala-chat-jh6w.onrender.com';
 var SUBJ={science:{n:'العلوم',s:['اشرح لي درس الجهاز التنفسي','أعطني أسئلة متوقعة عن الجهاز التنفسي','ما وظيفة القصبة الهوائية؟']},social:{n:'الاجتماعيات',s:['اشرح لي مفهوم الحضارة الإسلامية','ما تعريف الثقافة؟','أعطني أسئلة متوقعة عن أسس قيام الحضارة الإسلامية']},islamic:{n:'التربية الإسلامية',s:['اشرح لي حادثة الإسراء والمعراج','ما فوائد صلاة الجمعة؟','أعطني أسئلة متوقعة عن فضل يوم الجمعة']}};
@@ -122,6 +150,51 @@ $('q').addEventListener('input',grow);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();ask(this.value)}});
 $('f').onsubmit=function(e){e.preventDefault();ask($('q').value)};
 $('new').onclick=function(){if(busy)return;H[cur]=[];save();draw()};
+var QZ={items:[],run:[],i:0,score:0,miss:[],kind:'all',n:10,subj:null,done:false};
+var QK={all:'الكل',mcq:'اختيار من متعدد',tf:'صح أو خطأ',open:'أسئلة مفتوحة'};
+function hh(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+function qn(s){var x=String(s||'');x=x.replace(new RegExp('[\u064B-\u065F\u0640]','g'),'');x=x.replace(new RegExp('[\u0623\u0625\u0622]','g'),'\u0627');x=x.replace(new RegExp('\u0649','g'),'\u064A').replace(new RegExp('\u0629','g'),'\u0647');return x.replace(/\s+/g,' ').trim()}
+function qkind(it){if(it.t==='mcq'&&it.o&&qopt(it)>=0)return'mcq';if(it.t==='tf')return'tf';return'open'}
+function qopt(it){var a=qn(it.a),o=it.o||[],k;for(k=0;k<o.length;k++)if(qn(o[k])===a)return k;for(k=0;k<o.length;k++){var x=qn(o[k]);if(x&&(a.indexOf(x)===0||x.indexOf(a)===0))return k}return-1}
+function qshuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+async function qload(s){var items=null;try{items=JSON.parse(localStorage.getItem('quiz_'+s)||'null')}catch(e){}
+try{var r=await fetch(BROKER+'/quiz?subject='+s);if(r.ok){var j=await r.json();if(j&&j.length){items=j;try{localStorage.setItem('quiz_'+s,JSON.stringify(j))}catch(e){}}}}catch(e){}
+return items||[]}
+function qopen(){document.getElementById('quiz').hidden=false;document.body.style.overflow='hidden';QZ.subj=cur;document.getElementById('qsub').textContent='اختبار '+SUBJ[cur].n;var b=document.getElementById('qbody');b.innerHTML='';b.appendChild(hh('p','qmute','جاري تحميل الأسئلة... (أول مرة ممكن ياخذ ثواني)'));qload(cur).then(function(it){QZ.items=it;qstart()})}
+function qclose(){document.getElementById('quiz').hidden=true;document.body.style.overflow=''}
+function qcount(k){return QZ.items.filter(function(x){return k==='all'||qkind(x)===k}).length}
+function qstart(){var b=document.getElementById('qbody');b.innerHTML='';
+if(!QZ.items.length){b.appendChild(hh('p','qmute','ما فيه أسئلة لهالمادة لين الحين.'));return}
+b.appendChild(hh('h2','qh','جاهز تختبر نفسك؟'));
+b.appendChild(hh('p','qmute',QZ.items.length+' سؤال من بنوك الأسئلة وامتحانات المناطق، وكل جواب مأخوذ من الكتاب.'));
+b.appendChild(hh('div','qlab','نوع الأسئلة'));var r1=hh('div','qchips');['all','mcq','tf','open'].forEach(function(k){var c=qcount(k);if(!c)return;var e=hh('button','chip'+(QZ.kind===k?' on':''),QK[k]+' ('+c+')');e.onclick=function(){QZ.kind=k;qstart()};r1.appendChild(e)});b.appendChild(r1);
+b.appendChild(hh('div','qlab','عدد الأسئلة'));var r2=hh('div','qchips');[10,20,40].forEach(function(n){var e=hh('button','chip'+(QZ.n===n?' on':''),String(n));e.onclick=function(){QZ.n=n;qstart()};r2.appendChild(e)});b.appendChild(r2);
+var go=hh('button','qgo','ابدأ الاختبار');go.onclick=function(){var pool=QZ.items.filter(function(x){return QZ.kind==='all'||qkind(x)===QZ.kind});QZ.run=qshuf(pool).slice(0,QZ.n);QZ.i=0;QZ.score=0;QZ.miss=[];qq()};b.appendChild(go)}
+function qfb(box,ok,it,extra){var f=hh('div','qfb '+(ok?'ok':'bad'));f.appendChild(hh('b',null,ok?'صح ✓':'غلط ✗'));if(!ok||extra){var t=hh('div',null,'الجواب الصحيح: '+it.a+(it.f?' — التصحيح: '+it.f:''));f.appendChild(t)}
+if(it.p){f.appendChild(hh('div','qmute','المرجع: كتابك ص '+it.p))}
+var row=hh('div','qrow');var ex=hh('button','chip','اشرح لي من الكتاب');ex.onclick=function(){qclose();ask('اشرح لي: '+it.q+' (الجواب: '+it.a+')')};row.appendChild(ex);
+var nx=hh('button','qgo',QZ.i+1>=QZ.run.length?'شوف النتيجة':'التالي');nx.onclick=function(){QZ.i++;QZ.i>=QZ.run.length?qend():qq()};row.appendChild(nx);f.appendChild(row);box.appendChild(f)}
+function qq(){var it=QZ.run[QZ.i],b=document.getElementById('qbody');b.innerHTML='';var k=qkind(it);
+var bar=hh('div','qbar');var bi=hh('i');bi.style.width=(QZ.i/QZ.run.length*100)+'%';bar.appendChild(bi);b.appendChild(bar);
+b.appendChild(hh('div','qmeta','السؤال '+(QZ.i+1)+' من '+QZ.run.length+(it.u?' · '+it.u:'')+' · نتيجتك '+QZ.score));
+b.appendChild(hh('div','qq',it.q));var box=hh('div','qbox');b.appendChild(box);var fin=false;
+function mark(ok){if(fin)return;fin=true;if(ok)QZ.score++;else QZ.miss.push(it)}
+if(k==='mcq'){var ci=qopt(it),btns=[];it.o.forEach(function(o,idx){var e=hh('button','opt',o);btns.push(e);e.onclick=function(){if(fin)return;var ok=idx===ci;mark(ok);btns.forEach(function(x,j){x.disabled=true;if(j===ci)x.classList.add('ok');else if(j===idx)x.classList.add('bad')});qfb(b,ok,it,false)};box.appendChild(e)})}
+else if(k==='tf'){var right=qn(it.a).indexOf('صح')===0,tb=[];['صح','خطأ'].forEach(function(o,idx){var e=hh('button','opt',o);tb.push(e);e.onclick=function(){if(fin)return;var pick=idx===0,ok=pick===right;mark(ok);tb.forEach(function(x,j){x.disabled=true;if((j===0)===right)x.classList.add('ok');else if(j===idx)x.classList.add('bad')});qfb(b,ok,it,false)};box.appendChild(e)})}
+else{var ta=hh('textarea','qans');ta.rows=3;ta.placeholder='اكتب إجابتك هنا (اختياري) ثم اعرض الإجابة الصحيحة';box.appendChild(ta);var sh=hh('button','qgo','اعرض الإجابة');box.appendChild(sh);
+sh.onclick=function(){sh.remove();ta.readOnly=true;var m=hh('div','qmodel');m.appendChild(hh('b',null,'الإجابة النموذجية'));m.appendChild(hh('div',null,it.a));if(it.p)m.appendChild(hh('div','qmute','المرجع: كتابك ص '+it.p));box.appendChild(m);
+var row=hh('div','qrow');var y=hh('button','opt ok','عرفتها ✓'),n=hh('button','opt bad','ما عرفتها ✗');
+function after(ok){mark(ok);row.remove();var f=hh('div','qfb '+(ok?'ok':'bad'));f.appendChild(hh('b',null,ok?'ممتاز!':'لا بأس، راجعها'));var r2=hh('div','qrow');var ex=hh('button','chip','اشرح لي من الكتاب');ex.onclick=function(){qclose();ask('اشرح لي: '+it.q)};r2.appendChild(ex);var nx=hh('button','qgo',QZ.i+1>=QZ.run.length?'شوف النتيجة':'التالي');nx.onclick=function(){QZ.i++;QZ.i>=QZ.run.length?qend():qq()};r2.appendChild(nx);f.appendChild(r2);b.appendChild(f)}
+y.onclick=function(){after(true)};n.onclick=function(){after(false)};row.appendChild(y);row.appendChild(n);box.appendChild(row)}}
+window.scrollTo(0,0);document.getElementById('quiz').scrollTop=0}
+function qend(){var b=document.getElementById('qbody');b.innerHTML='';var t=QZ.run.length,p=Math.round(QZ.score/t*100);
+b.appendChild(hh('h2','qh',QZ.score+' من '+t+' ('+p+'%)'));
+b.appendChild(hh('p','qmute',p>=85?'ممتاز! أنت جاهز.':p>=60?'جيد، راجع الأسئلة اللي غلطت فيها.':'لا تشيل هم، راجع الدرس وأعد المحاولة.'));
+if(QZ.miss.length){b.appendChild(hh('div','qlab','أسئلة غلطت فيها'));QZ.miss.forEach(function(it){var d=hh('details','qmiss');d.appendChild(hh('summary',null,it.q));d.appendChild(hh('div','qmodel','الجواب: '+it.a+(it.p?' (كتابك ص '+it.p+')':'')));b.appendChild(d)})}
+var row=hh('div','qrow');if(QZ.miss.length){var re=hh('button','chip','أعد الأسئلة اللي غلطت فيها');re.onclick=function(){QZ.run=qshuf(QZ.miss);QZ.i=0;QZ.score=0;QZ.miss=[];qq()};row.appendChild(re)}
+var nw=hh('button','qgo','اختبار جديد');nw.onclick=qstart;row.appendChild(nw);b.appendChild(row);document.getElementById('quiz').scrollTop=0}
+document.getElementById('qz').onclick=function(){if(!busy)qopen()};document.getElementById('qx').onclick=qclose;
+
 var MODES=[['اشرح درس','اشرح لي درس '],['اختبرني','اختبرني في درس '],['حل تمرين','ساعدني أحل هذا السؤال: ']];
 MODES.forEach(function(m){var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=m[0];b.onclick=function(){if(busy)return;var q=$('q');q.value=m[1];q.focus();grow()};$('modes').appendChild(b)});
 try{fetch(BROKER+'/health',{mode:'no-cors'})}catch(e){}
