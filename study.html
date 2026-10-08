@@ -1,143 +1,122 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e1014">
 <title>المساعد الدراسي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0A0E17;--panel:#12182A;--panel2:#1A2138;--edge:#232B45;--accent:#6366F1;--accent2:#8B5CF6;--text:#F1F4FF;--dim:#7C86A8}
-  *{box-sizing:border-box}
-  body{margin:0;font-family:-apple-system,'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);height:100dvh;display:flex;flex-direction:column;background-image:radial-gradient(circle at 20% 0%,rgba(99,102,241,.08),transparent 50%)}
-  header{padding:18px 20px 14px;text-align:center}
-  .brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:4px}
-  .brand .dot{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-size:15px;box-shadow:0 4px 14px rgba(99,102,241,.4)}
-  header h1{margin:0;font-size:17px;font-weight:800;letter-spacing:.2px}
-  header p{margin:2px 0 0;font-size:12px;color:var(--dim)}
-  .subjects{display:flex;gap:8px;padding:4px 16px 14px;overflow-x:auto}
-  .subjects button{flex:none;padding:9px 18px;border-radius:12px;border:1px solid var(--edge);background:var(--panel);color:var(--dim);font-size:13.5px;font-weight:600;cursor:pointer;transition:.15s}
-  .subjects button.on{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff;box-shadow:0 4px 14px rgba(99,102,241,.35)}
-  .feed{flex:1;overflow-y:auto;padding:8px 16px 16px;display:flex;flex-direction:column;gap:12px}
-  .msg{max-width:84%;padding:11px 15px;border-radius:16px;font-size:14.5px;line-height:1.75;white-space:pre-wrap}
-  .msg.me{align-self:flex-end;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-bottom-left-radius:5px}
-  .msg.ai{align-self:flex-start;background:var(--panel);border:1px solid var(--edge);border-bottom-right-radius:5px}
-  .msg.ai.err{background:rgba(220,38,38,.1);border-color:rgba(220,38,38,.3);color:#FCA5A5}
-  .empty{margin:auto;text-align:center;color:var(--dim);font-size:13.5px;padding:24px;max-width:280px;line-height:1.8}
-  .empty .ico{font-size:34px;margin-bottom:10px;opacity:.6}
-  .typing{align-self:flex-start;color:var(--dim);font-size:13px;padding:2px 6px;display:flex;align-items:center;gap:6px}
-  .typing .d{width:5px;height:5px;border-radius:50%;background:var(--dim);animation:pulse 1.2s infinite}
-  .typing .d:nth-child(2){animation-delay:.2s}.typing .d:nth-child(3){animation-delay:.4s}
-  @keyframes pulse{0%,60%,100%{opacity:.3}30%{opacity:1}}
-  .box{display:flex;gap:9px;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--panel);border-top:1px solid var(--edge)}
-  .box textarea{flex:1;resize:none;border:1px solid var(--edge);background:var(--panel2);color:var(--text);border-radius:14px;padding:11px 15px;font-size:14.5px;font-family:inherit;max-height:100px}
-  .box textarea:focus{outline:none;border-color:var(--accent)}
-  .box button{flex:none;width:44px;height:44px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:18px;cursor:pointer;display:grid;place-items:center;box-shadow:0 4px 14px rgba(99,102,241,.35)}
-  .box button:disabled{opacity:.4;box-shadow:none}
+:root{--bg:#0e1014;--panel:#15181e;--line:#232832;--fg:#e8eaee;--mute:#8b93a1;--user:#1b2030;--acc:#8b9bff;--accfg:#0e1014;--r:14px}
+@media (prefers-color-scheme:light){:root{--bg:#fafaf9;--panel:#fff;--line:#e6e6e3;--fg:#17181b;--mute:#6b7280;--user:#eef0f6;--acc:#3b4cca;--accfg:#fff}}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;overflow-x:hidden}
+body{background:var(--bg);color:var(--fg);font:16px/1.7 "IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;display:flex;flex-direction:column;height:100dvh}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+header{border-bottom:1px solid var(--line);background:var(--bg)}
+.top{max-width:780px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.brand{font-weight:600;font-size:15px;white-space:nowrap}
+.tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;margin-inline-start:auto}
+.tab{padding:5px 14px;border-radius:7px;font-size:14px;color:var(--mute);transition:.15s}
+.tab[aria-selected=true]{background:var(--acc);color:var(--accfg);font-weight:500}
+.new{color:var(--mute);font-size:13px;padding:6px 8px;border-radius:8px}
+.new:hover{background:var(--panel);color:var(--fg)}
+main{flex:1;overflow-y:auto;scroll-behavior:smooth}
+.col{max-width:780px;margin:0 auto;padding:24px 16px 8px}
+.empty{min-height:55vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:6px}
+.empty h1{font-size:26px;font-weight:600}
+.empty p{color:var(--mute);font-size:15px;max-width:440px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+.chip{border:1px solid var(--line);background:var(--panel);padding:8px 14px;border-radius:999px;font-size:14px;transition:.15s}
+.chip:hover{border-color:var(--acc)}
+.msg{margin:0 0 22px}
+.msg.user{display:flex;justify-content:flex-start}
+.msg.user .t{background:var(--user);padding:10px 16px;border-radius:var(--r);max-width:85%;white-space:pre-wrap}
+.msg.bot .row{display:flex;gap:12px}
+.av{flex:none;width:28px;height:28px;border-radius:50%;background:var(--acc);color:var(--accfg);display:grid;place-items:center;margin-top:2px}
+.av svg{width:16px;height:16px}
+.bot .t{flex:1;min-width:0;overflow-wrap:anywhere}
+.t p{margin:0 0 .7em}.t p:last-child{margin:0}
+.t ul,.t ol{margin:0 0 .7em;padding-inline-start:1.4em}
+.t li{margin:.15em 0}
+.t strong{font-weight:600}
+.t blockquote{border-inline-start:3px solid var(--line);padding-inline-start:12px;color:var(--mute);margin:0 0 .7em}
+.acts{margin-top:6px;display:flex;gap:4px}
+.acts button{font-size:12.5px;color:var(--mute);padding:3px 8px;border-radius:7px}
+.acts button:hover{background:var(--panel);color:var(--fg)}
+.dots{display:inline-flex;gap:5px;padding:10px 0}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--mute);animation:b 1.2s infinite ease-in-out}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,80%,100%{opacity:.25;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+@media (max-width:560px){.top{flex-wrap:wrap;padding:8px 12px}.new{margin-inline-start:auto}.tabs{order:3;width:100%;margin:0}.tab{flex:1;text-align:center;padding:6px 2px;font-size:13px;white-space:nowrap}.empty h1{font-size:22px}.col{padding:18px 12px 8px}.msg.user .t{max-width:92%}}
+@media (prefers-reduced-motion:reduce){.dots i{animation:none;opacity:.6}main{scroll-behavior:auto}}
+footer{padding:8px 16px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--bg) 30%)}
+.box{max-width:780px;margin:0 auto}
+form{display:flex;align-items:flex-end;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:8px 8px 8px 12px;transition:border-color .15s}
+form:focus-within{border-color:var(--acc)}
+textarea{flex:1;resize:none;border:0;outline:0;background:none;color:var(--fg);font:inherit;line-height:1.6;max-height:160px;padding:6px 8px}
+textarea::placeholder{color:var(--mute)}
+#send{flex:none;width:40px;height:40px;border-radius:50%;background:var(--acc);color:var(--accfg);display:grid;place-items:center;transition:opacity .15s}
+#send:disabled{opacity:.35;cursor:default}
+#send svg{width:18px;height:18px;transform:scaleX(-1)}
+.note{text-align:center;color:var(--mute);font-size:12px;margin-top:8px}
 </style>
 </head>
 <body>
-
-<header>
-  <div class="brand"><span class="dot">🧠</span><h1>المساعد الدراسي</h1></div>
-  <p>الجواب مبني على المواد المرفوعة — نسخة تجريبية أولى</p>
-</header>
-
-<div class="subjects" id="subjects"></div>
-<div class="feed" id="feed"></div>
-<div class="box">
-  <textarea id="input" placeholder="اكتب سؤالك هنا…" rows="1"></textarea>
-  <button id="send" title="إرسال">➤</button>
-</div>
-
+<header><div class="top">
+<span class="brand">المساعد الدراسي</span>
+<div class="tabs" role="tablist" id="tabs"></div>
+<button class="new" id="new" title="محادثة جديدة">محادثة جديدة</button>
+</div></header>
+<main id="main"><div class="col" id="col"></div></main>
+<footer><div class="box">
+<form id="f"><textarea id="q" rows="1" maxlength="500" placeholder="اكتب سؤالك من الكتاب..."></textarea>
+<button id="send" type="submit" aria-label="إرسال" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form>
+<div class="note">الإجابات مأخوذة من كتب المنهج. راجع كتابك للتأكد.</div>
+</div></footer>
 <script>
-var BROKER = 'https://hala-chat-jh6w.onrender.com';
-var SUBJECTS = [
-  {id:'science', name:'العلوم', emoji:'🔬'},
-  {id:'social', name:'الاجتماعيات', emoji:'🌍'},
-  {id:'islamic', name:'الإسلامية', emoji:'🕌'}
-];
-var current = 'science';
-var HIST = {};
-SUBJECTS.forEach(function(s){ HIST[s.id] = []; });
-
-var subjectsEl = document.getElementById('subjects');
-var feedEl = document.getElementById('feed');
-var inputEl = document.getElementById('input');
-var sendBtn = document.getElementById('send');
-var busy = false;
-
-function renderSubjects(){
-  subjectsEl.innerHTML = '';
-  SUBJECTS.forEach(function(s){
-    var b = document.createElement('button');
-    b.textContent = s.emoji + ' ' + s.name;
-    if (s.id === current) b.className = 'on';
-    b.onclick = function(){ current = s.id; render(); };
-    subjectsEl.appendChild(b);
-  });
-}
-
-function render(){
-  renderSubjects();
-  feedEl.innerHTML = '';
-  var list = HIST[current];
-  if (!list.length){
-    var e = document.createElement('div');
-    e.className = 'empty';
-    e.innerHTML = '<div class="ico">💬</div>ما فيه أسئلة بعد بهالمادة.<br>اكتب أول سؤال لك تحت 👇';
-    feedEl.appendChild(e);
-  }
-  list.forEach(function(m){
-    var d = document.createElement('div');
-    d.className = 'msg ' + (m.who === 'me' ? 'me' : 'ai') + (m.err ? ' err' : '');
-    d.textContent = m.text;
-    feedEl.appendChild(d);
-  });
-  feedEl.scrollTop = feedEl.scrollHeight;
-}
-
-function ask(){
-  var q = inputEl.value.trim();
-  if (!q || busy) return;
-  HIST[current].push({who:'me', text:q});
-  inputEl.value = '';
-  inputEl.style.height = 'auto';
-  busy = true; sendBtn.disabled = true;
-  render();
-  var typing = document.createElement('div');
-  typing.className = 'typing';
-  typing.innerHTML = '<span class="d"></span><span class="d"></span><span class="d"></span>';
-  feedEl.appendChild(typing);
-  feedEl.scrollTop = feedEl.scrollHeight;
-
-  fetch(BROKER + '/study/ask', {
-    method:'POST', headers:{'content-type':'application/json'},
-    body: JSON.stringify({subject: current, question: q})
-  }).then(function(r){ return r.json().then(function(d){ return {ok:r.ok, d:d}; }); })
-    .then(function(res){
-      busy = false; sendBtn.disabled = false;
-      if (!res.ok || !res.d || !res.d.reply){
-        HIST[current].push({who:'ai', text: (res.d && res.d.error) || 'صار خطأ، جرّب مرة ثانية', err:true});
-      } else {
-        HIST[current].push({who:'ai', text: res.d.reply});
-      }
-      render();
-    }).catch(function(){
-      busy = false; sendBtn.disabled = false;
-      HIST[current].push({who:'ai', text:'ما قدرنا نوصل للسيرفر — تأكد من الإنترنت', err:true});
-      render();
-    });
-}
-
-sendBtn.onclick = ask;
-inputEl.addEventListener('keydown', function(e){
-  if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); ask(); }
-});
-inputEl.addEventListener('input', function(){
-  inputEl.style.height = 'auto';
-  inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
-});
-
-render();
+var BROKER='https://hala-chat-jh6w.onrender.com';
+var SUBJ={science:{n:'العلوم',s:['ما هو الطول الموجي؟','ما وظيفة القصبة الهوائية؟','ما تعريف الأنف؟']},social:{n:'الاجتماعيات',s:['ما تعريف الثقافة؟','ما هي أسس قيام الحضارة الإسلامية؟','ما الجوانب الروحية والمادية للحضارة؟']},islamic:{n:'التربية الإسلامية',s:['ما فوائد صلاة الجمعة؟','اشرح لي حادثة الإسراء والمعراج','ما فضل يوم الجمعة؟']}};
+var cur='science',busy=false,H={science:[],social:[],islamic:[]};
+try{var sv=JSON.parse(localStorage.getItem('study_h')||'null');if(sv)for(var k in H)if(sv[k])H[k]=sv[k]}catch(e){}
+function save(){try{localStorage.setItem('study_h',JSON.stringify(H))}catch(e){}}
+var $=function(i){return document.getElementById(i)};
+var BOT='<div class="av"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg></div>';
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function inl(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}
+function md(t){var out='',lines=t.split('\n'),list=null,para=[];
+function fp(){if(para.length){out+='<p>'+para.join('<br>')+'</p>';para=[]}}
+function fl(){if(list){out+='</'+list+'>';list=null}}
+lines.forEach(function(l){var m;
+if(m=l.match(/^\s*[-*•]\s+(.*)/)){fp();if(list!=='ul'){fl();out+='<ul>';list='ul'}out+='<li>'+inl(m[1])+'</li>'}
+else if(m=l.match(/^\s*\d+[.)]\s+(.*)/)){fp();if(list!=='ol'){fl();out+='<ol>';list='ol'}out+='<li>'+inl(m[1])+'</li>'}
+else if(m=l.match(/^\s*>\s?(.*)/)){fp();fl();out+='<blockquote>'+inl(m[1])+'</blockquote>'}
+else if(!l.trim()){fp();fl()}
+else{fl();para.push(inl(l.replace(/^#+\s*/,'')))}});
+fp();fl();return out}
+function tabs(){$('tabs').innerHTML='';Object.keys(SUBJ).forEach(function(k){var b=document.createElement('button');b.className='tab';b.textContent=SUBJ[k].n;b.setAttribute('role','tab');b.setAttribute('aria-selected',k===cur);b.onclick=function(){if(busy||k===cur)return;cur=k;tabs();draw()};$('tabs').appendChild(b)})}
+function draw(){var c=$('col'),h=H[cur];c.innerHTML='';
+if(!h.length){var e=document.createElement('div');e.className='empty';e.innerHTML='<h1>اسأل عن '+SUBJ[cur].n+'</h1><p>أجيب من نص الكتاب فقط. اكتب سؤالك أو جرّب أحد الأسئلة.</p>';var ch=document.createElement('div');ch.className='chips';SUBJ[cur].s.forEach(function(s){var b=document.createElement('button');b.className='chip';b.textContent=s;b.onclick=function(){ask(s)};ch.appendChild(b)});e.appendChild(ch);c.appendChild(e)}
+h.forEach(function(m){c.appendChild(node(m))});scroll()}
+function node(m){var d=document.createElement('div');
+if(m.r==='u'){d.className='msg user';d.innerHTML='<div class="t"></div>';d.firstChild.textContent=m.t}
+else{d.className='msg bot';d.innerHTML='<div class="row">'+BOT+'<div><div class="t">'+md(m.t)+'</div><div class="acts"><button>نسخ</button></div></div></div>';d.querySelector('.acts button').onclick=function(){var b=this;try{navigator.clipboard.writeText(m.t);b.textContent='تم النسخ';setTimeout(function(){b.textContent='نسخ'},1500)}catch(e){}}}
+return d}
+function scroll(){var m=$('main');m.scrollTop=m.scrollHeight}
+function typing(){var d=document.createElement('div');d.className='msg bot';d.id='typing';d.innerHTML='<div class="row">'+BOT+'<div class="dots"><i></i><i></i><i></i></div></div>';$('col').appendChild(d);scroll()}
+function lock(b){busy=b;$('q').disabled=b;upd()}
+function upd(){$('send').disabled=busy||!$('q').value.trim()}
+async function ask(q){q=(q||'').trim();if(!q||busy)return;var s=cur;H[s].push({r:'u',t:q});save();$('q').value='';grow();draw();lock(true);typing();var rep;
+try{var r=await fetch(BROKER+'/study/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subject:s,question:q})});var j=await r.json();rep=j.reply||(r.status===429?'الطلبات كثيرة الحين، انتظر دقيقة وجرّب مرة ثانية.':'صار خطأ، جرّب مرة ثانية.')}catch(e){rep='تعذّر الاتصال بالسيرفر. جرّب بعد شوي.'}
+H[s].push({r:'b',t:rep});save();lock(false);if(s===cur)draw();$('q').focus()}
+function grow(){var t=$('q');t.style.height='auto';t.style.height=Math.min(t.scrollHeight,160)+'px';upd()}
+$('q').addEventListener('input',grow);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();ask(this.value)}});
+$('f').onsubmit=function(e){e.preventDefault();ask($('q').value)};
+$('new').onclick=function(){if(busy)return;H[cur]=[];save();draw()};
+tabs();draw();
 </script>
 </body>
 </html>
