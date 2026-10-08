@@ -44,6 +44,7 @@ main{flex:1;overflow-y:auto;scroll-behavior:smooth}
 .t strong{font-weight:600}
 .t blockquote{border-inline-start:3px solid var(--line);padding-inline-start:12px;color:var(--mute);margin:0 0 .7em}
 .acts{margin-top:6px;display:flex;gap:4px}
+.sugs{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 18px;padding-inline-start:40px}.sugs .chip{font-size:13px;padding:6px 12px}
 .acts button{font-size:12.5px;color:var(--mute);padding:3px 8px;border-radius:7px}
 .acts button:hover{background:var(--panel);color:var(--fg)}
 .dots{display:inline-flex;gap:5px;padding:10px 0}
@@ -78,7 +79,7 @@ textarea::placeholder{color:var(--mute)}
 </div></footer>
 <script>
 var BROKER='https://hala-chat-jh6w.onrender.com';
-var SUBJ={science:{n:'العلوم',s:['ما هو الطول الموجي؟','ما وظيفة القصبة الهوائية؟','ما تعريف الأنف؟']},social:{n:'الاجتماعيات',s:['ما تعريف الثقافة؟','ما هي أسس قيام الحضارة الإسلامية؟','ما الجوانب الروحية والمادية للحضارة؟']},islamic:{n:'التربية الإسلامية',s:['ما فوائد صلاة الجمعة؟','اشرح لي حادثة الإسراء والمعراج','ما فضل يوم الجمعة؟']}};
+var SUBJ={science:{n:'العلوم',s:['اشرح لي درس الجهاز التنفسي','أعطني أسئلة متوقعة عن الجهاز التنفسي','ما وظيفة القصبة الهوائية؟']},social:{n:'الاجتماعيات',s:['اشرح لي مفهوم الحضارة الإسلامية','ما تعريف الثقافة؟','أعطني أسئلة متوقعة عن أسس قيام الحضارة الإسلامية']},islamic:{n:'التربية الإسلامية',s:['اشرح لي حادثة الإسراء والمعراج','ما فوائد صلاة الجمعة؟','أعطني أسئلة متوقعة عن فضل يوم الجمعة']}};
 var cur='science',busy=false,H={science:[],social:[],islamic:[]};
 try{var sv=JSON.parse(localStorage.getItem('study_h')||'null');if(sv)for(var k in H)if(sv[k])H[k]=sv[k]}catch(e){}
 function save(){try{localStorage.setItem('study_h',JSON.stringify(H))}catch(e){}}
@@ -99,7 +100,7 @@ fp();fl();return out}
 function tabs(){$('tabs').innerHTML='';Object.keys(SUBJ).forEach(function(k){var b=document.createElement('button');b.className='tab';b.textContent=SUBJ[k].n;b.setAttribute('role','tab');b.setAttribute('aria-selected',k===cur);b.onclick=function(){if(busy||k===cur)return;cur=k;tabs();draw()};$('tabs').appendChild(b)})}
 function draw(){var c=$('col'),h=H[cur];c.innerHTML='';
 if(!h.length){var e=document.createElement('div');e.className='empty';e.innerHTML='<h1>اسأل عن '+SUBJ[cur].n+'</h1><p>أجيب من نص الكتاب فقط. اكتب سؤالك أو جرّب أحد الأسئلة.</p>';var ch=document.createElement('div');ch.className='chips';SUBJ[cur].s.forEach(function(s){var b=document.createElement('button');b.className='chip';b.textContent=s;b.onclick=function(){ask(s)};ch.appendChild(b)});e.appendChild(ch);c.appendChild(e)}
-h.forEach(function(m){c.appendChild(node(m))});scroll()}
+h.forEach(function(m){c.appendChild(node(m))});var lm=h[h.length-1];if(lm&&lm.r==='b'&&!busy){var sg=document.createElement('div');sg.className='sugs';(lm.s||[]).concat(['اشرح لي أكثر','أعطني أسئلة عن هذا الموضوع']).forEach(function(s){var b=document.createElement('button');b.className='chip';b.textContent=s;b.onclick=function(){ask(s)};sg.appendChild(b)});c.appendChild(sg)}scroll()}
 function node(m){var d=document.createElement('div');
 if(m.r==='u'){d.className='msg user';d.innerHTML='<div class="t"></div>';d.firstChild.textContent=m.t}
 else{d.className='msg bot';d.innerHTML='<div class="row">'+BOT+'<div><div class="t">'+md(m.t)+'</div><div class="acts"><button>نسخ</button></div></div></div>';d.querySelector('.acts button').onclick=function(){var b=this;try{navigator.clipboard.writeText(m.t);b.textContent='تم النسخ';setTimeout(function(){b.textContent='نسخ'},1500)}catch(e){}}}
@@ -108,9 +109,9 @@ function scroll(){var m=$('main');m.scrollTop=m.scrollHeight}
 function typing(){var d=document.createElement('div');d.className='msg bot';d.id='typing';d.innerHTML='<div class="row">'+BOT+'<div class="dots"><i></i><i></i><i></i></div></div>';$('col').appendChild(d);scroll()}
 function lock(b){busy=b;$('q').disabled=b;upd()}
 function upd(){$('send').disabled=busy||!$('q').value.trim()}
-async function ask(q){q=(q||'').trim();if(!q||busy)return;var s=cur;H[s].push({r:'u',t:q});save();$('q').value='';grow();draw();lock(true);typing();var rep;
-try{var r=await fetch(BROKER+'/study/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subject:s,question:q})});var j=await r.json();rep=j.reply||(r.status===429?'الطلبات كثيرة الحين، انتظر دقيقة وجرّب مرة ثانية.':'صار خطأ، جرّب مرة ثانية.')}catch(e){rep='تعذّر الاتصال بالسيرفر. جرّب بعد شوي.'}
-H[s].push({r:'b',t:rep});save();lock(false);if(s===cur)draw();$('q').focus()}
+async function ask(q){q=(q||'').trim();if(!q||busy)return;var s=cur;var hist=H[s].slice(-4).map(function(m){return{r:m.r,t:m.t.slice(0,700)}});H[s].push({r:'u',t:q});save();$('q').value='';grow();draw();lock(true);typing();var rep,sug=[];
+try{var r=await fetch(BROKER+'/study/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subject:s,question:q,history:hist})});var j=await r.json();sug=j.suggestions||[];rep=j.reply||j.error||(r.status===429?'الطلبات كثيرة الحين، انتظر دقيقة وجرّب مرة ثانية.':'صار خطأ، جرّب مرة ثانية.')}catch(e){rep='تعذّر الاتصال بالسيرفر. جرّب بعد شوي.'}
+H[s].push({r:'b',t:rep,s:sug});save();lock(false);if(s===cur)draw();$('q').focus()}
 function grow(){var t=$('q');t.style.height='auto';t.style.height=Math.min(t.scrollHeight,160)+'px';upd()}
 $('q').addEventListener('input',grow);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();ask(this.value)}});
