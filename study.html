@@ -7,7 +7,7 @@
 <title>المساعد الدراسي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0e1014;--panel:#15181e;--line:#232832;--fg:#e8eaee;--mute:#8b93a1;--user:#1b2030;--acc:#8b9bff;--accfg:#0e1014;--r:14px}
 @media (prefers-color-scheme:light){:root{--bg:#fafaf9;--panel:#fff;--line:#e6e6e3;--fg:#17181b;--mute:#6b7280;--user:#eef0f6;--acc:#3b4cca;--accfg:#fff}}
@@ -100,6 +100,51 @@ textarea::placeholder{color:var(--mute)}
 .qfb.part{border-color:#d9a441}.qgo:disabled{opacity:.45;cursor:default}
 .qmiss{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:8px;background:var(--panel)}.qmiss summary{cursor:pointer}
 @media (max-width:560px){.qbtn{margin-inline-start:auto}.new{margin-inline-start:0}}
+:root{--bg:#f6f8fc;--panel:#fff;--line:#d3dcec;--fg:#1a2542;--mute:#5a6884;--user:#fff0a0;--acc:#233a8c;--accfg:#fff;--red:#c62f2a;--ok:#1d7a4b;--rule:#e4eaf5;--r:3px;--disp:"Aref Ruqaa","IBM Plex Sans Arabic",serif}
+@media (prefers-color-scheme:dark){:root{--bg:#13201c;--panel:#192925;--line:#2c4139;--fg:#eef1e6;--mute:#9db0a5;--user:rgba(241,212,106,.16);--acc:#f1d46a;--accfg:#13201c;--red:#ff9082;--ok:#86dcaa;--rule:#182722}}
+header{border-bottom:2px solid var(--red)}
+.brand{font-family:var(--disp);font-size:27px;font-weight:700;color:var(--acc)}
+.tabs{background:none;border:0;padding:0;gap:4px}
+.tab{border-radius:0;padding:6px 12px;border-bottom:3px solid transparent;color:var(--mute)}
+.tab:nth-child(1){--sc:#1f9a7c}.tab:nth-child(2){--sc:#d08a14}.tab:nth-child(3){--sc:#4f7be0}
+.tab[aria-selected=true]{background:none;color:var(--fg);font-weight:600;border-bottom-color:var(--sc)}
+.qbtn{background:var(--acc);color:var(--accfg);border:0;border-radius:3px;font-weight:600}
+.qbtn:hover{background:var(--acc);opacity:.88;color:var(--accfg)}
+main{background-image:repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px);background-attachment:local}
+.empty h1{font-family:var(--disp);font-size:42px;font-weight:700;line-height:1.4;text-decoration:underline wavy var(--red) 2px;text-underline-offset:12px;text-decoration-skip-ink:none}
+.empty p{color:var(--fg);opacity:.75}
+.chip{border-radius:3px;border-color:var(--line);background:var(--panel)}
+.chip:hover{border-color:var(--acc);color:var(--acc)}
+.chip.on{background:var(--acc);color:var(--accfg);border-color:var(--acc)}
+.msg.user .t{background:var(--user);border-radius:2px;padding:6px 14px;color:var(--fg)}
+.av{display:none}
+.msg.bot .row{gap:0}
+.msg.bot .row>div{border-inline-start:3px solid var(--acc);padding-inline-start:14px;min-width:0;flex:1}
+.t blockquote{border-inline-start-color:var(--red)}
+footer{background:var(--bg);border-top:1px solid var(--line)}
+form{border-radius:4px;border:1.5px solid var(--line)}
+#send{border-radius:3px}
+.modes .chip{border-style:dashed}
+#quiz{background-color:var(--bg);background-image:repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px);background-attachment:local}
+.qh{font-family:var(--disp);font-size:30px;font-weight:700}
+.qgo{border-radius:3px}
+.qunit{color:var(--acc)}
+.opt{border-radius:3px;border-width:1.5px;background:var(--panel)}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 13%,var(--panel))}
+.opt.bad{border-color:var(--red);background:color-mix(in srgb,var(--red) 13%,var(--panel))}
+.opt.ok::after{content:"\2713";float:inline-end;color:var(--ok);font-weight:700}
+.opt.bad::after{content:"\2717";float:inline-end;color:var(--red);font-weight:700}
+.qans{border-radius:3px;border-width:1.5px}
+.qmodel{border-radius:2px;border-inline-start:3px solid var(--red);background:var(--panel)}
+.qmodel b{font-family:var(--disp);color:var(--red);font-size:17px}
+.qfb{border-radius:3px;border-width:1.5px}
+.qfb.ok{border-color:var(--ok)}.qfb.bad{border-color:var(--red)}.qfb.part{border-color:#d9a441}
+.qfb>b{font-family:var(--disp);font-size:20px}
+.qfb.ok>b{color:var(--ok)}.qfb.bad>b{color:var(--red)}
+.qmiss{border-radius:3px}
+.qgrade{display:inline-block;font-family:var(--disp);font-size:60px;font-weight:700;color:var(--red);padding:6px 34px 14px;border:3px solid var(--red);border-radius:52% 48% 50% 50%/58% 54% 46% 42%;transform:rotate(-4deg);line-height:1.3;margin:14px 0 8px}
+.qgrade small{font-size:.5em;opacity:.8}
+.empty h1{margin-bottom:16px}
 </style>
 </head>
 <body>
@@ -227,7 +272,7 @@ function after(ok){mark(ok);row.remove();var f=hh('div','qfb '+(ok?'ok':'bad'));
 y.onclick=function(){after(true)};n.onclick=function(){after(false)};row.appendChild(y);row.appendChild(n);box.appendChild(row)}}
 window.scrollTo(0,0);document.getElementById('quiz').scrollTop=0}
 function qend(){var b=document.getElementById('qbody');b.innerHTML='';var t=QZ.run.length,p=Math.round(QZ.score/t*100);
-b.appendChild(hh('h2','qh',QZ.score+' من '+t+' ('+p+'%)'));
+var gr=hh('div','qgrade',String(QZ.score));gr.appendChild(hh('small',null,' / '+t));b.appendChild(gr);b.appendChild(hh('p','qmute',p+'%'));
 b.appendChild(hh('p','qmute',p>=85?'ممتاز! أنت جاهز.':p>=60?'جيد، راجع الأسئلة اللي غلطت فيها.':'لا تشيل هم، راجع الدرس وأعد المحاولة.'));
 if(QZ.miss.length){b.appendChild(hh('div','qlab','أسئلة غلطت فيها'));QZ.miss.forEach(function(it){var d=hh('details','qmiss');d.appendChild(hh('summary',null,it.q));d.appendChild(hh('div','qmodel','الجواب: '+it.a+(it.p?' (كتابك ص '+it.p+')':'')));b.appendChild(d)})}
 var row=hh('div','qrow');if(QZ.miss.length){var re=hh('button','chip','أعد الأسئلة اللي غلطت فيها');re.onclick=function(){QZ.run=qshuf(QZ.miss);QZ.i=0;QZ.score=0;QZ.miss=[];qq()};row.appendChild(re)}
