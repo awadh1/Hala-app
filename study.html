@@ -45,7 +45,7 @@ main{flex:1;overflow-y:auto;scroll-behavior:smooth}
 .t ul,.t ol{margin:0 0 .7em;padding-inline-start:1.4em}
 .t li{margin:.15em 0}
 .t strong{font-weight:600}
-.tw{overflow-x:auto;margin:0 0 .8em;max-width:100%}.t table{border-collapse:collapse;width:100%;font-size:.94em}.t th,.t td{border:1px solid var(--line);padding:7px 10px;text-align:start;vertical-align:top}.t th{background:var(--panel);font-weight:700}.t blockquote{border-inline-start:3px solid var(--line);padding-inline-start:12px;color:var(--mute);margin:0 0 .7em}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 .8em}.flow span{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 11px;font-weight:600}.flow i{font-style:normal;color:var(--acc);font-weight:700}.t h4{margin:.9em 0 .4em;font-size:1.02em}.tw{overflow-x:auto;margin:0 0 .8em;max-width:100%}.t table{border-collapse:collapse;width:100%;font-size:.94em}.t th,.t td{border:1px solid var(--line);padding:7px 10px;text-align:start;vertical-align:top}.t th{background:var(--panel);font-weight:700}.t blockquote{border-inline-start:3px solid var(--line);padding-inline-start:12px;color:var(--mute);margin:0 0 .7em}
 .acts{margin-top:6px;display:flex;gap:4px}
 .sugs{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 18px;padding-inline-start:40px}.sugs .chip{font-size:13px;padding:6px 12px}
 .acts button{font-size:12.5px;color:var(--mute);padding:3px 8px;border-radius:7px}
@@ -259,7 +259,9 @@ var tb=null;function ft(){if(tb){var h='<div class="tw"><table>',r0=tb[0];h+='<t
 function cells(l){return l.trim().replace(/^\||\|$/g,'').split('|').map(function(c){return c.trim()})}
 lines.forEach(function(l,li){var m;
 if(/^\s*\|.*\|\s*$/.test(l)){fp();fl();if(!tb)tb=[];if(!/^\s*\|?[\s:|-]+\|?\s*$/.test(l)||!/-/.test(l))tb.push(cells(l));return}else ft();
-if(m=l.match(/^\s*[-*•]\s+(.*)/)){fp();if(list!=='ul'){fl();out+='<ul>';list='ul'}out+='<li>'+inl(m[1])+'</li>'}
+if((m=l.split(/\s*[\u2190\u2192]\s*/)).length>=3&&l.length<220&&!/[.:؟]\s*$/.test(l)){fp();fl();out+='<div class="flow">'+m.map(function(c){return'<span>'+inl(c.replace(/^\s*[-*•\d.]+\s+/,''))+'</span>'}).join('<i>\u2190</i>')+'</div>'}
+else if(m=l.match(/^\s*#{1,4}\s+(.*)/)){fp();fl();out+='<h4>'+inl(m[1])+'</h4>'}
+else if(m=l.match(/^\s*[-*•]\s+(.*)/)){fp();if(list!=='ul'){fl();out+='<ul>';list='ul'}out+='<li>'+inl(m[1])+'</li>'}
 else if(m=l.match(/^\s*\d+[.)]\s+(.*)/)){fp();if(list!=='ol'){fl();out+='<ol>';list='ol'}out+='<li>'+inl(m[1])+'</li>'}
 else if(m=l.match(/^\s*>\s?(.*)/)){fp();fl();out+='<blockquote>'+inl(m[1])+'</blockquote>'}
 else if(!l.trim()){fp();fl()}
