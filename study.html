@@ -45,7 +45,7 @@ main{flex:1;overflow-y:auto;scroll-behavior:smooth}
 .t ul,.t ol{margin:0 0 .7em;padding-inline-start:1.4em}
 .t li{margin:.15em 0}
 .t strong{font-weight:600}
-.t blockquote{border-inline-start:3px solid var(--line);padding-inline-start:12px;color:var(--mute);margin:0 0 .7em}
+.tw{overflow-x:auto;margin:0 0 .8em;max-width:100%}.t table{border-collapse:collapse;width:100%;font-size:.94em}.t th,.t td{border:1px solid var(--line);padding:7px 10px;text-align:start;vertical-align:top}.t th{background:var(--panel);font-weight:700}.t blockquote{border-inline-start:3px solid var(--line);padding-inline-start:12px;color:var(--mute);margin:0 0 .7em}
 .acts{margin-top:6px;display:flex;gap:4px}
 .sugs{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 18px;padding-inline-start:40px}.sugs .chip{font-size:13px;padding:6px 12px}
 .acts button{font-size:12.5px;color:var(--mute);padding:3px 8px;border-radius:7px}
@@ -250,17 +250,21 @@ function save(){try{localStorage.setItem('study_h',JSON.stringify(H))}catch(e){}
 var $=function(i){return document.getElementById(i)};
 var BOT='<div class="av"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg></div>';
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-function inl(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}
+function lx(t){var o='',l=0;String(t).replace(/[A-Za-z0-9°%][A-Za-z0-9°%=+\-−×÷\/^.,() ]*/g,function(m,i){var r=m,pv;do{pv=r;r=r.replace(/[ ,.(=+\-\u2212\u00D7\u00F7\/^]+$/,'');var po=(r.match(/\(/g)||[]).length,pc=(r.match(/\)/g)||[]).length;if(pc>po&&/\)$/.test(r))r=r.slice(0,-1)}while(r!==pv);o+=esc(t.slice(l,i))+'<bdi dir="ltr">'+esc(r)+'</bdi>';l=i+r.length;return m});return o+esc(t.slice(l))}
+function inl(s){return lx(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}
 function md(t){var out='',lines=t.split('\n'),list=null,para=[];
 function fp(){if(para.length){out+='<p>'+para.join('<br>')+'</p>';para=[]}}
 function fl(){if(list){out+='</'+list+'>';list=null}}
-lines.forEach(function(l){var m;
+var tb=null;function ft(){if(tb){var h='<div class="tw"><table>',r0=tb[0];h+='<thead><tr>'+r0.map(function(c){return'<th>'+inl(c)+'</th>'}).join('')+'</tr></thead><tbody>';tb.slice(1).forEach(function(r){h+='<tr>'+r.map(function(c){return'<td>'+inl(c)+'</td>'}).join('')+'</tr>'});out+=h+'</tbody></table></div>';tb=null}}
+function cells(l){return l.trim().replace(/^\||\|$/g,'').split('|').map(function(c){return c.trim()})}
+lines.forEach(function(l,li){var m;
+if(/^\s*\|.*\|\s*$/.test(l)){fp();fl();if(!tb)tb=[];if(!/^\s*\|?[\s:|-]+\|?\s*$/.test(l)||!/-/.test(l))tb.push(cells(l));return}else ft();
 if(m=l.match(/^\s*[-*•]\s+(.*)/)){fp();if(list!=='ul'){fl();out+='<ul>';list='ul'}out+='<li>'+inl(m[1])+'</li>'}
 else if(m=l.match(/^\s*\d+[.)]\s+(.*)/)){fp();if(list!=='ol'){fl();out+='<ol>';list='ol'}out+='<li>'+inl(m[1])+'</li>'}
 else if(m=l.match(/^\s*>\s?(.*)/)){fp();fl();out+='<blockquote>'+inl(m[1])+'</blockquote>'}
 else if(!l.trim()){fp();fl()}
 else{fl();para.push(inl(l.replace(/^#+\s*/,'')))}});
-fp();fl();return out}
+fp();fl();ft();return out}
 function tabs(){$('tabs').innerHTML='';Object.keys(SUBJ).forEach(function(k){var b=document.createElement('button');b.className='tab';b.textContent=SUBJ[k].n;b.setAttribute('role','tab');b.setAttribute('aria-selected',k===cur);b.onclick=function(){if(busy||k===cur)return;cur=k;tabs();draw()};$('tabs').appendChild(b)})}
 function draw(){var c=$('col'),h=H[cur];c.innerHTML='';
 if(!h.length){var e=document.createElement('div');e.className='empty';e.innerHTML='<h1>اسأل عن '+SUBJ[cur].n+'</h1><p>أجيب من نص الكتاب فقط. اكتب سؤالك أو جرّب أحد الأسئلة.</p>';var ch=document.createElement('div');ch.className='chips';SUBJ[cur].s.forEach(function(s){var b=document.createElement('button');b.className='chip';b.textContent=s;b.onclick=function(){ask(s)};ch.appendChild(b)});e.appendChild(ch);c.appendChild(e)}
@@ -283,7 +287,7 @@ $('f').onsubmit=function(e){e.preventDefault();ask($('q').value)};
 $('new').onclick=function(){if(busy)return;H[cur]=[];save();draw()};
 var QZ={items:[],run:[],i:0,score:0,miss:[],kind:'all',n:10,subj:null,done:false};
 var QK={all:'الكل',mcq:'اختيار من متعدد',tf:'صح أو خطأ',open:'أسئلة مفتوحة',why:'علل'};
-function hh(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+function hh(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null){if(/[A-Za-z0-9]/.test(txt))e.innerHTML=lx(txt);else e.textContent=txt}return e}
 function qn(s){var x=String(s||'');x=x.replace(new RegExp('[\u064B-\u065F\u0640]','g'),'');x=x.replace(new RegExp('[\u0623\u0625\u0622]','g'),'\u0627');x=x.replace(new RegExp('\u0649','g'),'\u064A').replace(new RegExp('\u0629','g'),'\u0647');return x.replace(/\s+/g,' ').trim()}
 function qkind(it){if(it.t==='mcq'&&it.o&&qopt(it)>=0)return'mcq';if(it.t==='tf')return'tf';return'open'}
 function qopt(it){var a=qn(it.a),o=it.o||[],k;for(k=0;k<o.length;k++)if(qn(o[k])===a)return k;for(k=0;k<o.length;k++){var x=qn(o[k]);if(x&&(a.indexOf(x)===0||x.indexOf(a)===0))return k}return-1}
@@ -320,6 +324,7 @@ list.forEach(function(o){var row=hh('label','qles');var c=document.createElement
 sync();b.appendChild(dyn);qdyn(dyn)}
 function qloc(a,m){var f=function(s){return qn(s).split(' ').filter(function(w){return w.length>2}).map(function(w){return w.replace(/^(ال|وال|بال|لل)/,'')})};var ma=f(m),aa=f(a);if(!ma.length)return'wrong';var h=0;ma.forEach(function(w){if(aa.some(function(x){return x===w||(x.length>3&&w.length>3&&(x.indexOf(w)>=0||w.indexOf(x)>=0))}))h++});var c=h/ma.length;return c>=.5?'correct':c>=.25?'partial':'wrong'}
 function qfb(box,ok,it,extra){var f=hh('div','qfb '+(ok?'ok':'bad'));f.appendChild(hh('b',null,ok?'صح ✓':'غلط ✗'));if(!ok||extra){var t=hh('div',null,'الجواب الصحيح: '+it.a+(it.f?' — التصحيح: '+it.f:''));f.appendChild(t)}
+if(it.e){f.appendChild(hh('div',null,'السبب: '+it.e))}
 if(it.p){f.appendChild(hh('div','qmute','المرجع: كتابك ص '+it.p))}
 var row=hh('div','qrow');var ex=hh('button','chip','اشرح لي من الكتاب');ex.onclick=function(){qclose();ask('اشرح لي: '+it.q+' (الجواب: '+it.a+')')};row.appendChild(ex);
 var nx=hh('button','qgo',QZ.i+1>=QZ.run.length?'شوف النتيجة':'التالي');nx.onclick=function(){QZ.i++;QZ.i>=QZ.run.length?qend():qq()};row.appendChild(nx);f.appendChild(row);box.appendChild(f)}
