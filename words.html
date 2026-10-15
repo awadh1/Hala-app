@@ -4991,13 +4991,15 @@ function placeResult(){
   const vn=(p.vr||[]).length,vc=(p.vr||[]).filter(x=>x.ok).length;
   const warn=fa>0.25?'<p class="note" style="color:var(--bad)">ضغطت «أعرفها» على كلمات مو حقيقية، فالنتيجة تقديرية أكثر. الأحسن تعيد الاختبار.</p>':'';
   $('#app').innerHTML=`<h1>نتيجتك</h1><p class="sub">من ${S.order.length} كلمة في المجموعة</p>
-  <div class="panel"><div class="big">~${est}</div><div class="note">كلمة تعرفها تقريباً</div>
+  <div class="panel"><div class="big">~${est}</div><div class="note">من كلمات هذي المجموعة تعرفها تقريباً. هذا مو حجم مفرداتك الكلي، لأن المجموعة فيها ${S.order.length} كلمة بس.</div>
   <div class="chart" style="height:80px;margin-top:14px">${rates.map(r=>`<i style="height:${Math.max(4,r*100)}%"></i>`).join('')}</div>
   <div class="row sp note" style="margin-top:4px"><span>الأشيع</span><span>الأقل شيوعاً</span></div>
   <p class="note" style="margin-top:12px">تحققت من ${vn} كلمة قلت إنك تعرفها، وأجبت صح على ${vc}.</p>
-  <p style="margin-top:8px">راح أبدأ لك من الكلمة رقم <b>${S.place.start+1}</b>، والكلمات اللي قبلها أعتبرها معروفة عندك.</p>${warn}
+  <p style="margin-top:8px">راح أبدأ لك من الكلمة رقم <b id="sv">${S.place.start+1}</b>، والكلمات اللي قبلها أعتبرها معروفة عندك. إذا تحس إنك تعرف أكثر، حرّك نقطة البداية:</p>
+  <input type="range" id="sl" min="0" max="${S.order.length-1}" step="25" value="${S.place.start}" style="width:100%;margin:6px 0 10px">${warn}
   <button class="btn pri blk" id="ok">ابدأ</button><button class="btn blk" id="re" style="margin-top:10px">أعد الاختبار</button>
   <p class="note" style="margin-top:12px">هذا تقدير مو رقم دقيق. إذا مرّت عليك كلمات سهلة، اضغط «أعرفها» وتخطاها بسرعة.</p></div>`;
+  const sl=$('#sl');sl.oninput=()=>{S.place.start=+sl.value;$('#sv').textContent=S.place.start+1;save()};
   $('#ok').onclick=()=>go('home');$('#re').onclick=()=>{PT=null;startPlace()}}
 
 /* ---------- add text ---------- */
