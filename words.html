@@ -4768,6 +4768,14 @@ function viewHome(){
     <button class="btn pri blk" id="go" style="margin-top:16px" ${due+al?'':'disabled'}>${due+al?'ابدأ':'خلصت اليوم'}</button>
     ${(!al&&newPool().length)?`<button class="btn blk" id="more" style="margin-top:10px">أبي 5 كلمات زيادة</button>`:''}
   </div>
+  <details class="panel" style="margin-top:16px;padding:12px 16px" ${st.total?'':'open'}><summary style="cursor:pointer;font-weight:600">كيف يشتغل؟</summary>
+   <ol style="margin:10px 0 0;padding-inline-start:20px;font-size:15px;line-height:1.8">
+    <li>كل يوم تجيك كلمات جديدة (حسب العدد اللي تحدده) ومعاها مراجعات القديمة.</li>
+    <li>الكلمة الجديدة تشوفها وتسمعها مرة، وبعدها تختار معناها من 4 خيارات.</li>
+    <li>بعد كذا تكتبها بنفسك، من جملة ناقصة أو من الصوت. هذا اللي يثبّتها، مو القراءة.</li>
+    <li>إذا صح، الكلمة تغيب أيام أكثر قبل ما ترجع. إذا غلط، ترجع لك قريب. التطبيق يحسب الوقت لكل كلمة لحاله.</li>
+    <li>اضغط «أعرفها» إذا الكلمة سهلة عليك، ونتأكد بأن تكتبها.</li>
+   </ol></details>
   <div class="grid3">
     <div class="stat"><b>${st.total}</b><span>في التدريب</span></div>
     <div class="stat"><b>${st.mature}</b><span>ثابتة</span></div>
@@ -4804,15 +4812,16 @@ function prepTest(){
 
 function renderSession(){
   const s=SESS,id=s.cur.id,i=info(id),left=s.Q.length+(s.held?s.held.length:0)+1;
-  const head=`<div class="row sp" style="margin-bottom:14px"><span class="note">متبقي ${left}</span><button class="link" id="quit">إنهاء</button></div>`;
+  const lab=s.step==='intro'?'تعرّف':s.kind==='choice'?'اختيار':s.kind==='dict'?'إملاء':'كتابة';
+  const head=`<div class="row sp" style="margin-bottom:14px"><span class="note">${lab} · متبقي ${left}</span><button class="link" id="quit">إنهاء</button></div>`;
   let body='';
   if(s.step==='intro'){
-    body=`<div class="panel"><div class="note">كلمة جديدة</div>
+    body=`<div class="panel"><div class="note">كلمة جديدة: اقرأها واسمعها، وبعدين أختبرك عليها</div>
       <div class="hd"><div><div class="word en">${esc(i.w)}</div><div class="pos en">${esc(i.pos)}</div></div>${sayBtn(i.w)}</div>
       <div class="def en blk">${esc(i.def)}</div>${exHTML(i,'mark')}
       ${i.ex?`<div class="row" style="margin-top:6px">${sayBtn(i.ex)}<span class="note">الجملة</span></div>`:''}
       <details style="margin-top:14px"><summary class="note" style="cursor:pointer">التلميح بالعربي</summary><div style="margin-top:6px;font-size:18px">${esc(i.ar||'')}</div></details>
-      <div class="row" style="margin-top:18px"><button class="btn pri" id="learn" style="flex:2">علّمني</button><button class="btn" id="know" style="flex:1">أعرفها</button></div></div>`;
+      <div class="row" style="margin-top:18px"><button class="btn pri" id="learn" style="flex:2">فهمتها، اختبرني</button><button class="btn" id="know" style="flex:1">أعرفها</button></div></div>`;
   }else if(!s.res){
     body='<div class="panel">'+testBody(i)+'</div>';
   }else{
@@ -4854,7 +4863,9 @@ function feedback(i){
   const s=SESS,r=s.res;let cls=r==='ok'?'ok':r==='near'?'near':'bad';
   const msg=r==='ok'?'صح':r==='near'?`قريب، الإملاء الصحيح: ${i.w}`:`الجواب: ${i.w}`;
   const msgHTML=r==='ok'?'صح':r==='near'?`قريب، الإملاء الصحيح: <span class="en"><b>${esc(i.w)}</b></span>`:`الجواب: <span class="en"><b>${esc(i.w)}</b></span>`;
-  return `<div class="fb ${cls}" role="status">${msgHTML}</div>
+  const dueTxt=(()=>{const c=S.st[s.cur.id]&&S.st[s.cur.id].f;if(!c)return'';const m=(new Date(c.due)-new Date())/6e4;
+    if(m<30)return 'راح ترجع لك بعد دقايق في نفس الجلسة';if(m<1440)return 'راح ترجع لك اليوم';const d=Math.round(m/1440);return d===1?'راح ترجع لك بكرة':'راح ترجع لك بعد '+d+' أيام'})();
+  return `<div class="fb ${cls}" role="status">${msgHTML}<div style="font-weight:400;font-size:14px;margin-top:2px">${dueTxt}</div></div>
    <div class="def en blk" style="font-size:18px">${esc(i.def)}</div>${s.kind!=='cloze'?exHTML(i,'mark'):''}
    <div class="row" style="margin-top:8px">${sayBtn(i.w)}${i.ex?sayBtn(i.ex):''}<span class="note" style="margin-inline-start:auto">${esc(i.ar||'')}</span></div>
    <div class="row" style="margin-top:16px"><button class="btn pri" id="nx" style="flex:2" autofocus>التالي</button>
