@@ -4764,7 +4764,7 @@ function viewHome(){
   const mx=Math.max(1,...days);
   $('#app').innerHTML=`
   <h1>كلماتي</h1><p class="sub">${fmtDate()}</p>
-  ${(!S.place&&!st.total)?`<div class="panel" style="margin-bottom:16px"><b>قبل ما تبدأ: قياس المستوى</b><p class="note" style="margin:6px 0 12px">دقيقتين. أعرض عليك كلمات، وتقول تعرفها أو لا. بعدها أبدأ لك من مستواك بدل ما تمرّ على كلمات تعرفها.</p><button class="btn pri blk" id="pl">ابدأ الاختبار</button></div>`:''}
+  ${(!S.place&&!st.total)?`<div class="panel" style="margin-bottom:16px"><b>قبل ما تبدأ: قياس المستوى</b><p class="note" style="margin:6px 0 12px">حوالي 4 دقايق. أعرض عليك كلمات، وتقول تعرفها أو لا. بعدها أبدأ لك من مستواك بدل ما تمرّ على كلمات تعرفها.</p><button class="btn pri blk" id="pl">ابدأ الاختبار</button></div>`:''}
   <div class="panel">
     <div class="row sp"><div><div class="big">${due+al}</div><div class="note">بطاقة اليوم</div></div>
     <div class="note" style="text-align:left">${due} مراجعة<br>${al} كلمة جديدة</div></div>
@@ -4938,8 +4938,8 @@ function bandSize(){return Math.ceil(S.order.length/NB)}
 function startPlace(){
   const items=[],bs=bandSize();
   for(let b=0;b<NB;b++){const ids=S.order.slice(b*bs,(b+1)*bs).filter(x=>BASE[x]);
-    shuffle(ids).slice(0,6).forEach(id=>items.push({w:BASE[id].w,b,real:true}))}
-  shuffle(NONWORDS).slice(0,15).forEach(w=>items.push({w,real:false}));
+    shuffle(ids).slice(0,10).forEach(id=>items.push({w:BASE[id].w,b,real:true}))}
+  shuffle(NONWORDS).slice(0,20).forEach(w=>items.push({w,real:false}));
   PT={items:shuffle(items),i:0,yes:[]};TAB='home';render()}
 function viewPlace(){
   const p=PT;
