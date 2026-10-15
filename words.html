@@ -4707,7 +4707,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function dayKey(d){d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function fresh(){return{v:1,st:{},custom:{},order:BASE_IDS.slice(),set:{perDay:10,skipTop:800,rate:0.85,dict:true},log:{},newDay:{d:'',n:0,bonus:0}}}
+function fresh(){return{v:1,st:{},custom:{},place:null,order:BASE_IDS.slice(),set:{perDay:10,skipTop:800,rate:0.85,dict:true},log:{},newDay:{d:'',n:0,bonus:0}}}
 let S=(function(){try{const j=JSON.parse(localStorage.getItem(KEY));if(j&&j.v===1){
   // keep new base words added in later versions
   j.order=BASE_IDS.slice();return j}}catch(e){}return fresh()})();
@@ -4718,7 +4718,8 @@ function cardOf(id){const c=S.st[id].f;return Object.assign({},c,{due:new Date(c
 function today(){const k=dayKey();if(S.newDay.d!==k)S.newDay={d:k,n:0,bonus:0};return S.newDay}
 function allowance(){const t=today();return Math.max(0,S.set.perDay+t.bonus-t.n)}
 function newPool(){const out=[];Object.keys(S.custom).forEach(id=>{if(!S.st[id])out.push(id)});
-  for(const id of S.order){if(!S.st[id]&&BASE[id])out.push(id)}return out}
+  const from=S.place?S.place.start:0;
+  for(let i=from;i<S.order.length;i++){const id=S.order[i];if(!S.st[id]&&BASE[id])out.push(id)}return out}
 function dueIds(now){now=now||new Date();return Object.keys(S.st).filter(id=>new Date(S.st[id].f.due)<=now).sort((a,b)=>new Date(S.st[a].f.due)-new Date(S.st[b].f.due))}
 
 /* ---------- speech ---------- */
@@ -4749,11 +4750,12 @@ function stats(){
   return{total:ids.length,mature,streak}}
 
 /* ---------- views ---------- */
-let TAB='home',SESS=null;
-function go(t){TAB=t;SESS=null;try{speechSynthesis.cancel()}catch(e){}render();window.scrollTo(0,0)}
+let TAB='home',SESS=null,PT=null;
+function go(t){TAB=t;SESS=null;PT=null;try{speechSynthesis.cancel()}catch(e){}render();window.scrollTo(0,0)}
 function render(){
   document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-current',b.dataset.t===TAB?'page':'false'));
   if(SESS)return renderSession();
+  if(PT)return viewPlace();
   ({home:viewHome,text:viewText,words:viewWords,set:viewSet})[TAB]()}
 
 function viewHome(){
@@ -4762,6 +4764,7 @@ function viewHome(){
   const mx=Math.max(1,...days);
   $('#app').innerHTML=`
   <h1>كلماتي</h1><p class="sub">${fmtDate()}</p>
+  ${(!S.place&&!st.total)?`<div class="panel" style="margin-bottom:16px"><b>قبل ما تبدأ: قياس المستوى</b><p class="note" style="margin:6px 0 12px">دقيقتين. أعرض عليك كلمات، وتقول تعرفها أو لا. بعدها أبدأ لك من مستواك بدل ما تمرّ على كلمات تعرفها.</p><button class="btn pri blk" id="pl">ابدأ الاختبار</button></div>`:''}
   <div class="panel">
     <div class="row sp"><div><div class="big">${due+al}</div><div class="note">بطاقة اليوم</div></div>
     <div class="note" style="text-align:left">${due} مراجعة<br>${al} كلمة جديدة</div></div>
@@ -4774,7 +4777,7 @@ function viewHome(){
     <li>الكلمة الجديدة تشوفها وتسمعها مرة، وبعدها تختار معناها من 4 خيارات.</li>
     <li>بعد كذا تكتبها بنفسك، من جملة ناقصة أو من الصوت. هذا اللي يثبّتها، مو القراءة.</li>
     <li>إذا صح، الكلمة تغيب أيام أكثر قبل ما ترجع. إذا غلط، ترجع لك قريب. التطبيق يحسب الوقت لكل كلمة لحاله.</li>
-    <li>اضغط «أعرفها» إذا الكلمة سهلة عليك، ونتأكد بأن تكتبها.</li>
+    <li>اختبار المستوى يحدد من وين تبدأ، واضغط «أعرفها» إذا الكلمة سهلة عليك ونتأكد بأن تكتبها.</li>
    </ol></details>
   <div class="grid3">
     <div class="stat"><b>${st.total}</b><span>في التدريب</span></div>
@@ -4784,7 +4787,7 @@ function viewHome(){
   <h2>آخر 14 يوم</h2>
   <div class="chart" aria-label="عدد المراجعات">${days.map(n=>`<i class="${n?'':'z'}" style="height:${n?Math.max(6,n/mx*100):5}%" title="${n}"></i>`).join('')}</div>
   <p class="note" style="margin-top:18px">«ثابتة» = الكلمة اللي جدولتها وصلت 21 يوم أو أكثر. الكلمات مرتبة من الأشيع في الإنجليزية إلى الأقل، وإذا قلت «أعرفها» وكتبتها صح ما تُحسب من كلماتك الجديدة اليوم، وتقدر تضيف كلماتك من أي نص في تبويب «أضف نص».${memOnly?'<br><b>تنبيه:</b> المتصفح ما يسمح بالحفظ، تقدمك ما راح يبقى.':''}</p>`;
-  const g=$('#go');if(g)g.onclick=startSession;
+  const g=$('#go');if(g)g.onclick=startSession;const pl=$('#pl');if(pl)pl.onclick=startPlace;
   const m=$('#more');if(m)m.onclick=()=>{today().bonus+=5;save();render()}}
 
 /* ---------- session ---------- */
@@ -4928,6 +4931,48 @@ function finish(){
    <p class="note" style="margin-top:16px">الكلمات اللي غلطت فيها ترجع لك اليوم بجلسة قادمة، والباقي يتجدول لأيام لاحقة تلقائياً.</p>`;
   $('#h').onclick=()=>go('home');const a=$('#again');if(a)a.onclick=startSession}
 
+/* ---------- placement test ---------- */
+const NONWORDS=['plimber','stoyle','trenth','blorn','quindle','frasten','glimmot','spendle','crondish','flobber','wintrel','dorcible','fennet','skorve','prandle','vembly','tolmer','brantle','cluvish','mordine'];
+const NB=10;
+function bandSize(){return Math.ceil(S.order.length/NB)}
+function startPlace(){
+  const items=[],bs=bandSize();
+  for(let b=0;b<NB;b++){const ids=S.order.slice(b*bs,(b+1)*bs).filter(x=>BASE[x]);
+    shuffle(ids).slice(0,6).forEach(id=>items.push({w:BASE[id].w,b,real:true}))}
+  shuffle(NONWORDS).slice(0,15).forEach(w=>items.push({w,real:false}));
+  PT={items:shuffle(items),i:0,yes:[]};TAB='home';render()}
+function viewPlace(){
+  const p=PT;
+  if(p.i>=p.items.length)return placeResult();
+  const it=p.items[p.i];
+  $('#app').innerHTML=`<div class="row sp" style="margin-bottom:14px"><span class="note">اختبار المستوى · ${p.i+1} من ${p.items.length}</span><button class="link" id="qt">إلغاء</button></div>
+  <div class="panel"><div class="note">هل تعرف معنى هذي الكلمة؟</div>
+  <div class="word en" style="font-size:54px;margin:18px 0 22px">${esc(it.w)}</div>
+  <div class="row"><button class="btn pri" id="y" style="flex:1">أعرفها</button><button class="btn" id="n" style="flex:1">ما أعرفها</button></div>
+  <p class="note" style="margin-top:14px">بينها كلمات مو حقيقية. اضغط «أعرفها» بس إذا متأكد من معناها.</p></div>
+  <div class="bar" style="margin-top:14px"><i style="width:${p.i/p.items.length*100}%"></i></div>`;
+  $('#qt').onclick=()=>go('home');
+  const ans=v=>{p.yes.push(v);p.i++;viewPlace()};
+  $('#y').onclick=()=>ans(true);$('#n').onclick=()=>ans(false);}
+function placeResult(){
+  const p=PT,bs=bandSize();
+  const real=p.items.map((it,i)=>({it,y:p.yes[i]})).filter(x=>x.it.real),fake=p.items.map((it,i)=>({it,y:p.yes[i]})).filter(x=>!x.it.real);
+  const fa=fake.filter(x=>x.y).length/fake.length;
+  const rates=[];for(let b=0;b<NB;b++){const r=real.filter(x=>x.it.b===b);const h=r.filter(x=>x.y).length/r.length;
+    rates.push(Math.max(0,Math.min(1,fa>=0.99?0:(h-fa)/(1-fa))))}
+  let est=0;rates.forEach((r,b)=>{est+=r*Math.min(bs,S.order.length-b*bs)});est=Math.round(est/10)*10;
+  let first=rates.findIndex(r=>r<0.8);if(first<0)first=NB-1;
+  S.place={start:Math.max(0,first*bs),est,fa:Math.round(fa*100),date:dayKey()};save();
+  const warn=fa>0.25?'<p class="note" style="color:var(--bad)">ضغطت «أعرفها» على كلمات مو حقيقية، فالنتيجة تقديرية أكثر. الأحسن تعيد الاختبار.</p>':'';
+  $('#app').innerHTML=`<h1>نتيجتك</h1><p class="sub">من ${S.order.length} كلمة في المجموعة</p>
+  <div class="panel"><div class="big">~${est}</div><div class="note">كلمة تعرفها تقريباً</div>
+  <div class="chart" style="height:80px;margin-top:14px">${rates.map(r=>`<i style="height:${Math.max(4,r*100)}%"></i>`).join('')}</div>
+  <div class="row sp note" style="margin-top:4px"><span>الأشيع</span><span>الأقل شيوعاً</span></div>
+  <p style="margin-top:14px">راح أبدأ لك من الكلمة رقم <b>${S.place.start+1}</b>، والكلمات اللي قبلها أعتبرها معروفة عندك.</p>${warn}
+  <button class="btn pri blk" id="ok">ابدأ</button><button class="btn blk" id="re" style="margin-top:10px">أعد الاختبار</button>
+  <p class="note" style="margin-top:12px">هذا تقدير مو رقم دقيق. إذا مرّت عليك كلمات سهلة، اضغط «أعرفها» وتخطاها بسرعة.</p></div>`;
+  $('#ok').onclick=()=>go('home');$('#re').onclick=()=>{PT=null;startPlace()}}
+
 /* ---------- add text ---------- */
 let TX={text:'',res:null};
 function lemma(t){
@@ -5025,6 +5070,9 @@ function viewSet(){
   <label class="f" for="rt">سرعة النطق: <b id="rtv">${S.set.rate}</b></label>
   <input type="range" id="rt" min="0.6" max="1.1" step="0.05" value="${S.set.rate}" style="width:100%">
   <label class="f"><input type="checkbox" id="dc" ${S.set.dict?'checked':''}> تمارين الإملاء بالصوت ${canSay()?'':'(جهازك ما يدعم الصوت)'}</label>
+  <h2>المستوى</h2>
+  <p class="note">${S.place?`آخر اختبار: ${S.place.date}، تعرف تقريباً ${S.place.est} كلمة، والبداية من الكلمة ${S.place.start+1}.`:'ما سويت اختبار مستوى.'}</p>
+  <div class="row"><button class="btn" id="pt">اختبار المستوى</button>${S.place&&S.place.start?'<button class="btn" id="pr">رجّع الكلمات المتخطاة</button>':''}</div>
   <h2>نسخة احتياطية</h2>
   <p class="note">تقدمك محفوظ في هذا المتصفح فقط. نزّل نسخة من وقت لوقت، خاصة قبل ما تمسح بيانات المتصفح.</p>
   <div class="row"><button class="btn" id="ex">تنزيل نسخة</button><button class="btn" id="im">استرجاع نسخة</button><input type="file" id="fi" accept="application/json" hidden></div>
@@ -5034,6 +5082,7 @@ function viewSet(){
   <button class="btn" id="rs" style="margin-top:14px;color:var(--bad)">مسح كل شي</button>`;
   const bind=(id,k,f)=>{const e=$('#'+id);e.oninput=()=>{S.set[k]=f(e.value);$('#'+id+'v').textContent=S.set[k];save()}};
   bind('pd','perDay',Number);bind('sk','skipTop',Number);bind('rt','rate',Number);
+  $('#pt').onclick=startPlace;const pr=$('#pr');if(pr)pr.onclick=()=>{S.place.start=0;save();viewSet()};
   $('#dc').onchange=e=>{S.set.dict=e.target.checked;save()};
   $('#ex').onclick=()=>{const b=new Blob([JSON.stringify(S)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='kalimati-'+dayKey()+'.json';a.click()};
   $('#im').onclick=()=>$('#fi').click();
