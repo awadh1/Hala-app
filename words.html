@@ -1,0 +1,2761 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F1F3F0">
+<title>كلماتي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F1F3F0;--card:#FFFFFF;--ink:#17212B;--mut:#5D6975;--line:#D3D9DE;
+  --bd:#17212B;--shc:#17212B;--acc:#1F4FD8;--acct:#FFFFFF;
+  --ok:#1B7A4B;--okbg:#E3F3EA;--bad:#B8392D;--badbg:#F8E6E3;--near:#8A5A00;--nearbg:#FBF0D5;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#12171C;--card:#1B232B;--ink:#E8EDF1;--mut:#9AA7B3;--line:#2E3943;
+    --bd:#55636F;--shc:#000;--acc:#7C97FF;--acct:#0C1230;
+    --ok:#4CC38A;--okbg:#17352A;--bad:#F07A6E;--badbg:#3A2320;--near:#E8B64A;--nearbg:#3A2F15;
+  }
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 "IBM Plex Sans Arabic",system-ui,sans-serif;min-height:100vh;padding-bottom:84px}
+.en{direction:ltr;unicode-bidi:isolate;font-family:"Source Serif 4",Georgia,serif;display:inline-block}
+.en.blk{display:block;text-align:left}
+main{max-width:560px;margin:0 auto;padding:20px 16px}
+h1{font-size:26px;margin:0 0 4px;font-weight:600}
+h2{font-size:18px;margin:24px 0 10px;font-weight:600}
+.sub{color:var(--mut);font-size:14px;margin:0 0 18px}
+.panel{background:var(--card);border:2px solid var(--bd);border-radius:6px;box-shadow:5px 5px 0 var(--shc);padding:18px}
+.row{display:flex;gap:10px;align-items:center}
+.row.sp{justify-content:space-between}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.stat{background:var(--card);border:1.5px solid var(--line);border-radius:6px;padding:10px 12px}
+.stat b{display:block;font-size:24px;line-height:1.2;font-weight:600}
+.stat span{font-size:13px;color:var(--mut)}
+button,input,textarea,select{font:inherit;color:inherit}
+.btn{appearance:none;border:2px solid var(--bd);background:var(--card);border-radius:6px;padding:11px 16px;font-weight:500;cursor:pointer;min-height:46px}
+.btn.pri{background:var(--acc);color:var(--acct);border-color:var(--acc)}
+.btn.blk{width:100%}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible,.tab:focus-visible,.opt:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.btn.sm{min-height:36px;padding:6px 12px;font-size:14px}
+.link{background:none;border:0;color:var(--acc);padding:6px 2px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.big{font-size:44px;font-weight:600;line-height:1.1;letter-spacing:-.01em}
+.word{font-size:46px;font-weight:600;line-height:1.1;margin:6px 0 2px}
+.pos{display:block;color:var(--mut);font-size:15px;font-style:italic}
+.hd{direction:ltr;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.def{font-size:20px;line-height:1.45;margin:12px 0}
+.exs{font-size:19px;line-height:1.5;margin:10px 0;color:var(--ink)}
+.exs mark{background:none;color:var(--acc);font-weight:600;border-bottom:2px solid var(--acc)}
+.blank{display:inline-block;border-bottom:2.5px solid var(--ink);height:1em;vertical-align:-2px;margin:0 3px}
+.say{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;border:2px solid var(--bd);background:var(--card);cursor:pointer;flex:none}
+.say svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.opts{display:grid;gap:10px;margin-top:14px}
+.opt{appearance:none;text-align:left;direction:ltr;border:2px solid var(--line);background:var(--card);border-radius:6px;padding:12px 14px;font:600 20px "Source Serif 4",Georgia,serif;cursor:pointer;min-height:50px}
+.opt:hover{border-color:var(--bd)}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.ans{width:100%;direction:ltr;text-align:left;font:600 24px "Source Serif 4",Georgia,serif;padding:12px 14px;border:2px solid var(--bd);border-radius:6px;background:var(--card);margin-top:14px}
+.fb{border-radius:6px;padding:12px 14px;margin-top:14px;font-weight:500}
+.fb.ok{background:var(--okbg);color:var(--ok)}
+.fb.bad{background:var(--badbg);color:var(--bad)}
+.fb.near{background:var(--nearbg);color:var(--near)}
+.hint{color:var(--mut);font-size:15px;margin-top:10px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--acc)}
+.tabs{position:fixed;inset:auto 0 0 0;background:var(--card);border-top:2px solid var(--bd);display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:5}
+.tab{flex:1;appearance:none;border:0;background:none;padding:14px 4px;font-weight:500;color:var(--mut);cursor:pointer;position:relative}
+.tab[aria-current="page"]{color:var(--ink)}
+.tab[aria-current="page"]::after{content:"";position:absolute;inset:auto 22% 0 22%;height:4px;background:var(--acc)}
+textarea{width:100%;min-height:150px;direction:ltr;text-align:left;padding:12px;border:2px solid var(--bd);border-radius:6px;background:var(--card);font:400 17px/1.5 "Source Serif 4",Georgia,serif}
+input[type=text],input[type=search],input[type=number]{width:100%;padding:10px 12px;border:2px solid var(--line);border-radius:6px;background:var(--card)}
+label.f{display:block;font-weight:500;margin:14px 0 6px;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{appearance:none;border:1.5px solid var(--line);background:var(--card);border-radius:20px;padding:6px 14px;cursor:pointer;font:500 18px "Source Serif 4",Georgia,serif;direction:ltr}
+.chip small{font:400 12px "IBM Plex Sans Arabic",sans-serif;color:var(--mut);margin-inline-start:6px}
+.chip.on{border-color:var(--ok);background:var(--okbg)}
+.list .it{direction:ltr;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.list .it:last-child{border:0}
+.tag{font-size:12px;color:var(--mut)}
+.chart{display:flex;gap:4px;align-items:flex-end;height:64px;margin-top:6px}
+.chart i{flex:1;background:var(--acc);min-height:3px;border-radius:2px 2px 0 0;opacity:.85}
+.chart i.z{background:var(--line);opacity:1}
+.sheet{position:fixed;inset:0;background:rgba(10,14,18,.5);display:flex;align-items:flex-end;z-index:20}
+.sheet>div{background:var(--bg);width:100%;max-width:560px;margin:0 auto;border-radius:12px 12px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));max-height:88vh;overflow:auto;border-top:2px solid var(--bd)}
+.note{font-size:14px;color:var(--mut)}
+@media (prefers-reduced-motion:no-preference){.fb{animation:pop .18s ease-out}@keyframes pop{from{transform:translateY(4px);opacity:0}to{transform:none;opacity:1}}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<nav class="tabs" id="tabs" aria-label="التنقل">
+  <button class="tab" data-t="home">اليوم</button>
+  <button class="tab" data-t="text">أضف نص</button>
+  <button class="tab" data-t="words">كلماتي</button>
+  <button class="tab" data-t="set">الإعدادات</button>
+</nav>
+
+<script>(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.FSRS = {}));
+})(this, (function (exports) { 'use strict';
+
+  class FSRSError extends Error {
+    constructor(message = "FSRS Error") {
+      var _a;
+      super(message);
+      this.name = "FSRSError";
+      (_a = Error.captureStackTrace) == null ? void 0 : _a.call(Error, this, FSRSError);
+    }
+  }
+  class FSRSValidationError extends FSRSError {
+    constructor(message) {
+      var _a;
+      super(message);
+      this.name = "FSRSValidationError";
+      (_a = Error.captureStackTrace) == null ? void 0 : _a.call(Error, this, FSRSValidationError);
+    }
+  }
+
+  var State = /* @__PURE__ */ ((State2) => {
+    State2[State2["New"] = 0] = "New";
+    State2[State2["Learning"] = 1] = "Learning";
+    State2[State2["Review"] = 2] = "Review";
+    State2[State2["Relearning"] = 3] = "Relearning";
+    return State2;
+  })(State || {});
+  var Rating = /* @__PURE__ */ ((Rating2) => {
+    Rating2[Rating2["Manual"] = 0] = "Manual";
+    Rating2[Rating2["Again"] = 1] = "Again";
+    Rating2[Rating2["Hard"] = 2] = "Hard";
+    Rating2[Rating2["Good"] = 3] = "Good";
+    Rating2[Rating2["Easy"] = 4] = "Easy";
+    return Rating2;
+  })(Rating || {});
+
+  var __defProp$6 = Object.defineProperty;
+  var __defProps$2 = Object.defineProperties;
+  var __getOwnPropDescs$2 = Object.getOwnPropertyDescriptors;
+  var __getOwnPropSymbols$2 = Object.getOwnPropertySymbols;
+  var __hasOwnProp$2 = Object.prototype.hasOwnProperty;
+  var __propIsEnum$2 = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp$6 = (obj, key, value) => key in obj ? __defProp$6(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues$2 = (a, b) => {
+    for (var prop in b || (b = {}))
+      if (__hasOwnProp$2.call(b, prop))
+        __defNormalProp$6(a, prop, b[prop]);
+    if (__getOwnPropSymbols$2)
+      for (var prop of __getOwnPropSymbols$2(b)) {
+        if (__propIsEnum$2.call(b, prop))
+          __defNormalProp$6(a, prop, b[prop]);
+      }
+    return a;
+  };
+  var __spreadProps$2 = (a, b) => __defProps$2(a, __getOwnPropDescs$2(b));
+  class TypeConvert {
+    static card(card) {
+      return __spreadProps$2(__spreadValues$2({}, card), {
+        state: TypeConvert.state(card.state),
+        due: TypeConvert.time(card.due),
+        last_review: card.last_review ? TypeConvert.time(card.last_review) : void 0
+      });
+    }
+    static rating(value) {
+      if (typeof value === "string") {
+        const firstLetter = value.charAt(0).toUpperCase();
+        const restOfString = value.slice(1).toLowerCase();
+        const ret = Rating[`${firstLetter}${restOfString}`];
+        if (ret === void 0) {
+          throw new FSRSValidationError(`Invalid rating:[${value}]`);
+        }
+        return ret;
+      } else if (typeof value === "number") {
+        return value;
+      }
+      throw new FSRSValidationError(`Invalid rating:[${value}]`);
+    }
+    static state(value) {
+      if (typeof value === "string") {
+        const firstLetter = value.charAt(0).toUpperCase();
+        const restOfString = value.slice(1).toLowerCase();
+        const ret = State[`${firstLetter}${restOfString}`];
+        if (ret === void 0) {
+          throw new FSRSValidationError(`Invalid state:[${value}]`);
+        }
+        return ret;
+      } else if (typeof value === "number") {
+        return value;
+      }
+      throw new FSRSValidationError(`Invalid state:[${value}]`);
+    }
+    static time(value) {
+      if (value instanceof Date) {
+        return value;
+      }
+      const date = new Date(value);
+      if (typeof value === "object" && value !== null && !Number.isNaN(Date.parse(value) || +date)) {
+        return date;
+      } else if (typeof value === "string") {
+        const timestamp = Date.parse(value);
+        if (!Number.isNaN(timestamp)) {
+          return new Date(timestamp);
+        } else {
+          throw new FSRSValidationError(`Invalid date:[${value}]`);
+        }
+      } else if (typeof value === "number") {
+        return new Date(value);
+      }
+      throw new FSRSValidationError(`Invalid date:[${value}]`);
+    }
+    static review_log(log) {
+      return __spreadProps$2(__spreadValues$2({}, log), {
+        due: TypeConvert.time(log.due),
+        rating: TypeConvert.rating(log.rating),
+        state: TypeConvert.state(log.state),
+        review: TypeConvert.time(log.review)
+      });
+    }
+  }
+
+  /* istanbul ignore next -- @preserve */
+  Date.prototype.scheduler = function(t, isDay) {
+    return date_scheduler(this, t, isDay);
+  };
+  /* istanbul ignore next -- @preserve */
+  Date.prototype.diff = function(pre, unit) {
+    return date_diff(this, pre, unit);
+  };
+  /* istanbul ignore next -- @preserve */
+  Date.prototype.format = function() {
+    return formatDate(this);
+  };
+  /* istanbul ignore next -- @preserve */
+  Date.prototype.dueFormat = function(last_review, unit, timeUnit) {
+    return show_diff_message(this, last_review, unit, timeUnit);
+  };
+  function date_scheduler(now, t, isDay) {
+    return new Date(
+      isDay ? TypeConvert.time(now).getTime() + t * 24 * 60 * 60 * 1e3 : TypeConvert.time(now).getTime() + t * 60 * 1e3
+    );
+  }
+  function date_diff(now, pre, unit) {
+    if (!now || !pre) {
+      throw new FSRSValidationError("Invalid date");
+    }
+    const diff = TypeConvert.time(now).getTime() - TypeConvert.time(pre).getTime();
+    let r = 0;
+    switch (unit) {
+      case "days":
+        r = Math.floor(diff / (24 * 60 * 60 * 1e3));
+        break;
+      case "minutes":
+        r = Math.floor(diff / (60 * 1e3));
+        break;
+    }
+    return r;
+  }
+  function formatDate(dateInput) {
+    const date = TypeConvert.time(dateInput);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    return `${year}-${padZero(month)}-${padZero(day)} ${padZero(hours)}:${padZero(
+    minutes
+  )}:${padZero(seconds)}`;
+  }
+  function padZero(num) {
+    return num < 10 ? `0${num}` : `${num}`;
+  }
+  const TIMEUNIT = [60, 60, 24, 31, 12];
+  const TIMEUNITFORMAT = ["second", "min", "hour", "day", "month", "year"];
+  function show_diff_message(due, last_review, unit, timeUnit = TIMEUNITFORMAT) {
+    due = TypeConvert.time(due);
+    last_review = TypeConvert.time(last_review);
+    if (timeUnit.length !== TIMEUNITFORMAT.length) {
+      timeUnit = TIMEUNITFORMAT;
+    }
+    let diff = due.getTime() - last_review.getTime();
+    let i = 0;
+    diff /= 1e3;
+    for (i = 0; i < TIMEUNIT.length; i++) {
+      if (diff < TIMEUNIT[i]) {
+        break;
+      } else {
+        diff /= TIMEUNIT[i];
+      }
+    }
+    return `${Math.floor(diff)}${unit ? timeUnit[i] : ""}`;
+  }
+  /* istanbul ignore next -- @preserve */
+  function fixDate(value) {
+    return TypeConvert.time(value);
+  }
+  /* istanbul ignore next -- @preserve */
+  function fixState(value) {
+    return TypeConvert.state(value);
+  }
+  /* istanbul ignore next -- @preserve */
+  function fixRating(value) {
+    return TypeConvert.rating(value);
+  }
+  const Grades = Object.freeze([
+    Rating.Again,
+    Rating.Hard,
+    Rating.Good,
+    Rating.Easy
+  ]);
+  const FUZZ_RANGES = [
+    {
+      start: 2.5,
+      end: 7,
+      factor: 0.15
+    },
+    {
+      start: 7,
+      end: 20,
+      factor: 0.1
+    },
+    {
+      start: 20,
+      end: Infinity,
+      factor: 0.05
+    }
+  ];
+  function get_fuzz_range(interval, elapsed_days, maximum_interval) {
+    let delta = 1;
+    for (const range of FUZZ_RANGES) {
+      delta += range.factor * Math.max(Math.min(interval, range.end) - range.start, 0);
+    }
+    interval = Math.min(interval, maximum_interval);
+    let min_ivl = Math.max(2, Math.round(interval - delta));
+    const max_ivl = Math.min(Math.round(interval + delta), maximum_interval);
+    if (interval > elapsed_days) {
+      min_ivl = Math.max(min_ivl, elapsed_days + 1);
+    }
+    min_ivl = Math.min(min_ivl, max_ivl);
+    return { min_ivl, max_ivl };
+  }
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+  function roundTo(num, decimals) {
+    const factor = 10 ** decimals;
+    return Math.round(num * factor) / factor;
+  }
+  function dateDiffInDays(last, cur) {
+    const utc1 = Date.UTC(
+      last.getUTCFullYear(),
+      last.getUTCMonth(),
+      last.getUTCDate()
+    );
+    const utc2 = Date.UTC(
+      cur.getUTCFullYear(),
+      cur.getUTCMonth(),
+      cur.getUTCDate()
+    );
+    return Math.floor(
+      (utc2 - utc1) / 864e5
+      /** 1000 * 60 * 60 * 24*/
+    );
+  }
+
+  const ConvertStepUnitToMinutes = (step) => {
+    const unit = step.slice(-1);
+    const value = parseInt(step.slice(0, -1), 10);
+    if (Number.isNaN(value) || !Number.isFinite(value) || value < 0) {
+      throw new FSRSValidationError(`Invalid step value: ${step}`);
+    }
+    switch (unit) {
+      case "m":
+        return value;
+      case "h":
+        return value * 60;
+      case "d":
+        return value * 1440;
+      default:
+        throw new FSRSValidationError(
+          `Invalid step unit: ${step}, expected m/h/d`
+        );
+    }
+  };
+  const BasicLearningStepsStrategy = (params, state, cur_step) => {
+    const learning_steps = state === State.Relearning || state === State.Review ? params.relearning_steps : params.learning_steps;
+    const steps_length = learning_steps.length;
+    if (steps_length === 0 || cur_step >= steps_length) return {};
+    const firstStep = learning_steps[0];
+    const toMinutes = ConvertStepUnitToMinutes;
+    const getAgainInterval = () => {
+      return toMinutes(firstStep);
+    };
+    const getHardInterval = () => {
+      if (steps_length === 1) return Math.round(toMinutes(firstStep) * 1.5);
+      const nextStep = learning_steps[1];
+      return Math.round((toMinutes(firstStep) + toMinutes(nextStep)) / 2);
+    };
+    const getStepInfo = (index) => {
+      if (index < 0 || index >= steps_length) {
+        return null;
+      } else {
+        return learning_steps[index];
+      }
+    };
+    const getGoodMinutes = (step) => {
+      return toMinutes(step);
+    };
+    const result = {};
+    const step_info = getStepInfo(Math.max(0, cur_step));
+    if (state === State.Review) {
+      result[Rating.Again] = {
+        scheduled_minutes: toMinutes(step_info),
+        next_step: 0
+      };
+      return result;
+    } else {
+      result[Rating.Again] = {
+        scheduled_minutes: getAgainInterval(),
+        next_step: 0
+      };
+      result[Rating.Hard] = {
+        scheduled_minutes: getHardInterval(),
+        next_step: cur_step
+      };
+      const next_info = getStepInfo(cur_step + 1);
+      if (next_info) {
+        const nextMin = getGoodMinutes(next_info);
+        if (nextMin) {
+          result[Rating.Good] = {
+            scheduled_minutes: Math.round(nextMin),
+            next_step: cur_step + 1
+          };
+        }
+      }
+    }
+    return result;
+  };
+
+  function DefaultInitSeedStrategy() {
+    const time = this.review_time.getTime();
+    const reps = this.current.reps;
+    const mul = this.current.difficulty * this.current.stability;
+    return `${time}_${reps}_${mul}`;
+  }
+  function GenSeedStrategyWithCardId(card_id_field) {
+    return function() {
+      var _a;
+      const card_id = (_a = Reflect.get(this.current, card_id_field)) != null ? _a : 0;
+      const reps = this.current.reps;
+      return String(card_id + reps || 0);
+    };
+  }
+
+  var StrategyMode = /* @__PURE__ */ ((StrategyMode2) => {
+    StrategyMode2["SCHEDULER"] = "Scheduler";
+    StrategyMode2["LEARNING_STEPS"] = "LearningSteps";
+    StrategyMode2["SEED"] = "Seed";
+    return StrategyMode2;
+  })(StrategyMode || {});
+
+  var __defProp$5 = Object.defineProperty;
+  var __defNormalProp$5 = (obj, key, value) => key in obj ? __defProp$5(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __publicField$5 = (obj, key, value) => __defNormalProp$5(obj, typeof key !== "symbol" ? key + "" : key, value);
+  class AbstractScheduler {
+    // init
+    constructor(card, now, algorithm, strategies) {
+      __publicField$5(this, "last");
+      __publicField$5(this, "current");
+      __publicField$5(this, "review_time");
+      __publicField$5(this, "next", /* @__PURE__ */ new Map());
+      __publicField$5(this, "algorithm");
+      __publicField$5(this, "strategies");
+      __publicField$5(this, "elapsed_days", 0);
+      this.algorithm = algorithm;
+      this.last = TypeConvert.card(card);
+      this.current = TypeConvert.card(card);
+      this.review_time = TypeConvert.time(now);
+      this.strategies = strategies;
+      this.init();
+    }
+    checkGrade(grade) {
+      if (!Number.isFinite(grade) || grade < 1 || grade > 4) {
+        throw new FSRSValidationError(`Invalid grade "${grade}",expected 1-4`);
+      }
+    }
+    init() {
+      const { state, last_review } = this.current;
+      let interval = 0;
+      if (state !== State.New && last_review) {
+        interval = dateDiffInDays(last_review, this.review_time);
+      }
+      this.current.last_review = this.review_time;
+      this.elapsed_days = interval;
+      this.current.elapsed_days = interval;
+      this.current.reps += 1;
+      let seed_strategy = DefaultInitSeedStrategy;
+      if (this.strategies) {
+        const custom_strategy = this.strategies.get(StrategyMode.SEED);
+        if (custom_strategy) {
+          seed_strategy = custom_strategy;
+        }
+      }
+      this.algorithm.seed = seed_strategy.call(this);
+    }
+    preview() {
+      return {
+        [Rating.Again]: this.review(Rating.Again),
+        [Rating.Hard]: this.review(Rating.Hard),
+        [Rating.Good]: this.review(Rating.Good),
+        [Rating.Easy]: this.review(Rating.Easy),
+        [Symbol.iterator]: this.previewIterator.bind(this)
+      };
+    }
+    *previewIterator() {
+      for (const grade of Grades) {
+        yield this.review(grade);
+      }
+    }
+    review(grade) {
+      const { state } = this.last;
+      let item;
+      this.checkGrade(grade);
+      switch (state) {
+        case State.New:
+          item = this.newState(grade);
+          break;
+        case State.Learning:
+        case State.Relearning:
+          item = this.learningState(grade);
+          break;
+        case State.Review:
+          item = this.reviewState(grade);
+          break;
+      }
+      return item;
+    }
+    buildLog(rating) {
+      const { last_review, due, elapsed_days } = this.last;
+      return {
+        rating,
+        state: this.current.state,
+        due: last_review || due,
+        stability: this.current.stability,
+        difficulty: this.current.difficulty,
+        elapsed_days: this.elapsed_days,
+        last_elapsed_days: elapsed_days,
+        scheduled_days: this.current.scheduled_days,
+        learning_steps: this.current.learning_steps,
+        review: this.review_time
+      };
+    }
+  }
+
+  var __defProp$4 = Object.defineProperty;
+  var __defNormalProp$4 = (obj, key, value) => key in obj ? __defProp$4(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __publicField$4 = (obj, key, value) => __defNormalProp$4(obj, typeof key !== "symbol" ? key + "" : key, value);
+  class Alea {
+    constructor(seed) {
+      __publicField$4(this, "c");
+      __publicField$4(this, "s0");
+      __publicField$4(this, "s1");
+      __publicField$4(this, "s2");
+      const mash = Mash();
+      this.c = 1;
+      this.s0 = mash(" ");
+      this.s1 = mash(" ");
+      this.s2 = mash(" ");
+      if (seed == null) seed = Date.now();
+      this.s0 -= mash(seed);
+      if (this.s0 < 0) this.s0 += 1;
+      this.s1 -= mash(seed);
+      if (this.s1 < 0) this.s1 += 1;
+      this.s2 -= mash(seed);
+      if (this.s2 < 0) this.s2 += 1;
+    }
+    next() {
+      const t = 2091639 * this.s0 + this.c * 23283064365386963e-26;
+      this.s0 = this.s1;
+      this.s1 = this.s2;
+      this.c = t | 0;
+      this.s2 = t - this.c;
+      return this.s2;
+    }
+    set state(state) {
+      this.c = state.c;
+      this.s0 = state.s0;
+      this.s1 = state.s1;
+      this.s2 = state.s2;
+    }
+    get state() {
+      return {
+        c: this.c,
+        s0: this.s0,
+        s1: this.s1,
+        s2: this.s2
+      };
+    }
+  }
+  function Mash() {
+    let n = 4022871197;
+    return function mash(data) {
+      data = String(data);
+      for (let i = 0; i < data.length; i++) {
+        n += data.charCodeAt(i);
+        let h = 0.02519603282416938 * n;
+        n = h >>> 0;
+        h -= n;
+        h *= n;
+        n = h >>> 0;
+        h -= n;
+        n += h * 4294967296;
+      }
+      return (n >>> 0) * 23283064365386963e-26;
+    };
+  }
+  function alea(seed) {
+    const xg = new Alea(seed);
+    const prng = () => xg.next();
+    prng.int32 = () => xg.next() * 4294967296 | 0;
+    prng.double = () => prng() + (prng() * 2097152 | 0) * 11102230246251565e-32;
+    prng.state = () => xg.state;
+    prng.importState = (state) => {
+      xg.state = state;
+      return prng;
+    };
+    return prng;
+  }
+
+  const version="5.4.2";
+
+  const default_request_retention = 0.9;
+  const default_maximum_interval = 36500;
+  const default_enable_fuzz = false;
+  const default_enable_short_term = true;
+  const default_learning_steps = Object.freeze([
+    "1m",
+    "10m"
+  ]);
+  const default_relearning_steps = Object.freeze([
+    "10m"
+  ]);
+  const FSRSVersion = `v${version} using FSRS-6.0`;
+  const S_MIN = 1e-3;
+  const S_MAX = 36500;
+  const INIT_S_MAX = 100;
+  const FSRS5_DEFAULT_DECAY = 0.5;
+  const FSRS6_DEFAULT_DECAY = 0.1542;
+  const default_w = Object.freeze([
+    0.212,
+    1.2931,
+    2.3065,
+    8.2956,
+    6.4133,
+    0.8334,
+    3.0194,
+    1e-3,
+    1.8722,
+    0.1666,
+    0.796,
+    1.4835,
+    0.0614,
+    0.2629,
+    1.6483,
+    0.6014,
+    1.8729,
+    0.5425,
+    0.0912,
+    0.0658,
+    FSRS6_DEFAULT_DECAY
+  ]);
+  const W17_W18_Ceiling = 2;
+  const CLAMP_PARAMETERS = (w17_w18_ceiling, enable_short_term = default_enable_short_term) => [
+    [S_MIN, INIT_S_MAX],
+    [S_MIN, INIT_S_MAX],
+    [S_MIN, INIT_S_MAX],
+    [S_MIN, INIT_S_MAX],
+    [1, 10],
+    [1e-3, 4],
+    [1e-3, 4],
+    [1e-3, 0.75],
+    [0, 4.5],
+    [0, 0.8],
+    [1e-3, 3.5],
+    [1e-3, 5],
+    [1e-3, 0.25],
+    [1e-3, 0.9],
+    [0, 4],
+    [0, 1],
+    [1, 6],
+    [0, w17_w18_ceiling],
+    [0, w17_w18_ceiling],
+    [
+      enable_short_term ? 0.01 : 0,
+      0.8
+    ],
+    [0.1, 0.8]
+  ];
+
+  const clipParameters = (parameters, numRelearningSteps, enableShortTerm = default_enable_short_term) => {
+    const clip = CLAMP_PARAMETERS(W17_W18_Ceiling, enableShortTerm).slice(
+      0,
+      parameters.length
+    );
+    if (Math.max(0, numRelearningSteps) > 1) {
+      const w11 = clamp(parameters[11] || 0, clip[11][0], clip[11][1]);
+      const w13 = clamp(parameters[13] || 0, clip[13][0], clip[13][1]);
+      const w14 = clamp(parameters[14] || 0, clip[14][0], clip[14][1]);
+      const value = -(Math.log(w11) + Math.log(Math.pow(2, w13) - 1) + w14 * 0.3) / numRelearningSteps;
+      const w17_w18_ceiling = clamp(
+        roundTo(Math.sqrt(Math.max(value, 0)), 8),
+        0.01,
+        W17_W18_Ceiling
+      );
+      if (clip[17]) clip[17] = [clip[17][0], w17_w18_ceiling];
+      if (clip[18]) clip[18] = [clip[18][0], w17_w18_ceiling];
+    }
+    return clip.map(
+      ([min, max], index) => clamp(parameters[index] || 0, min, max)
+    );
+  };
+  const checkParameters = (parameters) => {
+    const invalid = parameters.find((param) => !Number.isFinite(param));
+    if (invalid !== void 0) {
+      throw new FSRSValidationError(
+        `Non-finite or NaN value in parameters ${parameters}`
+      );
+    } else if (![17, 19, 21].includes(parameters.length)) {
+      throw new FSRSValidationError(
+        `Invalid parameter length: ${parameters.length}. Must be 17, 19 or 21 for FSRSv4, 5 and 6 respectively.`
+      );
+    }
+    return parameters;
+  };
+  const migrateParameters = (parameters, numRelearningSteps = 0, enableShortTerm = default_enable_short_term) => {
+    if (parameters === void 0) {
+      return [...default_w];
+    }
+    switch (parameters.length) {
+      case 21:
+        return clipParameters(
+          Array.from(parameters),
+          numRelearningSteps,
+          enableShortTerm
+        );
+      case 19:
+        console.debug("[FSRS-6]auto fill w from 19 to 21 length");
+        return clipParameters(
+          Array.from(parameters),
+          numRelearningSteps,
+          enableShortTerm
+        ).concat([0, FSRS5_DEFAULT_DECAY]);
+      case 17: {
+        const w = clipParameters(
+          Array.from(parameters),
+          numRelearningSteps,
+          enableShortTerm
+        );
+        w[4] = +(w[5] * 2 + w[4]).toFixed(8);
+        w[5] = +(Math.log(w[5] * 3 + 1) / 3).toFixed(8);
+        w[6] = +(w[6] + 0.5).toFixed(8);
+        console.debug("[FSRS-6]auto fill w from 17 to 21 length");
+        return w.concat([0, 0, 0, FSRS5_DEFAULT_DECAY]);
+      }
+      default:
+        console.warn("[FSRS]Invalid parameters length, using default parameters");
+        return [...default_w];
+    }
+  };
+  const generatorParameters = (props) => {
+    var _a, _b;
+    const learning_steps = Array.isArray(props == null ? void 0 : props.learning_steps) ? props.learning_steps : default_learning_steps;
+    const relearning_steps = Array.isArray(props == null ? void 0 : props.relearning_steps) ? props.relearning_steps : default_relearning_steps;
+    const enable_short_term = (_a = props == null ? void 0 : props.enable_short_term) != null ? _a : default_enable_short_term;
+    const w = migrateParameters(
+      props == null ? void 0 : props.w,
+      relearning_steps.length,
+      enable_short_term
+    );
+    return {
+      request_retention: (props == null ? void 0 : props.request_retention) || default_request_retention,
+      maximum_interval: (props == null ? void 0 : props.maximum_interval) || default_maximum_interval,
+      w,
+      enable_fuzz: (_b = props == null ? void 0 : props.enable_fuzz) != null ? _b : default_enable_fuzz,
+      enable_short_term,
+      learning_steps,
+      relearning_steps
+    };
+  };
+  function createEmptyCard(now, afterHandler) {
+    const emptyCard = {
+      due: now ? TypeConvert.time(now) : /* @__PURE__ */ new Date(),
+      stability: 0,
+      difficulty: 0,
+      elapsed_days: 0,
+      scheduled_days: 0,
+      reps: 0,
+      lapses: 0,
+      learning_steps: 0,
+      state: State.New,
+      last_review: void 0
+    };
+    if (afterHandler && typeof afterHandler === "function") {
+      return afterHandler(emptyCard);
+    } else {
+      return emptyCard;
+    }
+  }
+
+  var __defProp$3 = Object.defineProperty;
+  var __defNormalProp$3 = (obj, key, value) => key in obj ? __defProp$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __publicField$3 = (obj, key, value) => __defNormalProp$3(obj, typeof key !== "symbol" ? key + "" : key, value);
+  const computeDecayFactor = (decayOrParams) => {
+    const decay = typeof decayOrParams === "number" ? -decayOrParams : -decayOrParams[20];
+    const factor = Math.exp(Math.pow(decay, -1) * Math.log(0.9)) - 1;
+    return { decay, factor: roundTo(factor, 8) };
+  };
+  function forgetting_curve(decayOrParams, elapsed_days, stability) {
+    const { decay, factor } = computeDecayFactor(decayOrParams);
+    return roundTo(Math.pow(1 + factor * elapsed_days / stability, decay), 8);
+  }
+  class FSRSAlgorithm {
+    constructor(params) {
+      __publicField$3(this, "param");
+      __publicField$3(this, "intervalModifier");
+      __publicField$3(this, "_seed");
+      __publicField$3(this, "prepare_parameters", (params) => {
+        const generated = generatorParameters(params);
+        generated.w = clipParameters(
+          Array.from(generated.w),
+          generated.relearning_steps.length,
+          generated.enable_short_term
+        );
+        return generated;
+      });
+      /**
+       * The formula used is :
+       * $$R(t,S) = (1 + \text{FACTOR} \times \frac{t}{9 \cdot S})^{\text{DECAY}}$$
+       * @param {number} elapsed_days t days since the last review
+       * @param {number} stability Stability (interval when R=90%)
+       * @return {number} r Retrievability (probability of recall)
+       */
+      __publicField$3(this, "forgetting_curve");
+      this.param = new Proxy(
+        this.prepare_parameters(params),
+        this.params_handler_proxy()
+      );
+      this.intervalModifier = this.calculate_interval_modifier(
+        this.param.request_retention
+      );
+      this.forgetting_curve = forgetting_curve.bind(this, this.param.w);
+    }
+    get interval_modifier() {
+      return this.intervalModifier;
+    }
+    set seed(seed) {
+      this._seed = seed;
+    }
+    /**
+     * @see https://github.com/open-spaced-repetition/fsrs4anki/wiki/The-Algorithm#fsrs-5
+     *
+     * The formula used is: $$I(r,s) = (r^{\frac{1}{DECAY}} - 1) / FACTOR \times s$$
+     * @param request_retention 0<request_retention<=1,Requested retention rate
+     * @throws {Error} Requested retention rate should be in the range (0,1]
+     */
+    calculate_interval_modifier(request_retention) {
+      if (request_retention <= 0 || request_retention > 1) {
+        throw new FSRSValidationError(
+          "Requested retention rate should be in the range (0,1]"
+        );
+      }
+      const { decay, factor } = computeDecayFactor(this.param.w);
+      return roundTo((Math.pow(request_retention, 1 / decay) - 1) / factor, 8);
+    }
+    /**
+     * Get the parameters of the algorithm.
+     */
+    get parameters() {
+      return this.param;
+    }
+    /**
+     * Set the parameters of the algorithm.
+     * @param params Partial<FSRSParameters>
+     */
+    set parameters(params) {
+      this.update_parameters(params);
+    }
+    params_handler_proxy() {
+      const _this = this;
+      return {
+        set: function(target, prop, value) {
+          if (prop === "request_retention" && Number.isFinite(value)) {
+            _this.intervalModifier = _this.calculate_interval_modifier(
+              Number(value)
+            );
+          } else if (prop === "w") {
+            value = migrateParameters(
+              value,
+              target.relearning_steps.length,
+              target.enable_short_term
+            );
+            value = clipParameters(
+              Array.from(value),
+              target.relearning_steps.length,
+              target.enable_short_term
+            );
+            _this.forgetting_curve = forgetting_curve.bind(this, value);
+            _this.intervalModifier = _this.calculate_interval_modifier(
+              Number(target.request_retention)
+            );
+          }
+          Reflect.set(target, prop, value);
+          return true;
+        }
+      };
+    }
+    update_parameters(params) {
+      const _params = this.prepare_parameters(params);
+      for (const key in _params) {
+        const paramKey = key;
+        this.param[paramKey] = _params[paramKey];
+      }
+    }
+    /**
+       * The formula used is :
+       * $$ S_0(G) = w_{G-1}$$
+       * $$S_0 = \max \lbrace S_0,0.1\rbrace $$
+    
+       * @param g Grade (rating at Anki) [1.again,2.hard,3.good,4.easy]
+       * @return Stability (interval when R=90%)
+       */
+    init_stability(g) {
+      return Math.max(this.param.w[g - 1], 0.1);
+    }
+    /**
+     * The formula used is :
+     * $$D_0(G) = w_4 - e^{(G-1) \cdot w_5} + 1 $$
+     * $$D_0 = \min \lbrace \max \lbrace D_0(G),1 \rbrace,10 \rbrace$$
+     * where the $$D_0(1)=w_4$$ when the first rating is good.
+     *
+     * @param {Grade} g Grade (rating at Anki) [1.again,2.hard,3.good,4.easy]
+     * @return {number} Difficulty $$D \in [1,10]$$
+     */
+    init_difficulty(g) {
+      const w = this.param.w;
+      const d = w[4] - Math.exp((g - 1) * w[5]) + 1;
+      return roundTo(d, 8);
+    }
+    /**
+     * If fuzzing is disabled or ivl is less than 2.5, it returns the original interval.
+     * @param {number} ivl - The interval to be fuzzed.
+     * @param {number} elapsed_days t days since the last review
+     * @return {number} - The fuzzed interval.
+     **/
+    apply_fuzz(ivl, elapsed_days) {
+      if (!this.param.enable_fuzz || ivl < 2.5) return Math.round(ivl);
+      const generator = alea(this._seed);
+      const fuzz_factor = generator();
+      const { min_ivl, max_ivl } = get_fuzz_range(
+        ivl,
+        elapsed_days,
+        this.param.maximum_interval
+      );
+      return Math.floor(fuzz_factor * (max_ivl - min_ivl + 1) + min_ivl);
+    }
+    /**
+     *   @see The formula used is : {@link FSRSAlgorithm.calculate_interval_modifier}
+     *   @param {number} s - Stability (interval when R=90%)
+     *   @param {number} elapsed_days t days since the last review
+     */
+    next_interval(s, elapsed_days) {
+      const newInterval = Math.min(
+        Math.max(1, Math.round(s * this.intervalModifier)),
+        this.param.maximum_interval
+      );
+      return this.apply_fuzz(newInterval, elapsed_days);
+    }
+    /**
+     * @see https://github.com/open-spaced-repetition/fsrs4anki/issues/697
+     */
+    linear_damping(delta_d, old_d) {
+      return roundTo(delta_d * (10 - old_d) / 9, 8);
+    }
+    /**
+     * The formula used is :
+     * $$\text{delta}_d = -w_6 \cdot (g - 3)$$
+     * $$\text{next}_d = D + \text{linear damping}(\text{delta}_d , D)$$
+     * $$D^\prime(D,R) = w_7 \cdot D_0(4) +(1 - w_7) \cdot \text{next}_d$$
+     * @param {number} d Difficulty $$D \in [1,10]$$
+     * @param {Grade} g Grade (rating at Anki) [1.again,2.hard,3.good,4.easy]
+     * @return {number} $$\text{next}_D$$
+     */
+    next_difficulty(d, g) {
+      const delta_d = -this.param.w[6] * (g - 3);
+      const next_d = d + this.linear_damping(delta_d, d);
+      return clamp(
+        this.mean_reversion(this.init_difficulty(Rating.Easy), next_d),
+        1,
+        10
+      );
+    }
+    /**
+     * The formula used is :
+     * $$w_7 \cdot \text{init} +(1 - w_7) \cdot \text{current}$$
+     * @param {number} init $$w_2 : D_0(3) = w_2 + (R-2) \cdot w_3= w_2$$
+     * @param {number} current $$D - w_6 \cdot (R - 2)$$
+     * @return {number} difficulty
+     */
+    mean_reversion(init, current) {
+      const w = this.param.w;
+      return roundTo(w[7] * init + (1 - w[7]) * current, 8);
+    }
+    /**
+     * The formula used is :
+     * $$S^\prime_r(D,S,R,G) = S\cdot(e^{w_8}\cdot (11-D)\cdot S^{-w_9}\cdot(e^{w_{10}\cdot(1-R)}-1)\cdot w_{15}(\text{if} G=2) \cdot w_{16}(\text{if} G=4)+1)$$
+     * @param {number} d Difficulty D \in [1,10]
+     * @param {number} s Stability (interval when R=90%)
+     * @param {number} r Retrievability (probability of recall)
+     * @param {Grade} g Grade (Rating[0.again,1.hard,2.good,3.easy])
+     * @return {number} S^\prime_r new stability after recall
+     */
+    next_recall_stability(d, s, r, g) {
+      const w = this.param.w;
+      const hard_penalty = Rating.Hard === g ? w[15] : 1;
+      const easy_bound = Rating.Easy === g ? w[16] : 1;
+      return roundTo(
+        clamp(
+          s * (1 + Math.exp(w[8]) * (11 - d) * Math.pow(s, -w[9]) * (Math.exp((1 - r) * w[10]) - 1) * hard_penalty * easy_bound),
+          S_MIN,
+          36500
+        ),
+        8
+      );
+    }
+    /**
+     * The formula used is :
+     * $$S^\prime_f(D,S,R) = w_{11}\cdot D^{-w_{12}}\cdot ((S+1)^{w_{13}}-1) \cdot e^{w_{14}\cdot(1-R)}$$
+     * enable_short_term = true : $$S^\prime_f \in \min \lbrace \max \lbrace S^\prime_f,0.01\rbrace, \frac{S}{e^{w_{17} \cdot w_{18}}} \rbrace$$
+     * enable_short_term = false : $$S^\prime_f \in \min \lbrace \max \lbrace S^\prime_f,0.01\rbrace, S \rbrace$$
+     * @param {number} d Difficulty D \in [1,10]
+     * @param {number} s Stability (interval when R=90%)
+     * @param {number} r Retrievability (probability of recall)
+     * @return {number} S^\prime_f new stability after forgetting
+     */
+    next_forget_stability(d, s, r) {
+      const w = this.param.w;
+      return roundTo(
+        clamp(
+          w[11] * Math.pow(d, -w[12]) * (Math.pow(s + 1, w[13]) - 1) * Math.exp((1 - r) * w[14]),
+          S_MIN,
+          36500
+        ),
+        8
+      );
+    }
+    /**
+     * The formula used is :
+     * $$S^\prime_s(S,G) = S \cdot e^{w_{17} \cdot (G-3+w_{18})}$$
+     * @param {number} s Stability (interval when R=90%)
+     * @param {Grade} g Grade (Rating[0.again,1.hard,2.good,3.easy])
+     */
+    next_short_term_stability(s, g) {
+      const w = this.param.w;
+      const sinc = Math.pow(s, -w[19]) * Math.exp(w[17] * (g - 3 + w[18]));
+      const maskedSinc = g >= Rating.Hard ? Math.max(sinc, 1) : sinc;
+      return roundTo(clamp(s * maskedSinc, S_MIN, 36500), 8);
+    }
+    /**
+     * Calculates the next state of memory based on the current state, time elapsed, and grade.
+     *
+     * @param memory_state - The current state of memory, which can be null.
+     * @param t - The time elapsed since the last review.
+     * @param {Rating} g Grade (Rating[0.Manual,1.Again,2.Hard,3.Good,4.Easy])
+     * @param r - Optional retrievability value. If not provided, it will be calculated.
+     * @returns The next state of memory with updated difficulty and stability.
+     */
+    next_state(memory_state, t, g, r) {
+      const { difficulty: d, stability: s } = memory_state != null ? memory_state : {
+        difficulty: 0,
+        stability: 0
+      };
+      if (t < 0) {
+        throw new FSRSValidationError(`Invalid delta_t "${t}"`);
+      }
+      if (g < 0 || g > 4) {
+        throw new FSRSValidationError(`Invalid grade "${g}"`);
+      }
+      if (d === 0 && s === 0) {
+        return {
+          difficulty: clamp(this.init_difficulty(g), 1, 10),
+          stability: this.init_stability(g)
+        };
+      }
+      if (g === 0) {
+        return {
+          difficulty: d,
+          stability: s
+        };
+      }
+      if (d < 1 || s < S_MIN) {
+        throw new FSRSValidationError(
+          `Invalid memory state { difficulty: ${d}, stability: ${s} }`
+        );
+      }
+      const w = this.param.w;
+      r = typeof r === "number" ? r : this.forgetting_curve(t, s);
+      let new_s;
+      if (t === 0 && this.param.enable_short_term) {
+        new_s = this.next_short_term_stability(s, g);
+      } else if (g === 1) {
+        const s_after_fail = this.next_forget_stability(d, s, r);
+        let [w_17, w_18] = [0, 0];
+        if (this.param.enable_short_term) {
+          w_17 = w[17];
+          w_18 = w[18];
+        }
+        const next_s_min = s / Math.exp(w_17 * w_18);
+        new_s = clamp(roundTo(next_s_min, 8), S_MIN, s_after_fail);
+      } else {
+        new_s = this.next_recall_stability(d, s, r, g);
+      }
+      const new_d = this.next_difficulty(d, g);
+      return { difficulty: new_d, stability: new_s };
+    }
+  }
+
+  var __defProp$2 = Object.defineProperty;
+  var __defNormalProp$2 = (obj, key, value) => key in obj ? __defProp$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __publicField$2 = (obj, key, value) => __defNormalProp$2(obj, key + "" , value);
+  class BasicScheduler extends AbstractScheduler {
+    constructor(card, now, algorithm, strategies) {
+      super(card, now, algorithm, strategies);
+      __publicField$2(this, "learningStepsStrategy");
+      let learningStepStrategy = BasicLearningStepsStrategy;
+      if (this.strategies) {
+        const custom_strategy = this.strategies.get(StrategyMode.LEARNING_STEPS);
+        if (custom_strategy) {
+          learningStepStrategy = custom_strategy;
+        }
+      }
+      this.learningStepsStrategy = learningStepStrategy;
+    }
+    getLearningInfo(card, grade) {
+      var _a, _b, _c, _d;
+      const parameters = this.algorithm.parameters;
+      card.learning_steps = card.learning_steps || 0;
+      const steps_strategy = this.learningStepsStrategy(
+        parameters,
+        card.state,
+        card.learning_steps
+      );
+      const scheduled_minutes = Math.max(
+        0,
+        (_b = (_a = steps_strategy[grade]) == null ? void 0 : _a.scheduled_minutes) != null ? _b : 0
+      );
+      const next_steps = Math.max(0, (_d = (_c = steps_strategy[grade]) == null ? void 0 : _c.next_step) != null ? _d : 0);
+      return {
+        scheduled_minutes,
+        next_steps
+      };
+    }
+    /**
+     * @description This function applies the learning steps based on the current card's state and grade.
+     */
+    applyLearningSteps(nextCard, grade, to_state) {
+      const { scheduled_minutes, next_steps } = this.getLearningInfo(
+        this.current,
+        grade
+      );
+      if (scheduled_minutes > 0 && scheduled_minutes < 1440) {
+        nextCard.learning_steps = next_steps;
+        nextCard.scheduled_days = 0;
+        nextCard.state = to_state;
+        nextCard.due = date_scheduler(
+          this.review_time,
+          Math.round(scheduled_minutes),
+          false
+          /** true:days false: minute */
+        );
+      } else {
+        nextCard.state = State.Review;
+        if (scheduled_minutes >= 1440) {
+          nextCard.learning_steps = next_steps;
+          nextCard.due = date_scheduler(
+            this.review_time,
+            Math.round(scheduled_minutes),
+            false
+            /** true:days false: minute */
+          );
+          nextCard.scheduled_days = Math.floor(scheduled_minutes / 1440);
+        } else {
+          nextCard.learning_steps = 0;
+          const interval = this.algorithm.next_interval(
+            nextCard.stability,
+            this.elapsed_days
+          );
+          nextCard.scheduled_days = interval;
+          nextCard.due = date_scheduler(this.review_time, interval, true);
+        }
+      }
+    }
+    newState(grade) {
+      const exist = this.next.get(grade);
+      if (exist) {
+        return exist;
+      }
+      const next = this.next_ds(this.elapsed_days, grade);
+      this.applyLearningSteps(next, grade, State.Learning);
+      const item = {
+        card: next,
+        log: this.buildLog(grade)
+      };
+      this.next.set(grade, item);
+      return item;
+    }
+    learningState(grade) {
+      const exist = this.next.get(grade);
+      if (exist) {
+        return exist;
+      }
+      const next = this.next_ds(this.elapsed_days, grade);
+      this.applyLearningSteps(
+        next,
+        grade,
+        this.last.state
+        /** Learning or Relearning */
+      );
+      const item = {
+        card: next,
+        log: this.buildLog(grade)
+      };
+      this.next.set(grade, item);
+      return item;
+    }
+    reviewState(grade) {
+      const exist = this.next.get(grade);
+      if (exist) {
+        return exist;
+      }
+      const interval = this.elapsed_days;
+      const retrievability = this.algorithm.forgetting_curve(
+        interval,
+        this.current.stability
+      );
+      const next_again = this.next_ds(interval, Rating.Again, retrievability);
+      const next_hard = this.next_ds(interval, Rating.Hard, retrievability);
+      const next_good = this.next_ds(interval, Rating.Good, retrievability);
+      const next_easy = this.next_ds(interval, Rating.Easy, retrievability);
+      this.next_interval(next_hard, next_good, next_easy, interval);
+      this.next_state(next_hard, next_good, next_easy);
+      this.applyLearningSteps(next_again, Rating.Again, State.Relearning);
+      next_again.lapses += 1;
+      const item_again = {
+        card: next_again,
+        log: this.buildLog(Rating.Again)
+      };
+      const item_hard = {
+        card: next_hard,
+        log: super.buildLog(Rating.Hard)
+      };
+      const item_good = {
+        card: next_good,
+        log: super.buildLog(Rating.Good)
+      };
+      const item_easy = {
+        card: next_easy,
+        log: super.buildLog(Rating.Easy)
+      };
+      this.next.set(Rating.Again, item_again);
+      this.next.set(Rating.Hard, item_hard);
+      this.next.set(Rating.Good, item_good);
+      this.next.set(Rating.Easy, item_easy);
+      return this.next.get(grade);
+    }
+    /**
+     * Review next_ds
+     */
+    next_ds(t, g, r) {
+      const next_state = this.algorithm.next_state(
+        {
+          difficulty: this.current.difficulty,
+          stability: this.current.stability
+        },
+        t,
+        g,
+        r
+      );
+      const card = TypeConvert.card(this.current);
+      card.difficulty = next_state.difficulty;
+      card.stability = next_state.stability;
+      return card;
+    }
+    /**
+     * Review next_interval
+     */
+    next_interval(next_hard, next_good, next_easy, interval) {
+      let hard_interval, good_interval;
+      hard_interval = this.algorithm.next_interval(next_hard.stability, interval);
+      good_interval = this.algorithm.next_interval(next_good.stability, interval);
+      hard_interval = Math.min(hard_interval, good_interval);
+      good_interval = Math.max(good_interval, hard_interval + 1);
+      const easy_interval = Math.max(
+        this.algorithm.next_interval(next_easy.stability, interval),
+        good_interval + 1
+      );
+      next_hard.scheduled_days = hard_interval;
+      next_hard.due = date_scheduler(this.review_time, hard_interval, true);
+      next_good.scheduled_days = good_interval;
+      next_good.due = date_scheduler(this.review_time, good_interval, true);
+      next_easy.scheduled_days = easy_interval;
+      next_easy.due = date_scheduler(this.review_time, easy_interval, true);
+    }
+    /**
+     * Review next_state
+     */
+    next_state(next_hard, next_good, next_easy) {
+      next_hard.state = State.Review;
+      next_hard.learning_steps = 0;
+      next_good.state = State.Review;
+      next_good.learning_steps = 0;
+      next_easy.state = State.Review;
+      next_easy.learning_steps = 0;
+    }
+  }
+
+  class LongTermScheduler extends AbstractScheduler {
+    newState(grade) {
+      const exist = this.next.get(grade);
+      if (exist) {
+        return exist;
+      }
+      this.current.scheduled_days = 0;
+      this.current.elapsed_days = 0;
+      const first_interval = 0;
+      const next_again = this.next_ds(first_interval, Rating.Again);
+      const next_hard = this.next_ds(first_interval, Rating.Hard);
+      const next_good = this.next_ds(first_interval, Rating.Good);
+      const next_easy = this.next_ds(first_interval, Rating.Easy);
+      this.next_interval(
+        next_again,
+        next_hard,
+        next_good,
+        next_easy,
+        first_interval
+      );
+      this.next_state(next_again, next_hard, next_good, next_easy);
+      this.update_next(next_again, next_hard, next_good, next_easy);
+      return this.next.get(grade);
+    }
+    next_ds(t, g, r) {
+      const next_state = this.algorithm.next_state(
+        {
+          difficulty: this.current.difficulty,
+          stability: this.current.stability
+        },
+        t,
+        g,
+        r
+      );
+      const card = TypeConvert.card(this.current);
+      card.difficulty = next_state.difficulty;
+      card.stability = next_state.stability;
+      return card;
+    }
+    /**
+     * @see https://github.com/open-spaced-repetition/ts-fsrs/issues/98#issuecomment-2241923194
+     */
+    learningState(grade) {
+      return this.reviewState(grade);
+    }
+    reviewState(grade) {
+      const exist = this.next.get(grade);
+      if (exist) {
+        return exist;
+      }
+      const interval = this.elapsed_days;
+      const retrievability = this.algorithm.forgetting_curve(
+        interval,
+        this.current.stability
+      );
+      const next_again = this.next_ds(interval, Rating.Again, retrievability);
+      const next_hard = this.next_ds(interval, Rating.Hard, retrievability);
+      const next_good = this.next_ds(interval, Rating.Good, retrievability);
+      const next_easy = this.next_ds(interval, Rating.Easy, retrievability);
+      this.next_interval(next_again, next_hard, next_good, next_easy, interval);
+      this.next_state(next_again, next_hard, next_good, next_easy);
+      next_again.lapses += 1;
+      this.update_next(next_again, next_hard, next_good, next_easy);
+      return this.next.get(grade);
+    }
+    /**
+     * Review/New next_interval
+     */
+    next_interval(next_again, next_hard, next_good, next_easy, interval) {
+      let again_interval, hard_interval, good_interval, easy_interval;
+      again_interval = this.algorithm.next_interval(
+        next_again.stability,
+        interval
+      );
+      hard_interval = this.algorithm.next_interval(next_hard.stability, interval);
+      good_interval = this.algorithm.next_interval(next_good.stability, interval);
+      easy_interval = this.algorithm.next_interval(next_easy.stability, interval);
+      again_interval = Math.min(again_interval, hard_interval);
+      hard_interval = Math.max(hard_interval, again_interval + 1);
+      good_interval = Math.max(good_interval, hard_interval + 1);
+      easy_interval = Math.max(easy_interval, good_interval + 1);
+      next_again.scheduled_days = again_interval;
+      next_again.due = date_scheduler(this.review_time, again_interval, true);
+      next_hard.scheduled_days = hard_interval;
+      next_hard.due = date_scheduler(this.review_time, hard_interval, true);
+      next_good.scheduled_days = good_interval;
+      next_good.due = date_scheduler(this.review_time, good_interval, true);
+      next_easy.scheduled_days = easy_interval;
+      next_easy.due = date_scheduler(this.review_time, easy_interval, true);
+    }
+    /**
+     * Review/New next_state
+     */
+    next_state(next_again, next_hard, next_good, next_easy) {
+      next_again.state = State.Review;
+      next_again.learning_steps = 0;
+      next_hard.state = State.Review;
+      next_hard.learning_steps = 0;
+      next_good.state = State.Review;
+      next_good.learning_steps = 0;
+      next_easy.state = State.Review;
+      next_easy.learning_steps = 0;
+    }
+    update_next(next_again, next_hard, next_good, next_easy) {
+      const item_again = {
+        card: next_again,
+        log: this.buildLog(Rating.Again)
+      };
+      const item_hard = {
+        card: next_hard,
+        log: super.buildLog(Rating.Hard)
+      };
+      const item_good = {
+        card: next_good,
+        log: super.buildLog(Rating.Good)
+      };
+      const item_easy = {
+        card: next_easy,
+        log: super.buildLog(Rating.Easy)
+      };
+      this.next.set(Rating.Again, item_again);
+      this.next.set(Rating.Hard, item_hard);
+      this.next.set(Rating.Good, item_good);
+      this.next.set(Rating.Easy, item_easy);
+    }
+  }
+
+  var __defProp$1 = Object.defineProperty;
+  var __defProps$1 = Object.defineProperties;
+  var __getOwnPropDescs$1 = Object.getOwnPropertyDescriptors;
+  var __getOwnPropSymbols$1 = Object.getOwnPropertySymbols;
+  var __hasOwnProp$1 = Object.prototype.hasOwnProperty;
+  var __propIsEnum$1 = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp$1 = (obj, key, value) => key in obj ? __defProp$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues$1 = (a, b) => {
+    for (var prop in b || (b = {}))
+      if (__hasOwnProp$1.call(b, prop))
+        __defNormalProp$1(a, prop, b[prop]);
+    if (__getOwnPropSymbols$1)
+      for (var prop of __getOwnPropSymbols$1(b)) {
+        if (__propIsEnum$1.call(b, prop))
+          __defNormalProp$1(a, prop, b[prop]);
+      }
+    return a;
+  };
+  var __spreadProps$1 = (a, b) => __defProps$1(a, __getOwnPropDescs$1(b));
+  var __publicField$1 = (obj, key, value) => __defNormalProp$1(obj, key + "" , value);
+  class Reschedule {
+    /**
+     * Creates an instance of the `Reschedule` class.
+     * @param fsrs - An instance of the FSRS class used for scheduling.
+     */
+    constructor(fsrs) {
+      __publicField$1(this, "fsrs");
+      this.fsrs = fsrs;
+    }
+    /**
+     * Replays a review for a card and determines the next review date based on the given rating.
+     * @param card - The card being reviewed.
+     * @param reviewed - The date the card was reviewed.
+     * @param rating - The grade given to the card during the review.
+     * @returns A `RecordLogItem` containing the updated card and review log.
+     */
+    replay(card, reviewed, rating) {
+      return this.fsrs.next(card, reviewed, rating);
+    }
+    /**
+     * Processes a manual review for a card, allowing for custom state, stability, difficulty, and due date.
+     * @param card - The card being reviewed.
+     * @param state - The state of the card after the review.
+     * @param reviewed - The date the card was reviewed.
+     * @param elapsed_days - The number of days since the last review.
+     * @param stability - (Optional) The stability of the card.
+     * @param difficulty - (Optional) The difficulty of the card.
+     * @param due - (Optional) The due date for the next review.
+     * @returns A `RecordLogItem` containing the updated card and review log.
+     * @throws Will throw an error if the state or due date is not provided when required.
+     */
+    handleManualRating(card, state, reviewed, elapsed_days, stability, difficulty, due) {
+      if (typeof state === "undefined") {
+        throw new FSRSValidationError(
+          "reschedule: state is required for manual rating"
+        );
+      }
+      let log;
+      let next_card;
+      if (state === State.New) {
+        log = {
+          rating: Rating.Manual,
+          state,
+          due: due != null ? due : reviewed,
+          stability: card.stability,
+          difficulty: card.difficulty,
+          elapsed_days,
+          last_elapsed_days: card.elapsed_days,
+          scheduled_days: card.scheduled_days,
+          learning_steps: card.learning_steps,
+          review: reviewed
+        };
+        next_card = createEmptyCard(reviewed);
+        next_card.last_review = reviewed;
+      } else {
+        if (typeof due === "undefined") {
+          throw new FSRSValidationError(
+            "reschedule: due is required for manual rating"
+          );
+        }
+        const scheduled_days = date_diff(due, reviewed, "days");
+        log = {
+          rating: Rating.Manual,
+          state: card.state,
+          due: card.last_review || card.due,
+          stability: card.stability,
+          difficulty: card.difficulty,
+          elapsed_days,
+          last_elapsed_days: card.elapsed_days,
+          scheduled_days: card.scheduled_days,
+          learning_steps: card.learning_steps,
+          review: reviewed
+        };
+        next_card = __spreadProps$1(__spreadValues$1({}, card), {
+          state,
+          due,
+          last_review: reviewed,
+          stability: stability || card.stability,
+          difficulty: difficulty || card.difficulty,
+          elapsed_days,
+          scheduled_days,
+          reps: card.reps + 1
+        });
+      }
+      return { card: next_card, log };
+    }
+    /**
+     * Reschedules a card based on its review history.
+     *
+     * @param current_card - The card to be rescheduled.
+     * @param reviews - An array of review history objects.
+     * @returns An array of record log items representing the rescheduling process.
+     */
+    reschedule(current_card, reviews) {
+      const collections = [];
+      let cur_card = createEmptyCard(current_card.due);
+      for (const review of reviews) {
+        let item;
+        review.review = TypeConvert.time(review.review);
+        if (review.rating === Rating.Manual) {
+          let interval = 0;
+          if (cur_card.state !== State.New && cur_card.last_review) {
+            interval = date_diff(review.review, cur_card.last_review, "days");
+          }
+          item = this.handleManualRating(
+            cur_card,
+            review.state,
+            review.review,
+            interval,
+            review.stability,
+            review.difficulty,
+            review.due ? TypeConvert.time(review.due) : void 0
+          );
+        } else {
+          item = this.replay(cur_card, review.review, review.rating);
+        }
+        collections.push(item);
+        cur_card = item.card;
+      }
+      return collections;
+    }
+    calculateManualRecord(current_card, now, record_log_item, update_memory) {
+      if (!record_log_item) {
+        return null;
+      }
+      const { card: reschedule_card, log } = record_log_item;
+      const cur_card = TypeConvert.card(current_card);
+      if (cur_card.due.getTime() === reschedule_card.due.getTime()) {
+        return null;
+      }
+      cur_card.scheduled_days = date_diff(
+        reschedule_card.due,
+        cur_card.due,
+        "days"
+      );
+      return this.handleManualRating(
+        cur_card,
+        reschedule_card.state,
+        TypeConvert.time(now),
+        log.elapsed_days,
+        update_memory ? reschedule_card.stability : void 0,
+        update_memory ? reschedule_card.difficulty : void 0,
+        reschedule_card.due
+      );
+    }
+  }
+
+  var __defProp = Object.defineProperty;
+  var __defProps = Object.defineProperties;
+  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __propIsEnum = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues = (a, b) => {
+    for (var prop in b || (b = {}))
+      if (__hasOwnProp.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    if (__getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(b)) {
+        if (__propIsEnum.call(b, prop))
+          __defNormalProp(a, prop, b[prop]);
+      }
+    return a;
+  };
+  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+  var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  function applyAfterHandler(value, afterHandler) {
+    return typeof afterHandler === "function" ? afterHandler(value) : value;
+  }
+  class FSRS extends FSRSAlgorithm {
+    constructor(param) {
+      super(param);
+      __publicField(this, "strategyHandler", /* @__PURE__ */ new Map());
+      __publicField(this, "Scheduler");
+      const { enable_short_term } = this.parameters;
+      this.Scheduler = enable_short_term ? BasicScheduler : LongTermScheduler;
+    }
+    params_handler_proxy() {
+      const _this = this;
+      return {
+        set: function(target, prop, value) {
+          if (prop === "request_retention" && Number.isFinite(value)) {
+            _this.intervalModifier = _this.calculate_interval_modifier(
+              Number(value)
+            );
+          } else if (prop === "enable_short_term") {
+            _this.Scheduler = value === true ? BasicScheduler : LongTermScheduler;
+          } else if (prop === "w") {
+            value = migrateParameters(
+              value,
+              target.relearning_steps.length,
+              target.enable_short_term
+            );
+            value = clipParameters(
+              Array.from(value),
+              target.relearning_steps.length,
+              target.enable_short_term
+            );
+            _this.forgetting_curve = forgetting_curve.bind(this, value);
+            _this.intervalModifier = _this.calculate_interval_modifier(
+              Number(target.request_retention)
+            );
+          }
+          Reflect.set(target, prop, value);
+          return true;
+        }
+      };
+    }
+    useStrategy(mode, handler) {
+      this.strategyHandler.set(mode, handler);
+      return this;
+    }
+    clearStrategy(mode) {
+      if (mode) {
+        this.strategyHandler.delete(mode);
+      } else {
+        this.strategyHandler.clear();
+      }
+      return this;
+    }
+    getScheduler(card, now) {
+      const schedulerStrategy = this.strategyHandler.get(
+        StrategyMode.SCHEDULER
+      );
+      const Scheduler = schedulerStrategy || this.Scheduler;
+      const instance = new Scheduler(card, now, this, this.strategyHandler);
+      return instance;
+    }
+    /**
+     * Display the collection of cards and logs for the four scenarios after scheduling the card at the current time.
+     * @param card Card to be processed
+     * @param now Current time or scheduled time
+     * @param afterHandler Convert the result to another type. (Optional)
+     * @example
+     * ```typescript
+     * const card: Card = createEmptyCard(new Date());
+     * const f = fsrs();
+     * const recordLog = f.repeat(card, new Date());
+     * ```
+     * @example
+     * ```typescript
+     * interface RevLogUnchecked
+     *   extends Omit<ReviewLog, "due" | "review" | "state" | "rating"> {
+     *   cid: string;
+     *   due: Date | number;
+     *   state: StateType;
+     *   review: Date | number;
+     *   rating: RatingType;
+     * }
+     *
+     * interface RepeatRecordLog {
+     *   card: CardUnChecked; //see method: createEmptyCard
+     *   log: RevLogUnchecked;
+     * }
+     *
+     * function repeatAfterHandler(recordLog: RecordLog) {
+     *     const record: { [key in Grade]: RepeatRecordLog } = {} as {
+     *       [key in Grade]: RepeatRecordLog;
+     *     };
+     *     for (const grade of Grades) {
+     *       record[grade] = {
+     *         card: {
+     *           ...(recordLog[grade].card as Card & { cid: string }),
+     *           due: recordLog[grade].card.due.getTime(),
+     *           state: State[recordLog[grade].card.state] as StateType,
+     *           last_review: recordLog[grade].card.last_review
+     *             ? recordLog[grade].card.last_review!.getTime()
+     *             : null,
+     *         },
+     *         log: {
+     *           ...recordLog[grade].log,
+     *           cid: (recordLog[grade].card as Card & { cid: string }).cid,
+     *           due: recordLog[grade].log.due.getTime(),
+     *           review: recordLog[grade].log.review.getTime(),
+     *           state: State[recordLog[grade].log.state] as StateType,
+     *           rating: Rating[recordLog[grade].log.rating] as RatingType,
+     *         },
+     *       };
+     *     }
+     *     return record;
+     * }
+     * const card: Card = createEmptyCard(new Date(), cardAfterHandler); //see method:  createEmptyCard
+     * const f = fsrs();
+     * const recordLog = f.repeat(card, new Date(), repeatAfterHandler);
+     * ```
+     */
+    repeat(card, now, afterHandler) {
+      const instance = this.getScheduler(card, now);
+      const recordLog = instance.preview();
+      return applyAfterHandler(recordLog, afterHandler);
+    }
+    /**
+     * Display the collection of cards and logs for the card scheduled at the current time, after applying a specific grade rating.
+     * @param card Card to be processed
+     * @param now Current time or scheduled time
+     * @param grade Rating of the review (Again, Hard, Good, Easy)
+     * @param afterHandler Convert the result to another type. (Optional)
+     * @example
+     * ```typescript
+     * const card: Card = createEmptyCard(new Date());
+     * const f = fsrs();
+     * const recordLogItem = f.next(card, new Date(), Rating.Again);
+     * ```
+     * @example
+     * ```typescript
+     * interface RevLogUnchecked
+     *   extends Omit<ReviewLog, "due" | "review" | "state" | "rating"> {
+     *   cid: string;
+     *   due: Date | number;
+     *   state: StateType;
+     *   review: Date | number;
+     *   rating: RatingType;
+     * }
+     *
+     * interface NextRecordLog {
+     *   card: CardUnChecked; //see method: createEmptyCard
+     *   log: RevLogUnchecked;
+     * }
+     *
+    function nextAfterHandler(recordLogItem: RecordLogItem) {
+      const recordItem = {
+        card: {
+          ...(recordLogItem.card as Card & { cid: string }),
+          due: recordLogItem.card.due.getTime(),
+          state: State[recordLogItem.card.state] as StateType,
+          last_review: recordLogItem.card.last_review
+            ? recordLogItem.card.last_review!.getTime()
+            : null,
+        },
+        log: {
+          ...recordLogItem.log,
+          cid: (recordLogItem.card as Card & { cid: string }).cid,
+          due: recordLogItem.log.due.getTime(),
+          review: recordLogItem.log.review.getTime(),
+          state: State[recordLogItem.log.state] as StateType,
+          rating: Rating[recordLogItem.log.rating] as RatingType,
+        },
+      };
+      return recordItem
+    }
+     * const card: Card = createEmptyCard(new Date(), cardAfterHandler); //see method:  createEmptyCard
+     * const f = fsrs();
+     * const recordLogItem = f.repeat(card, new Date(), Rating.Again, nextAfterHandler);
+     * ```
+     */
+    next(card, now, grade, afterHandler) {
+      const instance = this.getScheduler(card, now);
+      const g = TypeConvert.rating(grade);
+      if (g === Rating.Manual) {
+        throw new FSRSValidationError("Cannot review a manual rating");
+      }
+      const recordLogItem = instance.review(g);
+      return applyAfterHandler(recordLogItem, afterHandler);
+    }
+    /**
+     * Get the retrievability of the card
+     * @param card  Card to be processed
+     * @param now  Current time or scheduled time
+     * @param format  default:true , Convert the result to another type. (Optional)
+     * @returns  The retrievability of the card,if format is true, the result is a string, otherwise it is a number
+     */
+    get_retrievability(card, now, format = true) {
+      const processedCard = TypeConvert.card(card);
+      now = now ? TypeConvert.time(now) : /* @__PURE__ */ new Date();
+      const t = processedCard.state !== State.New ? Math.max(date_diff(now, processedCard.last_review, "days"), 0) : 0;
+      const r = processedCard.state !== State.New ? this.forgetting_curve(t, +processedCard.stability.toFixed(8)) : 0;
+      return format ? `${(r * 100).toFixed(2)}%` : r;
+    }
+    /**
+     *
+     * @param card Card to be processed
+     * @param log last review log
+     * @param afterHandler Convert the result to another type. (Optional)
+     * @example
+     * ```typescript
+     * const now = new Date();
+     * const f = fsrs();
+     * const emptyCardFormAfterHandler = createEmptyCard(now);
+     * const repeatFormAfterHandler = f.repeat(emptyCardFormAfterHandler, now);
+     * const { card, log } = repeatFormAfterHandler[Rating.Hard];
+     * const rollbackFromAfterHandler = f.rollback(card, log);
+     * ```
+     *
+     * @example
+     * ```typescript
+     * const now = new Date();
+     * const f = fsrs();
+     * const emptyCardFormAfterHandler = createEmptyCard(now, cardAfterHandler);  //see method: createEmptyCard
+     * const repeatFormAfterHandler = f.repeat(emptyCardFormAfterHandler, now, repeatAfterHandler); //see method: fsrs.repeat()
+     * const { card, log } = repeatFormAfterHandler[Rating.Hard];
+     * const rollbackFromAfterHandler = f.rollback(card, log, cardAfterHandler);
+     * ```
+     */
+    rollback(card, log, afterHandler) {
+      const processedCard = TypeConvert.card(card);
+      const processedLog = TypeConvert.review_log(log);
+      if (processedLog.rating === Rating.Manual) {
+        throw new FSRSValidationError("Cannot rollback a manual rating");
+      }
+      let last_due;
+      let last_review;
+      let last_lapses;
+      switch (processedLog.state) {
+        case State.New:
+          last_due = processedLog.due;
+          last_review = void 0;
+          last_lapses = 0;
+          break;
+        case State.Learning:
+        case State.Relearning:
+        case State.Review:
+          last_due = processedLog.review;
+          last_review = processedLog.due;
+          last_lapses = processedCard.lapses - (processedLog.rating === Rating.Again && processedLog.state === State.Review ? 1 : 0);
+          break;
+      }
+      const prevCard = __spreadProps(__spreadValues({}, processedCard), {
+        due: last_due,
+        stability: processedLog.stability,
+        difficulty: processedLog.difficulty,
+        elapsed_days: processedLog.last_elapsed_days,
+        scheduled_days: processedLog.scheduled_days,
+        reps: Math.max(0, processedCard.reps - 1),
+        lapses: Math.max(0, last_lapses),
+        learning_steps: processedLog.learning_steps,
+        state: processedLog.state,
+        last_review
+      });
+      return applyAfterHandler(prevCard, afterHandler);
+    }
+    /**
+     *
+     * @param card Card to be processed
+     * @param now Current time or scheduled time
+     * @param reset_count Should the review count information(reps,lapses) be reset. (Optional)
+     * @param afterHandler Convert the result to another type. (Optional)
+     * @example
+     * ```typescript
+     * const now = new Date();
+     * const f = fsrs();
+     * const emptyCard = createEmptyCard(now);
+     * const scheduling_cards = f.repeat(emptyCard, now);
+     * const { card, log } = scheduling_cards[Rating.Hard];
+     * const forgetCard = f.forget(card, new Date(), true);
+     * ```
+     *
+     * @example
+     * ```typescript
+     * interface RepeatRecordLog {
+     *   card: CardUnChecked; //see method: createEmptyCard
+     *   log: RevLogUnchecked; //see method: fsrs.repeat()
+     * }
+     *
+     * function forgetAfterHandler(recordLogItem: RecordLogItem): RepeatRecordLog {
+     *     return {
+     *       card: {
+     *         ...(recordLogItem.card as Card & { cid: string }),
+     *         due: recordLogItem.card.due.getTime(),
+     *         state: State[recordLogItem.card.state] as StateType,
+     *         last_review: recordLogItem.card.last_review
+     *           ? recordLogItem.card.last_review!.getTime()
+     *           : null,
+     *       },
+     *       log: {
+     *         ...recordLogItem.log,
+     *         cid: (recordLogItem.card as Card & { cid: string }).cid,
+     *         due: recordLogItem.log.due.getTime(),
+     *         review: recordLogItem.log.review.getTime(),
+     *         state: State[recordLogItem.log.state] as StateType,
+     *         rating: Rating[recordLogItem.log.rating] as RatingType,
+     *       },
+     *     };
+     * }
+     * const now = new Date();
+     * const f = fsrs();
+     * const emptyCardFormAfterHandler = createEmptyCard(now, cardAfterHandler); //see method:  createEmptyCard
+     * const repeatFormAfterHandler = f.repeat(emptyCardFormAfterHandler, now, repeatAfterHandler); //see method: fsrs.repeat()
+     * const { card } = repeatFormAfterHandler[Rating.Hard];
+     * const forgetFromAfterHandler = f.forget(card, date_scheduler(now, 1, true), false, forgetAfterHandler);
+     * ```
+     */
+    forget(card, now, reset_count = false, afterHandler) {
+      const processedCard = TypeConvert.card(card);
+      now = TypeConvert.time(now);
+      const scheduled_days = processedCard.state === State.New ? 0 : date_diff(now, processedCard.due, "days");
+      const forget_log = {
+        rating: Rating.Manual,
+        state: processedCard.state,
+        due: processedCard.due,
+        stability: processedCard.stability,
+        difficulty: processedCard.difficulty,
+        elapsed_days: 0,
+        last_elapsed_days: processedCard.elapsed_days,
+        scheduled_days,
+        learning_steps: processedCard.learning_steps,
+        review: now
+      };
+      const forget_card = __spreadProps(__spreadValues({}, processedCard), {
+        due: now,
+        stability: 0,
+        difficulty: 0,
+        elapsed_days: 0,
+        scheduled_days: 0,
+        reps: reset_count ? 0 : processedCard.reps,
+        lapses: reset_count ? 0 : processedCard.lapses,
+        learning_steps: 0,
+        state: State.New,
+        last_review: processedCard.last_review
+      });
+      const recordLogItem = { card: forget_card, log: forget_log };
+      return applyAfterHandler(recordLogItem, afterHandler);
+    }
+    /**
+     * Reschedules the current card and returns the rescheduled collections and reschedule item.
+     *
+     * @template T - The type of the record log item.
+     * @param {CardInput | Card} current_card - The current card to be rescheduled.
+     * @param {Array<FSRSHistory>} reviews - The array of FSRSHistory objects representing the reviews.
+     * @param {Partial<RescheduleOptions<T>>} options - The optional reschedule options.
+     * @returns {IReschedule<T>} - The rescheduled collections and reschedule item.
+     *
+     * @example
+     * ```typescript
+     * const f = fsrs()
+     * const grades: Grade[] = [Rating.Good, Rating.Good, Rating.Good, Rating.Good]
+     * const reviews_at = [
+     *   new Date(2024, 8, 13),
+     *   new Date(2024, 8, 13),
+     *   new Date(2024, 8, 17),
+     *   new Date(2024, 8, 28),
+     * ]
+     *
+     * const reviews: FSRSHistory[] = []
+     * for (let i = 0; i < grades.length; i++) {
+     *   reviews.push({
+     *     rating: grades[i],
+     *     review: reviews_at[i],
+     *   })
+     * }
+     *
+     * const results_short = scheduler.reschedule(
+     *   createEmptyCard(),
+     *   reviews,
+     *   {
+     *     skipManual: false,
+     *   }
+     * )
+     * console.log(results_short)
+     * ```
+     */
+    reschedule(current_card, reviews = [], options = {}) {
+      const {
+        recordLogHandler,
+        reviewsOrderBy,
+        skipManual = true,
+        now = /* @__PURE__ */ new Date(),
+        update_memory_state: updateMemoryState = false
+      } = options;
+      if (reviewsOrderBy && typeof reviewsOrderBy === "function") {
+        reviews.sort(reviewsOrderBy);
+      }
+      if (skipManual) {
+        reviews = reviews.filter((review) => review.rating !== Rating.Manual);
+      }
+      const rescheduleSvc = new Reschedule(this);
+      const collections = rescheduleSvc.reschedule(
+        options.first_card || createEmptyCard(),
+        reviews
+      );
+      const len = collections.length;
+      const cur_card = TypeConvert.card(current_card);
+      const manual_item = rescheduleSvc.calculateManualRecord(
+        cur_card,
+        now,
+        len ? collections[len - 1] : void 0,
+        updateMemoryState
+      );
+      return {
+        collections: typeof recordLogHandler === "function" ? collections.map(recordLogHandler) : collections,
+        reschedule_item: manual_item ? applyAfterHandler(manual_item, recordLogHandler) : null
+      };
+    }
+  }
+  const fsrs = (params) => {
+    return new FSRS(params || {});
+  };
+
+  exports.AbstractScheduler = AbstractScheduler;
+  exports.BasicLearningStepsStrategy = BasicLearningStepsStrategy;
+  exports.CLAMP_PARAMETERS = CLAMP_PARAMETERS;
+  exports.ConvertStepUnitToMinutes = ConvertStepUnitToMinutes;
+  exports.DefaultInitSeedStrategy = DefaultInitSeedStrategy;
+  exports.FSRS = FSRS;
+  exports.FSRS5_DEFAULT_DECAY = FSRS5_DEFAULT_DECAY;
+  exports.FSRS6_DEFAULT_DECAY = FSRS6_DEFAULT_DECAY;
+  exports.FSRSAlgorithm = FSRSAlgorithm;
+  exports.FSRSVersion = FSRSVersion;
+  exports.GenSeedStrategyWithCardId = GenSeedStrategyWithCardId;
+  exports.Grades = Grades;
+  exports.INIT_S_MAX = INIT_S_MAX;
+  exports.Rating = Rating;
+  exports.S_MAX = S_MAX;
+  exports.S_MIN = S_MIN;
+  exports.State = State;
+  exports.StrategyMode = StrategyMode;
+  exports.TypeConvert = TypeConvert;
+  exports.W17_W18_Ceiling = W17_W18_Ceiling;
+  exports.checkParameters = checkParameters;
+  exports.clamp = clamp;
+  exports.clipParameters = clipParameters;
+  exports.computeDecayFactor = computeDecayFactor;
+  exports.createEmptyCard = createEmptyCard;
+  exports.dateDiffInDays = dateDiffInDays;
+  exports.date_diff = date_diff;
+  exports.date_scheduler = date_scheduler;
+  exports.default_enable_fuzz = default_enable_fuzz;
+  exports.default_enable_short_term = default_enable_short_term;
+  exports.default_learning_steps = default_learning_steps;
+  exports.default_maximum_interval = default_maximum_interval;
+  exports.default_relearning_steps = default_relearning_steps;
+  exports.default_request_retention = default_request_retention;
+  exports.default_w = default_w;
+  exports.fixDate = fixDate;
+  exports.fixRating = fixRating;
+  exports.fixState = fixState;
+  exports.forgetting_curve = forgetting_curve;
+  exports.formatDate = formatDate;
+  exports.fsrs = fsrs;
+  exports.generatorParameters = generatorParameters;
+  exports.get_fuzz_range = get_fuzz_range;
+  exports.migrateParameters = migrateParameters;
+  exports.roundTo = roundTo;
+  exports.show_diff_message = show_diff_message;
+
+}));
+
+</script>
+<script>
+"use strict";
+const RAW=`afraid|adj|feeling fear because something might hurt you|The little boy was {afraid} of the dark.|خايف
+ancient|adj|very old, from a long time ago|They found an {ancient} sword under the temple.|قديم جداً
+anger|noun|the strong feeling you have when you are very annoyed|His {anger} grew when he heard the lie.|غضب
+angry|adj|feeling anger|She was {angry} because he broke his promise.|زعلان / غاضب
+appear|verb|to start to be seen; to seem|A strange man suddenly {appeared} at the door.|يظهر
+arrive|verb|to reach a place|The train {arrives} at six o'clock.|يوصل
+attack|verb|to try to hurt someone using force|The monster {attacked} the village at night.|يهاجم
+battle|noun|a fight between armies or groups|Many soldiers died in the {battle}.|معركة
+beauty|noun|the quality of being very nice to look at|Everyone talked about the {beauty} of the lake.|جمال
+betray|verb|to hurt someone who trusts you by helping their enemy|He {betrayed} his friends for money.|يخون
+blood|noun|the red liquid inside your body|There was {blood} on his shirt.|دم
+bone|noun|one of the hard parts inside your body|He broke a {bone} in his arm.|عظم
+border|noun|the line between two countries or areas|They crossed the {border} at night.|حدود
+brave|adj|ready to do dangerous things without fear|It was {brave} of her to speak up.|شجاع
+bridge|noun|a structure that lets you cross a river or road|We walked across the old {bridge}.|جسر
+bright|adj|giving a lot of light; clever|The room was {bright} and warm.|مشرق / ذكي
+broken|adj|damaged and not working|The window is {broken}.|مكسور
+burn|verb|to destroy or hurt with fire|The old house {burned} down.|يحترق
+career|noun|the job or jobs you do during your working life|She wants a {career} in medicine.|مهنة
+carry|verb|to hold something and take it somewhere|Can you {carry} this bag for me?|يشيل / يحمل
+castle|noun|a large strong building where kings lived|The king lived in a huge stone {castle}.|قلعة
+cause|noun|the reason something happens|Nobody knows the {cause} of the fire.|سبب
+chance|noun|a possibility; an opportunity|This is your last {chance} to win.|فرصة
+chase|verb|to run after someone to catch them|The dog {chased} the cat across the garden.|يلاحق
+cheer|verb|to shout to show you are happy or to support someone|The crowd {cheered} when he scored.|يهتف / يشجع
+choice|noun|the act of choosing; something you can choose|You made the right {choice}.|اختيار
+choose|verb|to pick one thing from several|You can {choose} any color you like.|يختار
+claim|verb|to say that something is true without proof|He {claims} that he saw a ghost.|يدّعي
+climb|verb|to go up something such as a mountain or a tree|They {climbed} to the top of the mountain.|يتسلق
+cold|adj|having a low temperature; unfriendly|Her voice was {cold} when she answered.|بارد
+collect|verb|to gather things together|He {collects} old coins.|يجمع
+complete|verb|to finish something|She {completed} the test in an hour.|يكمل / ينهي
+confident|adj|sure about yourself and your abilities|He felt {confident} before the match.|واثق
+confuse|verb|to make someone unable to understand|The map {confused} everyone.|يحيّر
+consider|verb|to think carefully about something|Please {consider} my offer.|يفكر في / يعتبر
+control|verb|to have power over something|He could not {control} his temper.|يتحكم
+courage|noun|the ability to do something frightening|It takes {courage} to tell the truth.|شجاعة
+crack|noun|a thin line where something has broken|There was a {crack} in the wall.|شق / كسر
+create|verb|to make something new|The artist {created} a beautiful world.|يخلق / يبتكر
+creature|noun|any living animal, often strange|A huge {creature} lived in the cave.|مخلوق
+crime|noun|an act that breaks the law|He was punished for his {crime}.|جريمة
+crowd|noun|a large number of people in one place|A big {crowd} waited outside.|حشد
+cruel|adj|causing pain to others on purpose|It was {cruel} to leave him alone.|قاسي
+curse|noun|a magic spell that brings bad luck or harm|The family lived under a {curse}.|لعنة
+damage|noun|harm done to something|The storm caused a lot of {damage}.|ضرر
+danger|noun|the possibility of being hurt|You are in great {danger} here.|خطر
+dangerous|adj|likely to cause harm|The road is {dangerous} at night.|خطير
+dark|adj|with little or no light|It was {dark} and quiet in the forest.|مظلم
+deadly|adj|able to kill|This is a {deadly} poison.|قاتل
+deal|noun|an agreement, often in business|We made a {deal} and shook hands.|صفقة / اتفاق
+deceive|verb|to make someone believe something that is not true|He {deceived} everyone with a fake name.|يخدع
+decide|verb|to make a choice after thinking|She {decided} to stay.|يقرر
+defeat|verb|to win against someone|The hero {defeated} the dark lord.|يهزم
+defend|verb|to protect someone or something from attack|They {defended} the city for weeks.|يدافع
+deny|verb|to say that something is not true|He {denied} breaking the window.|ينكر
+depend|verb|to need someone or something; to be decided by|It {depends} on the weather.|يعتمد
+describe|verb|to say what someone or something is like|Can you {describe} the man you saw?|يصف
+deserve|verb|to have earned something because of what you did|You {deserve} a rest.|يستحق
+desire|noun|a strong wish for something|He had a strong {desire} to win.|رغبة
+destroy|verb|to damage something so badly it no longer exists|The bomb {destroyed} the bridge.|يدمّر
+destiny|noun|the future that is already decided for someone|She believed it was her {destiny}.|قدر / مصير
+disappear|verb|to stop being seen; to go away|The boy {disappeared} into the crowd.|يختفي
+discover|verb|to find or learn something for the first time|They {discovered} a secret door.|يكتشف
+doubt|noun|a feeling of not being sure|I have no {doubt} that he will come.|شك
+dream|noun|a series of images in your mind while you sleep; a hope|It has always been my {dream} to travel.|حلم
+drop|verb|to let something fall|Be careful, don't {drop} the glass.|يوقع / يسقط
+dust|noun|very small dry pieces of dirt in the air|The old books were covered in {dust}.|غبار
+eager|adj|very excited and wanting to do something|He was {eager} to start the journey.|متحمس
+earn|verb|to get money for work, or get something by working|She {earns} a good salary.|يكسب
+edge|noun|the outside limit of something|He stood at the {edge} of the cliff.|حافة
+effort|noun|hard work to do something|She put a lot of {effort} into her studies.|جهد
+empty|adj|with nothing inside|The box was {empty}.|فاضي
+enemy|noun|a person who wants to harm you|The two kingdoms were {enemies} for years.|عدو
+enjoy|verb|to like doing something|I {enjoy} reading manga.|يستمتع
+enormous|adj|extremely big|An {enormous} dragon flew over the town.|ضخم
+escape|verb|to get away from a place or danger|The prisoners {escaped} at night.|يهرب
+event|noun|something important that happens|The festival is the biggest {event} of the year.|حدث
+evil|adj|very bad and cruel|The {evil} king wanted to rule the world.|شرير
+exist|verb|to be real; to be present|Do ghosts really {exist}?|يوجد
+expect|verb|to think something will happen|I didn't {expect} to see you here.|يتوقع
+explain|verb|to make something clear|Let me {explain} what happened.|يشرح
+explore|verb|to travel to learn about a place|They {explored} the old caves.|يستكشف
+fail|verb|to not succeed|He {failed} the exam twice.|يفشل / يرسب
+faith|noun|strong trust in someone or something|I have {faith} in you.|ثقة / إيمان
+fall|verb|to go down quickly by accident|Snow began to {fall}.|يسقط
+fame|noun|the state of being known by many people|The singer found {fame} very young.|شهرة
+fate|noun|the power that is believed to control what happens|{Fate} brought them together.|قدر / نصيب
+fear|noun|the feeling you have when you are afraid|She could see the {fear} in his eyes.|خوف
+feast|noun|a large special meal|The king prepared a great {feast}.|وليمة
+fierce|adj|very strong and angry|A {fierce} wind blew all night.|شرس / عنيف
+fight|verb|to use force against someone|They {fought} for hours.|يتقاتل
+figure|noun|the shape of a person seen from far; a number|A tall {figure} stood in the shadows.|شخصية / شكل
+flame|noun|the hot bright part of a fire|The {flames} rose high into the sky.|لهب
+float|verb|to stay on the surface of water or in the air|Leaves {floated} down the river.|يطفو
+flow|verb|to move smoothly like water|The river {flows} to the sea.|يجري
+fool|noun|a person who does silly things|Only a {fool} would believe him.|أحمق
+force|noun|power or strength; to make someone do something|The door opened with great {force}.|قوة
+forest|noun|a large area covered with trees|They got lost in the {forest}.|غابة
+forget|verb|to not remember|Don't {forget} your keys.|ينسى
+forgive|verb|to stop being angry with someone|Please {forgive} me for being late.|يسامح
+fortune|noun|a lot of money; luck|He made a {fortune} selling maps.|ثروة / حظ
+freedom|noun|the right to do what you want|They fought for their {freedom}.|حرية
+frighten|verb|to make someone afraid|The loud noise {frightened} the horse.|يخوّف
+future|noun|the time that will come after now|Nobody can see the {future}.|المستقبل
+gather|verb|to come together; to collect|People {gathered} in the square.|يتجمع / يجمع
+gentle|adj|soft and kind, not rough|She spoke in a {gentle} voice.|لطيف / رقيق
+ghost|noun|the spirit of a dead person|They say a {ghost} lives in the house.|شبح
+giant|adj|extremely big|A {giant} tree stood in the middle of the field.|عملاق
+glance|verb|to look quickly|She {glanced} at the clock.|يلقي نظرة
+glow|verb|to shine with a soft light|The stones {glowed} in the dark.|يتوهج
+goal|noun|something you want to achieve|My {goal} is to speak English well.|هدف
+grab|verb|to take something quickly and firmly|He {grabbed} my hand and ran.|يمسك بسرعة
+grateful|adj|feeling thanks for something|I am {grateful} for your help.|ممتن
+guard|noun|a person who protects a place|The {guard} stopped them at the gate.|حارس
+guess|verb|to give an answer without knowing for sure|Can you {guess} my age?|يخمّن
+guilty|adj|feeling bad about doing something wrong|He felt {guilty} about the lie.|مذنب
+handle|verb|to deal with something|She can {handle} any problem.|يتعامل مع
+harm|verb|to hurt someone or something|I would never {harm} you.|يؤذي
+hatred|noun|a very strong feeling of not liking someone|His eyes were full of {hatred}.|كراهية
+heal|verb|to become well again|The wound will {heal} soon.|يشفى
+heavy|adj|weighing a lot|This box is too {heavy} for me.|ثقيل
+hero|noun|a person admired for brave acts|He became a {hero} to the whole town.|بطل
+hide|verb|to put something where nobody can find it|The children {hid} behind the tree.|يخبّي / يختبئ
+honest|adj|telling the truth|Be {honest} with me.|صادق
+honor|noun|great respect; a good reputation|It is an {honor} to meet you.|شرف
+hurry|verb|to move or do something fast|We have to {hurry} or we'll be late.|يستعجل
+hurt|verb|to cause pain|Did you {hurt} your leg?|يأذي / يتألم
+ignore|verb|to pay no attention to someone|Why do you always {ignore} me?|يتجاهل
+imagine|verb|to make a picture in your mind|Can you {imagine} life without phones?|يتخيل
+injure|verb|to hurt a person's body|Three players were {injured} in the game.|يصيب / يجرح
+insist|verb|to say firmly that something must happen|She {insisted} on paying.|يصرّ
+invite|verb|to ask someone to come to an event|He {invited} me to his party.|يعزم / يدعو
+journey|noun|a long trip|It was a long {journey} across the desert.|رحلة
+judge|verb|to form an opinion about someone|Don't {judge} people by how they look.|يحكم على
+jungle|noun|a thick tropical forest|They walked through the {jungle} for days.|أدغال
+kingdom|noun|a country ruled by a king or queen|The whole {kingdom} celebrated.|مملكة
+knight|noun|a soldier of high rank in old times|The {knight} rode a white horse.|فارس
+knowledge|noun|what you know|He has great {knowledge} of history.|معرفة
+lack|noun|not having enough of something|The plants died from a {lack} of water.|نقص
+legend|noun|an old story that may not be true|There is a {legend} about a hidden city.|أسطورة
+lesson|noun|something you learn; a class|He learned an important {lesson}.|درس
+liar|noun|a person who tells lies|Don't trust him, he's a {liar}.|كذاب
+lift|verb|to raise something up|Can you {lift} this box?|يرفع
+lonely|adj|sad because you are alone|He felt {lonely} in the big city.|وحيد
+loyal|adj|always supporting your friends or country|The dog stayed {loyal} to its owner.|مخلص / وفي
+magic|noun|a power that does impossible things|The old man used {magic} to open the door.|سحر
+master|noun|a person with great skill; a person in charge|He is a {master} of the sword.|أستاذ / سيد
+memory|noun|the ability to remember; something remembered|I have a good {memory} for faces.|ذاكرة
+mercy|noun|kindness shown to someone you could punish|The king showed no {mercy}.|رحمة
+mighty|adj|very strong and powerful|A {mighty} warrior stood before them.|جبار / قوي
+miracle|noun|a wonderful event that seems impossible|It's a {miracle} that nobody was hurt.|معجزة
+mistake|noun|something done wrongly|I made a big {mistake}.|غلطة
+mystery|noun|something strange that is hard to explain|The disappearance remains a {mystery}.|لغز
+narrow|adj|small in width|The road was {narrow} and steep.|ضيّق
+nearby|adj|close to where you are|There is a river {nearby}.|قريب
+nervous|adj|worried and a little afraid|I'm {nervous} about the interview.|متوتر
+noble|adj|from a high social class; having good qualities|He came from a {noble} family.|نبيل
+notice|verb|to see or become aware of something|Did you {notice} anything strange?|يلاحظ
+oath|noun|a serious promise|He took an {oath} to protect the king.|قسم
+obey|verb|to do what you are told|Soldiers must {obey} orders.|يطيع
+offer|verb|to say you will give something|She {offered} me a cup of tea.|يعرض
+omen|noun|a sign of something that will happen|The black cat was a bad {omen}.|فأل (نذير)
+opinion|noun|what you think about something|In my {opinion}, it's too risky.|رأي
+ordinary|adj|normal, not special|He looked like an {ordinary} boy.|عادي
+pain|noun|the feeling when your body is hurt|She cried out in {pain}.|ألم
+path|noun|a narrow way for walking|They followed the {path} into the woods.|ممر / طريق
+patient|adj|able to wait calmly|Please be {patient}.|صبور
+peace|noun|a time without war or noise|The villagers lived in {peace}.|سلام
+perfect|adj|so good that nothing can be better|It was a {perfect} day.|مثالي
+permit|verb|to allow|Smoking is not {permitted} here.|يسمح
+pity|noun|a feeling of sadness for another person's trouble|I felt {pity} for the poor man.|شفقة
+plan|noun|an idea about how to do something|We need a better {plan}.|خطة
+pleasure|noun|a feeling of happiness|It's a {pleasure} to meet you.|متعة / سرور
+poison|noun|a substance that can kill or make you ill|The cup was filled with {poison}.|سم
+power|noun|strength; ability to control|He wanted more {power}.|قوة / سلطة
+praise|verb|to say good things about someone|The teacher {praised} her work.|يمدح
+pray|verb|to speak to God|They {prayed} for rain.|يدعي / يصلي
+pretend|verb|to act as if something is true when it is not|He {pretended} to be asleep.|يتظاهر
+prevent|verb|to stop something from happening|We must {prevent} another accident.|يمنع
+pride|noun|a feeling of satisfaction about yourself or your people|She looked at her son with {pride}.|فخر
+prison|noun|a place where criminals are kept|He spent ten years in {prison}.|سجن
+promise|noun|a statement that you will definitely do something|You must keep your {promise}.|وعد
+protect|verb|to keep someone safe|The wall {protects} the city.|يحمي
+proud|adj|feeling pleased about what you or others have done|I'm so {proud} of you.|فخور
+punish|verb|to make someone suffer for doing wrong|The teacher {punished} the whole class.|يعاقب
+pursue|verb|to follow in order to catch; to try to achieve|He {pursued} his dream for years.|يلاحق / يسعى
+quiet|adj|making little or no noise|Be {quiet}, the baby is sleeping.|هادئ
+rage|noun|very strong anger|He screamed in {rage}.|غضب شديد
+raise|verb|to lift up; to bring up a child|She {raised} her hand to ask a question.|يرفع / يربّي
+reach|verb|to arrive at; to stretch out to touch|He couldn't {reach} the top shelf.|يوصل / يمد يده
+realize|verb|to suddenly understand|I {realized} I had left my phone at home.|يدرك
+rebel|noun|a person who fights against the government|The {rebels} took control of the city.|متمرد
+refuse|verb|to say no to something|He {refused} to answer.|يرفض
+regret|noun|a sad feeling about something you did|I have no {regrets}.|ندم
+relief|noun|the good feeling when something bad is over|She sighed with {relief}.|ارتياح
+remain|verb|to stay in the same place or state|Please {remain} seated.|يبقى
+remind|verb|to make someone remember|She {reminds} me of my sister.|يذكّر
+repeat|verb|to say or do again|Can you {repeat} that, please?|يعيد / يكرر
+rescue|verb|to save someone from danger|Firefighters {rescued} the child.|ينقذ
+respect|noun|a feeling of admiring someone|He treats everyone with {respect}.|احترام
+revenge|noun|the act of hurting someone who hurt you|He swore {revenge} on the thief.|انتقام
+reward|noun|something given for doing good|There is a {reward} for finding the dog.|مكافأة
+ruin|verb|to destroy or spoil completely|The rain {ruined} our picnic.|يخرّب
+rule|noun|an instruction about what you must do|Breaking the {rules} will get you in trouble.|قاعدة / قانون
+rush|verb|to go somewhere very quickly|She {rushed} out of the room.|يندفع
+sacrifice|verb|to give up something important for others|He {sacrificed} himself to save his friends.|يضحّي
+safe|adj|not in danger|You are {safe} here.|آمن
+scared|adj|feeling afraid|I'm {scared} of heights.|خايف
+scream|verb|to shout loudly in fear or pain|She {screamed} when she saw the spider.|يصرخ
+search|verb|to look carefully for something|They {searched} the whole house.|يفتش / يبحث
+secret|noun|something that is kept hidden|Can you keep a {secret}?|سر
+seek|verb|to look for|He went to {seek} his fortune.|يسعى / يبحث عن
+sense|noun|a feeling or ability; meaning|I have a bad {sense} of direction.|حاسة / إحساس
+serious|adj|not joking; important|This is a {serious} problem.|جدّي / خطير
+servant|noun|a person who works in someone's house|The {servant} brought the tea.|خادم
+shadow|noun|a dark shape made when something blocks the light|A {shadow} moved across the wall.|ظل
+shake|verb|to move quickly up and down or side to side|His hands were {shaking} with fear.|يرتجف / يهز
+shame|noun|a feeling of guilt or embarrassment|He felt {shame} for what he'd done.|عار / خجل
+share|verb|to give a part to others|Let's {share} the cake.|يشارك
+sharp|adj|having a thin edge that can cut|Be careful, the knife is {sharp}.|حاد
+shine|verb|to give out bright light|The sun was {shining}.|يلمع / يسطع
+shock|noun|a sudden strong surprise|The news came as a {shock}.|صدمة
+shout|verb|to speak very loudly|Don't {shout} at me.|يصيح
+sight|noun|the ability to see; something seen|It was a beautiful {sight}.|منظر / بصر
+sign|noun|something that shows something else is true|The dark clouds are a {sign} of rain.|علامة
+silence|noun|complete quiet|There was a long {silence}.|صمت
+sin|noun|an act that breaks religious law|He asked God to forgive his {sins}.|ذنب
+skill|noun|the ability to do something well|Cooking takes a lot of {skill}.|مهارة
+slave|noun|a person who is owned by another and forced to work|The {slaves} dreamed of freedom.|عبد
+slip|verb|to slide by accident|He {slipped} on the wet floor.|ينزلق
+smart|adj|clever|She's very {smart}.|ذكي
+smell|verb|to notice something with your nose|I can {smell} smoke.|يشم
+soldier|noun|a person in an army|The {soldiers} marched through the town.|جندي
+solve|verb|to find the answer to a problem|Can you {solve} this puzzle?|يحل
+sorrow|noun|deep sadness|She was filled with {sorrow}.|حزن
+soul|noun|the spiritual part of a person|He sold his {soul} for power.|روح
+spare|verb|to not harm; to give|Please {spare} my life!|يعفو عن
+spell|noun|words that make magic happen|The witch cast a {spell} on him.|تعويذة
+spirit|noun|the part of a person that feels and thinks; a ghost|The team showed great {spirit}.|روح / عزيمة
+spread|verb|to cover a larger area|The fire {spread} quickly.|ينتشر
+steal|verb|to take something that is not yours|Someone {stole} my bike.|يسرق
+step|noun|one movement of the foot|He took a {step} back.|خطوة
+stranger|noun|a person you don't know|Never talk to {strangers}.|غريب
+strength|noun|the quality of being strong|He lifted it with all his {strength}.|قوة
+struggle|verb|to try very hard to do something difficult|She {struggled} to open the heavy door.|يكافح
+stupid|adj|not intelligent|That was a {stupid} thing to do.|غبي
+suddenly|adv|quickly and without warning|{Suddenly}, the lights went out.|فجأة
+suffer|verb|to feel pain or sadness|Many people {suffered} during the war.|يعاني
+suggest|verb|to offer an idea|I {suggest} we leave early.|يقترح
+summon|verb|to call someone or something to come|The wizard {summoned} a dragon.|يستدعي
+supply|noun|an amount of something available for use|We are running out of {supplies}.|مؤن / إمداد
+support|verb|to help someone; to hold up|My family always {supports} me.|يدعم
+surface|noun|the top or outside of something|Fish rose to the {surface}.|سطح
+surprise|noun|something unexpected|It was a nice {surprise}.|مفاجأة
+surrender|verb|to stop fighting and give up|The army {surrendered}.|يستسلم
+survive|verb|to stay alive after danger|Only two people {survived} the crash.|ينجو
+suspect|verb|to think someone may have done something|I {suspect} he is lying.|يشك في
+sword|noun|a long metal weapon with a sharp blade|He drew his {sword}.|سيف
+tale|noun|a story|My grandmother told me an old {tale}.|حكاية
+tear|noun|water that comes from your eye when you cry|A single {tear} ran down her cheek.|دمعة
+tease|verb|to make fun of someone in a friendly way|Stop {teasing} your sister.|يمازح / يغيظ
+temple|noun|a building for religious worship|They visited an old {temple}.|معبد
+terrible|adj|very bad|I had a {terrible} night.|فظيع
+threat|noun|a sign that something bad may happen|The storm is a {threat} to the village.|تهديد
+throw|verb|to send something through the air|He {threw} the ball over the fence.|يرمي
+tight|adj|fixed firmly; fitting closely|These shoes are too {tight}.|ضيّق / محكم
+tiny|adj|extremely small|A {tiny} bird sat on the branch.|صغير جداً
+tired|adj|needing rest|I'm too {tired} to walk.|تعبان
+tool|noun|something you use to do a job|A hammer is a useful {tool}.|أداة
+touch|verb|to put your hand on something|Don't {touch} that!|يلمس
+trace|noun|a small sign that something was there|There was no {trace} of the thief.|أثر
+trade|verb|to buy and sell; to exchange|They {trade} silk for spices.|يتاجر
+train|verb|to practice to become better|He {trains} every morning.|يتدرب
+trap|noun|a thing used to catch animals or people|He fell into a {trap}.|فخ
+treasure|noun|a collection of valuable things|The pirates buried their {treasure}.|كنز
+trick|noun|an action to deceive someone or amuse them|It was just a {trick}.|خدعة
+trouble|noun|difficulty or problems|We are in big {trouble}.|مشكلة / ورطة
+trust|verb|to believe someone is honest|I {trust} you completely.|يثق
+truth|noun|what is true|Tell me the {truth}.|الحقيقة
+twin|noun|one of two children born at the same time|They are {twins}.|توأم
+ugly|adj|not nice to look at|The monster was big and {ugly}.|قبيح
+unknown|adj|not known|He traveled to an {unknown} land.|مجهول
+useless|adj|having no use|This map is {useless}.|بدون فايدة
+vanish|verb|to disappear suddenly|The magician {vanished} in smoke.|يختفي فجأة
+victory|noun|the act of winning|The whole country celebrated the {victory}.|نصر
+village|noun|a small town in the countryside|He grew up in a small {village}.|قرية
+voice|noun|the sound you make when you speak|I recognized her {voice}.|صوت
+vow|noun|a serious promise|He made a {vow} to find his brother.|عهد
+wander|verb|to walk around without a plan|We {wandered} through the old streets.|يتجول
+warn|verb|to tell someone about danger|I {warned} you not to go.|يحذّر
+waste|verb|to use something badly or too much|Don't {waste} your time.|يضيّع / يهدر
+weak|adj|not strong|The old man was too {weak} to stand.|ضعيف
+wealth|noun|a large amount of money or valuable things|He used his {wealth} to help the poor.|ثروة
+weapon|noun|an object used to fight|The soldiers carried heavy {weapons}.|سلاح
+weird|adj|strange|I had a really {weird} dream.|غريب
+whisper|verb|to speak very quietly|She {whispered} a secret in my ear.|يهمس
+wicked|adj|very bad or evil|The {wicked} witch lived in the woods.|شرير
+wise|adj|having good judgment from experience|The {wise} old man gave good advice.|حكيم
+wonder|verb|to think about something with curiosity|I {wonder} what he is doing.|يتساءل
+worry|verb|to feel afraid that something bad will happen|Don't {worry}, everything will be fine.|يقلق
+wound|noun|an injury to the body|The {wound} was deep.|جرح
+wrong|adj|not correct|You have the {wrong} number.|غلط
+yell|verb|to shout|Why are you {yelling} at me?|يصرخ
+youth|noun|the time when you are young|He spent his {youth} in the mountains.|شباب`;
+const RANKS=`the to and of in is for that you it on with this was be as are have at he not by but from my or we an your all so his they me if one can will just like about up out what has when more do no were who had their there her which time get been would she new people how some also them now other its our than good only after first him into know see two make over think any then could back these us want because go well said way most much very where even should may here need really did right work year years being day too going before off why made still take got many never those life say world down great through last while best such love man home long look something use same used both every am come part state three around between always better find help high little old since another does own things under during game thing give house place school again next each mr without against end found must show big feel sure team ever family keep might please put money free second someone away left number city days lot name night play until company doing few let real called different having set thought done however getting god government group looking public top women business care start system times week already anything case nothing person today change enough everything full live making point read told yet bad four hard mean once support tell including music power seen states stop water based believe call head men national small took white came far job side though try went yes actually american later less line order party run says service country open season shit thank children everyone general trying united using area black following law makes together war whole car face five kind maybe per president story working course games health hope important least means news within able book early friends information local oh post thanks video young ago others social talk court fact given guys half hand level mind often single become body coming control death food guy hours office pay problem south true almost fuck history known large lost research room several started taking university win wrong along anyone else girl john matter pretty remember air bit friend hit needs nice playing probably saying understand yeah york class close comes idea international looks past possible wanted cause due happy human members months move question series wait woman ask community data late leave north saw special watch either fucking future light low million morning police short stay taken age buy deal rather reason red report soon third turn whether among check development form further heart minutes myself services yourself act although asked child fire fun living major media phone players art behind building easy gonna market near non plan political quite six talking west works according available education final former front kids list ready sometimes son street bring college current example experience heard london meet program type baby chance father march process song study word across action clear gave gets himself month outside self students words board cost cut dr field held instead main moment mother road seems thinking town wants de department energy fight fine force hear issue played points price re rest results running shows space summer term wife america beautiful date goes killed land miss project sex shot site strong account co especially eyes include june parents period position record similar total above club common died film happened knew lead likely military perfect personal security share st tv won april center county couple dead english happen hold industry inside issues online player private problems return rights sense star test view weeks break british companies event higher hour member middle needed present result sorry takes training wish answer boy design finally girls gold gone guess interest july king learn policy society added al alone average bank brought certain church east hands hot longer medical movie original park performance press received role sent themselves tried worked worth areas became bill books cool director exactly giving ground meeting provide questions relationship september sound source usually value evidence follow lives official ok production rate reading round save stand stuff tax whatever amount blue countries david drive eat fall fast federal feeling felt green league management match model picture size step trust central changes england forward groups hey key mom page paid range review science trade uk upon various attention brother cannot character chief cup football hate james led looked lower natural october property quality send style vote amazing august blood china complete dog economic hell involved itself language lord november oil related serious stage terms title add article attack born damn decided decision enjoy entire french january kill met perhaps poor release situation technology turned website written choice code considered continue council cover currently door election european events financial foreign hair increase legal lose michael pick race seem seven sign simple simply staff super union walk washington bed began built career changed crazy daily daughter december die difficult figure hospital knows loss modern ones paper parts popular published safe starting systems version voice whose writing army australia earth forget goal huge internet listen okay practice rules sea sir success towards waiting ways access base below created deep followed la lol mark missing offer pass professional released risk schools sleep table ten truth ball box build card cases dark district europe george india mine minister note percent piece products recent seeing straight visit wall wanna wrote allowed boys culture etc fans february gives growth included married officer pain paul places respect response river rock shall speak specific standard tonight write album century charge cold create effect eight except eye funny ii limited moving network peace provided recently required sales spent store student tomorrow track via watching weight addition ahead allow anti association beat brown capital chinese committee conference difference double expect gas island moved normal plans population potential pressure radio russian station text treatment western ass beginning california campaign certainly completely content credit cross described despite female focus hi husband ice individual interesting join kept leading loved message miles nearly particular previous quickly region reported section sort speed travel consider contact drop fair feet jesus kid link positive sale throughout tour welcome absolutely additional beyond conditions earlier extra forces immediately jobs leaving minute nature numbers quick sell significant studies unless winning agree canada clean computer construction episode favorite income justice levels manager movement photo posted safety san scene sold sounds spend statement sun teams ability announced asking calling coach collection continued costs definitely designed expected friday gun happens heavy includes knowledge particularly search subject train wide wow author centre claim dad developed fear fit generally german global goals gotta hotel interested judge lady leader letter lines material named nobody opportunity plus pre product regular secretary sister stories unit workers annual anymore bar battle brain contract degree families features finished floor france growing hurt image insurance majority meant opening opinion physical pro reach rule seriously sports stupid successful active administration approach australian biggest cancer civil dance defense direction independent master none reasons russia ship stock trump weekend wonder worst africa awesome band beach cash clearly commercial compared effort ended fan fighting imagine impact lack latest learning multiple older operation organization passed pictures protect secret senior spring sunday telling wear activities address analysis anyway bought calls choose christmas color commission competition details direct dream easily finish grand increased indian literally luck marriage names necessary patients resources rich skin speaking supposed sweet thus touch yesterday caught closed congress damage directly disease doctor doubt drink driving established facebook feels fish gay germany glad greater grow largest machine notice overall planning professor programs records reports shown sit trip associated basic captain carry cars crime effective effects explain fully highly holding japan laws male mrs parties plant reality smith spot texas winter worse advice agreement award block broken caused challenge characters christian comment equipment eventually helped holy killing lived lots nation otherwise peter prices primary purpose rates responsible shop showing sick teacher theory uses william agency avoid camera catch cell coast comments drug economy environment executive foot hall mass meaning mission nine officers operations politics pop produced ran saturday status therefore trial truly weather activity app application claims coffee complex condition division evening flight freedom google heat highest interview library located location murder obama offered putting queen seconds showed sitting standing stars walking accept actual appear attempt broke channel distance eating exchange fat fell finding glass learned losing mobile northern opened placed powerful prior protection reached receive religious ride robert royal screen serve signed slow species speech traffic tree types vs wearing whom wonderful agreed airport animals appears begin benefits bottom cities demand engine everybody famous ideas investment keeping lie notes partner plays raised runs sad solution songs sources southern square stopped structure thomas traditional twice wind worry americans appeared becomes brand bus cent chicago count covered critical digital forced fourth fresh lake mental mentioned missed mostly mouth owner photos previously realize remain scale score separate smart starts surface throw tom totally twitter views wedding acting actions african arms benefit budget click estate failed faith fashion feature fund generation hearing hill jack larger louis metal mid paris profile pull push returned rose seat seemed sexual target understanding village agent animal apply authority basis becoming chris draw dude employees enter ex follows foundation gain http individuals japanese leaders memory prime projects ring rise selling served silver soul spread supply waste weird adult apparently artist chairman edition engineering grade happening healthy institute method mike monday nations obviously option prison provides remains senate smaller somebody stone strength users wild window winner arrived bag bet camp cast christ continues correct dangerous ed extremely firm greatest handle improve indeed leaves movies negative prevent removed richard spirit television till trouble usa videos advantage apart aware cat customers decide dinner dollars eastern fifth function gift helping herself impossible influence items joe los marketing mary materials nor produce progress proud require shooting shut standards tells thinks van wood background birth bridge carried charles classes completed concept copy dear dogs drugs efforts garden host housing inc israel journal labor leadership length lucky neither onto patient possibly prove rare setting skills software thousands tough units ad alive apple balance birthday bitch boss cards changing connection dress easier fellow florida horse knowing liked magic managed map net owned request stick turns vehicle volume wake aid beauty believed billion busy buying cells concerned conversation corner criminal cultural develop driver ends existing farm file fix fly frank guide images investigation mexico operating paying presented raise responsibility roll slightly suggest surprise technical thoughts treat unique variety violence weapons yours youth appreciate bigger breaking discovered dont dry edge evil excited forever funds helps henry injury iron lovely mad magazine martin models offers ordered parliament prepared reference religion sites somewhere stated strategy teachers web wine accounts angeles arm audience bay blog closer core democratic description dropped excellent exist figures forms guard honest issued joined jones lee lies likes medicine mention mountain nuclear orders port presence reaction reduce shoot sides solid spanish sport steps stress taste tea victory afternoon assistant britain citizens classic clothes decisions electric emergency entered entirely facts failure festival flat fuel harry hello houses ill initial introduced johnson kick links mail massive matters pair picked pieces plane plenty prince proper providing quarter regional scott session shape sky teaching toward transfer upper useful valley watched willing windows zone accident advanced alternative anywhere articles awards bear boat bringing capacity cheap climate communities discussion drinking duty fantastic feelings flying governor hundred industrial joint mix museum options path plants policies promise proposed purchase rain remove signs spending steel steve supporting terrible tired treated turning vice warm afraid arts beer border canadian command crew crowd dating dick elements enemy ensure environmental filled fixed forest intelligence intended labour limit moon ocean powers profit proof republican soldiers suit wins appearance asian attorney banks behavior ben bodies brothers buildings chair creating debt domestic expensive grew historical homes honestly honor im jump launch listed minimum native noted originally planned pm ray sets suddenly supreme survey tech trees update user writer yellow younger ancient attacks charges combined communication connected contains download email ending exercise express flow formed girlfriend hero illegal increasing joke loan methods officials performed planet relationships restaurant scotland selected shared shopping soft stuck sugar suggested supported surprised taught transport accepted adding affairs allows appeal applied appropriate artists boston ca confirmed device drama entry era factor feed golden grant grown heads hoping keeps lawyer legs lying measures mistake ms muslim organizations platform pool pulled regarding relations requires route saved schedule scientific shoes smoke squad teach testing tests values walked williams ya abuse angry businesses candidate comfortable concern developing discuss elections emotional et everywhere facilities falling fox guns hole holiday interests internal ireland italian italy jersey laugh leg letters liberal listening ll loves lunch max milk pack payment perform recorded relatively sector sharing snow storm streets strike studio sub weak youtube actor advance apartment asia chain chapter committed confidence cook cute equal fake finance focused hits identity journey kitchen korea leads maintain measure mm numerous owners posts properties quiet revealed specifically split task taxes taylor twenty urban acts affected aircraft applications approved approximately argument arrested claimed conflict considering corporate debate determined distribution documents escape extended factors faster fault fill films flowers friendly ladies lay lights millions mixed phase properly pure reduced requirements residents revenue sam sat secure smile strange talent temperature thousand tony troops truck votes ah authorities basically besides bird blame bob bowl causes chicken collected context coverage determine display dying elected examples experienced falls false fired forgot funding identified iii incredible inspired launched ma meat ministry mode neck noticed novel obvious passing positions remaining scored shirt shots slowly stadium stores surgery trading tuesday vision whenever worried zero alex allowing begins champion charged cream crisis daniel delivered editor estimated eu giant iran jail jim kingdom literature mayor minor moments opposite orange ourselves pages remained selection serving signal stream struggle suicide talked theme thursday tiny typically un unfortunately usual vehicles virginia voted voting walls wave alcohol assembly breakfast bright brings capable carrying chosen combination conservative customer cutting desire destroyed draft drunk essential fail familiar finds granted guilty humans hundreds id improved jewish largely laughing markets medium ohio opportunities papers perfectly recommend referred relevant seek sending solo spoke stands talks ticket unable upset wing answers birds bomb creative cycle dealing directed don educational entertainment extreme facility fields goods hang holds info mainly maximum newspaper offering painting republic reserve returns row salt scared scottish shares statistics switch territory threat tickets wales adults affect appointed armed aside assistance bell blow bond boyfriend careful circumstances communications concerns controlled corporation cry danger deals delivery deserve devices dollar dreams empty enjoyed explained faces folks fucked gender instance kim kinda matches mile motion moves nick pacific prize realized reasonable receiving register resolution rural ryan saving sees singing spain tools typical universe warning wars wednesday admit attitude branch brazil conducted decades dedicated definition drawing favor flag frame guest ha heaven independence institutions jackson kiss load plot possibility random recovery rent replace represent reviews scenes seeking senator sentence teeth tips trained understood academic academy accurate achieve adam afford andrew assume bbc bottle bunch category chat cheese chemical clinton competitive detail diet em favourite fruit harder index item lane mess navy normally occurred opposition parent permanent personally pleasure prefer programme representative scheme shift stood storage tank tend tight transportation ultimately unlike weekly yard anybody assets basketball button candidates combat constitution consumer counter creation crown crying dc defined depending depression describe drivers el employment exclusive excuse expert frequently golf grace hopefully identify importance kevin laid latter manufacturing mining object partners pattern performing personnel perspective pregnant premier promote revolution rooms severe sleeping suppose tool tournament turkey ve victim victims agents amazon arrest attend ban brilliant carbon catholic chose circle concert crash declared deliver depth deputy dirty doctors earned electronic error existence experiences expression factory headed interior joy jr legislation maintenance manner mate matt nearby noise origin pakistan panel personality plate practices prepare relief replaced resistance retail rice roads roof shame ships somewhat staying stronger surely tip updated writers absolute advertising agencies baseball bathroom bible cable calm championship checked client constant da dates degrees democrats doors driven dumb empire exciting expansion heavily hide incident irish linked manage messages michigan multi nfl politicians print quit refused reporting sight significantly sing soviet weapon wet widely worldwide ages anniversary attractive bike broad burn cake causing closely constantly contest deaths depends drawn fees francisco haha hardly hat height hidden hong invited letting loud manchester marine motor officially pc peak portion pounds princess protein puts raw reform regions represented respond retirement sample seats secondary solar somehow stayed suffering sydney tries ultimate unknown wilson wondering attached attacked automatically balls battery bills blind breath brief carolina chest conduct debut decade destroy differences edward engaged experts expressed external fantasy ft grab hollywood immediate introduction joseph license paint pilot pink presidential principal recognize recognized registered regularly representatives rising seasons shipping singer smoking steam suffered survive tall thats theatre therapy witness adopted aim campus cap chances childhood clinical clubs comedy commander comparison covers dan defeat defence democracy detailed entitled exact exposed fed fee injured jan jordan kinds lets loans lock musical nose objects opposed organized plastic protected purposes quote recording semi statements suspect swear techniques tie tim trend valuable wealth wise yards aged approval aspects attempts bread burning champions contain convention dancing document eggs employee en engineer equivalent facing fairly fingers ford founded functions gang graduate greek hanging inner islands le lift marked memories miller monthly mountains neighborhood operate outstanding permission porn racing recommended regulations reply republicans rid roman scientists shoulder shower solutions sons stations stephen tower tradition visited visual wheel zealand achieved admitted appointment authors barely bc bush cabinet celebrate challenges chocolate coal colour contemporary criticism davis dna effectively eric extensive faced filed formation fought gained gallery highway historic hunt improvement inch initially junior jury kong korean marks monster obtained olympic philosophy pride promised repeat returning riding rough santa settlement smell sought speaker studied suggests surrounding tone topic toronto universal vast visitors wanting auto consistent continuing earn exists finger grey guitar heading howard ignore involving latin lewis meal meanwhile meetings naturally necessarily offices pants partnership payments percentage pocket practical primarily proved rape regardless relative represents rescue resulting rush sarah sessions sharp simon soccer stable structures supplies symptoms temporary tested trick attended audio bone brian bullshit chamber chart circuit clothing complicated confused consequences defend divided elizabeth everyday extent fishing format gap gate gotten harm healthcare household immigration impressive jews joining killer lesson limits loving ltd managers membership miami mirror mount nights occur parking proposal province purchased recognition reputation rolling shortly situations strongly tears technique thin tied accused adventure argue assessment atmosphere awful bedroom belief bound breaks carefully cats ceo choices closing cloud colorado colors contrast courses courts donald drew egg element elsewhere establish extension files founder gear georgia hills hip hitting increases infrastructure jason locations loose machines moral offensive pa package pointed poverty processes processing qualified railway reaching ridiculous sensitive server shock silence soldier superior supporters thick threw tons transition violent voters wash acid actress administrative alan alongside angel anxiety babies bars bonus castle charity clients compare contained cooking covering curious directors discovery discussed duke egypt encourage enforcement featuring finals flash formal formula fort governments gray gross horses hungry informed innocent jeff losses luke mac math minds mistakes mystery networks olympics palace passes penalty pet phones photography producing protest publication rating refer respectively rome scheduled select silent spoken successfully suffer temple tracks trail uncle unusual waters woods yo arrival asks assault awareness badly bath captured chase components concrete dave deeply expectations explanation exposure featured fiction guarantee happiness harris hearts horrible ideal illinois injuries islamic jimmy kelly legend lieutenant mini mood muscle muslims passion picking pleased procedure producer pushing rank replacement retired roles sand savings settled shadow singles tag tape thread victoria visiting wage wings andy avenue bags beating believes blocks boring charlie checking clock commissioner commitment confident containing copies crimes custom denied desk drinks ear electricity episodes farmers fbi grounds gym helpful horror iphone iraq label liverpool locked naked ny opens output persons pitch pizza plain pushed raising rear reveal romantic scores sisters speaks stages strategic swimming welfare winners wire worker afterwards alright android anger architecture assist attempted behalf belt capture centers ceremony comic cops cuts dallas designer diamond disappointed dressed economics efficient electrical employed enjoying entering essentially establishment expecting explains flower ghost guests handed hockey houston https hunting industries islam jane judges kit lab languages maps min morgan moscow na nervous newly odd op ordinary participate philadelphia prayer principles racist rarely references sexy skill soil solve stomach struck studying suck supports trash ugly vegas virus walker whoever amounts anthony arthur aspect banned boost bureau colonel comfort controls cousin crack deck demands dies dragon dramatic dust dutch engineers evolution foods hired illness inspiration institution kings knife lately lowest memorial mexican minority mum opinions patterns presents priority promotion rail readers remote repair root saint steal stolen telephone tho titles trans ups vol whereas abandoned acquired actors alexander alliance annoying ap bid bro buddy buried butter cares columbia conclusion confirm congratulations contracts convinced crap crystal dean decent decline delay describes desert downtown elite enemies forgotten forth gods hire hop hopes insane installed israeli landing layer managing marry nah nowhere nurse obtain organic ownership participants pennsylvania poetry pot pray printed recall rugby sake sheet signing smooth spiritual stops string sudden sweden syria throwing thrown vacation abroad arab assigned associate assumed atlantic bench bother broadcast bye cambridge citizen cleaning compete consists consumers contributed cricket critics damaged disaster discover disney entrance equally fallen figured fitness francis friendship gary handling idiot intense keys lawyers lifetime liquid makeup medal mortgage narrative narrow nba observed occasionally pan physics posting potentially reduction reflect refuse researchers resource roger ross sciences seattle serves shell silly subsequent towns translation visible yep adds allen amendment angle arizona arrive belong berlin bishop channels clark commonly connect defensive designs efficiency enterprise experiment feb females findings firms forum gifts grass hence increasingly incredibly iv jay journalist kicked lessons lists maintained mill mo occasion oxford pace passenger pen pope possession pp races rapid regulation resident rocks shaped sixth spin styles subjects sucks suitable thirty valid vital whilst agriculture alleged anna atlanta bands christians collect commerce cop creek currency emotions exhibition fraud funeral genuine gordon honey honour hook hunter immigrants improving instructions introduce kansas km lands legacy log matthew merely monitor nov patrick phil prisoners programming publishing ratio regret rejected remind resort resulted reverse routine scary seed settle sin spell summary survival sword tongue ward waves wayne achievement anderson argued asleep austin automatic begun behaviour cd cents coat comprehensive consent daddy destruction diego diseases divorce doc drove ears engage extraordinary fate frequency gaming gene glory headquarters heritage initiative interviews jean juice landscape logic meets melbourne microsoft objective organisation privacy procedures profits reducing regard representing residence roughly salary scoring script searching sections strip surrounded threatened transferred tube universities walter wisconsin writes ambassador ann apps awarded banking breast cant carter chelsea chemistry concluded consumption corruption cotton crossed detroit discount dozen engines epic exception exit expand fancy gorgeous grateful heroes holes impression inches indicate input johnny josh knock leather lips luxury lyrics manufacturers masters movements oct operated ought outcome painted poll preferred pulling ranked referring removal rep reporter rio risks rob screaming sept sequence singapore stretch tear tennis terrorist theater ties twelve versions virgin voices wishes wolf absence agricultural asshole ate athletes bears blues boxes bruce bull cameras commonwealth contribute contribution contributions couples delicious deny deserves ease extend fame flood generated genetic glasses impressed indicated instant investors involves kate kills liberty maria ministers monitoring occurs passengers photographs principle producers progressive punishment rally rapidly reader representation restaurants reveals roots samples shops sum swing tail texts twin upcoming veterans alert arena arguments aug billy boom boots brave claiming column commit compensation composition computers conservation constitutional crossing defending density di difficulty dropping drops elementary ethnic expenses fleet foster fuckin fundamental gen genius greatly guidance hospitals infection instagram intention iowa jokes knee mechanical nigeria parks participation periods precious pregnancy premium preparing pretend priest prominent proven radical remembered requested residential reward rings robin russell satellite shake shore spots stats struggling substantial teen temperatures transmission trap uniform wildlife wooden ads aggressive anne answered apparent bang blast bones brands centuries communist complaint component connections courage cure del desperate diversity duties encouraged eve faculty feedback fighter frozen guards hiding humanity ian il innovation instruments invest jacket justin legislative listing manual mothers murdered nursing occupied ongoing operator painful pound preparation punch purple railroad registration releases rick romance submitted sufficient survived suspended technologies tissue trailer trends trials ukraine underground versus virtual walks wounded ali amongst announcement arranged arsenal attending attracted biological bite blocked boards burned categories checks chip concerning dare database define discrimination disorder distributed districts documentary domain dynamic edited engagement explore favour fewer footage giants grave hamilton implementation indiana investigate jazz jon jonathan laboratory lawrence lincoln literary mask massachusetts midnight minnesota mouse oscar packed piano praise presentation psychology relation restrictions rocket ruin saudi sean sec secrets slave stability steady stones symbol terminal toilet treaty triple unlikely updates vietnam viewed affair agenda bat bow calendar cape collective conversations cooperation craft darkness deeper devil edit enable equity estimates failing finishing fortune gates goodbye graham hardware hillary hurts intellectual invite involvement kentucky madrid mi nuts oregon partly petition phrase physically protecting racial rated regime rivers rounds ruled sa sauce seal separated shield similarly slide stem summit talented throat tiger touched toy visits warriors wisdom accounting alien attacking awkward beast beef candy carrier celebration celebrity certificate cited clay coaching colleagues constructed dated dec default delhi derived dialogue disabled distinct drag educated eligible estimate execution existed fifty followers fool framework franchise funded furniture generations guaranteed integrated intelligent interaction jet journalists lifestyle lighting lisa loop mall mp overseas performances philippines polish recommendations recover regarded relax reliable rely remarkable responses ruling sacrifice se sole stopping strategies succeed tables tale targets timing ton volunteers witnesses wore worship worthy acted alarm bass bloody breathing butt characteristics cnn collaboration con consideration counts creates crucial daughters dependent discussions drives dual edinburgh equipped expanded experimental feeding filter galaxy globe grades greece gulf highlights hoped intent involve judgment kennedy knight larry las lmao logo malaysia mature moore nazi netherlands odds peaceful philip photographer pin prevention printing promoting publicly pump repeated replied requests revenge satisfied seeds signals slip spaces spare specialist stocks stranger submit surprising tap thompson threats tourism turkish volunteer acceptable allies attempting auction bonds challenging chaos churches cleveland cm composed concentration copper corp corps counting credits dawn dispute earnings editing executed firing fits frequent gardens gathered hilarious huh ignored improvements investments isis margin mars maryland mechanism moderate murray oklahoma opera overcome parallel passage pit psychological publications quest radiation shocked sized stroke stunning tanks tokyo topics trains traveling treating tune utility vessel weed wherever acquisition addressed alabama alice angels anime announce autumn backed barry bold borders breathe cameron choosing classical classified clip coaches coins concepts conspiracy controversy convince cooper disappeared eh encounter equality exam examination fails federation fi fiscal guardian hd homeless instrument intervention jerry lover mainstream menu missouri mounted mutual nope occasions offense oral panic pays peoples pursue realise refugees removing requirement responded rip ruined scope segment spectrum stays ted terror uh va venture virtually waited warren worn yea ac accompanied adams aids aimed alpha approaches arguing arrangement beliefs boats boundaries brick brooklyn colleges considerable conventional danny des designated dvd emperor employers enormous errors focusing forgive gains garage gathering guidelines handled hosted indians indonesia inquiry inspector jumped khan li lion loaded lonely maintaining measured mercy nevertheless newspapers outer oxygen pipe pissed poem powder powered promises quotes racism ratings reads recovered refers roy rude screw seventh shelter signature sooner spider stewart strikes suggesting suits toys tracking tribute trigger vary venue wages wells wheels ye abc abortion accuracy albert applying artificial belongs beneath bitcoin bullet burns carl celebrated consistently conversion copyright counties democrat deposit destination dirt diverse divine emails er exclusively export fastest formerly functional gather grandfather habit harvard indicates isolated jealous knocked landed laughed laura lazy mama marshall mitchell modified municipal naval neighbors nelson neutral noble oldest pat picks poland popularity professionals pussy reactions relate robot sacred securities shoe speakers springs spy steven suggestions supplied susan suspension terrorism terry toxic treasury tunnel unions upgrade warrant wider wound aaron actively afghanistan ai applies arrangements asset assuming backing baker barcelona blessed brazilian brush burden campbell carries casual certified charter chef civilian coalition cock complain complaints controversial denver describing differently directions discipline discussing disgusting dj dominant earning emma essay expense explaining furthermore graphic greg healing hiring hosts implemented instantly invasion jacob jumping laptop legendary leo maker margaret mario opponents outdoor palm parker photograph pole pub quarters queensland rangers ranks reception recipe regulatory reviewed rolls rubber secured serial settings shed snake sponsored stealing strict subsequently substance suggestion switzerland syndrome tasks trips ultra unexpected usage utah worlds accidentally affordable amateur appeals argentina baltimore batman bearing beats bin biology bobby briefly canal cancelled charlotte cheaper christopher climb com competing completion cruise custody delete demonstrated departure developers developments dig eagles employer evans explosion fever fluid folk generate gop handsome ho holidays hotels imagination integration integrity interpretation leaf legitimate lightning loads longest magical mills motivation nasty oliver outfit pension permit perry plates pleasant portrait productive reminds reserves ron safely shirts shorter slight socialist streaming sue targeted tension thailand theories touching transactions twist ugh unemployment unity useless viewers winds woke wtf abilities advocate aims arc backup beaten bitter blown branches campaigns chips cia clever clinic closest collections continuous converted correctly creator creatures criteria declined detective difficulties disability dish douglas du duck egyptian ep evaluation excess farming fence fifa fighters flights forcing forming franklin fred gradually gravity habits hawaii highlight holder hood hung identical imperial investigations jose ken legally lied listened males manufacturer meters nail nasa negotiations nonsense ontario operational orleans owns phoenix playoffs poet quoted relating repeatedly robinson rolled scientist sink skip slavery snap sorts souls stole swedish swim swiss tennessee transaction transformation veteran vulnerable wealthy additionally amy attract barbara beta blowing bored bronze bug caring catching cave cheating chronic cleared communicate convicted cultures dealt delayed demonstrate departments depend developer diagnosis dismissed distinguished dose eighth experiments fa flesh flip forty generous germans hated hr implement incorporated influenced jerusalem kidding laser loyal marijuana md mentally missions occupation opponent paintings patch patience pic pointing pollution precisely prisoner privilege proposals protests punk radar regards relatives resist solely stepped striking terrorists th tourist transit trucks trusted vessels villa volumes websites wireless wondered wrap wright yoga adopt airlines alaska albums anytime bacteria beings beside blade boot bottles bucks bulk camps cargo census christianity coastal coin colored commentary confusion congressional corn cried customs dealer deemed destiny distant electronics emerging emotion emphasis ethics excitement exploration fights filling filming glasgow graphics helen humor insight invested jennifer lit louisiana mar marie meals mississippi nerve netflix nightmare operators overnight partially participating pie platforms populations poster pr practically preserve produces qualify raid ram ranging ranking receives respective restricted routes samuel sandy scenario sheep situated slaves sony spotted spreading stanley sustainable sustained taxi themes threatening tobacco trace trapped turner uncomfortable wasted weakness widespread xbox accepting accessible acknowledge advised advisory animation assignment balanced bare basement bases battles bias birmingham bits cancel carpet ceiling cherry chill classification clue codes cole collapse collecting compound conscious consecutive contents costume craig deleted devoted didnt displayed dominated earl endless escaped examine floating garbage gospel grain grid grows heating identification knees lap lions liver metro metropolitan mines mixture nominated oak parliamentary patent perception physician portland proceed proceedings pupils reserved restore rifle rival rs runner sadly sc shoulders significance sits sizes slept soap spray stored stressed structural suite tbh tropical ukrainian unnecessary verse victor vintage warned watson acres adapted adoption anonymous antonio approaching artistic attendance aviation barrel beds beloved bless boxing celebrating charging chemicals chuck cinema colonial comics compliance contrary controlling corporations couch crush dam decrease defeated diabetes dressing expanding fears fires genre gentle grammar hiv idk illustrated invented jake jam jamie jessica keith kent layers lease lens licensed loyalty madison magnetic metres monsters mysterious notion partial piss placing propaganda rat reflection reminded resolve revolutionary scandal shine si simultaneously substitute surveillance tactics testimony thai treasure trophy tweet tyler underlying unfair villages von wa acceptance accidents affects annually apologize appreciated approached arriving ash aunt benjamin blake bubble buyers casino charts clouds connecting counsel creature deadly decides der desired determination embrace emerged exhibit flew gentleman gm halloween hammer hitler hosting icon imposed indigenous infinite installation inter interactions introducing iranian kicking laying legislature liability maine makers manhattan marathon marvel michelle moreover mps neil organisations ours parade paradise perceived pics planes politician preliminary premiere presidency reaches react realistic remarks retain roberts rocky russians saints satisfaction scratch shade sheets sheriff shy sometime spirits sporting strictly sunshine teens thou tier tommy travelling vancouver vocal warrior worries yield accomplished admission adventures aka appearing bacon barrier belgium believing blacks bombs burst caps casting cattle cc classroom collins colours compromise convenient costa criminals crop earthquake elderly eliminate embarrassing farmer finest grants harbor harvey hates incidents inform ion jeremy lesbian lovers lt mathematics medication minded morris norway par podcast portfolio productivity promoted protocol quietly rachel replacing responsibilities salad scholarship screening sends smiling soup southeast stake stating strain suspected swift tackle tigers timeline torture traded translated tricks twins urgent vegetables vertical violation wallet welsh workshop wrapped aboard abstract accent addiction associates awake beam beans binding blank buffalo cbs commons conservatives contacts conviction corrupt cow curve depressed deserved dining disorders duration eddie emily encouraging farms fifteen flows ga genes graduated grandmother harsh heights horn hurry immune inflation ingredients inspection install instruction intensity inventory investigated invitation judicial justify kyle lakes lean lecture libraries logical mason meaningful migration missile motivated muscles nancy norman northwest nurses organ patrol pearl peer pepper pig pile plug provision releasing requiring revised rod scream stairs staring statistical sticks strangers succeeded sweat switched syrian tattoo teenage thunder tours tragedy trauma vincent wrestling zoo accordance acquire activist activists addresses alike applicable arrow availability aw ba bend boundary breach cabin cage chancellor cheers circles closet combine companion comparing consciousness consultant controller corresponding courtesy cuba damages demanding disc dishes dozens eagle eaten embassy engaging fascinating financing fitted flexible gaining gentlemen goodness guilt haven helicopter homework households hp iconic infected keen kenya lesser liberals lip mandatory manufactured mechanics mere miracle mt mud murphy nathan observation operates owe permitted phenomenon pittsburgh playoff precise profession prospect protective providers publisher putin reportedly retreat rookie sandwich seeks sentences separation sexually ski skilled sterling stuart surgeon theft um understands valve visa washing adjacent agreements appreciation arabia athletic authorized banner beijing blew blocking brad caribbean charm chasing climbing colony complaining cookies cruel curriculum deadline deer delta demanded dive divide easter electoral eleven entity excessive exercises feminist governing ham heal interface ios jewelry journalism juan julia jungle linear mg occasional oriented pete pilots prayers predicted pressed preventing prof provisions pursuit rap reflected reminder restored resume rev richmond ridge samsung scholars sealed sounded sri streams strongest tends tribe unfortunate variable victorian worrying xi zones ace adjusted alternate arrives artwork ashley athlete attraction babe bankruptcy canon capabilities cared catherine chains closure cognitive competitors connecticut convert cooked ct cups deciding defender dental diplomatic divisions drum editorial enabled entertaining est establishing eternal freeze generic grandma grip handful happily harmony hmm humble hurting hybrid intentions investing keyboard lasting locally loses mild minimal mixing molecular nearest neighbor noon nowadays openly overview pairs palestinian parish pathetic poems possibilities potato potter preference promising proportion purchases rage rd reflects respected restoration selfish sergeant silk stamp throne thy urge voter warner wasting witch advantages ally archives array assisted backs belly booth breakdown bridges brutal calculated cam centres chapters citizenship civilians cliff conflicts consensus cycling declaration dennis derby distinction donations dragons draws examined facial faithful fatal fig fitting genuinely hardest holland honored hunger hurricane implications import innovative ipad jurisdiction laughter lemon les lifted loading lung matching mighty monetary novels nutrition ore os outcomes outta pine polls poorly portugal pose pour proteins provider publish purely ralph rental resolved rewards sang seemingly senators severely shark shocking southwest ss studios survivors tales technically titled traditions unlimited washed watches advise anxious appearances bee bombing cafe carlos challenged cigarettes colin consisting cult dairy dakota darling delighted delivering destroying diary disagree disappear drill earliest edges entries euro evolved exports fixing fl flags flies forecast fr governance heated hug importantly indicating indoor influential intend invisible jeans jets julie karen lasted lawsuit leak lighter lucas marcus mentions meter mice musicians olive passionate potatoes prevented receiver recommendation riot rogers roster safer sells sentenced servant setup skull slot smash statue surprisingly surrender suspicious teenager tender thoroughly todd treatments tweeted vacuum variations vi wi wont acknowledged advances agrees allegations anticipated approve architect basin beneficial bleeding breed breeding bride broadway bros bud butler careers cartoon celebrities chick coke comparable confirmation console contractor contributing diameter dubai dublin dump duo dynamics elephant enhanced essays exhausted fabric fabulous fairy fathers focuses fold freak frustrated gambling gently glorious grief harrison historically hub hughes inevitable investigating kg labels lacking laughs layout lined lodge lords merchant merit micro myth nintendo objectives obsessed organised overwhelming pale particles pastor penalties permanently pets pockets poison predict presenting presidents pressing prints provincial raped realised rebel repairs rotation separately shaking shaw societies solved starring struggles subtle tastes throws toll tooth torn tragic trainer transformed unbelievable underneath variation viewing viral warehouse wears widow wives adjust administrator affecting allied altogether animated answering assess assumption assured austria avoided avoiding basket beard bio blanket brains bucket burger capability charming chiefs commented computing concentrate conducting consequence continent cookie cruz curse displays drain emissions ethical excellence flame forests freely fruits grabbed graduation hint horizon hostile imagined inhabitants ink inn intel kicks legends lo lucy magazines matrix measuring miserable momentum monkey montreal motorcycle nationwide nest newcastle nicely ninth nomination notable obligation optical outlook penny petty phd ports preserved programmes prospects publishers quantity quantum rainbow rebels recognised reed reign responding retained rises saves scan scare sectors shorts span specialized spencer submission sunny supporter te testament toe tops tremendous valued wounds ab accommodation achievements addressing adorable allegedly ambulance ar ashamed assure bailey ballot batteries blessing btw cemetery chambers cheat cheer chile cigarette compact completing consulting cooling corners deficit demo demon demonstration detected detection doll donated elaborate elder encountered expertise exploring fc fiber filmed fried grocery guided guinea halfway happier heels holmes hull independently indication insisted instances intensive interactive intimate laundry lbs lifting linda martial nigerian northeast observe packing panels password pokemon politically presumably pretending priorities pronounced prosecution proves pulse purchasing qualities queens rational realm reforms revenues rides ripped rope shadows shout sierra smartphone specified spectacular stan streak subscription switching technological temporarily tolerance tourists traditionally traveled treats unhappy whites yup accomplish adequate alter apology arkansas attributed beg belonging booked bout bowling brass buzz clarke comeback cos crops declare designers detect diagnosed diesel dimensions dip disturbing doesnt dot dresses dylan effectiveness eliminated ellen embarrassed exceptional filing fled foul frankly freezing graph hack hannah hatred ignorant influences interact judging knights lamp limitations majesty measurement measurements median medieval milan mobility montana murders nc ne nyc omg orientation oven owen passport penis pills planets proceeds rabbit raises ranges rats retire rhythm ruth savage servers shook shooter siblings slim someday sophisticated spam speeds stack stance static`.split(' ');
+const RANK={};RANKS.forEach((w,i)=>{RANK[w]=i+1});
+const BASE={};const BASE_IDS=[];
+RAW.split('\n').forEach(l=>{const p=l.split('|');if(p.length<5)return;const id=p[0].trim().toLowerCase();
+  BASE[id]={w:p[0].trim(),pos:p[1],def:p[2],ex:p[3],ar:p[4]};BASE_IDS.push(id);});
+
+/* ---------- state ---------- */
+const KEY='kalimati_v1';
+const F=FSRS;const R=F.Rating;
+const sched=F.fsrs(F.generatorParameters({request_retention:0.9,enable_fuzz:true}));
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function dayKey(d){d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function fresh(){return{v:1,st:{},custom:{},order:shuffle(BASE_IDS),set:{perDay:10,skipTop:800,rate:0.85,dict:true},log:{},newDay:{d:'',n:0,bonus:0}}}
+let S=(function(){try{const j=JSON.parse(localStorage.getItem(KEY));if(j&&j.v===1){
+  // keep new base words added in later versions
+  const known=new Set(j.order);BASE_IDS.forEach(id=>{if(!known.has(id))j.order.push(id)});return j}}catch(e){}return fresh()})();
+let memOnly=false;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){memOnly=true}}
+function info(id){return S.custom[id]||BASE[id]}
+function cardOf(id){const c=S.st[id].f;return Object.assign({},c,{due:new Date(c.due),last_review:c.last_review?new Date(c.last_review):undefined})}
+function today(){const k=dayKey();if(S.newDay.d!==k)S.newDay={d:k,n:0,bonus:0};return S.newDay}
+function allowance(){const t=today();return Math.max(0,S.set.perDay+t.bonus-t.n)}
+function newPool(){const out=[];Object.keys(S.custom).forEach(id=>{if(!S.st[id])out.push(id)});
+  for(const id of S.order){if(!S.st[id]&&BASE[id])out.push(id)}return out}
+function dueIds(now){now=now||new Date();return Object.keys(S.st).filter(id=>new Date(S.st[id].f.due)<=now).sort((a,b)=>new Date(S.st[a].f.due)-new Date(S.st[b].f.due))}
+
+/* ---------- speech ---------- */
+let VOICE=null;
+function pickVoice(){if(!('speechSynthesis' in window))return;const v=speechSynthesis.getVoices().filter(x=>/^en/i.test(x.lang));
+  VOICE=v.find(x=>/en[-_]US/i.test(x.lang)&&/google|samantha|enhanced|premium|natural/i.test(x.name))||v.find(x=>/en[-_]US/i.test(x.lang))||v[0]||null}
+if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
+function canSay(){return 'speechSynthesis' in window}
+function say(t){if(!canSay())return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/[{}]/g,''));u.lang='en-US';if(VOICE)u.voice=VOICE;u.rate=S.set.rate;speechSynthesis.speak(u)}catch(e){}}
+const ICON='<svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+function sayBtn(txt,id){return `<button class="say" type="button" data-say="${esc(txt)}" aria-label="استمع" ${id?`id="${id}"`:''}>${ICON}</button>`}
+
+/* ---------- helpers ---------- */
+function lev(a,b){const m=a.length,n=b.length;const d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]}
+function formOf(i){const m=/\{([^}]+)\}/.exec(i.ex||'');return m?m[1]:i.w}
+function exHTML(i,mode){ // mode: 'blank' | 'mark'
+  if(!i.ex||!/\{/.test(i.ex))return'';
+  let out='',last=0;const re=/\{([^}]+)\}/g;let m;
+  while((m=re.exec(i.ex))){out+=esc(i.ex.slice(last,m.index));
+    out+=mode==='blank'?`<span class="blank" style="width:${Math.max(3,m[1].length*.62)}em"></span>`:`<mark>${esc(m[1])}</mark>`;last=re.lastIndex}
+  out+=esc(i.ex.slice(last));return `<span class="en blk exs">${out}</span>`}
+function fmtDate(){return new Date().toLocaleDateString('ar-KW',{weekday:'long',day:'numeric',month:'long'})}
+function stats(){
+  const ids=Object.keys(S.st);let mature=0;ids.forEach(id=>{if(S.st[id].f.state===2&&S.st[id].f.stability>=21)mature++});
+  let streak=0;const d=new Date();if(!(S.log[dayKey(d)]||{}).r)d.setDate(d.getDate()-1);
+  while((S.log[dayKey(d)]||{}).r){streak++;d.setDate(d.getDate()-1)}
+  return{total:ids.length,mature,streak}}
+
+/* ---------- views ---------- */
+let TAB='home',SESS=null;
+function go(t){TAB=t;SESS=null;try{speechSynthesis.cancel()}catch(e){}render();window.scrollTo(0,0)}
+function render(){
+  document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-current',b.dataset.t===TAB?'page':'false'));
+  if(SESS)return renderSession();
+  ({home:viewHome,text:viewText,words:viewWords,set:viewSet})[TAB]()}
+
+function viewHome(){
+  const now=new Date(),due=dueIds(now).length,al=Math.min(allowance(),newPool().length),st=stats();
+  const days=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days.push((S.log[dayKey(d)]||{}).r||0)}
+  const mx=Math.max(1,...days);
+  $('#app').innerHTML=`
+  <h1>كلماتي</h1><p class="sub">${fmtDate()}</p>
+  <div class="panel">
+    <div class="row sp"><div><div class="big">${due+al}</div><div class="note">بطاقة اليوم</div></div>
+    <div class="note" style="text-align:left">${due} مراجعة<br>${al} كلمة جديدة</div></div>
+    <button class="btn pri blk" id="go" style="margin-top:16px" ${due+al?'':'disabled'}>${due+al?'ابدأ':'خلصت اليوم'}</button>
+    ${(!al&&newPool().length)?`<button class="btn blk" id="more" style="margin-top:10px">أبي 5 كلمات زيادة</button>`:''}
+  </div>
+  <div class="grid3">
+    <div class="stat"><b>${st.total}</b><span>في التدريب</span></div>
+    <div class="stat"><b>${st.mature}</b><span>ثابتة</span></div>
+    <div class="stat"><b>${st.streak}</b><span>أيام متتالية</span></div>
+  </div>
+  <h2>آخر 14 يوم</h2>
+  <div class="chart" aria-label="عدد المراجعات">${days.map(n=>`<i class="${n?'':'z'}" style="height:${n?Math.max(6,n/mx*100):5}%" title="${n}"></i>`).join('')}</div>
+  <p class="note" style="margin-top:18px">«ثابتة» = الكلمة اللي جدولتها وصلت 21 يوم أو أكثر. الدفعة الأولى 304 كلمة شائعة في القصص والأنمي، وتقدر تضيف كلماتك من أي نص في تبويب «أضف نص».${memOnly?'<br><b>تنبيه:</b> المتصفح ما يسمح بالحفظ، تقدمك ما راح يبقى.':''}</p>`;
+  const g=$('#go');if(g)g.onclick=startSession;
+  const m=$('#more');if(m)m.onclick=()=>{today().bonus+=5;save();render()}}
+
+/* ---------- session ---------- */
+function startSession(){
+  const now=new Date();const Q=dueIds(now).map(id=>({id,k:'rev'}));
+  newPool().slice(0,allowance()).forEach(id=>Q.push({id,k:'new'}));
+  SESS={Q,cur:null,n:0,ok:0,bad:[],started:Date.now()};next()}
+function next(){
+  const S_=SESS;if(!S_.Q.length){ // look ahead: cards in learning due soon
+    if(S_.held&&S_.held.length){S_.Q=S_.held.splice(0)}else return finish()}
+  S_.applied=null;S_.counted=false;S_.rate=null;
+  S_.cur=S_.Q.shift();S_.step=S_.cur.k==='new'?'intro':'test';S_.res=null;S_.hint=0;S_.t0=Date.now();
+  if(S_.step==='test')prepTest();render();
+  if(S_.step==='intro')setTimeout(()=>say(info(S_.cur.id).w),150);
+  else if(S_.kind==='dict')setTimeout(()=>say(info(S_.cur.id).w),150)}
+function prepTest(){
+  const s=SESS,id=s.cur.id,c=S.st[id]?S.st[id].f:null;
+  if(s.cur.known)s.kind='cloze';
+  else if(c&&c.reps<2&&c.state!==2)s.kind='choice';
+  else s.kind=(canSay()&&S.set.dict&&Math.random()<.35)?'dict':'cloze';
+  if(s.kind==='choice'){
+    const me=info(id);const pool=[...BASE_IDS,...Object.keys(S.custom)].filter(x=>x!==id);
+    const same=shuffle(pool.filter(x=>info(x).pos===me.pos)),other=shuffle(pool.filter(x=>info(x).pos!==me.pos));
+    s.opts=shuffle([id,...same.concat(other).slice(0,3)])}}
+
+function renderSession(){
+  const s=SESS,id=s.cur.id,i=info(id),left=s.Q.length+(s.held?s.held.length:0)+1;
+  const head=`<div class="row sp" style="margin-bottom:14px"><span class="note">متبقي ${left}</span><button class="link" id="quit">إنهاء</button></div>`;
+  let body='';
+  if(s.step==='intro'){
+    body=`<div class="panel"><div class="note">كلمة جديدة</div>
+      <div class="hd"><div><div class="word en">${esc(i.w)}</div><div class="pos en">${esc(i.pos)}</div></div>${sayBtn(i.w)}</div>
+      <div class="def en blk">${esc(i.def)}</div>${exHTML(i,'mark')}
+      ${i.ex?`<div class="row" style="margin-top:6px">${sayBtn(i.ex)}<span class="note">الجملة</span></div>`:''}
+      <details style="margin-top:14px"><summary class="note" style="cursor:pointer">التلميح بالعربي</summary><div style="margin-top:6px;font-size:18px">${esc(i.ar||'')}</div></details>
+      <div class="row" style="margin-top:18px"><button class="btn pri" id="learn" style="flex:2">علّمني</button><button class="btn" id="know" style="flex:1">أعرفها</button></div></div>`;
+  }else if(!s.res){
+    body='<div class="panel">'+testBody(i)+'</div>';
+  }else{
+    body='<div class="panel">'+testBody(i,true)+feedback(i)+'</div>';
+  }
+  $('#app').innerHTML=head+body;wireSession(i)}
+
+function hintHTML(i){
+  const s=SESS,h=s.hint,p=[];
+  const hasEx=/\{/.test(i.ex||'');
+  const lvl=hasEx||s.kind==='dict'?[ 'def','letter','ar']:['letter','ar'];
+  lvl.slice(0,h).forEach(k=>{
+    if(k==='def')p.push(`<div class="def en blk" style="font-size:18px">${esc(i.def)}</div>`);
+    if(k==='letter')p.push(`<div class="hint">أول حرف: <span class="en"><b>${esc(i.w[0])}</b></span> · عدد الحروف: ${i.w.length}</div>`);
+    if(k==='ar')p.push(`<div class="hint">${esc(i.ar||'—')}</div>`)});
+  const more=h<lvl.length;
+  return p.join('')+(more?`<div><button class="link" type="button" id="hint">تلميح</button></div>`:'')}
+
+function testBody(i,done){
+  const s=SESS;let h='';
+  if(s.kind==='choice'){
+    h=`<div class="note">اختر الكلمة المناسبة</div><div class="def en blk">${esc(i.def)}</div>${exHTML(i,'blank')}
+    <div class="opts">${s.opts.map(o=>{const w=info(o).w;let c='opt';
+      if(done){if(o===s.cur.id)c+=' ok';else if(o===s.pick)c+=' bad'}
+      return `<button class="${c}" data-o="${esc(o)}" ${done?'disabled':''}>${esc(w)}</button>`}).join('')}</div>`;
+  }else if(s.kind==='cloze'){
+    h=`<div class="note">اكتب الكلمة الناقصة</div>${/\{/.test(i.ex||'')?exHTML(i,done?'mark':'blank'):`<div class="def en blk">${esc(i.def)}</div>`}
+    ${done?'':hintHTML(i)}
+    <form id="f" autocomplete="off"><input class="ans" id="ans" type="text" ${done?'disabled value="'+esc(s.typed)+'"':''} autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" dir="ltr" aria-label="الإجابة">
+    ${done?'':'<button class="btn pri blk" style="margin-top:12px">تأكيد</button>'}</form>`;
+  }else{
+    h=`<div class="note">اكتب اللي تسمعه</div><div class="row" style="margin:12px 0">${sayBtn(i.w,'sw')}<span class="note">اضغط للإعادة</span></div>
+    ${done?'':hintHTML(i)}
+    <form id="f" autocomplete="off"><input class="ans" id="ans" type="text" ${done?'disabled value="'+esc(s.typed)+'"':''} autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" dir="ltr" aria-label="الإجابة">
+    ${done?'':'<button class="btn pri blk" style="margin-top:12px">تأكيد</button>'}</form>`}
+  return h}
+
+function feedback(i){
+  const s=SESS,r=s.res;let cls=r==='ok'?'ok':r==='near'?'near':'bad';
+  const msg=r==='ok'?'صح':r==='near'?`قريب، الإملاء الصحيح: ${i.w}`:`الجواب: ${i.w}`;
+  const msgHTML=r==='ok'?'صح':r==='near'?`قريب، الإملاء الصحيح: <span class="en"><b>${esc(i.w)}</b></span>`:`الجواب: <span class="en"><b>${esc(i.w)}</b></span>`;
+  return `<div class="fb ${cls}" role="status">${msgHTML}</div>
+   <div class="def en blk" style="font-size:18px">${esc(i.def)}</div>${s.kind!=='cloze'?exHTML(i,'mark'):''}
+   <div class="row" style="margin-top:8px">${sayBtn(i.w)}${i.ex?sayBtn(i.ex):''}<span class="note" style="margin-inline-start:auto">${esc(i.ar||'')}</span></div>
+   <div class="row" style="margin-top:16px"><button class="btn pri" id="nx" style="flex:2" autofocus>التالي</button>
+   ${r==='ok'&&s.rate!==R.Easy&&s.hint===0?'<button class="btn" id="easy" style="flex:1">سهلة جداً</button>':''}</div>`}
+
+function wireSession(i){
+  const s=SESS;
+  document.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>say(b.dataset.say));
+  $('#quit').onclick=()=>finish();
+  if(s.step==='intro'){
+    $('#learn').onclick=()=>introduce(false);$('#know').onclick=()=>introduce(true);return}
+  const h=$('#hint');if(h)h.onclick=()=>{s.hint++;const v=$('#ans')?$('#ans').value:'';render();const a=$('#ans');if(a){a.value=v;a.focus()}};
+  document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(s.res)return;s.pick=b.dataset.o;s.res=s.pick===s.cur.id?'ok':'bad';commit()});
+  const f=$('#f');if(f){f.onsubmit=e=>{e.preventDefault();if(s.res)return;const v=$('#ans').value.trim().toLowerCase();if(!v)return;
+    s.typed=v;const w=i.w.toLowerCase(),fo=formOf(i).toLowerCase();
+    const d=Math.min(lev(v,w),lev(v,fo));
+    s.res=(v===w||v===fo)?'ok':(d===1&&w.length>=4)?'near':'bad';commit()};
+    const a=$('#ans');if(a&&!s.res)setTimeout(()=>a.focus(),30)}
+  const nx=$('#nx');if(nx){nx.onclick=()=>next();nx.focus()}
+  const ez=$('#easy');if(ez)ez.onclick=()=>{rate(R.Easy);ez.remove()}}
+
+function introduce(known){
+  const s=SESS,id=s.cur.id;const now=new Date();
+  S.st[id]={f:F.createEmptyCard(now)};today().n++;save();
+  s.cur={id,k:'rev',known};s.step='test';s.res=null;s.hint=0;s.t0=Date.now();s.applied=null;s.counted=false;
+  if(!known){ // brief gap: show two other cards first so it isn't just copying
+    const ins=Math.min(s.Q.length,2);s.Q.splice(ins,0,s.cur);return next()}
+  prepTest();render();if(s.kind==='dict')say(info(id).w)}
+
+function commit(){
+  const s=SESS,id=s.cur.id;let r;
+  if(s.res==='bad')r=R.Again;else if(s.res==='near')r=R.Hard;
+  else if(s.kind==='choice')r=R.Good;
+  else if(s.hint>0)r=R.Hard;
+  else r=s.cur.known?R.Easy:R.Good;
+  s.rate=r;rate(r);render();
+  if(s.res==='ok'||s.res==='near'){say(info(id).w)}}
+
+function rate(r){
+  const s=SESS,id=s.cur.id;
+  if(s.applied){ // re-rating (Easy override): recompute from the stored pre-card
+    S.st[id].f=s.applied.pre;if(s.held)s.held=s.held.filter(x=>x.id!==id)}
+  const pre=S.st[id].f;const now=new Date();
+  const out=sched.next(cardOf(id),now,r);
+  S.st[id].f=out.card;s.applied={pre};s.rate=r;
+  const k=dayKey(now);S.log[k]=S.log[k]||{r:0,ok:0};
+  if(!s.counted){S.log[k].r++;if(s.res==='ok'||s.res==='near'){S.log[k].ok++;s.ok++}else s.bad.push(id);s.n++;s.counted=true;
+    if(new Date(out.card.due)-now<20*60e3){s.held=s.held||[];const item={id,k:'rev'};
+      if(r===R.Again&&s.Q.length>=3)s.Q.splice(3,0,item);else s.held.push(item)}}
+  save()}
+
+
+function finish(){
+  const s=SESS;SESS=null;const al=Math.min(allowance(),newPool().length);
+  $('#app').innerHTML=`<h1>تمام</h1><p class="sub">${s.n} بطاقة · ${s.n?Math.round(s.ok/s.n*100):0}٪ صح</p>
+   <div class="panel">${s.bad.length?`<div class="note">كلمات تحتاج وقت</div><div class="chips">${[...new Set(s.bad)].map(id=>`<span class="chip">${esc(info(id).w)}</span>`).join('')}</div>`:'<div>ما غلطت ولا بطاقة.</div>'}
+   <button class="btn pri blk" id="h" style="margin-top:16px">الرئيسية</button>
+   ${al?`<button class="btn blk" id="again" style="margin-top:10px">كمّل</button>`:''}</div>
+   <p class="note" style="margin-top:16px">الكلمات اللي غلطت فيها ترجع لك اليوم بجلسة قادمة، والباقي يتجدول لأيام لاحقة تلقائياً.</p>`;
+  $('#h').onclick=()=>go('home');const a=$('#again');if(a)a.onclick=startSession}
+
+/* ---------- add text ---------- */
+let TX={text:'',res:null};
+function lemma(t){
+  if(RANK[t])return t;
+  const c=[];
+  if(t.endsWith('ies'))c.push(t.slice(0,-3)+'y');
+  if(t.endsWith('es'))c.push(t.slice(0,-2));
+  if(t.endsWith('s'))c.push(t.slice(0,-1));
+  if(t.endsWith('ied'))c.push(t.slice(0,-3)+'y');
+  if(t.endsWith('ed')){c.push(t.slice(0,-2));c.push(t.slice(0,-1));if(/(.)\1ed$/.test(t))c.push(t.slice(0,-3))}
+  if(t.endsWith('ing')){c.push(t.slice(0,-3));c.push(t.slice(0,-3)+'e');if(/(.)\1ing$/.test(t))c.push(t.slice(0,-4))}
+  if(t.endsWith('ly'))c.push(t.slice(0,-2));
+  if(t.endsWith('er'))c.push(t.slice(0,-2));
+  for(const x of c){if(RANK[x]||BASE[x]||S.custom[x])return x}
+  return t}
+function analyze(text){
+  const toks=text.match(/[A-Za-z][A-Za-z'’-]*/g)||[];const m={};
+  const sents=text.split(/(?<=[.!?…])\s+|\n+/).filter(Boolean);
+  toks.forEach(raw=>{
+    const w=raw.replace(/['’]s$/i,'').replace(/^[-']+|[-']+$/g,'');if(w.length<3||/'/.test(w))return;
+    const low=w.toLowerCase();const lm=lemma(low);
+    const o=m[lm]||(m[lm]={lm,n:0,forms:{},cap:0});o.n++;o.forms[low]=(o.forms[low]||0)+1;if(/^[A-Z]/.test(w))o.cap++});
+  const rows=Object.values(m).filter(o=>{
+    if(o.cap===o.n&&o.n>=1&&!BASE[o.lm]&&!RANK[o.lm])return false; // likely a name
+    return true});
+  rows.forEach(o=>{o.rank=RANK[o.lm]||99999;});
+  rows.forEach(o=>{ // sentence containing the commonest form
+    const f=Object.keys(o.forms).sort((a,b)=>o.forms[b]-o.forms[a])[0];o.form=f;
+    const re=new RegExp('\\b'+f.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','i');
+    const se=sents.find(x=>re.test(x));o.sent=se?se.trim().replace(/\s+/g,' '):''});
+  return rows}
+function viewText(){
+  const skip=S.set.skipTop;
+  let list='';
+  if(TX.res){
+    TX.res.forEach(o=>{o.have=!!(S.st[o.lm]||S.custom[o.lm])});const rows=TX.res.filter(o=>o.rank>skip).sort((a,b)=>b.n-a.n||a.rank-b.rank);
+    list=`<h2>${rows.length} كلمة</h2><p class="note">مرتبة حسب تكرارها في النصّ ثم شيوعها في الإنجليزية. اضغط الكلمة لإضافتها. الكلمات الشائعة جداً (أول ${skip}) مخفية.</p>
+    <div class="chips">${rows.slice(0,120).map(o=>`<button class="chip ${o.have?'on':''}" data-lm="${esc(o.lm)}">${esc(o.lm)}<small>${o.n>1?'×'+o.n+' · ':''}${o.rank>6500?'نادرة':o.rank>2500?'متوسطة':'شائعة'}</small></button>`).join('')}</div>`}
+  $('#app').innerHTML=`<h1>أضف نص</h1><p class="sub">الصق حوار Genshin أو فصل من رواية، وأطلع لك الكلمات اللي تستاهل.</p>
+  <textarea id="tx" placeholder="Paste English text here" dir="ltr">${esc(TX.text)}</textarea>
+  <div class="row" style="margin-top:10px"><button class="btn pri" id="an" style="flex:1">حلّل</button><button class="btn" id="clr">مسح</button></div>${list}`;
+  $('#an').onclick=()=>{TX.text=$('#tx').value;TX.res=analyze(TX.text);viewText()};
+  $('#clr').onclick=()=>{TX={text:'',res:null};viewText()};
+  document.querySelectorAll('[data-lm]').forEach(b=>b.onclick=()=>openAdd(b.dataset.lm))}
+
+async function fetchDef(w){
+  try{const r=await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(w));if(!r.ok)return null;
+    const j=await r.json();const m=j[0].meanings[0];return{pos:m.partOfSpeech,def:m.definitions[0].definition}}catch(e){return null}}
+async function openAdd(lm){
+  const o=TX.res.find(x=>x.lm===lm);if(!o)return;
+  const exist=S.st[lm];
+  const ex=o.sent?o.sent.replace(new RegExp('\\b('+o.form.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')\\b','i'),'{$1}'):'';
+  const b=BASE[lm];
+  const sh=document.createElement('div');sh.className='sheet';
+  sh.innerHTML=`<div><div class="hd"><div class="word en" style="font-size:36px">${esc(lm)}</div>${sayBtn(lm)}</div>
+   ${o.sent?`<span class="en blk exs" style="font-size:16px">${esc(o.sent)}</span>`:''}
+   <label class="f" for="d">التعريف (بالإنجليزي)</label><input type="text" id="d" dir="ltr" value="${b?esc(b.def):''}" placeholder="${b?'':'جاري البحث…'}">
+   <label class="f" for="a">بالعربي (اختياري)</label><input type="text" id="a" value="${b?esc(b.ar):''}">
+   <p class="note" id="nt"></p>
+   <div class="row" style="margin-top:12px"><button class="btn pri" id="ad" style="flex:2" ${exist?'disabled':''}>${exist?'موجودة عندك':'أضف'}</button><button class="btn" id="cl" style="flex:1">إلغاء</button></div></div>`;
+  document.body.appendChild(sh);
+  sh.querySelector('[data-say]').onclick=()=>say(lm);
+  sh.querySelector('#cl').onclick=()=>sh.remove();
+  sh.onclick=e=>{if(e.target===sh)sh.remove()};
+  let pos=b?b.pos:'';
+  if(!b){const r=await fetchDef(lm);const d=sh.querySelector('#d');
+    if(r){if(!d.value)d.value=r.def;pos=r.pos;sh.querySelector('#nt').textContent='التعريف من قاموس مفتوح، عدّله إذا كان صعب.'}
+    else{d.placeholder='اكتب تعريف بسيط بالإنجليزي';sh.querySelector('#nt').textContent='ما قدرت أجيب التعريف، اكتبه بنفسك.'}}
+  sh.querySelector('#ad').onclick=()=>{
+    const def=sh.querySelector('#d').value.trim();if(!def){sh.querySelector('#nt').textContent='لازم تعريف.';return}
+    S.custom[lm]={w:lm,pos:pos||'',def,ex:ex||(b?b.ex:''),ar:sh.querySelector('#a').value.trim()};
+    save();sh.remove();viewText()}}
+
+/* ---------- words ---------- */
+let WQ='';
+function viewWords(){
+  const ids=Object.keys(S.st);
+  const rows=ids.filter(id=>!WQ||id.includes(WQ.toLowerCase())).sort((a,b)=>new Date(S.st[a].f.due)-new Date(S.st[b].f.due));
+  const stName=s=>['جديدة','تتعلم','تُراجع','إعادة تعلم'][s];
+  const when=d=>{d=new Date(d);const m=(d-new Date())/6e4;if(m<=0)return'الحين';if(m<60)return Math.round(m)+' د';if(m<1440)return Math.round(m/60)+' س';return Math.round(m/1440)+' يوم'};
+  $('#app').innerHTML=`<h1>كلماتي</h1><p class="sub">${ids.length} كلمة في التدريب · ${newPool().length} باقية بالمجموعة</p>
+  <input type="search" id="q" placeholder="ابحث" dir="ltr" value="${esc(WQ)}" aria-label="بحث">
+  <div class="list panel" style="margin-top:14px;padding:6px 16px">${rows.length?rows.slice(0,200).map(id=>{const i=info(id),c=S.st[id].f;
+    return `<div class="it"><div><span class="en" style="font-weight:600;font-size:19px">${esc(i.w)}</span><div class="tag">${stName(c.state)} · قادمة بعد ${when(c.due)}</div></div><button class="link" data-del="${esc(id)}">حذف</button></div>`}).join(''):'<p class="note" style="padding:10px 0">ما في كلمات بعد. ابدأ من «اليوم».</p>'}</div>`;
+  const q=$('#q');q.oninput=()=>{WQ=q.value;const p=q.selectionStart;viewWords();const n=$('#q');n.focus();n.setSelectionRange(p,p)};
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(confirm('حذف «'+b.dataset.del+'» من التدريب؟')){delete S.st[b.dataset.del];save();viewWords()}})}
+
+/* ---------- settings ---------- */
+function viewSet(){
+  $('#app').innerHTML=`<h1>الإعدادات</h1><p class="sub"></p>
+  <label class="f" for="pd">كلمات جديدة في اليوم: <b id="pdv">${S.set.perDay}</b></label>
+  <input type="range" id="pd" min="3" max="30" value="${S.set.perDay}" style="width:100%">
+  <label class="f" for="sk">إخفاء أشيع كلمات الإنجليزية في تحليل النص: <b id="skv">${S.set.skipTop}</b></label>
+  <input type="range" id="sk" min="0" max="3000" step="100" value="${S.set.skipTop}" style="width:100%">
+  <label class="f" for="rt">سرعة النطق: <b id="rtv">${S.set.rate}</b></label>
+  <input type="range" id="rt" min="0.6" max="1.1" step="0.05" value="${S.set.rate}" style="width:100%">
+  <label class="f"><input type="checkbox" id="dc" ${S.set.dict?'checked':''}> تمارين الإملاء بالصوت ${canSay()?'':'(جهازك ما يدعم الصوت)'}</label>
+  <h2>نسخة احتياطية</h2>
+  <p class="note">تقدمك محفوظ في هذا المتصفح فقط. نزّل نسخة من وقت لوقت، خاصة قبل ما تمسح بيانات المتصفح.</p>
+  <div class="row"><button class="btn" id="ex">تنزيل نسخة</button><button class="btn" id="im">استرجاع نسخة</button><input type="file" id="fi" accept="application/json" hidden></div>
+  <p class="note" id="msg"></p>
+  <h2>أصل الكلمات</h2>
+  <p class="note">المجموعة الأولى: 304 كلمة اخترتها لأنها تتكرر في القصص والأنمي والألعاب، مع تعريفات بإنجليزي مبسّط وجمل أنا كتبتها. ترتيب الأشيع لتحليل النصوص مأخوذ من مكتبة wordfreq (بيانات CC BY-SA 4.0). الجدولة: مكتبة ts-fsrs (MIT).</p>
+  <button class="btn" id="rs" style="margin-top:14px;color:var(--bad)">مسح كل شي</button>`;
+  const bind=(id,k,f)=>{const e=$('#'+id);e.oninput=()=>{S.set[k]=f(e.value);$('#'+id+'v').textContent=S.set[k];save()}};
+  bind('pd','perDay',Number);bind('sk','skipTop',Number);bind('rt','rate',Number);
+  $('#dc').onchange=e=>{S.set.dict=e.target.checked;save()};
+  $('#ex').onclick=()=>{const b=new Blob([JSON.stringify(S)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='kalimati-'+dayKey()+'.json';a.click()};
+  $('#im').onclick=()=>$('#fi').click();
+  $('#fi').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);if(j.v!==1||!j.st)throw 0;S=j;save();$('#msg').textContent='تم الاسترجاع.'}catch(x){$('#msg').textContent='الملف مو صحيح.'}};r.readAsText(f)};
+  $('#rs').onclick=()=>{if(confirm('تمسح كل تقدمك؟')){S=fresh();save();go('home')}}}
+
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>go(b.dataset.t));
+render();
+</script>
+</body>
+</html>
