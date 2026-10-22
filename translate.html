@@ -82,6 +82,7 @@ label.chk input{margin-top:5px;width:18px;height:18px;flex:none}
 .prev .th img{height:84px;width:auto;border:1.5px solid var(--line);border-radius:3px;flex:none}
 .page figure.ill{margin:1.4em 0;text-align:center;break-inside:avoid}
 .page figure.ill img{max-width:100%;max-height:80vh;border:1px solid var(--line)}
+.page figure.ill figcaption{margin:.7em auto 0;max-width:34em;text-align:right;white-space:pre-line;font-size:.92em;line-height:1.7;opacity:.9}
 
 /* وضع القراءة والطباعة */
 #doc{display:none}
@@ -131,6 +132,7 @@ body.reading #doc{display:block}
     <select id="model" class="ltr"></select>
     <label class="chk"><input type="checkbox" id="optThink"><span>تفكير الموديل (أدق غالباً، وأبطأ)</span></label>
     <label class="chk"><input type="checkbox" id="optRev"><span>مراجعة ثانية لكل قطعة (تضاعف عدد الطلبات)</span></label>
+    <label class="chk"><input type="checkbox" id="optImg"><span>اقرأ وترجم النص داخل الصور (فقاعات، عناوين، لوحات). طلب إضافي لكل صورة، يشتغل مع Gemini فقط</span></label>
     <div class="row" style="margin-top:12px">
       <button class="btn sm" id="bTest">اختبر المفتاح وجيب الموديلات</button>
     </div>
@@ -222,12 +224,12 @@ body.reading #doc{display:block}
 'use strict';
 var $=function(s){return document.querySelector(s)};
 var FAST=/[?&]fast=1/.test(location.search);
-var T={gap:FAST?10:{gemini:6500,groq:3000}, retries:5};
+var T={gap:FAST?10:{gemini:6500,site:6500,groq:3000}, retries:5};
 
 /* ---------- تخزين ---------- */
 var CFGK='tr_cfg_v1';
 var BROKER='https://hala-chat-jh6w.onrender.com';
-var cfg={prov:'site',key:{gemini:'',groq:'',site:''},model:{gemini:'',groq:'',site:''},lastId:'',think:true,rev:false};
+var cfg={prov:'site',key:{gemini:'',groq:'',site:''},model:{gemini:'',groq:'',site:''},lastId:'',think:true,rev:false,img:false};
 try{var c0=JSON.parse(localStorage.getItem(CFGK)||'null');if(c0){cfg=Object.assign(cfg,c0);cfg.key=Object.assign({gemini:'',groq:'',site:''},c0.key);cfg.model=Object.assign({gemini:'',groq:'',site:''},c0.model)}}catch(e){}
 function saveCfg(){try{localStorage.setItem(CFGK,JSON.stringify(cfg))}catch(e){}}
 
@@ -652,14 +654,14 @@ function score(n){var v=/gemini-(\d+(?:\.\d+)?)/.exec(n);var ver=v?parseFloat(v[
   var s=ver*10;if(/flash/.test(n))s+=30;if(/lite/.test(n))s-=15;if(/preview|exp|thinking/.test(n))s-=8;if(/pro/.test(n))s+=5;return s}
 function gscore(n){var s=0;if(/llama-3\.3-70b/.test(n))s=50;else if(/gpt-oss-120b/.test(n))s=45;else if(/llama-3\.1-70b/.test(n))s=40;else if(/70b|120b/.test(n))s=30;if(/versatile/.test(n))s+=3;return s}
 
-async function callModel(userText,model,temp,sys){
+async function callModel(userText,model,temp,sys,img){
   sys=sys||SYS;
   var prov=cfg.prov,key=cfg.key[prov];
   if(prov==='gemini'||prov==='site'){
     var gen={temperature:temp,maxOutputTokens:(cfg.think!==false&&!cfg.smallOut)?16384:8192};
     if(cfg.think===false&&/2\.5-flash/.test(model)&&!/lite/.test(model)&&!cfg.noThink)gen.thinkingConfig={thinkingBudget:0};
     var safety=['HARASSMENT','HATE_SPEECH','SEXUALLY_EXPLICIT','DANGEROUS_CONTENT'].map(function(c){return {category:'HARM_CATEGORY_'+c,threshold:'BLOCK_NONE'}});
-    var body={systemInstruction:{parts:[{text:sys}]},contents:[{role:'user',parts:[{text:userText}]}],generationConfig:gen,safetySettings:safety};
+    var body={systemInstruction:{parts:[{text:sys}]},contents:[{role:'user',parts:(function(){var ps=[{text:userText}];var m=img&&/^data:([^;]+);base64,(.*)$/.exec(img);if(m)ps.unshift({inlineData:{mimeType:m[1],data:m[2]}});return ps})()}],generationConfig:gen,safetySettings:safety};
     var r=prov==='site'
       ?await http(BROKER+'/translate/gen',{method:'POST',headers:{'Content-Type':'application/json','x-translate-pass':key},body:JSON.stringify({model:model,body:body})})
       :await http('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify(body)});
@@ -675,11 +677,11 @@ async function callModel(userText,model,temp,sys){
   return {text:ch.message.content||'',cut:ch.finish_reason==='length'};
 }
 
-async function callRetry(userText,model,temp,sys){
+async function callRetry(userText,model,temp,sys,img){
   var tries=0;
   for(;;){
     if(stopFlag)throw apiErr('stop','stop');
-    try{return await callModel(userText,model,temp,sys)}
+    try{return await callModel(userText,model,temp,sys,img)}
     catch(e){
       if(e.kind==='think'){cfg.noThink=true;saveCfg();continue}
       if(e.kind==='out'){if(cfg.smallOut)throw apiErr('fatal','رفض المزوّد حد طول الرد لهذا الموديل. جرّب موديل ثاني.');cfg.smallOut=true;saveCfg();continue}
@@ -790,6 +792,32 @@ function splitChunk(ci){
   B.chunks.splice(ci,1,[c[0],mid],[mid,c[1]]);
 }
 
+var SYS_IMG='You read text that appears inside an illustration or page image from a book (speech bubbles, captions, signs, notes, titles, sound effects). Transcribe it mentally and translate it into natural, easy Modern Standard Arabic that fits the tone of the story, never word for word. Output ONLY the Arabic translation, one line per bubble or text element, in natural reading order (right-to-left if the page is manga-style, otherwise top-to-bottom and left-to-right). Keep character names consistent with the glossary if given. Do not describe the picture and do not add notes. If the image contains no readable text, output exactly: NONE';
+async function doImages(){
+  if(!cfg.img||!B.imgs||!B.imgs.length)return true;
+  if(cfg.prov==='groq'){return true}
+  var r=getRng(),todo=B.imgs.filter(function(im){return im.tr===undefined&&im.after>=r[0]&&(im.after<r[1]||r[1]===B.paras.length)});
+  if(!todo.length)return true;
+  var gl=Object.keys(B.gl||{}).slice(-80).map(function(k){return k+' = '+B.gl[k]}).join('\n');
+  for(var i=0;i<todo.length;i++){
+    if(stopFlag)return false;
+    ui.status.textContent='نقرأ النص داخل الصور '+(i+1)+' من '+todo.length+'…';
+    var txt;
+    try{
+      var res=await callRetry((gl?'<glossary>\n'+gl+'\n</glossary>\n':'')+(B.brief?'<brief>'+B.brief+'</brief>\n':'')+'Translate the text in this image.',cfg.model[cfg.prov],0.3,SYS_IMG,todo[i].data);
+      txt=(res.text||'').trim();
+    }catch(e){
+      if(e.kind==='stop')return false;
+      if(e.kind==='blocked'){todo[i].tr='';continue}
+      msg(ui.bMsg,e.kind==='quota'?'near':'bad',esc(e.message));return false;
+    }
+    todo[i].tr=(/^NONE\b/i.test(txt)||txt.length<2)?'':txt.replace(/\n{3,}/g,'\n\n');
+    await saveImgs();
+    if(i<todo.length-1){var g=T.gap[cfg.prov]||T.gap;if(!(await wait(typeof g==='number'?g:2000,'استراحة بين الطلبات')))return false}
+  }
+  return true;
+}
+
 async function run(){
   if(running||!B)return;
   if(!cfg.key[cfg.prov]||!cfg.model[cfg.prov]){msg(ui.bMsg,'bad','حط المفتاح واختبره واختر الموديل من القسم الأول.');return}
@@ -804,7 +832,7 @@ async function run(){
     for(;;){
       if(stopFlag)break;
       var ci=nextChunk();
-      if(ci<0){ui.status.textContent='تمت الترجمة.';var nf=Object.keys(B.flags||{}).length;msg(ui.bMsg,nf?'near':'ok','انتهت الترجمة. اضغط «عرض / حفظ PDF».'+(nf?' فيه '+nf+' فقرة قد تكون ناقصة، معلّمة بخط جانبي في العرض، راجعها.':''));break}
+      if(ci<0){if(!(await doImages()))break;ui.status.textContent='تمت الترجمة.';var nf=Object.keys(B.flags||{}).length;msg(ui.bMsg,nf?'near':'ok','انتهت الترجمة. اضغط «عرض / حفظ PDF».'+(nf?' فيه '+nf+' فقرة قد تكون ناقصة، معلّمة بخط جانبي في العرض، راجعها.':''));break}
       ui.status.textContent='نترجم القطعة '+(ci+1)+' من '+B.chunks.length+'…';
       if(lastEnd){var g=T.gap[cfg.prov]||T.gap;var rest=g-(Date.now()-lastEnd);if(rest>0&&!(await wait(rest,'استراحة بين الطلبات')))break}
       var t0=Date.now();
@@ -839,7 +867,7 @@ async function run(){
 function docHTML(){
   var h='<div class="titlepage"><h1>'+esc(B.titleAr||B.title||'')+'</h1>'+(B.titleAr&&B.title?'<span class="en">'+esc(B.title)+'</span>':'')+'<small>ترجمة آلية بالذكاء الاصطناعي</small></div>';
   var fig={};(B.imgs||[]).forEach(function(im){(fig[im.after]=fig[im.after]||[]).push(im)});
-  function figs(i){if(i<B.paras.length?!B.ar[i]:!B.ar[i-1])return '';return (fig[i]||[]).map(function(im){return '<figure class="ill"><img alt="" src="'+im.data+'"></figure>'}).join('')}
+  function figs(i){if(i<B.paras.length?!B.ar[i]:!B.ar[i-1])return '';return (fig[i]||[]).map(function(im){return '<figure class="ill"><img alt="" src="'+im.data+'">'+(im.tr?'<figcaption>'+esc(im.tr)+'</figcaption>':'')+'</figure>'}).join('')}
   var firstCh=true,pend=0;
   B.paras.forEach(function(p,i){
     h+=figs(i);
@@ -877,7 +905,7 @@ function paintSet(){
   if(cur){var o=document.createElement('option');o.value=cur;o.textContent=cur;ui.model.appendChild(o)}
   else{var o2=document.createElement('option');o2.value='';o2.textContent='اختبر المفتاح أولاً';ui.model.appendChild(o2)}
   ui.keyState.textContent=cfg.key[cfg.prov]&&cur?'جاهز':'';
-  $('#optThink').checked=cfg.think!==false;$('#optRev').checked=!!cfg.rev;
+  $('#optThink').checked=cfg.think!==false;$('#optImg').checked=!!cfg.img;$('#optRev').checked=!!cfg.rev;
 }
 
 function init(){
@@ -886,6 +914,7 @@ function init(){
   ui.key.onchange=ui.key.oninput=function(){cfg.key[cfg.prov]=ui.key.value.trim();saveCfg()};
   ui.model.onchange=function(){cfg.model[cfg.prov]=ui.model.value;saveCfg();ui.keyState.textContent='جاهز'};
   $('#optThink').onchange=function(){cfg.think=this.checked;saveCfg()};
+  $('#optImg').onchange=function(){cfg.img=this.checked;saveCfg()};
   $('#optRev').onchange=function(){cfg.rev=this.checked;saveCfg();paintSelInfo()};
   $('#brief').oninput=function(){if(B){B.brief=this.value;save()}};
   $('#selA').onchange=$('#selB').onchange=$('#selW').onchange=function(){applySel()};
