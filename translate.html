@@ -145,7 +145,7 @@ body.reading #doc{display:block}
         <li>انسخ المفتاح والصقه فوق، ثم اضغط «اختبر المفتاح».</li>
       </ol>
     </details>
-    <p class="note">المفتاح يُحفظ في متصفحك فقط. النص يروح مباشرة من متصفحك للمزوّد اللي تختاره، ولا يمر على أي خادم عندنا.</p>
+    <p class="note">مع «مفتاح الموقع» المفتاح محفوظ على السيرفر، والنص يمر عليه في طريقه لجوجل بدون تخزين. مع مفتاحك الخاص يُحفظ في متصفحك فقط، والنص يروح مباشرة للمزوّد.</p>
   </section>
 
   <section class="panel" id="pUp">
@@ -230,7 +230,7 @@ var T={gap:FAST?10:{gemini:6500,site:6500,groq:3000}, retries:5};
 var CFGK='tr_cfg_v1';
 var BROKER='https://hala-chat-jh6w.onrender.com';
 var cfg={prov:'site',key:{gemini:'',groq:'',site:''},model:{gemini:'',groq:'',site:''},lastId:'',think:true,rev:false,img:false};
-try{var c0=JSON.parse(localStorage.getItem(CFGK)||'null');if(c0){cfg=Object.assign(cfg,c0);cfg.key=Object.assign({gemini:'',groq:'',site:''},c0.key);cfg.model=Object.assign({gemini:'',groq:'',site:''},c0.model)}}catch(e){}
+try{var c0=JSON.parse(localStorage.getItem(CFGK)||'null');if(c0){cfg=Object.assign(cfg,c0);cfg.key=Object.assign({gemini:'',groq:'',site:''},c0.key);cfg.model=Object.assign({gemini:'',groq:'',site:''},c0.model);if(!cfg.key[cfg.prov]&&cfg.prov!=='site')cfg.prov='site'}}catch(e){}
 function saveCfg(){try{localStorage.setItem(CFGK,JSON.stringify(cfg))}catch(e){}}
 
 var mem={},idbOK=true;
