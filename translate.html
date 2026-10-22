@@ -71,6 +71,9 @@ a{color:var(--acc)}
 .lib .t span{font-size:13px;color:var(--mut)}
 .hidden{display:none!important}
 
+label.chk{display:flex;gap:10px;align-items:flex-start;color:var(--ink);font-size:15px;margin:12px 0 0}
+label.chk input{margin-top:5px;width:18px;height:18px;flex:none}
+.page p.chk{border-inline-start:3px solid var(--near);padding-inline-start:8px}
 .prev{border:1.5px solid var(--line);border-radius:6px;padding:12px;margin-top:14px;font-size:15px}
 .prev .k{display:flex;gap:6px 16px;flex-wrap:wrap}
 .prev .k b{font-weight:600}
@@ -106,6 +109,7 @@ body.reading #doc{display:block}
   .page h2.ch.first{break-before:avoid}
   .page h3.sec{break-after:avoid}
   .page p{orphans:3;widows:3}
+  .page p.chk{border:0;padding:0}
   .titlepage{padding:30mm 0 0;break-after:page}
   .page figure.ill{break-before:page;break-after:page;margin:0}
   .page figure.ill img{max-height:160mm;border:0}
@@ -125,6 +129,8 @@ body.reading #doc{display:block}
     <input id="key" type="password" class="ltr" autocomplete="off" spellcheck="false" placeholder="API key">
     <label for="model">الموديل</label>
     <select id="model" class="ltr"></select>
+    <label class="chk"><input type="checkbox" id="optThink"><span>تفكير الموديل (أدق غالباً، وأبطأ)</span></label>
+    <label class="chk"><input type="checkbox" id="optRev"><span>مراجعة ثانية لكل قطعة (تضاعف عدد الطلبات)</span></label>
     <div class="row" style="margin-top:12px">
       <button class="btn sm" id="bTest">اختبر المفتاح وجيب الموديلات</button>
     </div>
@@ -156,7 +162,22 @@ body.reading #doc{display:block}
     <input id="title" type="text" class="ltr">
     <label for="titleAr">العنوان بالعربي (اختياري)</label>
     <input id="titleAr" type="text">
+    <label for="brief">نبذة عن الرواية (اختياري)</label>
+    <textarea id="brief" style="direction:rtl;text-align:right;min-height:70px" placeholder="مثال: رواية فانتازيا، البطل شاب ضائع في عالم غريب، الشخصيات تتخاطب بأسلوب رسمي"></textarea>
     <div id="prev"></div>
+    <div id="sel" class="sel hidden">
+      <h2 style="font-size:16px;margin:16px 0 6px">كم فصل تترجم؟</h2>
+      <div id="selCh" class="hidden">
+        <div class="row"><label for="selA" style="margin:0;min-width:36px">من</label><select id="selA" class="ltr" style="flex:1;min-width:140px"></select></div>
+        <div class="row" style="margin-top:8px"><label for="selB" style="margin:0;min-width:36px">إلى</label><select id="selB" class="ltr" style="flex:1;min-width:140px"></select></div>
+      </div>
+      <div id="selNo" class="hidden">
+        <p class="note" style="margin:0 0 6px">ما لقيت عناوين فصول. اختر الجزء اللي تبي تترجمه:</p>
+        <select id="selW"><option value="all">الكتاب كامل</option><option value="5000">أول 5,000 كلمة تقريباً (تجربة)</option><option value="20000">أول 20,000 كلمة تقريباً</option></select>
+      </div>
+      <div class="row" style="margin-top:10px"><button class="btn sm" id="selOne">فصل واحد (تجربة)</button><button class="btn sm" id="selAll">الكل</button></div>
+      <p class="note" id="selInfo"></p>
+    </div>
     <div class="stats">
       <div class="stat"><b id="sWords">0</b><span>كلمة</span></div>
       <div class="stat"><b id="sChunks">0</b><span>قطعة</span></div>
@@ -205,7 +226,7 @@ var T={gap:FAST?10:{gemini:6500,groq:3000}, retries:5};
 
 /* ---------- تخزين ---------- */
 var CFGK='tr_cfg_v1';
-var cfg={prov:'gemini',key:{gemini:'',groq:''},model:{gemini:'',groq:''},lastId:''};
+var cfg={prov:'gemini',key:{gemini:'',groq:''},model:{gemini:'',groq:''},lastId:'',think:true,rev:false};
 try{var c0=JSON.parse(localStorage.getItem(CFGK)||'null');if(c0){cfg=Object.assign(cfg,c0);cfg.key=Object.assign({gemini:'',groq:''},c0.key);cfg.model=Object.assign({gemini:'',groq:''},c0.model)}}catch(e){}
 function saveCfg(){try{localStorage.setItem(CFGK,JSON.stringify(cfg))}catch(e){}}
 
@@ -354,7 +375,7 @@ function glossText(g){return Object.keys(g).map(function(k){return k+' = '+g[k]}
 function parseGloss(t){
   var g={};t.split('\n').forEach(function(l){var m=l.match(/^\s*(.+?)\s*=\s*(.+?)\s*$/);if(m&&m[1].length<=60&&m[2].length<=60)g[m[1]]=m[2]});return g}
 
-function doneCount(){var n=0,w=0,tot=0;B.paras.forEach(function(p,i){var ww=nw(p.t);tot+=ww;if(B.ar[i]){n++;w+=ww}});return {n:n,w:w,tot:tot}}
+function doneCount(){var r=getRng(),n=0,w=0,tot=0;for(var i=r[0];i<r[1];i++){var ww=nw(B.paras[i].t);tot+=ww;if(B.ar[i]){n++;w+=ww}}return {n:n,w:w,tot:tot,cnt:r[1]-r[0]}}
 function nextChunk(){for(var i=0;i<B.chunks.length;i++){var c=B.chunks[i];for(var j=c[0];j<c[1];j++)if(!B.ar[j])return i}return -1}
 
 function paintBook(){
@@ -370,12 +391,14 @@ function paintBook(){
   ui.bar.firstElementChild.style.width=pct+'%';
   if(document.activeElement!==ui.gl)ui.gl.value=glossText(B.gl);
   if(B.times&&B.times.length&&pend){var avg=B.times.reduce(function(a,b){return a+b},0)/B.times.length;ui.sEta.textContent=fmtT(avg*pend)}
-  else ui.sEta.textContent=(B.paras.length-d.n)?'—':'انتهت';
-  var left=B.paras.length-d.n;
+  else ui.sEta.textContent=(d.cnt-d.n)?'—':'انتهت';
+  var left=d.cnt-d.n;
   ui.bGo.textContent=d.w===0?'ابدأ الترجمة':(left?'كمّل الترجمة':'تمت الترجمة');
   ui.bGo.disabled=running||!left;
   ui.bPause.disabled=!running;
-  ui.bRead.disabled=d.n===0;
+  ui.bRead.disabled=!B.ar.some(Boolean);
+  ['selA','selB','selW','selOne','selAll'].forEach(function(id){var el=$('#'+id);if(el)el.disabled=running});
+  if(document.activeElement!==$('#brief'))$('#brief').value=B.brief||'';
 }
 
 function save(){
@@ -393,6 +416,64 @@ function loadBook(id){
     var b=l.filter(function(x){return x&&x.id===id&&x.paras})[0];if(!b)return null;
     var im=l.filter(function(x){return x&&x.id==='img_'+id})[0];
     b.imgs=im?im.imgs:[];return b});
+}
+
+function getRng(){return(B&&B.rng&&B.rng.length===2)?B.rng:[0,B?B.paras.length:0]}
+function chaps(){var r=[];B.paras.forEach(function(p,i){if(p.h===2)r.push({i:i,t:p.t})});return r}
+function opt(sel,v,t){var o=document.createElement('option');o.value=v;o.textContent=t;sel.appendChild(o)}
+function hasFront(ch){return ch.length&&ch[0].i>0&&B.paras.slice(0,ch[0].i).some(function(p){return nw(p.t)>20})}
+function paintSel(){
+  var el=$('#sel');
+  if(!B){el.classList.add('hidden');return}
+  el.classList.remove('hidden');
+  var ch=chaps(),a=$('#selA'),b=$('#selB');
+  $('#selCh').classList.toggle('hidden',!ch.length);$('#selNo').classList.toggle('hidden',!!ch.length);
+  if(ch.length){
+    a.innerHTML='';b.innerHTML='';
+    if(hasFront(ch))opt(a,'s','البداية (قبل الفصل الأول)');
+    ch.forEach(function(c,k){var l=(k+1)+'. '+c.t.slice(0,38);opt(a,String(k),l);opt(b,String(k),l)});
+    var sel=B.sel||{a:hasFront(ch)?'s':'0',b:String(ch.length-1)};
+    a.value=sel.a;b.value=sel.b;
+    if(!a.value)a.selectedIndex=0;
+    if(!b.value)b.selectedIndex=b.options.length-1;
+  }else{$('#selW').value=B.selW||'all'}
+  applySel(true);
+}
+function applySel(noSave){
+  if(!B)return;
+  var ch=chaps(),r;
+  if(ch.length){
+    var av=$('#selA').value,bv=+$('#selB').value,an=av==='s'?-1:+av;
+    if(an>bv){bv=an;$('#selB').value=String(bv)}
+    var st=av==='s'?0:ch[an].i,en=(bv+1<ch.length)?ch[bv+1].i:B.paras.length;
+    r=[st,en];B.sel={a:av,b:String(bv)};
+  }else{
+    var wv=$('#selW').value;B.selW=wv;r=[0,B.paras.length];
+    if(wv!=='all'){var lim=+wv,acc=0,i=0;for(;i<B.paras.length;i++){acc+=nw(B.paras[i].t);if(acc>=lim){i++;break}}r=[0,Math.min(i,B.paras.length)]}
+  }
+  var old=getRng();
+  B.rng=r;
+  if(old[0]!==r[0]||old[1]!==r[1]){B.chunks=[];B.rngKey=''}
+  paintSelInfo();paintBook();
+  if(noSave!==true)save();
+}
+function paintSelInfo(){
+  if(!B)return;
+  var r=getRng(),w=0,i;
+  for(i=r[0];i<r[1];i++){if(!B.ar[i])w+=nw(B.paras[i].t)}
+  var target=cfg.prov==='groq'?500:1100,reqs=Math.ceil(w/target)*(cfg.rev?2:1),ch=chaps(),nch=0;
+  ch.forEach(function(c0){if(c0.i>=r[0]&&c0.i<r[1])nch++});
+  $('#selInfo').textContent=(ch.length?'الفصول المختارة: '+nch+'. ':'')+'المتبقي للترجمة: حوالي '+w.toLocaleString('en')+' كلمة، يعني تقريباً '+reqs+' طلب'+(cfg.rev?' (مع المراجعة)':'')+'.';
+}
+function rebuildChunks(){
+  var r=getRng(),target=cfg.prov==='groq'?500:1100,out=[],i=r[0];
+  while(i<r[1]){
+    if(B.ar[i]){i++;continue}
+    var j=i;while(j<r[1]&&!B.ar[j])j++;
+    (function(i0){makeChunks(B.paras.slice(i0,j),target).forEach(function(c){out.push([c[0]+i0,c[1]+i0])})})(i);
+    i=j;
+  }
+  return out;
 }
 
 /* صفحة الرسومات: نحوّل الصفحة كاملة لصورة JPEG ونتجاهل الصفحات شبه البيضاء */
@@ -490,20 +571,27 @@ async function onFile(f){
   }catch(e){setProg(null);msg(ui.exMsg,'bad','تعذّر قراءة الملف: '+esc(e.message||e));return}
   paras=splitBig(paras);var ix=paras.idx;imgs.forEach(function(im){im.after=ix[Math.min(im.after,ix.length-1)]});
   if(paras.length<2){msg(ui.exMsg,'bad','ما لقيت نص كافي في الملف.');return}
-  B={id:nowId(),title:title,titleAr:'',paras:paras,ar:new Array(paras.length).fill(null),chunks:[],gl:{},times:[],upd:Date.now(),prov:cfg.prov,imgs:imgs,np:npg};
+  B={id:nowId(),title:title,titleAr:'',paras:paras,ar:new Array(paras.length).fill(null),chunks:[],gl:{},times:[],upd:Date.now(),prov:cfg.prov,imgs:imgs,np:npg,rng:[0,paras.length],brief:''};
   var words=paras.reduce(function(a,p){return a+nw(p.t)},0);
-  msg(ui.exMsg,'ok','تم استخراج '+paras.length.toLocaleString('en')+' فقرة (حوالي '+words.toLocaleString('en')+' كلمة)'+(imgs.length?' و'+imgs.length+' صفحة رسومات':'')+'. راجع المعاينة تحت قبل ما تبدأ.');
+  msg(ui.exMsg,'ok','تم استخراج '+paras.length.toLocaleString('en')+' فقرة (حوالي '+words.toLocaleString('en')+' كلمة)'+(imgs.length?' و'+imgs.length+' صفحة رسومات':'')+'. راجع المعاينة، ثم اختر الفصول اللي تبي تترجمها واضغط «ابدأ الترجمة».');
   cfg.lastId=B.id;saveCfg();
-  await saveImgs();await save();paintBook();paintPreview();renderLib();ui.status.textContent='';msg(ui.bMsg,'','');
+  await saveImgs();await save();paintBook();paintPreview();paintSel();renderLib();ui.status.textContent='';msg(ui.bMsg,'','');
 }
 
 /* ---------- الاتصال بالذكاء الاصطناعي ---------- */
-var SYS='You are a professional literary translator. Translate the novel excerpt inside <text> into Arabic: natural, fluent Modern Standard Arabic literary prose for a native reader, preserving tone, register, humour and imagery. Use Arabic punctuation (، ؟ ؛) and «» for quoted speech.\n'+
-'Rules:\n1. Translate everything. Do not omit, summarise, censor, explain or add anything. No commentary.\n'+
-'2. Every paragraph in the input starts with a marker like [[1]]. Output the same markers, in the same order, each followed by that paragraph\'s translation. Never merge or split paragraphs.\n'+
-'3. If a <glossary> is given, use those Arabic names exactly. Transliterate other proper nouns consistently.\n'+
-'4. After the last paragraph, output a line ###NAMES followed by one line per character or place name that appears in this excerpt and is NOT already in the glossary, formatted: English = Arabic. If none, output nothing after ###NAMES.\n'+
-'5. Do not use markdown or code fences. The source language may be any language; the target is always Arabic.';
+var SYS='You are an award-winning literary translator into Arabic. Translate the novel excerpt inside <text> into natural, flowing, contemporary Modern Standard Arabic (easy and modern, not archaic) so that it reads like a well-edited Arabic novel and not like a translation.\n'+
+'Principles:\n'+
+'1. Translate meaning, tone and imagery, never word by word. Re-express every sentence the way a skilled Arabic novelist would: restructure, split or merge clauses when that reads better. Avoid calques (literal copies of foreign sentence structure or idioms) and any awkward or machine-sounding Arabic.\n'+
+'2. Idioms, jokes and figurative language: use a natural Arabic equivalent with the same effect; if none exists, state the meaning plainly. For wordplay keep the effect, not the literal words.\n'+
+'3. Dialogue: keep each speaker\'s voice, personality and register distinct (rough, polite, childish, sarcastic...). Use « » for quoted speech and Arabic punctuation (، ؛ ؟).\n'+
+'4. Fidelity: never omit, add, summarise, censor, soften or explain anything. Keep every sentence, description and inner thought. Keep numbers and scene-break marks (such as * * *) as they are.\n'+
+'5. Names and terms: use the <glossary> exactly. Transliterate other personal and place names consistently, and keep one Arabic rendering for each title, honorific or invented term.\n'+
+'6. Each input paragraph starts with a marker [[n]]. Output the same markers in the same order, each followed only by that paragraph\'s translation. Never merge or split paragraphs.\n'+
+'7. <brief> and <previous_translation_for_context_only>, when present, are for continuity only: do not translate or repeat them.\n'+
+'8. After the last paragraph output a line ###NAMES then one line per character, place or invented term in this excerpt that is not already in the glossary, formatted: English = Arabic. If there are none, leave it empty.\n'+
+'9. No markdown, no code fences, no commentary.\n'+
+'Example of the difference: "it was raining cats and dogs" must become كان المطر ينهمر بغزارة, never a word-for-word rendering.';
+var SYS_REV='You are a meticulous bilingual Arabic copy-editor. For every paragraph inside <review> you get the SOURCE and a DRAFT Arabic translation. Fix omissions, additions, mistranslations, wrong or inconsistent names (use the <glossary>), grammar mistakes, and any awkward, literal or machine-sounding phrasing, so that the Arabic reads naturally in contemporary Modern Standard Arabic while keeping the full meaning, tone and the speaker\'s voice. Keep sentences that are already good unchanged. Output only the final Arabic paragraphs, each starting with its original [[n]] marker, in the same order, with no explanations, no SOURCE or DRAFT labels, and no markdown.';
 
 function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
 async function wait(ms,label){
@@ -532,6 +620,7 @@ async function http(url,opt){
     throw apiErr('rate','حد الطلبات',{wait:retrySecs(body)});
   }
   if(r.status===400&&/thinking/i.test(body))throw apiErr('think','thinking');
+  if(r.status===400&&/max.?output.?tokens/i.test(body))throw apiErr('out','out');
   if(r.status===400&&/api key not valid|api_key_invalid/i.test(body))throw apiErr('fatal','المفتاح مرفوض. تأكد إنك نسخته كامل.');
   if(r.status===401||r.status===403)throw apiErr('fatal','المفتاح مرفوض أو ما له صلاحية على هذا الموديل ('+r.status+').');
   if(r.status===404)throw apiErr('fatal','الموديل غير موجود. اختر موديل ثاني من القائمة.');
@@ -556,13 +645,14 @@ function score(n){var v=/gemini-(\d+(?:\.\d+)?)/.exec(n);var ver=v?parseFloat(v[
   var s=ver*10;if(/flash/.test(n))s+=30;if(/lite/.test(n))s-=15;if(/preview|exp|thinking/.test(n))s-=8;if(/pro/.test(n))s+=5;return s}
 function gscore(n){var s=0;if(/llama-3\.3-70b/.test(n))s=50;else if(/gpt-oss-120b/.test(n))s=45;else if(/llama-3\.1-70b/.test(n))s=40;else if(/70b|120b/.test(n))s=30;if(/versatile/.test(n))s+=3;return s}
 
-async function callModel(userText,model,temp){
+async function callModel(userText,model,temp,sys){
+  sys=sys||SYS;
   var prov=cfg.prov,key=cfg.key[prov];
   if(prov==='gemini'){
-    var gen={temperature:temp,maxOutputTokens:8192};
-    if(/2\.5-flash/.test(model)&&!/lite/.test(model)&&!cfg.noThink)gen.thinkingConfig={thinkingBudget:0};
+    var gen={temperature:temp,maxOutputTokens:(cfg.think!==false&&!cfg.smallOut)?16384:8192};
+    if(cfg.think===false&&/2\.5-flash/.test(model)&&!/lite/.test(model)&&!cfg.noThink)gen.thinkingConfig={thinkingBudget:0};
     var safety=['HARASSMENT','HATE_SPEECH','SEXUALLY_EXPLICIT','DANGEROUS_CONTENT'].map(function(c){return {category:'HARM_CATEGORY_'+c,threshold:'BLOCK_NONE'}});
-    var body={systemInstruction:{parts:[{text:SYS}]},contents:[{role:'user',parts:[{text:userText}]}],generationConfig:gen,safetySettings:safety};
+    var body={systemInstruction:{parts:[{text:sys}]},contents:[{role:'user',parts:[{text:userText}]}],generationConfig:gen,safetySettings:safety};
     var r=await http('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify(body)});
     var j=JSON.parse(r.body),c=(j.candidates||[])[0];
     if(!c||!c.content){var why=(j.promptFeedback&&j.promptFeedback.blockReason)||(c&&c.finishReason)||'EMPTY';throw apiErr('blocked','الموديل رفض هذي القطعة ('+why+')')}
@@ -570,19 +660,20 @@ async function callModel(userText,model,temp){
     if(c.finishReason&&c.finishReason!=='STOP'&&c.finishReason!=='MAX_TOKENS'&&!txt.trim())throw apiErr('blocked','الموديل رفض هذي القطعة ('+c.finishReason+')');
     return {text:txt,cut:c.finishReason==='MAX_TOKENS'};
   }
-  var r2=await http('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:model,temperature:temp,max_tokens:8000,messages:[{role:'system',content:SYS},{role:'user',content:userText}]})});
+  var r2=await http('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:model,temperature:temp,max_tokens:8000,messages:[{role:'system',content:sys},{role:'user',content:userText}]})});
   var j2=JSON.parse(r2.body),ch=(j2.choices||[])[0];
   if(!ch||!ch.message)throw apiErr('blocked','رد فاضي من الموديل');
   return {text:ch.message.content||'',cut:ch.finish_reason==='length'};
 }
 
-async function callRetry(userText,model,temp){
+async function callRetry(userText,model,temp,sys){
   var tries=0;
   for(;;){
     if(stopFlag)throw apiErr('stop','stop');
-    try{return await callModel(userText,model,temp)}
+    try{return await callModel(userText,model,temp,sys)}
     catch(e){
       if(e.kind==='think'){cfg.noThink=true;saveCfg();continue}
+      if(e.kind==='out'){if(cfg.smallOut)throw apiErr('fatal','رفض المزوّد حد طول الرد لهذا الموديل. جرّب موديل ثاني.');cfg.smallOut=true;saveCfg();continue}
       if(e.kind==='fatal'||e.kind==='quota'||e.kind==='blocked'||e.kind==='stop')throw e;
       tries++;
       if(tries>T.retries)throw apiErr(e.kind==='rate'?'quota':'fatal',e.kind==='rate'?'وصلنا حد الطلبات عند المزوّد. انتظر دقيقة أو أكثر ثم اضغط «كمّل»، التقدم محفوظ.':(e.kind==='net'?e.message:'فشل الاتصال بعد عدة محاولات: '+e.message));
@@ -598,10 +689,17 @@ function buildPrompt(s,e,strict){
   var gl=Object.keys(B.gl).slice(-200).map(function(k){return k+' = '+B.gl[k]}).join('\n');
   var t='';
   if(gl)t+='<glossary>\n'+gl+'\n</glossary>\n';
+  if(B.brief&&B.brief.trim())t+='<brief>\n'+B.brief.trim().slice(0,1500)+'\n</brief>\n';
+  var pv=[];
+  for(var j=s-1;j>=0&&pv.length<2;j--){
+    if(B.ar[j]&&!B.ar[j].s&&!B.paras[j].h)pv.unshift(B.ar[j].t.slice(0,600));
+    else if(!B.ar[j])break;
+  }
+  if(pv.length)t+='<previous_translation_for_context_only>\n'+pv.join('\n\n')+'\n</previous_translation_for_context_only>\n';
   t+='<text>\n';
   for(var i=s;i<e;i++)t+='[['+(i-s+1)+']] '+B.paras[i].t+'\n\n';
   t+='</text>';
-  if(strict)t+='\n\nIMPORTANT: output exactly '+(e-s)+' paragraphs, each starting with its [[n]] marker, n from 1 to '+(e-s)+'.';
+  if(strict)t+='\n\nIMPORTANT: output exactly '+(e-s)+' paragraphs, each starting with its [[n]] marker (n from 1 to '+(e-s)+'), and translate every sentence completely: do not omit anything and do not leave any part in the source language.';
   return t;
 }
 function parseReply(raw,k){
@@ -623,18 +721,57 @@ function mergeNames(txt){
     B.gl[a]=b});
 }
 
-async function doChunk(ci){
-  var c=B.chunks[ci],s=c[0],e=c[1],k=e-s,model=cfg.model[cfg.prov];
-  var out,attempt;
-  for(attempt=0;attempt<2;attempt++){
-    out=await callRetry(buildPrompt(s,e,attempt>0),model,attempt?0.2:0.3);
-    var pr=parseReply(out.text,k);
-    if(out.cut){ if(k>1)throw apiErr('split','cut'); }
-    if(pr.ok){
-      for(var i=0;i<k;i++)B.ar[s+i]={t:pr.map[i+1],s:0};
-      mergeNames(pr.names);return;
+function arWords(x){var m=x.match(/[؀-ۿ]+/g);return m?m.length:0}
+function suspects(s,k,get){
+  var bad=[];
+  for(var i=0;i<k;i++){
+    if(B.paras[s+i].h)continue;
+    var src=B.paras[s+i].t,ar=get(i),sw=nw(src);
+    if(sw>=12&&arWords(ar)<0.35*sw){bad.push(i);continue}
+    if(sw>=6){var lat=(ar.match(/[A-Za-z]/g)||[]).length,tot=ar.replace(/[^A-Za-z؀-ۿ]/g,'').length;if(tot&&lat/tot>0.5)bad.push(i)}
+  }
+  return bad;
+}
+async function reviewChunk(s,e){
+  var k=e-s,model=cfg.model[cfg.prov];
+  var gl=Object.keys(B.gl).slice(-200).map(function(x){return x+' = '+B.gl[x]}).join('\n'),t='';
+  if(gl)t+='<glossary>\n'+gl+'\n</glossary>\n';
+  t+='<review>\n';
+  for(var i=s;i<e;i++)t+='[['+(i-s+1)+']]\nSOURCE: '+B.paras[i].t+'\nDRAFT: '+B.ar[i].t+'\n\n';
+  t+='</review>';
+  try{
+    var out=await callRetry(t,model,0.2,SYS_REV);
+    if(out.cut)return;
+    var pr=parseReply(out.text,k);if(!pr.ok)return;
+    for(var j=0;j<k;j++){
+      var d=B.ar[s+j].t,r=pr.map[j+1],ratio=r.length/Math.max(1,d.length);
+      if(ratio>0.6&&ratio<1.6){B.ar[s+j].t=r;B.ar[s+j].rv=1}
     }
-    if(k===1&&pr.loose){B.ar[s]={t:pr.loose.replace(/\s+/g,' '),s:0};mergeNames(pr.names);return}
+  }catch(err){if(err.kind==='fatal'||err.kind==='quota'||err.kind==='stop')throw err}
+}
+async function doChunk(ci){
+  var c=B.chunks[ci],s=c[0],e=c[1],k=e-s,model=cfg.model[cfg.prov],held=null;
+  for(var attempt=0;attempt<2;attempt++){
+    var out=await callRetry(buildPrompt(s,e,attempt>0),model,attempt?0.2:0.3);
+    var pr=parseReply(out.text,k);
+    if(out.cut&&k>1)throw apiErr('split','cut');
+    if(!pr.ok&&k===1&&pr.loose){pr={ok:true,map:{1:pr.loose.replace(/\s+/g,' ')},names:pr.names}}
+    if(pr.ok){
+      var cur=pr,bad=suspects(s,k,function(i){return cur.map[i+1]});
+      if(bad.length&&attempt===0){held=pr;continue}
+      if(attempt===1&&held){var hh=held,b0=suspects(s,k,function(i){return hh.map[i+1]});if(b0.length<bad.length){cur=held;bad=b0}}
+      for(var i=0;i<k;i++)B.ar[s+i]={t:cur.map[i+1],s:0};
+      B.flags=B.flags||{};bad.forEach(function(i){B.flags[s+i]=1});
+      mergeNames(cur.names);
+      if(cfg.rev)await reviewChunk(s,e);
+      return;
+    }
+  }
+  if(held){
+    var h2=held;
+    for(var j=0;j<k;j++)B.ar[s+j]={t:h2.map[j+1],s:0};
+    B.flags=B.flags||{};suspects(s,k,function(i){return h2.map[i+1]}).forEach(function(i){B.flags[s+i]=1});
+    mergeNames(h2.names);return;
   }
   if(k>1)throw apiErr('split','mismatch');
   throw apiErr('blocked','الموديل ما رجّع ترجمة صالحة لهذي الفقرة');
@@ -649,7 +786,8 @@ async function run(){
   if(!cfg.key[cfg.prov]||!cfg.model[cfg.prov]){msg(ui.bMsg,'bad','حط المفتاح واختبره واختر الموديل من القسم الأول.');return}
   running=true;stopFlag=false;msg(ui.bMsg,'','');
   try{if(navigator.wakeLock)wake=await navigator.wakeLock.request('screen')}catch(e){}
-  if(!B.chunks.length){B.chunks=makeChunks(B.paras,cfg.prov==='groq'?500:1100)}
+  var rk=getRng().join('-')+'|'+cfg.prov;
+  if(!B.chunks.length||B.rngKey!==rk){B.chunks=rebuildChunks();B.rngKey=rk}
   B.prov=cfg.prov;
   paintBook();
   var lastEnd=0;
@@ -657,7 +795,7 @@ async function run(){
     for(;;){
       if(stopFlag)break;
       var ci=nextChunk();
-      if(ci<0){ui.status.textContent='تمت الترجمة.';msg(ui.bMsg,'ok','انتهت الترجمة. اضغط «عرض / حفظ PDF».');break}
+      if(ci<0){ui.status.textContent='تمت الترجمة.';var nf=Object.keys(B.flags||{}).length;msg(ui.bMsg,nf?'near':'ok','انتهت الترجمة. اضغط «عرض / حفظ PDF».'+(nf?' فيه '+nf+' فقرة قد تكون ناقصة، معلّمة بخط جانبي في العرض، راجعها.':''));break}
       ui.status.textContent='نترجم القطعة '+(ci+1)+' من '+B.chunks.length+'…';
       if(lastEnd){var g=T.gap[cfg.prov]||T.gap;var rest=g-(Date.now()-lastEnd);if(rest>0&&!(await wait(rest,'استراحة بين الطلبات')))break}
       var t0=Date.now();
@@ -692,16 +830,16 @@ async function run(){
 function docHTML(){
   var h='<div class="titlepage"><h1>'+esc(B.titleAr||B.title||'')+'</h1>'+(B.titleAr&&B.title?'<span class="en">'+esc(B.title)+'</span>':'')+'<small>ترجمة آلية بالذكاء الاصطناعي</small></div>';
   var fig={};(B.imgs||[]).forEach(function(im){(fig[im.after]=fig[im.after]||[]).push(im)});
-  function figs(i){return (fig[i]||[]).map(function(im){return '<figure class="ill"><img alt="" src="'+im.data+'"></figure>'}).join('')}
+  function figs(i){if(i<B.paras.length?!B.ar[i]:!B.ar[i-1])return '';return (fig[i]||[]).map(function(im){return '<figure class="ill"><img alt="" src="'+im.data+'"></figure>'}).join('')}
   var firstCh=true,pend=0;
   B.paras.forEach(function(p,i){
     h+=figs(i);
     var a=B.ar[i];
-    if(!a){pend++;return}
+    if(!a){var rr=getRng();if(i>=rr[0]&&i<rr[1])pend++;return}
     if(pend){h+='<p class="todo">— '+pend+' فقرة لم تُترجم بعد —</p>';pend=0}
     if(p.h===2){h+='<h2 class="ch'+(firstCh?' first':'')+'">'+esc(a.t)+'</h2>';firstCh=false}
     else if(p.h)h+='<h3 class="sec">'+esc(a.t)+'</h3>';
-    else h+='<p'+(a.s?' class="orig"':'')+'>'+esc(a.t)+'</p>';
+    else h+='<p'+(a.s?' class="orig"':(B.flags&&B.flags[i]?' class="chk" title="قد تكون ناقصة، راجعها"':''))+'>'+esc(a.t)+'</p>';
   });
   h+=figs(B.paras.length);
   if(pend)h+='<p class="todo">— '+pend+' فقرة لم تُترجم بعد —</p>';
@@ -729,6 +867,7 @@ function paintSet(){
   if(cur){var o=document.createElement('option');o.value=cur;o.textContent=cur;ui.model.appendChild(o)}
   else{var o2=document.createElement('option');o2.value='';o2.textContent='اختبر المفتاح أولاً';ui.model.appendChild(o2)}
   ui.keyState.textContent=cfg.key[cfg.prov]&&cur?'جاهز':'';
+  $('#optThink').checked=cfg.think!==false;$('#optRev').checked=!!cfg.rev;
 }
 
 function init(){
@@ -736,6 +875,12 @@ function init(){
   ui.prov.onchange=function(){cfg.prov=ui.prov.value;saveCfg();paintSet();msg(ui.testMsg,'','')};
   ui.key.onchange=ui.key.oninput=function(){cfg.key[cfg.prov]=ui.key.value.trim();saveCfg()};
   ui.model.onchange=function(){cfg.model[cfg.prov]=ui.model.value;saveCfg();ui.keyState.textContent='جاهز'};
+  $('#optThink').onchange=function(){cfg.think=this.checked;saveCfg()};
+  $('#optRev').onchange=function(){cfg.rev=this.checked;saveCfg();paintSelInfo()};
+  $('#brief').oninput=function(){if(B){B.brief=this.value;save()}};
+  $('#selA').onchange=$('#selB').onchange=$('#selW').onchange=function(){applySel()};
+  $('#selOne').onclick=function(){if(chaps().length){$('#selA').value='0';$('#selB').value='0'}else $('#selW').value='5000';applySel()};
+  $('#selAll').onclick=function(){var ch=chaps();if(ch.length){$('#selA').value=hasFront(ch)?'s':'0';$('#selB').value=String(ch.length-1)}else $('#selW').value='all';applySel()};
   ui.bTest.onclick=async function(){
     cfg.key[cfg.prov]=ui.key.value.trim();saveCfg();
     if(!cfg.key[cfg.prov]){msg(ui.testMsg,'bad','الصق المفتاح أولاً.');return}
@@ -762,17 +907,17 @@ function init(){
   ui.dPrint.onclick=function(){window.print()};
   ui.lib.onclick=function(e){
     var b=e.target.closest('button');if(!b)return;
-    if(b.dataset.o){loadBook(b.dataset.o).then(function(f){if(f&&!running){B=f;cfg.lastId=f.id;saveCfg();msg(ui.bMsg,'','');paintBook();paintPreview();ui.status.textContent='';ui.pBook.scrollIntoView()}})}
+    if(b.dataset.o){loadBook(b.dataset.o).then(function(f){if(f&&!running){B=f;cfg.lastId=f.id;saveCfg();msg(ui.bMsg,'','');paintBook();paintPreview();paintSel();ui.status.textContent='';ui.pBook.scrollIntoView()}})}
     else if(b.dataset.d){
       if(b.dataset.arm!=='1'){b.dataset.arm='1';b.textContent='تأكيد الحذف';return}
       if(B&&B.id===b.dataset.d&&running){return}
-      dbDel(b.dataset.d).then(function(){return dbDel('img_'+b.dataset.d)}).then(function(){if(B&&B.id===b.dataset.d){B=null;ui.pBook.classList.add('hidden');ui.prev.innerHTML=''}renderLib()});
+      dbDel(b.dataset.d).then(function(){return dbDel('img_'+b.dataset.d)}).then(function(){if(B&&B.id===b.dataset.d){B=null;ui.pBook.classList.add('hidden');ui.prev.innerHTML='';$('#sel').classList.add('hidden')}renderLib()});
     }
   };
   window.addEventListener('beforeunload',function(e){if(running){e.preventDefault();e.returnValue=''}});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.body.classList.contains('reading'))closeDoc()});
-  if(cfg.lastId)loadBook(cfg.lastId).then(function(f){if(f&&!B){B=f;paintBook();paintPreview()}});
-  window.__tr={get B(){return B},cfg:cfg,buildParas:buildParas,pageLines:pageLines,makeChunks:makeChunks,parseReply:parseReply};
+  if(cfg.lastId)loadBook(cfg.lastId).then(function(f){if(f&&!B){B=f;paintBook();paintPreview();paintSel()}});
+  window.__tr={get B(){return B},getRng:getRng,rebuildChunks:rebuildChunks,cfg:cfg,buildParas:buildParas,pageLines:pageLines,makeChunks:makeChunks,parseReply:parseReply};
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
