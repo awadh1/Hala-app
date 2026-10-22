@@ -613,9 +613,10 @@ function retrySecs(txt){
 function apiErr(kind,text,extra){var e=new Error(text);e.kind=kind;if(extra)Object.assign(e,extra);return e}
 
 async function http(url,opt){
-  var r;
-  try{r=await fetch(url,opt)}catch(e){throw apiErr('net','تعذّر الاتصال بالمزوّد. تأكد من الإنترنت.')}
-  var body=await r.text();
+  var r,body,t0=Date.now(),base=ui.status?ui.status.textContent:'',ctl=new AbortController(),iv=null,kt=setTimeout(function(){ctl.abort()},150000);
+  if(running&&ui.status)iv=setInterval(function(){ui.status.textContent=base.replace(/ — .*$/,'')+' — ننتظر رد الموديل '+Math.round((Date.now()-t0)/1000)+' ث'},1000);
+  try{r=await fetch(url,Object.assign({signal:ctl.signal},opt));body=await r.text()}catch(e){throw apiErr('net',ctl.signal.aborted?'الموديل تأخر أكثر من دقيقتين ونص، نعيد المحاولة.':'تعذّر الاتصال بالمزوّد. تأكد من الإنترنت.')}
+  finally{clearTimeout(kt);if(iv){clearInterval(iv);if(ui.status)ui.status.textContent=base}}
   if(r.ok)return {status:r.status,body:body};
   var low=body.toLowerCase();
   if(r.status===429){
