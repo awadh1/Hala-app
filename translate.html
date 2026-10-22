@@ -124,8 +124,8 @@ body.reading #doc{display:block}
   <section class="panel" id="pSet">
     <div class="row sp"><h2 style="margin:0">١. مفتاح الذكاء الاصطناعي</h2><span id="keyState" class="note" style="margin:0"></span></div>
     <label for="prov">المزوّد</label>
-    <select id="prov"><option value="gemini">Google Gemini</option><option value="groq">Groq</option></select>
-    <label for="key">المفتاح</label>
+    <select id="prov"><option value="site">مفتاح الموقع (برمز دخول)</option><option value="gemini">Google Gemini</option><option value="groq">Groq</option></select>
+    <label for="key" id="keyLbl">المفتاح</label>
     <input id="key" type="password" class="ltr" autocomplete="off" spellcheck="false" placeholder="API key">
     <label for="model">الموديل</label>
     <select id="model" class="ltr"></select>
@@ -226,8 +226,9 @@ var T={gap:FAST?10:{gemini:6500,groq:3000}, retries:5};
 
 /* ---------- تخزين ---------- */
 var CFGK='tr_cfg_v1';
-var cfg={prov:'gemini',key:{gemini:'',groq:''},model:{gemini:'',groq:''},lastId:'',think:true,rev:false};
-try{var c0=JSON.parse(localStorage.getItem(CFGK)||'null');if(c0){cfg=Object.assign(cfg,c0);cfg.key=Object.assign({gemini:'',groq:''},c0.key);cfg.model=Object.assign({gemini:'',groq:''},c0.model)}}catch(e){}
+var BROKER='https://hala-chat-jh6w.onrender.com';
+var cfg={prov:'site',key:{gemini:'',groq:'',site:''},model:{gemini:'',groq:'',site:''},lastId:'',think:true,rev:false};
+try{var c0=JSON.parse(localStorage.getItem(CFGK)||'null');if(c0){cfg=Object.assign(cfg,c0);cfg.key=Object.assign({gemini:'',groq:'',site:''},c0.key);cfg.model=Object.assign({gemini:'',groq:'',site:''},c0.model)}}catch(e){}
 function saveCfg(){try{localStorage.setItem(CFGK,JSON.stringify(cfg))}catch(e){}}
 
 var mem={},idbOK=true;
@@ -630,6 +631,12 @@ async function http(url,opt){
 
 async function listModels(){
   var prov=cfg.prov,key=cfg.key[prov];
+  if(prov==='site'){
+    var rs=await http(BROKER+'/translate/models',{headers:{'x-translate-pass':key}});
+    var sm=(JSON.parse(rs.body).models||[]).slice();
+    sm.sort(function(a,b){return score(b)-score(a)||(a<b?1:-1)});
+    return sm;
+  }
   if(prov==='gemini'){
     var r=await http('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200',{headers:{'x-goog-api-key':key}});
     var ms=(JSON.parse(r.body).models||[]).filter(function(m){return (m.supportedGenerationMethods||[]).indexOf('generateContent')>=0&&/gemini/i.test(m.name)&&!/embed|tts|image|live|audio|vision|robotics|computer|learnlm|aqa|gemma/i.test(m.name)}).map(function(m){return m.name.replace(/^models\//,'')});
@@ -648,12 +655,14 @@ function gscore(n){var s=0;if(/llama-3\.3-70b/.test(n))s=50;else if(/gpt-oss-120
 async function callModel(userText,model,temp,sys){
   sys=sys||SYS;
   var prov=cfg.prov,key=cfg.key[prov];
-  if(prov==='gemini'){
+  if(prov==='gemini'||prov==='site'){
     var gen={temperature:temp,maxOutputTokens:(cfg.think!==false&&!cfg.smallOut)?16384:8192};
     if(cfg.think===false&&/2\.5-flash/.test(model)&&!/lite/.test(model)&&!cfg.noThink)gen.thinkingConfig={thinkingBudget:0};
     var safety=['HARASSMENT','HATE_SPEECH','SEXUALLY_EXPLICIT','DANGEROUS_CONTENT'].map(function(c){return {category:'HARM_CATEGORY_'+c,threshold:'BLOCK_NONE'}});
     var body={systemInstruction:{parts:[{text:sys}]},contents:[{role:'user',parts:[{text:userText}]}],generationConfig:gen,safetySettings:safety};
-    var r=await http('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify(body)});
+    var r=prov==='site'
+      ?await http(BROKER+'/translate/gen',{method:'POST',headers:{'Content-Type':'application/json','x-translate-pass':key},body:JSON.stringify({model:model,body:body})})
+      :await http('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify(body)});
     var j=JSON.parse(r.body),c=(j.candidates||[])[0];
     if(!c||!c.content){var why=(j.promptFeedback&&j.promptFeedback.blockReason)||(c&&c.finishReason)||'EMPTY';throw apiErr('blocked','الموديل رفض هذي القطعة ('+why+')')}
     var txt=(c.content.parts||[]).map(function(p){return p.text||''}).join('');
@@ -863,6 +872,7 @@ function fillModels(list,sel){
 }
 function paintSet(){
   ui.prov.value=cfg.prov;ui.key.value=cfg.key[cfg.prov]||'';
+  ui.key.placeholder=cfg.prov==='site'?'رمز الدخول':'API key';$('#keyLbl').textContent=cfg.prov==='site'?'رمز الدخول (مرة وحدة)':'المفتاح';
   var cur=cfg.model[cfg.prov];ui.model.innerHTML='';
   if(cur){var o=document.createElement('option');o.value=cur;o.textContent=cur;ui.model.appendChild(o)}
   else{var o2=document.createElement('option');o2.value='';o2.textContent='اختبر المفتاح أولاً';ui.model.appendChild(o2)}
@@ -883,7 +893,7 @@ function init(){
   $('#selAll').onclick=function(){var ch=chaps();if(ch.length){$('#selA').value=hasFront(ch)?'s':'0';$('#selB').value=String(ch.length-1)}else $('#selW').value='all';applySel()};
   ui.bTest.onclick=async function(){
     cfg.key[cfg.prov]=ui.key.value.trim();saveCfg();
-    if(!cfg.key[cfg.prov]){msg(ui.testMsg,'bad','الصق المفتاح أولاً.');return}
+    if(!cfg.key[cfg.prov]){msg(ui.testMsg,'bad','الصق المفتاح (أو رمز الدخول) أولاً.');return}
     ui.bTest.disabled=true;msg(ui.testMsg,'near','نتحقق…');
     try{
       var list=await listModels();
