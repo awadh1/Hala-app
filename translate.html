@@ -125,7 +125,7 @@ body.reading #doc{display:block}
   <section class="panel" id="pSet">
     <div class="row sp"><h2 style="margin:0">١. مفتاح الذكاء الاصطناعي</h2><span id="keyState" class="note" style="margin:0"></span></div>
     <label for="prov">المزوّد</label>
-    <select id="prov"><option value="site">مفتاح الموقع (برمز دخول)</option><option value="gemini">Google Gemini</option><option value="groq">Groq</option></select>
+    <select id="prov"><option value="site">مفتاح الموقع (بدون إدخال مفتاح)</option><option value="gemini">Google Gemini</option><option value="groq">Groq</option></select>
     <label for="key" id="keyLbl">المفتاح</label>
     <input id="key" type="password" class="ltr" autocomplete="off" spellcheck="false" placeholder="API key">
     <label for="model">الموديل</label>
@@ -820,7 +820,7 @@ async function doImages(){
 
 async function run(){
   if(running||!B)return;
-  if(!cfg.key[cfg.prov]||!cfg.model[cfg.prov]){msg(ui.bMsg,'bad','حط المفتاح واختبره واختر الموديل من القسم الأول.');return}
+  if((!cfg.key[cfg.prov]&&cfg.prov!=='site')||!cfg.model[cfg.prov]){msg(ui.bMsg,'bad','حط المفتاح واختبره واختر الموديل من القسم الأول.');return}
   running=true;stopFlag=false;msg(ui.bMsg,'','');
   try{if(navigator.wakeLock)wake=await navigator.wakeLock.request('screen')}catch(e){}
   var rk=getRng().join('-')+'|'+cfg.prov;
@@ -900,11 +900,12 @@ function fillModels(list,sel){
 }
 function paintSet(){
   ui.prov.value=cfg.prov;ui.key.value=cfg.key[cfg.prov]||'';
-  ui.key.placeholder=cfg.prov==='site'?'رمز الدخول':'API key';$('#keyLbl').textContent=cfg.prov==='site'?'رمز الدخول (مرة وحدة)':'المفتاح';
+  ui.key.placeholder='API key';
   var cur=cfg.model[cfg.prov];ui.model.innerHTML='';
   if(cur){var o=document.createElement('option');o.value=cur;o.textContent=cur;ui.model.appendChild(o)}
   else{var o2=document.createElement('option');o2.value='';o2.textContent='اختبر المفتاح أولاً';ui.model.appendChild(o2)}
-  ui.keyState.textContent=cfg.key[cfg.prov]&&cur?'جاهز':'';
+  ui.keyState.textContent=(cfg.key[cfg.prov]||cfg.prov==='site')&&cur?'جاهز':'';
+  ui.key.style.display=$('#keyLbl').style.display=cfg.prov==='site'?'none':'';
   $('#optThink').checked=cfg.think!==false;$('#optImg').checked=!!cfg.img;$('#optRev').checked=!!cfg.rev;
 }
 
@@ -922,7 +923,7 @@ function init(){
   $('#selAll').onclick=function(){var ch=chaps();if(ch.length){$('#selA').value=hasFront(ch)?'s':'0';$('#selB').value=String(ch.length-1)}else $('#selW').value='all';applySel()};
   ui.bTest.onclick=async function(){
     cfg.key[cfg.prov]=ui.key.value.trim();saveCfg();
-    if(!cfg.key[cfg.prov]){msg(ui.testMsg,'bad','الصق المفتاح (أو رمز الدخول) أولاً.');return}
+    if(!cfg.key[cfg.prov]&&cfg.prov!=='site'){msg(ui.testMsg,'bad','الصق المفتاح (أو رمز الدخول) أولاً.');return}
     ui.bTest.disabled=true;msg(ui.testMsg,'near','نتحقق…');
     try{
       var list=await listModels();
