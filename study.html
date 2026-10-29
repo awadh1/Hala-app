@@ -19,6 +19,7 @@ main::-webkit-scrollbar{width:8px}main::-webkit-scrollbar-thumb{background:var(-
 body{background:var(--bg);color:var(--fg);font:16px/1.7 "IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;display:flex;flex-direction:column;height:100dvh}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 header{border-bottom:1px solid var(--line);background:var(--bg)}
+.trial{max-width:780px;margin:0 auto;padding:0 16px 8px;font-size:12px;color:var(--mute);line-height:1.6}.trial a{color:var(--acc)}
 .top{max-width:780px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
 .brand{font-weight:600;font-size:15px;white-space:nowrap}
 .tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;margin-inline-start:auto}
@@ -45,7 +46,7 @@ main{flex:1;overflow-y:auto;scroll-behavior:smooth}
 .t ul,.t ol{margin:0 0 .7em;padding-inline-start:1.4em}
 .t li{margin:.15em 0}
 .t strong{font-weight:600}
-.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 .8em}.flow span{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 11px;font-weight:600}.flow i{font-style:normal;color:var(--acc);font-weight:700}.t h4{margin:.9em 0 .4em;font-size:1.02em}.tw{overflow-x:auto;margin:0 0 .8em;max-width:100%}.t table{border-collapse:collapse;width:100%;font-size:.94em}.t th,.t td{border:1px solid var(--line);padding:7px 10px;text-align:start;vertical-align:top}.t th{background:var(--panel);font-weight:700}.t blockquote{border-inline-start:3px solid var(--line);padding-inline-start:12px;color:var(--mute);margin:0 0 .7em}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 .8em}.flow span{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 11px;font-weight:600}.flow i{font-style:normal;color:var(--acc);font-weight:700}.t h4{margin:.9em 0 .4em;font-size:1.02em}.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 .8em;max-width:100%}.t table{border-collapse:collapse;width:max-content;min-width:100%;font-size:.94em}.t th,.t td{border:1px solid var(--line);padding:7px 10px;text-align:start;vertical-align:top;min-width:6.5em;max-width:15em;word-break:normal;overflow-wrap:break-word}.t th{background:var(--panel);font-weight:700}.t blockquote{border-inline-start:3px solid var(--line);padding-inline-start:12px;color:var(--mute);margin:0 0 .7em}
 .acts{margin-top:6px;display:flex;gap:4px}
 .sugs{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 18px;padding-inline-start:40px}.sugs .chip{font-size:13px;padding:6px 12px}
 .acts button{font-size:12.5px;color:var(--mute);padding:3px 8px;border-radius:7px}
@@ -230,7 +231,7 @@ footer{margin-bottom:calc(52px + env(safe-area-inset-bottom));padding:6px 12px 8
 <span class="brand">المساعد الدراسي</span>
 <div class="tabs" role="tablist" id="tabs"></div>
 <button class="qbtn" id="qz">اختبرني</button><button class="new" id="new" title="محادثة جديدة">محادثة جديدة</button>
-</div></header>
+</div><div class="trial">نسخة تجريبية مجانية للطلاب. قد يخطئ المساعد، فراجع كتابك. <a href="study-terms.html">الشروط والخصوصية</a></div></header>
 <section id="home"><div class="hw"><div class="hhead"><h1>المساعد الدراسي</h1><p>اسأل كتابك المدرسي، واختبر نفسك على دروسه. الصف الثامن.</p></div><div class="shelf" id="shelf"></div></div></section>
 <main id="main"><div class="col" id="col"></div></main>
 <footer><div class="box">
