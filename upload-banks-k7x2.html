@@ -9,7 +9,7 @@ const DATA={"science": [{"q": "اضطراب ينقل الطاقة عبر ماد�
 const qn=s=>String(s).normalize('NFKD').replace(/[\u064B-\u065F\u0670\u0640]/g,'').replace(/[إأآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/\s+/g,' ').trim();
 const log=t=>{document.getElementById('log').textContent+=t+'\n'};
 document.getElementById('go').onclick=async()=>{
- const base=document.getElementById('url').value.replace(/\/$/,''),key=document.getElementById('key').value;
+ const base=document.getElementById('url').value.replace(/\/$/,''),key=document.getElementById('key').value.replace(/\s+/g,'');
  if(!key){log('اكتب المفتاح');return}
  log('الموقع ممكن ياخذ دقيقة يصحى...');
  for(const sub of Object.keys(DATA)){
